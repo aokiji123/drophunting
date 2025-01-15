@@ -7,7 +7,7 @@ import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";
 
 const SignUp = () => {
-  const { register, errors, loading } = useAuthContext();
+  const { register, errors } = useAuthContext();
   const [formData, setFormData] = useState({
     name: "",
     email: "",

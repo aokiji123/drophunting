@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/app/profile/components/Header";
 import Footer from "@/app/profile/components/Footer";
