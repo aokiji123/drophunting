@@ -11,7 +11,8 @@ export const CustomSelect: React.FC<ISelectProps> = ({
     <FormControl
       sx={{
         height: "100%",
-        width: "350px",
+        width: "100%",
+        maxWidth: "350px",
       }}
     >
       <Select
