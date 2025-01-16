@@ -22,7 +22,7 @@ const Header = () => {
   const [value, setValue] = useState("$340.21");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
 
   const handleChange = (event: {
     target: { value: React.SetStateAction<string> };
@@ -34,8 +34,8 @@ const Header = () => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.push("/auth/login");
   };
 
@@ -173,10 +173,8 @@ const Header = () => {
                     className="w-[40px] h-[40px] rounded-full"
                   />
                   <div>
-                    <p className="font-bold">Artem Axiomica</p>
-                    <p className="text-gray-400 text-sm">
-                      artem-axiomica@gmail.com
-                    </p>
+                    <p className="font-bold">{user?.name}</p>
+                    <p className="text-gray-400 text-sm">{user?.email}</p>
                   </div>
                 </div>
               </div>

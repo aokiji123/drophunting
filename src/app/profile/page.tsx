@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/components/Header";
@@ -20,6 +20,8 @@ import { LuPercent } from "react-icons/lu";
 import { GrBook } from "react-icons/gr";
 import { FiUser } from "react-icons/fi";
 import Link from "next/link";
+import useAuthContext from "@/shared/hooks/useAuthContext";
+import Loading from "@/shared/components/Loading";
 
 const tabs = [
   { name: "Profile", href: "/profile", icon: <FiUser size={24} /> },
@@ -42,6 +44,15 @@ const Profile = () => {
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
 
+  const { user, loading } = useAuthContext();
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      setIsPageLoading(false);
+    }
+  }, [loading]);
+
   const handleLanguageChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
@@ -59,6 +70,14 @@ const Profile = () => {
   ) => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };
+
+  if (isPageLoading) {
+    return (
+      <div className="bg-black text-white min-h-screen flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-black text-white">
@@ -86,7 +105,7 @@ const Profile = () => {
             </ul>
           </nav>
           <section className="min-h-[1300px] w-full lg:w-[85%] bg-[--dark-gray] p-[32px] rounded-[16px]">
-            <div className="flex-col flex sm:items-center sm:flex-row">
+            <div className="flex-col flex sm:items-center sm:flex-row border-4 border-transparent">
               <Image
                 src={avatar}
                 alt="Avatar"
@@ -94,10 +113,10 @@ const Profile = () => {
               />
               <div className="py-[10px] sm:p-[24px]">
                 <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2">
-                  Drophunter3000
+                  {user?.name}
                 </p>
                 <p className="text-[14px] leading-[14px] text-[#8E8E8E]">
-                  maxhunter3102@gmail.com
+                  {user?.email}
                 </p>
               </div>
             </div>

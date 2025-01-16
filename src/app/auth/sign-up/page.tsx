@@ -21,17 +21,21 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<SignUpFormData>(); // Use react-hook-form
   const [serverError, setServerError] = useState("");
-  const { register: registerUser, loading } = useAuthContext();
+  const { register: registerUser } = useAuthContext();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: SignUpFormData) => {
+    setLoading(true);
     try {
       setServerError("");
       await registerUser(data);
       router.push("/profile");
+      setLoading(false);
     } catch (err) {
       setServerError("Sign-up failed, please try again.");
       console.error("Sign-up error:", err);
+      setLoading(false);
     }
   };
 

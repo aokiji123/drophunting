@@ -8,7 +8,6 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/shared/api/axios";
-import Cookies from "js-cookie";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { AxiosError } from "axios";
@@ -100,21 +99,27 @@ export const AuthContext =
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [errors, setErrors] = useState<Errors>({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Default to false
   const [status, setStatus] = useState<string | null>(null);
   const [sessionVerified, setSessionVerified] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const token = Cookies.get("auth-token");
-    if (token) {
-      setSessionVerified(true);
-      getUser();
-    }
+    const initializeSession = async () => {
+      setLoading(true); // Start loading during initialization
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        await getUser();
+      } else {
+        setSessionVerified(false);
+        setLoading(false);
+      }
+    };
+    initializeSession();
   }, []);
 
   const getUser = async () => {
-    const token = Cookies.get("auth-token");
+    const token = localStorage.getItem("auth-token");
 
     if (token) {
       try {
@@ -126,14 +131,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setUser(data as SetStateAction<User | null>);
         setSessionVerified(true);
       } catch (e) {
-        const err = e as AxiosError;
-        console.warn("Error fetching user:", err);
+        console.warn("Error fetching user:", e);
         setSessionVerified(false);
         setUser(null);
+      } finally {
+        setLoading(false); // Ensure loading stops
       }
     } else {
       setSessionVerified(false);
       setUser(null);
+      setLoading(false); // Ensure loading stops
     }
   };
 
@@ -148,7 +155,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const token = response.data?.token;
       if (token) {
-        Cookies.set("auth-token", token, { secure: true, sameSite: "strict" });
+        localStorage.setItem("auth-token", token);
         axiosInstance.defaults.headers.common["Authorization"] =
           `Bearer ${token}`;
       }
@@ -175,7 +182,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const token = response.data?.token;
       if (token) {
-        Cookies.set("auth-token", token, { secure: true, sameSite: "strict" });
+        localStorage.setItem("auth-token", token);
         axiosInstance.defaults.headers.common["Authorization"] =
           `Bearer ${token}`;
       }
@@ -192,16 +199,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   const logout = async () => {
+    setLoading(true);
     try {
+      const token = localStorage.getItem("auth-token");
       await axiosInstance.post("/logout", {
-        Authorization: `Bearer ${Cookies.get("auth-token")}`,
+        Authorization: `Bearer ${token}`,
       });
-      Cookies.remove("auth-token");
+      localStorage.removeItem("auth-token");
       setUser(null);
       setSessionVerified(false);
     } catch (e) {
       console.error("Logout error:", e);
       throw e;
+    } finally {
+      setLoading(false);
     }
   };
 

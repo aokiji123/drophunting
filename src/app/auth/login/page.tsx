@@ -25,17 +25,21 @@ const Login = () => {
   } = useForm<LoginFormData>();
 
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
-  const { login, loading } = useAuthContext();
+  const { login } = useAuthContext();
 
   const onSubmit = async (data: LoginFormData) => {
+    setLoading(true);
     try {
       setServerError("");
       await login(data);
       router.push("/profile");
+      setLoading(false);
     } catch (e) {
       const err = e as AxiosError;
       setServerError(err.response?.data?.message || "Login failed");
+      setLoading(false);
     }
   };
 

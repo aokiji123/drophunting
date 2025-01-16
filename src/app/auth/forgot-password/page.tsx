@@ -10,17 +10,21 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const router = useRouter();
   const { sendPasswordResetLink } = useAuthContext();
+  const [loading, setLoading] = useState(false);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     event.preventDefault();
     if (email) {
       sendPasswordResetLink({ email });
       router.push("/auth/password-restore-confirmation");
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
