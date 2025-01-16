@@ -47,8 +47,8 @@ const SignUp = () => {
           <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-[--dark-gray] rounded-xl shadow-lg border-[0.75px] border-gray-300">
             <FiUser size={28} className="text-[#EDEDED]" />
           </div>
-          <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">
-            <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mt-[35] mb-[20px]">
+          <div className="flex flex-col items-center justify-center w-[335px] mt-[35] sm:w-[375px]">
+            <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Welcome to DropHunting
             </h2>
             <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">

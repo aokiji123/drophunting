@@ -55,8 +55,8 @@ const Login = () => {
               className="w-[28px] h-[28px]"
             />
           </div>
-          <div className="flex flex-col items-center justify-center w-[335px] sm:w-[335px]">
-            <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mt-[35px] mb-[20px]">
+          <div className="flex flex-col items-center justify-center w-[335px] sm:w-[335px] mt-[35px]">
+            <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Login
             </h2>
             <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">

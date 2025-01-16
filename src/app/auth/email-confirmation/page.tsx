@@ -14,8 +14,8 @@ const EmailConfirmation = () => {
           <div className="flex items-center justify-center w-16 h-16 bg-[--dark-gray] rounded-xl shadow-lg border-[0.75px] border-gray-300">
             <DraftsOutlinedIcon className="w-[28px] h-[28px] text-[#EDEDED]" />
           </div>
-          <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">
-            <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mt-[35] mb-[20px]">
+          <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px] mt-[35] ">
+            <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Email message was send
             </h2>
             <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
