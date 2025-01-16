@@ -37,6 +37,15 @@
   }
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
+.modal-container {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
