@@ -5,26 +5,32 @@ import Footer from "@/app/auth/components/Footer";
 import { FiUser } from "react-icons/fi";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form"; // Import useForm from react-hook-form
+
+type SignUpFormData = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 const SignUp = () => {
-  const { register, errors } = useAuthContext();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormData>(); // Use react-hook-form
+  const [serverError, setServerError] = useState("");
+  const { register: registerUser, loading } = useAuthContext();
+  const router = useRouter();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: SignUpFormData) => {
     try {
-      register(formData);
+      setServerError("");
+      await registerUser(data);
+      router.push("/profile");
     } catch (err) {
+      setServerError("Sign-up failed, please try again.");
       console.error("Sign-up error:", err);
     }
   };
@@ -44,53 +50,90 @@ const SignUp = () => {
             <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
               Get access to hundreds of airports and earn money with DropHunting
             </p>
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-                className="p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-2 focus:border-[1px] focus:border-gray-500 focus:outline-none"
-                autoComplete="off"
-              />
-              {errors?.name && (
-                <p className="text-red-500 text-sm">{errors.name.join(", ")}</p>
-              )}
-              <input
-                type="text"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                className="p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-2 focus:border-[1px] focus:border-gray-500 focus:outline-none"
-                autoComplete="off"
-              />
-              {errors?.email && (
-                <p className="text-red-500 text-sm">
-                  {errors.email.join(", ")}
-                </p>
-              )}
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                className="p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-4 focus:border-[1px] focus:border-gray-500 focus:outline-none"
-                autoComplete="off"
-              />
-              {errors?.password && (
-                <p className="text-red-500 text-sm">
-                  {errors.password.join(", ")}
-                </p>
-              )}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="w-full max-w-[420px]"
+            >
+              <div className="mb-2">
+                <input
+                  type="text"
+                  placeholder="Name"
+                  {...register("name", { required: "Name is required" })}
+                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
+                    errors.name
+                      ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
+                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
+                  }`}
+                  aria-invalid={!!errors.name}
+                  aria-describedby="name-error"
+                  autoComplete="off"
+                />
+                {errors.name && (
+                  <p id="name-error" className="text-[--error] text-xs mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="mb-2">
+                <input
+                  type="text"
+                  placeholder="Email"
+                  {...register("email", { required: "Email is required" })}
+                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
+                    errors.email
+                      ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
+                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
+                  }`}
+                  aria-invalid={!!errors.email}
+                  aria-describedby="email-error"
+                  autoComplete="off"
+                />
+                {errors.email && (
+                  <p id="email-error" className="text-[--error] text-xs mt-1">
+                    {errors.email.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="mb-4">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
+                    errors.password
+                      ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
+                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
+                  }`}
+                  aria-invalid={!!errors.password}
+                  aria-describedby="password-error"
+                  autoComplete="off"
+                />
+                {errors.password && (
+                  <p
+                    id="password-error"
+                    className="text-[--error] text-xs mt-1"
+                  >
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
               <button
                 type="submit"
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
+                disabled={loading}
               >
-                Sign Up
+                {loading ? "Signing up..." : "Sign up"}
               </button>
+
+              {serverError && (
+                <p className="text-[--error] text-sm mt-4">{serverError}</p>
+              )}
+
               <div className="flex items-center justify-center gap-4">
                 <p className="w-[70%]">Already have an account?</p>
                 <Link

@@ -1,11 +1,16 @@
 "use client";
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import Image from "next/image";
-import loginIcon from "../../../shared/assets/icons/sign-in.png";
+import loginIcon from "../../../shared/assets/icons/login.png";
 import { useForm } from "react-hook-form";
+import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import { AxiosError } from "axios";
 
 type LoginFormData = {
   email: string;
@@ -16,23 +21,21 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<LoginFormData>();
+
+  const router = useRouter();
   const [serverError, setServerError] = useState("");
+  const { login, loading } = useAuthContext();
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
-
-    // Simulate server validation
-    if (data.email !== "test@example.com" || data.password !== "password123") {
-      setValue("email", "");
-      setValue("password", "");
-      setServerError(
-        "This email and password does not exist, please try again or register a new profile",
-      );
-    } else {
+  const onSubmit = async (data: LoginFormData) => {
+    try {
       setServerError("");
+      await login(data);
+      router.push("/profile");
+    } catch (e) {
+      const err = e as AxiosError;
+      setServerError(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -68,7 +71,7 @@ const Login = () => {
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
                     errors.email
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
-                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500 focus:outline-none"
+                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
                   aria-invalid={!!errors.email}
                   aria-describedby="email-error"
@@ -76,7 +79,7 @@ const Login = () => {
                 />
                 {errors.email && (
                   <p id="email-error" className="text-[--error] text-xs mt-1">
-                    {errors.email.message as ReactNode}
+                    {errors.email.message}
                   </p>
                 )}
               </div>
@@ -88,10 +91,10 @@ const Login = () => {
                   {...register("password", {
                     required: "Password is required",
                   })}
-                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
+                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none   ${
                     errors.password
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
-                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500 focus:outline-none"
+                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
                   aria-invalid={!!errors.password}
                   aria-describedby="password-error"
@@ -101,7 +104,7 @@ const Login = () => {
                     id="password-error"
                     className="text-[--error] text-xs mt-1"
                   >
-                    {errors.password.message as ReactNode}
+                    {errors.password.message}
                   </p>
                 )}
               </div>
@@ -109,8 +112,9 @@ const Login = () => {
               <button
                 type="submit"
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-bold hover:bg-blue-500 hover:rounded-[10px]"
+                disabled={loading}
               >
-                Log In
+                {loading ? "Logging in..." : "Log In"}
               </button>
 
               {serverError && (

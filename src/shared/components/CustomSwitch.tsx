@@ -12,7 +12,6 @@ export const CustomSwitch = styled((props: ISwitchProps) => (
   "& .MuiSwitch-switchBase": {
     padding: 0,
     margin: 2,
-    // transitionDuration: "300ms",
     "&.Mui-checked": {
       transform: "translateX(16px)",
       color: "#fff",

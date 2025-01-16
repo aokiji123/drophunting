@@ -1,8 +1,17 @@
 "use client";
-
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 import axiosInstance from "@/shared/api/axios";
+import Cookies from "js-cookie";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import { AxiosError } from "axios";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -39,78 +48,91 @@ type NewPasswordParams = {
   token: string | undefined;
   password: string;
 };
-
 export interface AuthContextValues {
-  csrf: () => Promise<void>;
   errors: Errors;
   user: User | null;
-  login: (data: LoginParams) => Promise<void>;
-  register: (data: RegisterParams) => Promise<void>;
+  login: (data: LoginParams) => Promise<Axios.AxiosXHR<{ token: string }>>;
+  register: (
+    data: RegisterParams,
+  ) => Promise<Axios.AxiosXHR<{ token: string }>>;
   logout: () => Promise<void>;
   loading: boolean;
   sessionVerified: boolean;
   status: string | null;
   setStatus: React.Dispatch<React.SetStateAction<string | null>>;
-  sendPasswordResetLink: (data: { email: string }) => Promise<void>;
-  newPassword: (data: NewPasswordParams) => Promise<void>;
-  sendEmailVerificationLink: () => Promise<void>;
+  sendPasswordResetLink: (data: {
+    email: string;
+  }) => Promise<Axios.AxiosXHR<{ status: string }>>;
+  newPassword: (
+    data: NewPasswordParams,
+  ) => Promise<Axios.AxiosXHR<{ status: string }>>;
+  sendEmailVerificationLink: () => Promise<Axios.AxiosXHR<{ status: string }>>;
 }
 
 const defaultContextValue: AuthContextValues = {
-  csrf: async () => {},
   errors: {},
   user: null,
-  login: async () => {},
-  register: async () => {},
+  login: async () => {
+    return {} as Axios.AxiosXHR<{ token: string }>;
+  },
+  register: async () => {
+    return {} as Axios.AxiosXHR<{ token: string }>;
+  },
   logout: async () => {},
   loading: false,
   sessionVerified: false,
   status: null,
   setStatus: () => {},
-  sendPasswordResetLink: async () => {},
-  newPassword: async () => {},
-  sendEmailVerificationLink: async () => {},
+  sendPasswordResetLink: async () => {
+    return {} as Axios.AxiosXHR<{ status: string }>;
+  },
+  newPassword: async () => {
+    return {} as Axios.AxiosXHR<{ status: string }>;
+  },
+  sendEmailVerificationLink: async () => {
+    return {} as Axios.AxiosXHR<{ status: string }>;
+  },
 };
 
 export const AuthContext =
   createContext<AuthContextValues>(defaultContextValue);
 
-const SESSION_NAME = "session-verified";
-
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [errors, setErrors] = useState<Errors>({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [sessionVerified, setSessionVerified] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const sessionData = localStorage.getItem(SESSION_NAME);
-    setSessionVerified(sessionData ? JSON.parse(sessionData) : false);
+    const token = Cookies.get("auth-token");
+    if (token) {
+      setSessionVerified(true);
+      getUser();
+    }
   }, []);
 
-  const csrf = async () => {
-    console.log(sessionVerified);
-    try {
-      await axiosInstance.get("/sanctum/csrf-cookie");
-    } catch (error) {
-      console.error("CSRF token fetch failed:", error);
-    }
-  };
-
   const getUser = async () => {
-    try {
-      const { data } = await axiosInstance.get("/api/user");
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      setUser(data);
-      setSessionVerified(true);
-      localStorage.setItem(SESSION_NAME, "true");
-    } catch (e) {
-      console.warn("Error fetching user:", e);
+    const token = Cookies.get("auth-token");
+
+    if (token) {
+      try {
+        const { data } = await axiosInstance.get("/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUser(data as SetStateAction<User | null>);
+        setSessionVerified(true);
+      } catch (e) {
+        const err = e as AxiosError;
+        console.warn("Error fetching user:", err);
+        setSessionVerified(false);
+        setUser(null);
+      }
+    } else {
       setSessionVerified(false);
-      localStorage.removeItem(SESSION_NAME);
       setUser(null);
     }
   };
@@ -119,11 +141,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setErrors({});
     setLoading(true);
     try {
-      await csrf();
-      const response = await axiosInstance.post("/login", data);
+      const response = await axiosInstance.post<{ token: string }>(
+        "/login",
+        data,
+      );
+
+      const token = response.data?.token;
+      if (token) {
+        Cookies.set("auth-token", token, { secure: true, sameSite: "strict" });
+        axiosInstance.defaults.headers.common["Authorization"] =
+          `Bearer ${token}`;
+      }
+
       await getUser();
       return response;
     } catch (e) {
+      const err = e as AxiosError;
+      setErrors(err.response?.data?.errors || {});
       throw e;
     } finally {
       setLoading(false);
@@ -134,11 +168,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setErrors({});
     setLoading(true);
     try {
-      await csrf();
-      const response = await axiosInstance.post("/register", data);
+      const response = await axiosInstance.post<{ token: string }>(
+        "/register",
+        data,
+      );
+
+      const token = response.data?.token;
+      if (token) {
+        Cookies.set("auth-token", token, { secure: true, sameSite: "strict" });
+        axiosInstance.defaults.headers.common["Authorization"] =
+          `Bearer ${token}`;
+      }
+
       await getUser();
       return response;
     } catch (e) {
+      const err = e as AxiosError;
+      setErrors(err.response?.data?.errors || {});
       throw e;
     } finally {
       setLoading(false);
@@ -147,10 +193,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = async () => {
     try {
-      await axiosInstance.post("/logout");
+      await axiosInstance.post("/logout", {
+        Authorization: `Bearer ${Cookies.get("auth-token")}`,
+      });
+      Cookies.remove("auth-token");
       setUser(null);
       setSessionVerified(false);
-      localStorage.removeItem(SESSION_NAME);
     } catch (e) {
       console.error("Logout error:", e);
       throw e;
@@ -162,13 +210,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     setStatus(null);
     try {
-      await csrf();
-      const response = await axiosInstance.post("/forgot-password", data);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      const response = await axiosInstance.post<{ status: string }>(
+        "/forgot-password",
+        data,
+      );
       setStatus(response.data?.status);
       return response;
     } catch (e) {
+      const err = e as AxiosError;
+      setErrors(err.response?.data?.errors || {});
       throw e;
     } finally {
       setLoading(false);
@@ -180,10 +230,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     setStatus(null);
     try {
-      await csrf();
-      const response = await axiosInstance.post("/reset-password", data);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+      const response = await axiosInstance.post<{ status: string }>(
+        "/reset-password",
+        data,
+      );
       setStatus(response.data?.status);
       setTimeout(() => {
         router.push("/auth/login");
@@ -201,12 +251,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     setStatus(null);
     try {
-      await csrf();
-      const response = await axiosInstance.post(
+      const response = await axiosInstance.post<{ status: string }>(
         "/email/verification-notification",
       );
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
       setStatus(response.data?.status);
       return response;
     } catch (e) {
@@ -216,35 +263,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
-  useEffect(() => {
-    if (!user) {
-      getUser().finally(() => setLoading(false));
-    }
-  }, [user]);
-
   const contextValue: AuthContextValues = {
-    csrf,
     errors,
     user,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     login,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     register,
     logout,
     loading,
     status,
     sessionVerified,
     setStatus,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     sendPasswordResetLink,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     newPassword,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     sendEmailVerificationLink,
   };
 

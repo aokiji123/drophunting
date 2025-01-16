@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import Header from "@/app/profile/components/Header";
-import Footer from "@/app/profile/components/Footer";
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 import { CustomSwitch } from "@/shared/components/CustomSwitch";
 
 import { BiLogoTelegram } from "react-icons/bi";
@@ -36,6 +36,7 @@ const tabs = [
 const Profile = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
+
   const [language, setLanguage] = useState("🇬🇧English");
   const [time, setTime] = useState("UTC+03:00");
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =

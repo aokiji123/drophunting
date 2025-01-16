@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
-import Header from "@/app/profile/components/Header";
-import Footer from "@/app/profile/components/Footer";
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
 import { FaDollarSign } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { LuPercent } from "react-icons/lu";
@@ -30,7 +30,7 @@ const tabs = [
   { name: "Guides", href: "/guides", icon: <GrBook size={24} /> },
 ];
 
-const Profile = () => {
+const Subscriptions = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
 
@@ -59,7 +59,7 @@ const Profile = () => {
               ))}
             </ul>
           </nav>
-          <section className="min-h-[725px] w-full lg:w-[85%] bg-[--dark-gray] p-[16px] sm:p-[32px] rounded-[16px]">
+          <section className="min-h-[700px] md:min-h-[770px] lg:min-h-[950px] w-full lg:w-[85%] bg-[--dark-gray] p-[16px] sm:p-[32px] rounded-[16px]">
             <div className="flex-col flex">
               <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
                 <FaDollarSign size={24} />
@@ -159,4 +159,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Subscriptions;
