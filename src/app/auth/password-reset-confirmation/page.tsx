@@ -5,7 +5,7 @@ import Footer from "@/app/auth/components/Footer";
 import { useRouter } from "next/navigation";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
 
-const PasswordRestoreConfirmation = () => {
+const PasswordResetConfirmation = () => {
   const router = useRouter();
 
   return (
@@ -19,18 +19,16 @@ const PasswordRestoreConfirmation = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mt-[35] mb-[20px]">
-              Email message was send
+              Your password has been reset
             </h2>
             <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
-              We have sent a message to your e-mail address. To restore your
-              password, please follow the link provided in the message.
+              You can try to log in with the new password now
             </p>
-
             <button
               className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
-              onClick={() => router.push("/auth/sign-up")}
+              onClick={() => router.push("/auth/login")}
             >
-              Sign In
+              Log In
             </button>
           </div>
         </div>
@@ -41,4 +39,4 @@ const PasswordRestoreConfirmation = () => {
   );
 };
 
-export default PasswordRestoreConfirmation;
+export default PasswordResetConfirmation;

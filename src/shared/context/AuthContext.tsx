@@ -43,10 +43,12 @@ type RegisterParams = {
 };
 
 type NewPasswordParams = {
-  email: string | number;
+  email: string;
   token: string | undefined;
   password: string;
+  password_confirmation: string;
 };
+
 export interface AuthContextValues {
   errors: Errors;
   user: User | null;
@@ -102,7 +104,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [loading, setLoading] = useState(false); // Default to false
   const [status, setStatus] = useState<string | null>(null);
   const [sessionVerified, setSessionVerified] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const initializeSession = async () => {
@@ -246,9 +247,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         data,
       );
       setStatus(response.data?.status);
-      setTimeout(() => {
-        router.push("/auth/login");
-      }, 2000);
       return response;
     } catch (e) {
       throw e;
