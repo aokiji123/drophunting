@@ -44,7 +44,14 @@ const Subscriptions = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isInnerModalOpen, setIsInnerModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("Quarterly");
+  const [inputBalance, setInputBalance] = useState("$ 100.00");
+  const [selected, setSelected] = useState("Fiat");
+
+  const handleSwitch = (type) => {
+    setSelected(type);
+  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -53,6 +60,19 @@ const Subscriptions = () => {
     } else {
       document.body.classList.remove("no-scroll");
     }
+  };
+
+  const toggleInnerModal = () => {
+    setIsInnerModalOpen(!isInnerModalOpen);
+    if (!isInnerModalOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  };
+
+  const handleInputBalanceChange = (e) => {
+    setInputBalance(e.target.value);
   };
 
   useEffect(() => {
@@ -141,6 +161,7 @@ const Subscriptions = () => {
                         lineHeight: "16px",
                         borderBottom: "1px solid #27292D",
                         padding: "16px 8px",
+                        fontFamily: "IBM Plex Mono",
                       },
                       "& .MuiTableCell-body": {
                         color: "#FFFFFF",
@@ -148,6 +169,7 @@ const Subscriptions = () => {
                         lineHeight: "20px",
                         borderBottom: "1px solid #27292D",
                         padding: "16px 8px",
+                        fontFamily: "IBM Plex Mono",
                       },
                     }}
                     aria-label="subscriptions table"
@@ -311,8 +333,11 @@ const Subscriptions = () => {
                     {/*  Go to payment*/}
                     {/*  <MdOutlineKeyboardArrowRight />*/}
                     {/*</button>*/}
-                    <button className="flex items-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px]">
-                      Top up balance
+                    <button
+                      className="flex items-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px]"
+                      onClick={toggleInnerModal}
+                    >
+                      Top Up balance
                       <MdOutlineKeyboardArrowRight />
                     </button>
                   </div>
@@ -334,6 +359,70 @@ const Subscriptions = () => {
                       <span className="text-[#E37DFF]">use a VPN</span>
                     </p>
                   </div>
+
+                  {isInnerModalOpen && (
+                    <>
+                      <div className="fixed inset-0 bg-black bg-opacity-40 z-55"></div>
+
+                      <div className="absolute top-1/2 transform translate-y-1/2 sm:translate-y-0 sm:top-[60px] left-1/2 -translate-x-1/2 w-[320px] sm:w-[380px] h-[320px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
+                        <button
+                          className="top-10 absolute sm:top-5 right-5"
+                          onClick={toggleInnerModal}
+                        >
+                          <IoMdClose
+                            size={24}
+                            className="hover:text-[#9EA0A6] cursor-pointer"
+                          />
+                        </button>
+                        <div>
+                          <p className="text-[18x] font-bold leading-[20px]">
+                            Top Up Balance
+                          </p>
+                          <div className="mt-5">
+                            <p className="text-[14px] font-semibold leading-[16px]">
+                              Currency type
+                            </p>
+                            <div className="flex items-center bg-[#292B2F] rounded-full p-1 mt-2 w-[155px]">
+                              <button
+                                className={`px-4 py-2 rounded-full text-sm font-medium ${
+                                  selected === "Fiat"
+                                    ? "bg-[#36383D] text-white"
+                                    : "bg-transparent text-gray-400"
+                                }`}
+                                onClick={() => handleSwitch("Fiat")}
+                              >
+                                Fiat
+                              </button>
+                              <button
+                                className={`px-4 py-2 rounded-full text-sm font-medium ${
+                                  selected === "Crypto"
+                                    ? "bg-[#36383D] text-white"
+                                    : "bg-transparent text-gray-400"
+                                }`}
+                                onClick={() => handleSwitch("Crypto")}
+                              >
+                                Crypto
+                              </button>
+                            </div>
+                          </div>
+                          <div className="my-5">
+                            <p className="text-[14px] font-semibold leading-[16px]">
+                              Amount
+                            </p>
+                            <input
+                              className="bg-[#292B2F] border-[1px] border-transparent py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] focus:border-gray-500 focus:outline-none"
+                              value={inputBalance}
+                              onChange={handleInputBalanceChange}
+                            />
+                          </div>
+                          <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px]">
+                            Go to payment
+                            <MdOutlineKeyboardArrowRight />
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
