@@ -1,14 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { FaDollarSign } from "react-icons/fa6";
-import { FiUsers, FiUser } from "react-icons/fi";
-import { LuPercent } from "react-icons/lu";
-import { GrBook } from "react-icons/gr";
+import { FiUsers } from "react-icons/fi";
 import { IoIosInformationCircle } from "react-icons/io";
-import { IoLockClosedOutline } from "react-icons/io5";
 import {
   Table,
   TableBody,
@@ -21,18 +17,7 @@ import Link from "next/link";
 import Image from "next/image";
 import avatar from "../../shared/assets/avatar.png";
 import avatar2 from "../../shared/assets/avatar-2.png";
-
-const tabs = [
-  { name: "Profile", href: "/profile", icon: <FiUser size={24} /> },
-  {
-    name: "Subscriptions",
-    href: "/subscriptions",
-    icon: <FaDollarSign size={24} />,
-  },
-  { name: "Subaccounts", href: "/subaccounts", icon: <FiUsers size={24} /> },
-  { name: "Referal", href: "/referal", icon: <LuPercent size={24} /> },
-  { name: "Guides", href: "/guides", icon: <GrBook size={24} /> },
-];
+import { tabs } from "@/shared/utils/tabs";
 
 const Subaccounts = () => {
   const pathname = usePathname();
@@ -41,7 +26,7 @@ const Subaccounts = () => {
     "https:\\invitation.drophunting.io/2101024/10",
   );
 
-  const handleValueChange = (e) => {
+  const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
@@ -62,7 +47,10 @@ const Subaccounts = () => {
                       : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
                   }`}
                 >
-                  <Link href={tab.href} className="flex items-center gap-3">
+                  <Link
+                    href={tab.href}
+                    className="flex items-center gap-3 text-[16px]"
+                  >
                     <p className="hidden lg:block">{tab.icon}</p>
                     {tab.name}
                   </Link>

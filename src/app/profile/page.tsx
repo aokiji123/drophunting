@@ -14,26 +14,10 @@ import authenticator from "@/shared/assets/icons/authenticator.png";
 import cancel from "@/shared/assets/icons/cancel.png";
 import { CustomSelect } from "@/shared/components/CustomSelect";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
-import { FaDollarSign } from "react-icons/fa6";
-import { FiUsers } from "react-icons/fi";
-import { LuPercent } from "react-icons/lu";
-import { GrBook } from "react-icons/gr";
-import { FiUser } from "react-icons/fi";
 import Link from "next/link";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import Loading from "@/shared/components/Loading";
-
-const tabs = [
-  { name: "Profile", href: "/profile", icon: <FiUser size={24} /> },
-  {
-    name: "Subscriptions",
-    href: "/subscriptions",
-    icon: <FaDollarSign size={24} />,
-  },
-  { name: "Subaccounts", href: "/subaccounts", icon: <FiUsers size={24} /> },
-  { name: "Referal", href: "/referal", icon: <LuPercent size={24} /> },
-  { name: "Guides", href: "/guides", icon: <GrBook size={24} /> },
-];
+import { tabs } from "@/shared/utils/tabs";
 
 const Profile = () => {
   const pathname = usePathname();
@@ -96,7 +80,10 @@ const Profile = () => {
                       : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
                   }`}
                 >
-                  <Link href={tab.href} className="flex items-center gap-3">
+                  <Link
+                    href={tab.href}
+                    className="flex items-center gap-3 text-[16px]"
+                  >
                     <p className="hidden lg:block">{tab.icon}</p>
                     {tab.name}
                   </Link>
@@ -115,9 +102,7 @@ const Profile = () => {
                 <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2">
                   {user?.name}
                 </p>
-                <p className="leading-[14px] text-[#8E8E8E]">
-                  {user?.email}
-                </p>
+                <p className="leading-[14px] text-[#8E8E8E]">{user?.email}</p>
               </div>
             </div>
             <div className="w-full sm:w-[550px] mt-[32px]">
@@ -249,9 +234,7 @@ const Profile = () => {
                     <button>
                       <div className="flex items-center gap-1 ml-[35px]">
                         <IoIosCloseCircle size={16} />
-                        <p className="text-[#C2C0BD] leading-[18px]">
-                          Off
-                        </p>
+                        <p className="text-[#C2C0BD] leading-[18px]">Off</p>
                       </div>
                     </button>
                     <button className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]">

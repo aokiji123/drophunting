@@ -1,13 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { FaDollarSign } from "react-icons/fa6";
-import { FiUsers } from "react-icons/fi";
-import { LuPercent } from "react-icons/lu";
-import { GrBook } from "react-icons/gr";
-import { FiUser } from "react-icons/fi";
 import {
   Table,
   TableBody,
@@ -20,18 +16,12 @@ import Link from "next/link";
 import { MdOutlineDone, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { CiCircleInfo } from "react-icons/ci";
+import { tabs } from "@/shared/utils/tabs";
 
-const tabs = [
-  { name: "Profile", href: "/profile", icon: <FiUser size={24} /> },
-  {
-    name: "Subscriptions",
-    href: "/subscriptions",
-    icon: <FaDollarSign size={24} />,
-  },
-  { name: "Subaccounts", href: "/subaccounts", icon: <FiUsers size={24} /> },
-  { name: "Referal", href: "/referal", icon: <LuPercent size={24} /> },
-  { name: "Guides", href: "/guides", icon: <GrBook size={24} /> },
-];
+enum CurrencyType {
+  Fiat = "Fiat",
+  Crypto = "Crypto",
+}
 
 const plans = [
   { name: "Quarterly", days: 90, price: 129, monthlyCost: 43 },
@@ -49,8 +39,12 @@ const Subscriptions = () => {
   const [inputBalance, setInputBalance] = useState("$ 100.00");
   const [selected, setSelected] = useState("Fiat");
 
-  const handleSwitch = (type) => {
+  const handleSwitch = (type: CurrencyType) => {
     setSelected(type);
+  };
+
+  const handleInputBalanceChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputBalance(e.target.value);
   };
 
   const toggleModal = () => {
@@ -69,10 +63,6 @@ const Subscriptions = () => {
     } else {
       document.body.classList.remove("no-scroll");
     }
-  };
-
-  const handleInputBalanceChange = (e) => {
-    setInputBalance(e.target.value);
   };
 
   useEffect(() => {
@@ -96,7 +86,10 @@ const Subscriptions = () => {
                       : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
                   }`}
                 >
-                  <Link href={tab.href} className="flex items-center gap-3">
+                  <Link
+                    href={tab.href}
+                    className="flex items-center gap-3 text-[16px]"
+                  >
                     <p className="hidden lg:block">{tab.icon}</p>
                     {tab.name}
                   </Link>
@@ -381,7 +374,7 @@ const Subscriptions = () => {
                                     ? "bg-[#36383D] text-white"
                                     : "bg-transparent text-gray-400"
                                 }`}
-                                onClick={() => handleSwitch("Fiat")}
+                                onClick={() => handleSwitch(CurrencyType.Fiat)}
                               >
                                 Fiat
                               </button>
@@ -391,7 +384,9 @@ const Subscriptions = () => {
                                     ? "bg-[#36383D] text-white"
                                     : "bg-transparent text-gray-400"
                                 }`}
-                                onClick={() => handleSwitch("Crypto")}
+                                onClick={() =>
+                                  handleSwitch(CurrencyType.Crypto)
+                                }
                               >
                                 Crypto
                               </button>
