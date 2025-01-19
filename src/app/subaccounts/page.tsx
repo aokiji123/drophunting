@@ -37,7 +37,7 @@ const Subaccounts = () => {
       <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
           <nav className="lg:w-[15%] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-scroll w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
+            <ul className="no-scrollbar overflow-y-scroll w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
               {tabs.map((tab) => (
                 <li
                   key={tab.name}
@@ -122,7 +122,7 @@ const Subaccounts = () => {
                 <TableContainer
                   sx={{
                     backgroundColor: "transparent",
-                    overflow: "scroll",
+                    overflowX: "scroll",
                   }}
                 >
                   <Table

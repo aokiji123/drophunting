@@ -141,6 +141,10 @@ const Subscriptions = () => {
                 <TableContainer
                   sx={{
                     backgroundColor: "transparent",
+                    overflowX: {
+                      xs: "scroll",
+                      sm: "visible",
+                    },
                   }}
                 >
                   <Table
@@ -200,7 +204,7 @@ const Subscriptions = () => {
             <div className="fixed inset-0 bg-black bg-opacity-40 z-40"></div>
 
             <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="h-[750px] sm:h-[930px] w-[96%] xl:w-[1040px] xl:h-[800px] bg-[#1C1E22] p-6 rounded-[16px] shadow-lg flex flex-col xl:flex-row gap-[10px] xl:gap-[72px] relative overflow-y-scroll">
+              <div className="h-[750px] overflow-y-scroll sm:h-[930px] w-[96%] xl:w-[1040px] xl:h-[800px] bg-[#1C1E22] p-6 rounded-[16px] shadow-lg flex flex-col xl:flex-row gap-[10px] xl:gap-[72px] relative sm:overflow-auto">
                 <button
                   className="top-10 absolute sm:top-5 right-5"
                   onClick={toggleModal}
@@ -212,7 +216,7 @@ const Subscriptions = () => {
                 </button>
                 <div className="py-[20px] sm:p-0 w-[100%] flex flex-col gap-[20px] xl:w-[450px]">
                   <p className="text-[#CBFF51] leading-[20px]">Plans</p>
-                  <p className="font-bold text-[22px] xl:text-[24px] text-[26px] leading-[36px] -tracking-[3%] w-[330px]">
+                  <p className="font-bold text-[22px] xl:text-[24px] sm:text-[26px] leading-[36px] -tracking-[3%] w-[330px]">
                     Get Unlimited Access to the Site Materials
                   </p>
                   <p className="font-semibold leading-[20px] text-[#949392]  xl:w-[450px]">

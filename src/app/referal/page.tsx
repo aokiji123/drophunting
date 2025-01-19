@@ -188,7 +188,10 @@ const Referal = () => {
                 <TableContainer
                   sx={{
                     backgroundColor: "transparent",
-                    overflow: "scroll",
+                    overflowX: {
+                      xs: "scroll",
+                      sm: "visible",
+                    },
                   }}
                 >
                   <Table
