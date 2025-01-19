@@ -61,7 +61,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
             onChange={handleInputBalanceChange}
           />
         </div>
-        <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px]">
+        <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px] text-[17px]">
           Go to payment
           <MdOutlineKeyboardArrowRight />
         </button>
