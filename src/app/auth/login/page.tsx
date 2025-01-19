@@ -59,7 +59,7 @@ const Login = () => {
             <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Login
             </h2>
-            <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
+            <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
               Authorize in the system to get into your account
             </p>
 

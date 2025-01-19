@@ -123,7 +123,7 @@ const Header = () => {
           className="hidden sm:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
           onClick={toggleBudgetModal}
         >
-          <p className="text-[14px] leading-[16px] font-semibold">$ 341.21</p>
+          <p className="leading-[16px] font-semibold">$ 341.21</p>
           <MdOutlineArrowDropDown size={20} className="p-0" />
         </div>
         <div onClick={toggleModal} className="flex items-center cursor-pointer">
@@ -157,9 +157,7 @@ const Header = () => {
               Top Up Balance
             </p>
             <div className="mt-5">
-              <p className="text-[14px] font-semibold leading-[16px]">
-                Currency type
-              </p>
+              <p className="font-semibold leading-[16px]">Currency type</p>
               <div className="flex items-center bg-[#292B2F] rounded-full p-1 mt-2 w-[155px]">
                 <button
                   className={`px-4 py-2 rounded-full text-sm font-medium ${
@@ -184,7 +182,7 @@ const Header = () => {
               </div>
             </div>
             <div className="my-5">
-              <p className="text-[14px] font-semibold leading-[16px]">Amount</p>
+              <p className="font-semibold leading-[16px]">Amount</p>
               <input
                 className="bg-[#292B2F] border-[1px] border-transparent py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] focus:border-gray-500 focus:outline-none"
                 value={inputBalance}

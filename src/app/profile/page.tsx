@@ -115,7 +115,7 @@ const Profile = () => {
                 <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2">
                   {user?.name}
                 </p>
-                <p className="text-[14px] leading-[14px] text-[#8E8E8E]">
+                <p className="leading-[14px] text-[#8E8E8E]">
                   {user?.email}
                 </p>
               </div>
@@ -183,7 +183,7 @@ const Profile = () => {
                 <p className="text-[16px] font-semibold">
                   Telegram notifications
                 </p>
-                <p className="max-w-[350px] sm:w-[350px] text-[14px] leading-[18px] text-[#949392]">
+                <p className="max-w-[350px] sm:w-[350px] leading-[18px] text-[#949392]">
                   Subscribe to our bot to receive notifications about changes to
                   favorite guides, publication of new guides and articles.
                 </p>
@@ -213,7 +213,7 @@ const Profile = () => {
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
                         Change password
                       </p>
-                      <p className="w-[250px] sm:w-full text-[14px] leading-[18px] text-[#949392]">
+                      <p className="w-[250px] sm:w-full leading-[18px] text-[#949392]">
                         Use your email to protect your account and transactions
                       </p>
                     </div>
@@ -240,7 +240,7 @@ const Profile = () => {
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
                         Authenticator App
                       </p>
-                      <p className="w-[250px] sm:w-full text-[14px] leading-[18px] text-[#949392]">
+                      <p className="w-[250px] sm:w-full leading-[18px] text-[#949392]">
                         Use your email to protect your account and transactions
                       </p>
                     </div>
@@ -249,7 +249,7 @@ const Profile = () => {
                     <button>
                       <div className="flex items-center gap-1 ml-[35px]">
                         <IoIosCloseCircle size={16} />
-                        <p className="text-[#C2C0BD] text-[14px] leading-[18px]">
+                        <p className="text-[#C2C0BD] leading-[18px]">
                           Off
                         </p>
                       </div>

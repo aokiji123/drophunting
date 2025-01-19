@@ -51,7 +51,7 @@ const SignUp = () => {
             <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Welcome to DropHunting
             </h2>
-            <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
+            <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
               Get access to hundreds of airports and earn money with DropHunting
             </p>
             <form

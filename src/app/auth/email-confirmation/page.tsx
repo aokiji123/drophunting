@@ -18,7 +18,7 @@ const EmailConfirmation = () => {
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Email message was send
             </h2>
-            <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
+            <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
               We have sent a message to your e-mail address. To restore your
               password, please follow the link provided in the message.
             </p>

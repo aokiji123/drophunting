@@ -113,7 +113,7 @@ const Subscriptions = () => {
                 <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
                   Subscriptions
                 </p>
-                <p className="text-[14px] text-[#949392] leading-[20px] mt-2 w-[325px] sm:w-[450px] lg:w-[650px]">
+                <p className="text-[#949392] leading-[20px] mt-2 w-[325px] sm:w-[450px] lg:w-[650px]">
                   Subscription allows you to get unlimited access to the site
                   materials. We provide a choice of several tariff plans based
                   on the principle “the longer - the cheaper”. A few free views
@@ -218,13 +218,11 @@ const Subscriptions = () => {
                   />
                 </button>
                 <div className="py-[20px] sm:p-0 w-[100%] flex flex-col gap-[20px] xl:w-[450px]">
-                  <p className="text-[#CBFF51] text-[14px] leading-[20px]">
-                    Plans
-                  </p>
+                  <p className="text-[#CBFF51] leading-[20px]">Plans</p>
                   <p className="font-bold text-[22px] xl:text-[24px] text-[26px] leading-[36px] -tracking-[3%] w-[330px]">
                     Get Unlimited Access to the Site Materials
                   </p>
-                  <p className="font-semibold text-[14px] leading-[20px] text-[#949392]  xl:w-[450px]">
+                  <p className="font-semibold leading-[20px] text-[#949392]  xl:w-[450px]">
                     You will also receive an invitation to a private channel and
                     access.
                   </p>
@@ -234,7 +232,7 @@ const Subscriptions = () => {
                         size={20}
                         className="text-[#CBFF51] absolute top-0 left-0"
                       />
-                      <p className="font-semibold text-[14px] leading-[20px] px-[25px]">
+                      <p className="font-semibold leading-[20px] px-[25px]">
                         Unlimited access to view guides
                       </p>
                     </div>
@@ -243,7 +241,7 @@ const Subscriptions = () => {
                         size={20}
                         className="text-[#CBFF51] absolute top-0 left-0"
                       />
-                      <p className="font-semibold text-[14px] leading-[20px] px-[25px]">
+                      <p className="font-semibold leading-[20px] px-[25px]">
                         Private channel and access to a closed section with
                         projects with maximum potential
                       </p>
@@ -278,10 +276,8 @@ const Subscriptions = () => {
                             )}
                           </div>
                           <div className="flex flex-col sm:flex-row items-center sm:gap-[12px]">
-                            <p className="font-bold text-[14px]">{plan.name}</p>
-                            <p className="text-[14px] text-[#8E8E8E]">
-                              {plan.days} days
-                            </p>
+                            <p className="font-bold">{plan.name}</p>
+                            <p className="text-[#8E8E8E]">{plan.days} days</p>
                           </div>
                         </div>
                         <div>
@@ -290,7 +286,7 @@ const Subscriptions = () => {
                               <p className="text-[16px] leading-[18px] font-bold text-[#CBFF51]">
                                 ${plan.price}
                               </p>
-                              <p className="text-[14px] leading-[15px] text-[#8E8E8E]">
+                              <p className="leading-[15px] text-[#8E8E8E]">
                                 ${plan.monthlyCost}/month
                               </p>
                             </div>
@@ -304,15 +300,13 @@ const Subscriptions = () => {
                     ))}
                   </ul>
                   <div className="mt-[25px]">
-                    <p className="mb-1 text-[14px] leading-[16px] font-semibold">
-                      Cupon
-                    </p>
+                    <p className="mb-1 leading-[16px] font-semibold">Cupon</p>
                     <div className="flex items-center gap-2">
                       <input
                         className="bg-[#212226] p-2 w-[200px] rounded-[12px] placeholder:text-[14px] placeholder:leading-[20px]"
                         placeholder="Cupon code"
                       />
-                      <button className="bg-[#333333] px-[10px] py-[12px] text-[#A4A4A4] font-bold text-[14px] leading-[16px] rounded-[10px]">
+                      <button className="bg-[#333333] px-[10px] py-[12px] text-[#A4A4A4] font-bold leading-[16px] rounded-[10px]">
                         Done
                       </button>
                     </div>
@@ -322,9 +316,7 @@ const Subscriptions = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col gap-1">
-                      <p className="text-[14px] leading-[20px] font-semibold">
-                        Amount Due
-                      </p>
+                      <p className="leading-[20px] font-semibold">Amount Due</p>
                       <p className="text-[24px] leading-[28px] font-bold">
                         $129
                       </p>
@@ -342,7 +334,7 @@ const Subscriptions = () => {
                     </button>
                   </div>
 
-                  <p className="text-[#8E8E8E] text-[14px] leading-[20px] mt-[26px]">
+                  <p className="text-[#8E8E8E] leading-[20px] mt-[26px]">
                     <span className="text-[#FF6F6F]">
                       Account balance: $0.00.
                     </span>{" "}
@@ -379,7 +371,7 @@ const Subscriptions = () => {
                             Top Up Balance
                           </p>
                           <div className="mt-5">
-                            <p className="text-[14px] font-semibold leading-[16px]">
+                            <p className="font-semibold leading-[16px]">
                               Currency type
                             </p>
                             <div className="flex items-center bg-[#292B2F] rounded-full p-1 mt-2 w-[155px]">
@@ -406,7 +398,7 @@ const Subscriptions = () => {
                             </div>
                           </div>
                           <div className="my-5">
-                            <p className="text-[14px] font-semibold leading-[16px]">
+                            <p className="font-semibold leading-[16px]">
                               Amount
                             </p>
                             <input

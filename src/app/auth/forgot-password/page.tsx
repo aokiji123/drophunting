@@ -40,7 +40,7 @@ const ForgotPassword = () => {
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mb-[20px]">
               Restore password
             </h2>
-            <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-[340px] mb-[30px]">
+            <p className="text-[#B0B0B0] leading-[20px] w-[340px] mb-[30px]">
               Forgot your password? No problem. Just let us know your email
               address and we will email you a password reset link that will
               allow you to choose a new one.

@@ -21,7 +21,7 @@ const PasswordResetConfirmation = () => {
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mt-[35px] mb-[20px]">
               Your password has been reset
             </h2>
-            <p className="text-[14px] text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
+            <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
               You can try to log in with the new password now
             </p>
             <button
