@@ -12,14 +12,39 @@ import Link from "next/link";
 import ProfileModal from "@/app/components/modals/ProfileModal";
 import BalanceModal from "@/app/components/modals/BalanceModal";
 import NotificationsModal from "@/app/components/modals/NotificationsModal";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+// import {
+//   FormControl,
+//   MenuItem,
+//   Select,
+//   SelectChangeEvent,
+// } from "@mui/material";
+// import gb from "@/shared/assets/icons/gb.png";
+// import ru from "@/shared/assets/icons/ru.png";
+// import { GrLanguage } from "react-icons/gr";
+
+export const tabs = [
+  { name: "Guides", href: "/guides" },
+  {
+    name: "Blog",
+    href: "/blog",
+  },
+  { name: "Store", href: "/store" },
+];
 
 const Header = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname === href;
+  // const [language, setLanguage] = useState("en");
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
   const [isNotificationsModalOpen, setIsNotificationsModalOpen] =
     useState(false);
+  //
+  // const handleChange = (e: SelectChangeEvent) => {
+  //   setLanguage(e.target.value);
+  // };
 
   const toggleProfileModal = () => {
     setIsProfileModalOpen(!isProfileModalOpen);
@@ -44,15 +69,20 @@ const Header = () => {
 
       <div className="relative hidden xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2 lg:block">
         <div className="flex items-center font-chakra font-bold gap-5 text-[16px]">
-          <Link className="text-white hover:text-[#9EA0A6]" href="#">
-            Guides
-          </Link>
-          <Link className="text-white hover:text-[#9EA0A6]" href="#">
-            Blog
-          </Link>
-          <Link className="text-white hover:text-[#9EA0A6]" href="#">
-            Store
-          </Link>
+          {tabs.map((tab) => (
+            <div key={tab.name}>
+              <Link
+                className={`${
+                  isActive(tab.href)
+                    ? "text-[#CBFF51]"
+                    : "text-white hover:text-[#9EA0A6]"
+                }`}
+                href={tab.href}
+              >
+                {tab.name}
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -67,11 +97,67 @@ const Header = () => {
             className="text-white hover:text-[#9EA0A6]"
           />
         </Badge>
-        <MdFavoriteBorder
-          onClick={() => router.push("/favorites")}
-          size={20}
-          className="text-white hover:text-[#9EA0A6] cursor-pointer"
-        />
+        {/*<FormControl*/}
+        {/*  fullWidth*/}
+        {/*  sx={{*/}
+        {/*    bgcolor: "transparent",*/}
+        {/*    ".MuiOutlinedInput-notchedOutline": { border: "none" },*/}
+        {/*    ".MuiSelect-select": {*/}
+        {/*      color: "white",*/}
+        {/*      fontSize: "16px",*/}
+        {/*      fontWeight: 600,*/}
+        {/*      padding: 0,*/}
+        {/*    },*/}
+        {/*    ".MuiSelect-icon": { color: "white", padding: 0 },*/}
+        {/*    "& .MuiPaper-root": {*/}
+        {/*      bgcolor: "#1C1E22",*/}
+        {/*      color: "white",*/}
+        {/*      borderRadius: "8px",*/}
+        {/*      padding: 0,*/}
+        {/*    },*/}
+        {/*    "& .MuiMenuItem-root": {*/}
+        {/*      bgcolor: "#1C1E22",*/}
+        {/*      padding: 0,*/}
+        {/*      "&:hover": {*/}
+        {/*        bgcolor: "transparent",*/}
+        {/*      },*/}
+        {/*    },*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Select*/}
+        {/*    value={language}*/}
+        {/*    onChange={handleChange}*/}
+        {/*    inputProps={{*/}
+        {/*      "aria-label": "Language select",*/}
+        {/*    }}*/}
+        {/*    sx={{*/}
+        {/*      height: "40px",*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <MenuItem value="en">*/}
+        {/*      <div className="flex items-center gap-1 py-[8px]">*/}
+        {/*        <GrLanguage />*/}
+        {/*        <p className="text-[16px] font-semibold leading-[20px]">En</p>*/}
+        {/*      </div>*/}
+        {/*    </MenuItem>*/}
+        {/*    <MenuItem value="ru">*/}
+        {/*      <div className="flex items-center gap-1 py-[8px]">*/}
+        {/*        <GrLanguage />*/}
+        {/*        <p className="text-[16px] font-semibold leading-[20px]">Ru</p>*/}
+        {/*      </div>*/}
+        {/*    </MenuItem>*/}
+        {/*  </Select>*/}
+        {/*</FormControl>*/}
+        <div>
+          <MdFavoriteBorder
+            onClick={() => router.push("/favorites")}
+            size={20}
+            className="text-white hover:text-[#9EA0A6] cursor-pointer"
+          />
+        </div>
+        {/*<button className="px-[6px] py-[4px] sm:p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">*/}
+        {/*  Login*/}
+        {/*</button>*/}
         <button className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
           <h1 className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
@@ -100,7 +186,9 @@ const Header = () => {
           </div>
           <MdOutlineArrowDropDown size={20} className="p-0" />
         </div>
-        <GiHamburgerMenu className="block lg:hidden" size={24} />
+        <div>
+          <GiHamburgerMenu className="block lg:hidden" size={24} />
+        </div>
       </div>
 
       {isNotificationsModalOpen && (
