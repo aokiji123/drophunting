@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import logoRectangle from "@/shared/assets/rectangle.png";
@@ -11,8 +12,10 @@ import Link from "next/link";
 import ProfileModal from "@/app/components/modals/ProfileModal";
 import BalanceModal from "@/app/components/modals/BalanceModal";
 import NotificationsModal from "@/app/components/modals/NotificationsModal";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const router = useRouter();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
   const [isNotificationsModalOpen, setIsNotificationsModalOpen] =
@@ -65,6 +68,7 @@ const Header = () => {
           />
         </Badge>
         <MdFavoriteBorder
+          onClick={() => router.push("/favorites")}
           size={20}
           className="text-white hover:text-[#9EA0A6] cursor-pointer"
         />
