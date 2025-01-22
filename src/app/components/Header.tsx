@@ -160,9 +160,9 @@ const Header = () => {
         {/*</button>*/}
         <button className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
-          <h1 className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
+          <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
             Upgrade
-          </h1>
+          </p>
         </button>
         <div
           className="hidden sm:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
