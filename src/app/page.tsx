@@ -16,7 +16,7 @@ export default function Home() {
   }, [sessionVerified, router]);
 
   return (
-    <div className="bg-black overflow-auto">
+    <div className="bg-[#101114] overflow-auto">
       <Profile />
     </div>
   );

@@ -112,7 +112,7 @@ const Blog = () => {
                         >
                           {selectedBlogs.includes(blogIndex) && (
                             <div>
-                              <MdOutlineDone size={24} />
+                              <MdOutlineDone size={20} />
                             </div>
                           )}
                         </div>

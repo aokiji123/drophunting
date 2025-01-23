@@ -2,284 +2,201 @@
 import React, { useState } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import {
-  IoIosArrowBack,
-  IoIosArrowDown,
-  IoIosInformationCircle,
-  IoMdTime,
-} from "react-icons/io";
-import { GoDotFill } from "react-icons/go";
+import { IoIosArrowBack, IoMdTime } from "react-icons/io";
 import Image from "next/image";
-import zenchain from "../../../shared/assets/zenchain.png";
-import { IoCalendarClear } from "react-icons/io5";
-import { MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
-import { PiXLogo } from "react-icons/pi";
-import { GrLanguage } from "react-icons/gr";
-import { FaTelegramPlane } from "react-icons/fa";
-import { Slider, styled } from "@mui/material";
-import { AiOutlineLink } from "react-icons/ai";
-
-const tasks = [
-  { name: "Follow Discord", minutes: "1 min" },
-  { name: "Create first account", minutes: "1 min" },
-  { name: "Invite 5 friends", minutes: "2 min" },
-  { name: "Play ZenGame and win 200 xp", minutes: "15 min" },
-  { name: "Read all articles on Zenchain blog", minutes: "30 min" },
-];
-
-const CustomSlider = styled(Slider)({
-  height: 8,
-  "& .MuiSlider-track": {
-    background: "#CBFF51",
-    border: "none",
-  },
-  "& .MuiSlider-thumb": {
-    display: "none",
-  },
-  "& .MuiSlider-rail": {
-    backgroundColor: "#b3b3b3",
-  },
-  "& .MuiSlider-mark": {
-    height: 10,
-    width: 4,
-    backgroundColor: "#000",
-  },
-});
-
-const marks = Array.from({ length: 6 }, (_, i) => ({
-  value: i,
-  visible: i !== 0 && i !== 5,
-}));
+import blog from "../../../shared/assets/blog.png";
+import blogPhoto from "../../../shared/assets/blog-photo.png";
+import { MdOutlineDone } from "react-icons/md";
 
 const Guide = () => {
-  const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
-  const [percentage, setPercentage] = useState(0);
-  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [isRead, setIsRead] = useState(false);
 
-  const toggleTask = (taskName: string) => {
-    setSelectedTasks((prevSelected) => {
-      const isSelected = prevSelected.includes(taskName);
-      const updatedSelected = isSelected
-        ? prevSelected.filter((name) => name !== taskName)
-        : [...prevSelected, taskName];
-
-      const newPercentage = (updatedSelected.length / tasks.length) * 100;
-      setPercentage(newPercentage);
-
-      return updatedSelected;
-    });
-  };
-
-  const handleCopyLink = (taskName: string) => {
-    setActiveModal(taskName);
-    setTimeout(() => setActiveModal(null), 2000);
+  const toggleReadState = () => {
+    setIsRead((prevState) => !prevState);
   };
 
   return (
     <div className="bg-black text-white">
       <Header />
 
-      <main className="my-[8px] px-[20px] md:px-[96px]">
-        <button className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
-          <IoIosArrowBack size={20} />
-          <p>Back</p>
-        </button>
-        <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[80px]">
-          <section className="w-full xl:w-[30%] flex flex-col gap-[24px]">
-            <div className="flex items-center gap-[24px]">
-              <Image
-                src={zenchain}
-                alt="Zenchain"
-                className="h-[80x] w-[80px] rounded-[20px]"
-              />
-              <div className="flex flex-col gap-[8px]">
-                <p className="text-[30px] leading-[36px] font-bold">Zenchain</p>
-                <div className="flex items-center gap-[8px]">
-                  <div className="flex items-center gap-[6px]">
-                    <div>
-                      <GoDotFill size={16} className="text-[#C9FF4A]" />
-                    </div>
-                    <p className="text-[14px] leading-[16px] font-bold">
-                      Actual
-                    </p>
-                  </div>
-                  <div>
-                    <GoDotFill size={8} className="text-[#5D5E60]" />
-                  </div>
-                  <p className="text-[#8E8E8E] text-[14px] leading-[16px] font-semibold">
-                    12 oct 2024
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-[6px]">
-              <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
-                <IoMdTime size={16} />
-                <p className="text-[14px] leading-[16px] font-semibold">
-                  12 min
+      <main className="">
+        <div className="pl-[96px]">
+          <button className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
+            <IoIosArrowBack size={20} />
+            <p>Back</p>
+          </button>
+        </div>
+        <div className="pb-[120px] px-[306px]">
+          <Image src={blog} alt="Blog image" className="w-full" />
+          <div className="my-[32px]">
+            <div className="flex items-center gap-[8px]">
+              <div className="text-[#A0A8AE] flex items-center bg-[#212125] px-[8px] py-[6px] rounded-[6px] gap-1">
+                <IoMdTime size={12} />
+                <p className="text-[13px] leading-[16px] font-semibold">
+                  10 min
                 </p>
               </div>
-              <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold">
-                Free
-              </div>
-              <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] py-[8px] px-[10px] rounded-lg h-[32px] flex items-center justify-center">
-                <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-                  Guaranteed drop
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-[7px]">
-              <button className="flex items-center gap-2 bg-[#11CA00] rounded-[14px] px-[20px] py-[15px] text-[16px] leading-[20px] h-[44px] justify-center font-bold">
-                <IoCalendarClear size={20} />
-                <p>Remind on Telegram</p>
-              </button>
-              <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
-                <MdFavoriteBorder size={20} />
-              </div>
-            </div>
-
-            <hr className="border-0 h-px bg-[#27292D]" />
-
-            <div className="flex items-center gap-8 xl:gap-0 xl:justify-between">
-              <div className="flex flex-col items-center gap-2">
-                <p className="text-[20px] leading-[24px] font-bold">460</p>
-                <p className="text-[14px] leading-[15px] text-[#FFA025]">
-                  Good
-                </p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <p className="text-[14px] leading-[16px] text-[#50535D]">
-                  Investment
-                </p>
-                <p className="text-[20px] leading-[24px] font-bold">$2.2 bln</p>
-              </div>
-              <div className="flex flex-col items-center gap-2">
-                <p className="text-[14px] leading-[16px] text-[#50535D]">TVL</p>
-                <p className="text-[20px] leading-[24px] font-bold">$12k</p>
-              </div>
-            </div>
-            <div>
-              <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
-                Cytonic is a multi-EVM Layer 1 blockchain with multiple virtual
-                machines that aims to integrate networks such as Bitcoin,
-                Ethereum and Solana into a single Layer 1 solution.
+              <p className="rounded-[6px] px-[8px] py-[6px] bg-[#212125] text-[13px] leading-[16px] font-semibold text-[#A0A8AE]">
+                December 13
               </p>
-              <div className="flex flex-col mt-[20px]">
-                <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
-                  It focuses on enabling communication...
-                </p>
-                <p className="text-[#CBFF51] text-[14px] leading-[20px]">
-                  More
-                </p>
-              </div>
+              <p className="rounded-[6px] px-[8px] py-[6px] bg-[#211E12] text-[13px] leading-[16px] font-semibold text-[#C6A975]">
+                Newbie
+              </p>
             </div>
-            <div className="flex items-center gap-[10px]">
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392]">
-                <GrLanguage size={24} />
-              </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392]">
-                <PiXLogo size={24} />
-              </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392]">
-                <FaTelegramPlane size={24} />
-              </div>
-            </div>
-          </section>
-          <section className="w-full xl:w-[70%] flex flex-col gap-[18px]">
-            <p className="text-[20px] leading-[24px] font-bold">Tasks</p>
-            <div className="flex flex-col">
-              <div className="flex items-center justify-between text-[16px] leading-[18px] font-bold ">
-                <div className="flex items-center gap-3">
-                  <p className="text-[#707273]">Completed:</p>
-                  <p className="text-white">
-                    {selectedTasks.length}/{tasks.length}
-                  </p>
-                </div>
-                <p>{percentage}%</p>
-              </div>
-              <CustomSlider
-                marks={marks
-                  .filter((mark) => mark.visible)
-                  .map((mark) => ({ value: mark.value }))}
-                value={selectedTasks.length}
-                step={1}
-                min={0}
-                max={tasks.length}
-              />
-            </div>
-            <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px]">
-              <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[15px] leading-[16px] font-bold">
-                <p>Free task previews on your plan</p>
-                <div className="flex items-center gap-[8px]">
-                  <p>1/3</p>
-                  <IoIosInformationCircle
-                    size={20}
-                    className="text-[#515256]"
-                  />
-                </div>
-              </div>
-              <button className="h-[44px] bg-[#11CA00] p-[8px] sm:p-[20px] rounded-[14px] text-[16px] leading-[20px] flex items-center justify-center">
-                Upgrade plan
-              </button>
-            </div>
-            <ul className="flex flex-col gap-3">
-              {tasks.map((task) => (
-                <li
-                  key={task.name}
-                  onClick={() => toggleTask(task.name)}
-                  className="cursor-pointer px-4 py-3 rounded-[12px] flex justify-between items-center border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
+          </div>
+          <p className="font-bold text-[42px] leading-[50px]">
+            Bitcoin, Green Mining, and the Possibility for a More Sustainable
+            Future
+          </p>
+          <div
+            onClick={toggleReadState}
+            className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] max-w-[180px] ${
+              isRead ? "bg-[#1D2A19]" : "bg-[#1a1a21]"
+            }`}
+          >
+            <div className="flex items-center gap-4 max-w-[]">
+              <div
+                className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                  isRead
+                    ? "border-[#47572D75] bg-[#151B15]"
+                    : "border-[#32353D]"
+                }`}
+              >
+                <div
+                  className={`${isRead && `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`}`}
                 >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-[24px] h-[24px] min-w-[24px] min-h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 ${
-                        selectedTasks.includes(task.name)
-                          ? "border-[1px] border-[#73A304] bg-[#528E09]"
-                          : "border-gray-700"
-                      }`}
-                    >
-                      {selectedTasks.includes(task.name) && (
-                        <div>
-                          <MdOutlineDone size={20} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col">
-                      <p
-                        className={`font-bold mr-[5px] ${
-                          selectedTasks.includes(task.name) && "text-[#747677]"
-                        }`}
-                      >
-                        {task.name}
-                      </p>
-                      <div className="text-[#747677] flex items-center gap-1.5">
-                        <IoMdTime size={12} />
-                        <p>{task.minutes}</p>
-                      </div>
-                    </div>
+                  {isRead && <MdOutlineDone size={16} />}
+                </div>
+              </div>
+              <p
+                className={`font-chakra font-bold text-[18px] leading-[15px] ${
+                  isRead ? "text-[#A0A8AECC]" : "text-[#A0A8AE]"
+                }`}
+              >
+                I have read
+              </p>
+            </div>
+          </div>
+          <p className="text-[18px] leading-[22px] font-chakra  text-[#CACBCE] mt-[32px]">
+            PayPal’s Blockchain Research Group, in a strategic collaboration
+            with Energy Web and DMG Blockchain Solutions Inc. (“DMG”), presents
+            an opportunity to accelerate the clean energy transition for Bitcoin
+            mining. Just like so many other mechanisms throughout web3
+          </p>
+          <div className="flex flex-col font-chakra mt-[32px]">
+            <div className="flex flex-col gap-[24px] mb-[60px]">
+              <p className="text-[34px] leading-[41px] font-bold">
+                Incentivizing desired activity with cryptoeconomics
+              </p>
+              <p className="text-[18px] leading-[28px] text-[#CACBCE]">
+                One of the most pervasive conversations surrounding blockchain
+                technology is sustainability. Blockchain networks — specifically
+                proof-of-work (PoW) networks like Bitcoin — can consume large
+                amounts of energy. Recent estimates suggest that Bitcoin mining
+                is currently responsible annually for an estimated 85 million
+                metric tons of carbon dioxide equivalent (as of April 02, 2024).
+                Even with new blockchain consensus mechanisms proliferating
+                rapidly, Bitcoin’s PoW architecture is likely to persist.
+              </p>
+            </div>
+            <div className="flex flex-col gap-[24px] mb-[30px]">
+              <p className="text-[28px] leading-[35px] font-bold">
+                PayPal’s Blockchain Research Group&#39;s partner
+              </p>
+              <p className="text-[18px] leading-[28px] text-[#CACBCE]">
+                EnergyWeb has developed a clean energy validation platform to
+                permit Bitcoin miners to obtain low-carbon accreditation for
+                their mining operations. These green miners are associated with
+                public keys (which we refer to as green keys), to which rewards
+                can be distributed. On-chain transactions are preferentially
+                routed to green miners by being broadcasted with low transaction
+                fees, but with some BTC reward “locked” in a multisig payout
+                address. Green miners will be incentivized to mine these
+                transactions, since they will be the only ones eligible for the
+                additional “locked” BTC reward.
+              </p>
+            </div>
+            <div className="flex flex-col gap-[24px]">
+              <p className="text-[22px] leading-[28px] font-bold">
+                Incentivizing desired activity with cryptoeconomics
+              </p>
+              <p className="text-[18px] leading-[28px] text-[#CACBCE]">
+                PayPal’s Blockchain Research Group hopes that this paper
+                influences preferred behaviors by proposing ways in which
+                fundamental cryptoeconomic incentives can be reapplied to
+                improve and optimize existing, proven, strong networks.
+                Sustainability is a significant topic of conversation for nearly
+                every emerging and established industry in the world, and we aim
+                to support the role of crypto in a sustainable future.
+              </p>
+            </div>
+          </div>
+          <Image src={blogPhoto} alt="Blog photo" className="my-[30px]" />
+          <ul className="font-chakra list-none flex flex-col gap-[24px] mb-[63px]">
+            <li className="relative pl-6">
+              <span className="absolute left-0 top-2.5 h-[7px] w-[7px] bg-[#ABE91A]"></span>
+              <p className="text-[20px] leading-[28px] font-bold">
+                Use InVision’s Jira integration
+              </p>
+              <p className="text-[18px] leading-[24px] text-[#CACBCE]">
+                Use InVision’s Jira integration to easily get stakeholders
+                involved in project planning and start your build with total
+                team alignment.
+              </p>
+            </li>
+            <li className="relative pl-6">
+              <span className="absolute left-0 top-2.5 h-[7px] w-[7px] bg-[#ABE91A]"></span>
+              <p className="text-[20px] leading-[28px] font-bold">
+                Plan and prioritize
+              </p>
+              <p className="text-[18px] leading-[24px] text-[#CACBCE]">
+                Plan, prioritize, and manage project tasks with the new Project
+                Task Prioritization template by Jira
+              </p>
+            </li>
+            <li className="relative pl-6">
+              <span className="absolute left-0 top-2.5 h-[7px] w-[7px] bg-[#ABE91A]"></span>
+              <p className="text-[20px] leading-[28px] font-bold">
+                Align objects
+              </p>
+              <p className="text-[18px] leading-[24px] text-[#CACBCE]">
+                Easily align objects, text and images with new snapping
+                guidelines to give your Freehand canvas a high quality finish,
+                in a snap.
+              </p>
+            </li>
+          </ul>
+          <div className="flex items-center justify-center">
+            <div
+              onClick={toggleReadState}
+              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 max-w-[180px] ${
+                isRead ? "bg-[#1D2A19]" : "bg-[#1a1a21]"
+              }`}
+            >
+              <div className="flex items-center gap-4 max-w-[]">
+                <div
+                  className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                    isRead
+                      ? "border-[#47572D75] bg-[#151B15]"
+                      : "border-[#32353D]"
+                  }`}
+                >
+                  <div
+                    className={`${isRead && `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`}`}
+                  >
+                    {isRead && <MdOutlineDone size={16} />}
                   </div>
-                  <div className="flex items-center gap-[8px] text-[#8E8E8E] relative">
-                    <div
-                      className="h-[32px] w-[32px] bg-[#1E1F23] rounded-full flex items-center justify-center"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCopyLink(task.name);
-                      }}
-                    >
-                      <AiOutlineLink size={20} />
-                    </div>
-                    {activeModal === task.name && (
-                      <p className="absolute top-9 right-4 bg-black text-white rounded-[9px] px-[10px] py-[7px] shadow-lg w-[125px] flex items-center justify-center">
-                        Link copied
-                      </p>
-                    )}
-                    <div>
-                      <IoIosArrowDown size={20} />
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
+                </div>
+                <p
+                  className={`font-chakra font-bold text-[18px] leading-[15px] ${
+                    isRead ? "text-[#A0A8AECC]" : "text-[#A0A8AE]"
+                  }`}
+                >
+                  I have read
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
 
