@@ -20,13 +20,13 @@ const Guide = () => {
       <Header />
 
       <main className="">
-        <div className="pl-[96px]">
+        <div className="pl-[30px] md:pl-[96px] mb-[30px]">
           <button className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
             <IoIosArrowBack size={20} />
             <p>Back</p>
           </button>
         </div>
-        <div className="pb-[120px] px-[306px]">
+        <div className="pb-[120px] px-[30px] sm:px-[56px] md:px-[106px] lg:px-[206px] xl:px-[306px]">
           <Image src={blog} alt="Blog image" className="w-full" />
           <div className="my-[32px]">
             <div className="flex items-center gap-[8px]">
@@ -44,7 +44,7 @@ const Guide = () => {
               </p>
             </div>
           </div>
-          <p className="font-bold text-[42px] leading-[50px]">
+          <p className="font-bold text-[32px] lg:text-[35px] xl:text-[42px] leading-[38px] lg:leading-[50px]">
             Bitcoin, Green Mining, and the Possibility for a More Sustainable
             Future
           </p>
