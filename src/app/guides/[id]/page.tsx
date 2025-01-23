@@ -73,6 +73,14 @@ const Guide = () => {
     });
   };
 
+  const toggleTaskFromEvent = (
+    e: React.MouseEvent<HTMLLIElement> | React.MouseEvent<HTMLDivElement>,
+    taskName: string,
+  ) => {
+    e.stopPropagation();
+    toggleTask(taskName);
+  };
+
   const toggleAccordion = (taskName: string) => {
     setActiveTask((prev) => (prev === taskName ? null : taskName));
   };
@@ -233,7 +241,7 @@ const Guide = () => {
               {tasks.map((task) => (
                 <li
                   key={task.name}
-                  onClick={() => toggleTask(task.name)}
+                  onClick={(e) => toggleTaskFromEvent(e, task.name)}
                   className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
                 >
                   <div className="flex items-center justify-between">
@@ -336,7 +344,7 @@ const Guide = () => {
                           <p>Instructions.pdf</p>
                         </div>
                         <div
-                          onClick={() => toggleTask(task.name)}
+                          onClick={(e) => toggleTaskFromEvent(e, task.name)}
                           className={`cursor-pointer py-[12px] pl-[16px] pr-[28px] rounded-[12px] flex items-center transition-all duration-300 mb-[20px] w-[230px] ${
                             selectedTasks.includes(task.name)
                               ? "bg-[#1D2A19]"
