@@ -5,17 +5,19 @@ import Footer from "@/app/components/Footer";
 import {
   IoIosArrowBack,
   IoIosArrowDown,
+  IoIosArrowUp,
   IoIosInformationCircle,
   IoMdTime,
 } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import Image from "next/image";
 import zenchain from "../../../shared/assets/zenchain.png";
+import blogDesc from "../../../shared/assets/blog-desc.png";
 import { IoCalendarClear } from "react-icons/io5";
 import { MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
 import { PiXLogo } from "react-icons/pi";
 import { GrLanguage } from "react-icons/gr";
-import { FaTelegramPlane } from "react-icons/fa";
+import { FaRegFileAlt, FaTelegramPlane } from "react-icons/fa";
 import { Slider, styled } from "@mui/material";
 import { AiOutlineLink } from "react-icons/ai";
 
@@ -53,6 +55,7 @@ const marks = Array.from({ length: 6 }, (_, i) => ({
 
 const Guide = () => {
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
+  const [activeTask, setActiveTask] = useState<string | null>(null);
   const [percentage, setPercentage] = useState(0);
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
@@ -68,6 +71,10 @@ const Guide = () => {
 
       return updatedSelected;
     });
+  };
+
+  const toggleAccordion = (taskName: string) => {
+    setActiveTask((prev) => (prev === taskName ? null : taskName));
   };
 
   const handleCopyLink = (taskName: string) => {
@@ -227,54 +234,144 @@ const Guide = () => {
                 <li
                   key={task.name}
                   onClick={() => toggleTask(task.name)}
-                  className="cursor-pointer px-4 py-3 rounded-[12px] flex justify-between items-center border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
+                  className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
                 >
-                  <div className="flex items-center gap-4">
-                    <div
-                      className={`w-[24px] h-[24px] min-w-[24px] min-h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 ${
-                        selectedTasks.includes(task.name)
-                          ? "border-[1px] border-[#73A304] bg-[#528E09]"
-                          : "border-gray-700"
-                      }`}
-                    >
-                      {selectedTasks.includes(task.name) && (
-                        <div>
-                          <MdOutlineDone size={20} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col">
-                      <p
-                        className={`font-bold mr-[5px] ${
-                          selectedTasks.includes(task.name) && "text-[#747677]"
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={`w-[24px] h-[24px] min-w-[24px] min-h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 ${
+                          selectedTasks.includes(task.name)
+                            ? "border-[1px] border-[#73A304] bg-[#528E09]"
+                            : "border-gray-700"
                         }`}
                       >
-                        {task.name}
-                      </p>
-                      <div className="text-[#747677] flex items-center gap-1.5">
-                        <IoMdTime size={12} />
-                        <p>{task.minutes}</p>
+                        {selectedTasks.includes(task.name) && (
+                          <div>
+                            <MdOutlineDone size={20} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col">
+                        <p
+                          className={`font-bold mr-[5px] ${
+                            selectedTasks.includes(task.name) &&
+                            "text-[#747677]"
+                          }`}
+                        >
+                          {task.name}
+                        </p>
+                        <div className="text-[#747677] flex items-center gap-1.5">
+                          <IoMdTime size={12} />
+                          <p>{task.minutes}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-[8px] text-[#8E8E8E] relative">
+                      <div
+                        className="h-[32px] w-[32px] bg-[#1E1F23] rounded-full flex items-center justify-center"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCopyLink(task.name);
+                        }}
+                      >
+                        <AiOutlineLink size={20} />
+                      </div>
+                      {activeModal === task.name && (
+                        <p className="absolute top-9 right-4 bg-black text-white rounded-[9px] px-[10px] py-[7px] shadow-lg w-[125px] flex items-center justify-center">
+                          Link copied
+                        </p>
+                      )}
+                      <div
+                        className="text-[#8E8E8E] cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleAccordion(task.name);
+                        }}
+                      >
+                        {activeTask === task.name ? (
+                          <IoIosArrowUp size={20} />
+                        ) : (
+                          <IoIosArrowDown size={20} />
+                        )}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-[8px] text-[#8E8E8E] relative">
-                    <div
-                      className="h-[32px] w-[32px] bg-[#1E1F23] rounded-full flex items-center justify-center"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCopyLink(task.name);
-                      }}
-                    >
-                      <AiOutlineLink size={20} />
-                    </div>
-                    {activeModal === task.name && (
-                      <p className="absolute top-9 right-4 bg-black text-white rounded-[9px] px-[10px] py-[7px] shadow-lg w-[125px] flex items-center justify-center">
-                        Link copied
-                      </p>
+                  <div>
+                    {activeTask === task.name && (
+                      <div className="mt-3 px-[16px] flex flex-col gap-[16px]">
+                        <p className="text-[14px] leading-[16px] text-[#9A9A9A] font-semibold">
+                          1 attachment
+                        </p>
+                        <p className="text-[15px] leading-[21px]">Step 1.</p>
+                        <p className="text-[15px] leading-[21px]">
+                          Cytonic is a multi-EVM Layer 1 blockchain with
+                          multiple virtual machines that aims to integrate
+                          networks such as{" "}
+                          <span className="text-[#CBFF51]">Bitcoin</span>,
+                          Ethereum and Solana into a single Layer 1 solution.{" "}
+                        </p>
+                        <Image
+                          src={blogDesc}
+                          alt="Blog Description"
+                          className="px-[0] sm:px-[50px] my-[20px]"
+                        />
+                        <p className="text-[15px] leading-[21px]">Step 2.</p>
+                        <p className="text-[15px] leading-[21px]">
+                          Cytonic is a multi-EVM Layer 1 blockchain with
+                          multiple virtual machines that aims to integrate
+                          networks such as{" "}
+                          <span className="text-[#CBFF51]">Bitcoin</span>,
+                          Ethereum and Solana into a single Layer 1 solution.{" "}
+                        </p>
+                        <p className="text-[#CBFF51] text-[15px] leading-[21px]">
+                          Registration here
+                        </p>
+                        <div className="flex items-center gap-2 bg-[#202124] pr-[16px] pl-[10px] py-[8px] rounded-[100px] w-[180px]">
+                          <div>
+                            <FaRegFileAlt
+                              className="text-[#8E8E8E]"
+                              size={16}
+                            />
+                          </div>
+                          <p>Instructions.pdf</p>
+                        </div>
+                        <div
+                          onClick={() => toggleTask(task.name)}
+                          className={`cursor-pointer py-[12px] pl-[16px] pr-[28px] rounded-[12px] flex items-center transition-all duration-300 mb-[20px] w-[230px] ${
+                            selectedTasks.includes(task.name)
+                              ? "bg-[#1D2A19]"
+                              : "bg-[#070709]"
+                          }`}
+                        >
+                          <div className="flex items-center gap-4">
+                            <div
+                              className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                                selectedTasks.includes(task.name)
+                                  ? "border-[#47572D75] bg-[#151B15]"
+                                  : "border-[#32353D]"
+                              }`}
+                            >
+                              <div
+                                className={`${selectedTasks.includes(task.name) && `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`}`}
+                              >
+                                {selectedTasks.includes(task.name) && (
+                                  <MdOutlineDone size={16} />
+                                )}
+                              </div>
+                            </div>
+                            <p
+                              className={`font-semibold text-[16px] leading-[15px] ${
+                                selectedTasks.includes(task.name)
+                                  ? "text-[#A0A8AECC]"
+                                  : "text-[#A0A8AE]"
+                              }`}
+                            >
+                              Task Completed
+                            </p>
+                          </div>
+                        </div>
+                      </div>
                     )}
-                    <div>
-                      <IoIosArrowDown size={20} />
-                    </div>
                   </div>
                 </li>
               ))}
