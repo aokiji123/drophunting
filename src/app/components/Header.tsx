@@ -35,7 +35,15 @@ export const tabs = [
 const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => {
+    if (href === "/guides") {
+      return pathname.startsWith("/guides");
+    }
+    if (href === "/blog") {
+      return pathname.startsWith("/blog");
+    }
+    return pathname === href;
+  };
   // const [language, setLanguage] = useState("en");
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
