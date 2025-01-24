@@ -42,6 +42,9 @@ const Header = () => {
     if (href === "/blog") {
       return pathname.startsWith("/blog");
     }
+    if (href === "/store") {
+      return pathname.startsWith("/store");
+    }
     return pathname === href;
   };
   // const [language, setLanguage] = useState("en");
@@ -49,7 +52,7 @@ const Header = () => {
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
   const [isNotificationsModalOpen, setIsNotificationsModalOpen] =
     useState(false);
-  //
+
   // const handleChange = (e: SelectChangeEvent) => {
   //   setLanguage(e.target.value);
   // };

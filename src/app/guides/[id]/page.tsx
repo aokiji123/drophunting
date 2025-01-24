@@ -20,6 +20,7 @@ import { GrLanguage } from "react-icons/gr";
 import { FaRegFileAlt, FaTelegramPlane } from "react-icons/fa";
 import { Slider, styled } from "@mui/material";
 import { AiOutlineLink } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 const tasks = [
   { name: "Follow Discord", minutes: "1 min" },
@@ -54,6 +55,7 @@ const marks = Array.from({ length: 6 }, (_, i) => ({
 }));
 
 const Guide = () => {
+  const router = useRouter();
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
   const [activeTask, setActiveTask] = useState<string | null>(null);
   const [percentage, setPercentage] = useState(0);
@@ -95,7 +97,10 @@ const Guide = () => {
       <Header />
 
       <main className="my-[8px] px-[20px] md:px-[96px]">
-        <button className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
+        <button
+          onClick={() => router.push("/guides")}
+          className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]"
+        >
           <IoIosArrowBack size={20} />
           <p>Back</p>
         </button>

@@ -21,7 +21,12 @@ import { tabs } from "@/shared/utils/tabs";
 
 const Profile = () => {
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => {
+    if (href === "/profile") {
+      return pathname === "/" || pathname === "/profile";
+    }
+    return pathname === href;
+  };
 
   const [language, setLanguage] = useState("🇬🇧English");
   const [time, setTime] = useState("UTC+03:00");

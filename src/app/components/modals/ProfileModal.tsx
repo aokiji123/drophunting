@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import avatar from "@/shared/assets/avatar.png";
 import ru from "@/shared/assets/icons/ru.png";
 import gb from "@/shared/assets/icons/gb.png";
+import Link from "next/link";
 
 type ProfileModalType = {
   toggleProfileModal: () => void;
@@ -88,9 +89,12 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
               className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-2 px-[12px] py-[8px]"
             >
               {tab.icon}
-              <p className="text-[16px] font-semibold leading-[20px]">
+              <Link
+                href={tab.href}
+                className="text-[16px] font-semibold leading-[20px]"
+              >
                 {tab.name}
-              </p>
+              </Link>
             </li>
           ))}
         </ul>

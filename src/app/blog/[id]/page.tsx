@@ -7,8 +7,10 @@ import Image from "next/image";
 import blog from "../../../shared/assets/blog.png";
 import blogPhoto from "../../../shared/assets/blog-photo.png";
 import { MdOutlineDone } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const Guide = () => {
+  const router = useRouter();
   const [isRead, setIsRead] = useState(false);
 
   const toggleReadState = () => {
@@ -19,9 +21,12 @@ const Guide = () => {
     <div className="bg-black text-white">
       <Header />
 
-      <main className="">
+      <main>
         <div className="pl-[30px] md:pl-[96px] mb-[30px]">
-          <button className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
+          <button
+            onClick={() => router.push("/blog")}
+            className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]"
+          >
             <IoIosArrowBack size={20} />
             <p>Back</p>
           </button>
