@@ -21,6 +21,8 @@ import { FaRegFileAlt, FaTelegramPlane } from "react-icons/fa";
 import { Slider, styled } from "@mui/material";
 import { AiOutlineLink } from "react-icons/ai";
 import { useRouter } from "next/navigation";
+import SmallChartPie from "@/shared/components/SmallChartPie";
+import HalfChartPie from "@/shared/components/HalfChartPie";
 
 const tasks = [
   { name: "Follow Discord", minutes: "1 min" },
@@ -162,10 +164,19 @@ const Guide = () => {
 
             <div className="flex items-center gap-8 xl:gap-0 xl:justify-between">
               <div className="flex flex-col items-center gap-2">
-                <p className="text-[20px] leading-[24px] font-bold">460</p>
-                <p className="text-[14px] leading-[15px] text-[#FFA025]">
-                  Good
-                </p>
+                <div className="relative">
+                  <div>
+                    <HalfChartPie />
+                  </div>
+                  <div className="absolute bottom-[25px] left-[52px] ">
+                    <div className="text-[20px] leading-[24px] font-bold z-5">
+                      460
+                    </div>
+                    <p className="text-[14px] leading-[15px] text-[#FFA025]">
+                      Good
+                    </p>
+                  </div>
+                </div>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <p className="text-[14px] leading-[16px] text-[#50535D]">
@@ -231,6 +242,7 @@ const Guide = () => {
               <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[15px] leading-[16px] font-bold">
                 <p>Free task previews on your plan</p>
                 <div className="flex items-center gap-[8px]">
+                  <SmallChartPie half />
                   <p>1/3</p>
                   <IoIosInformationCircle
                     size={20}

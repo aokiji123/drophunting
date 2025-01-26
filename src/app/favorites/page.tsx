@@ -11,6 +11,7 @@ import { Slider, styled } from "@mui/material";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import React from "react";
+import HalfChartPie from "@/shared/components/HalfChartPie";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -101,8 +102,13 @@ const Favorites = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-[24px] mt-[24px]">
-                  <div className="text-[16px] leading-[18px] font-bold">
-                    460
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
                   </div>
                   <div>
                     <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
@@ -183,8 +189,13 @@ const Favorites = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-[24px] mt-[24px]">
-                  <div className="text-[16px] leading-[18px] font-bold">
-                    460
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
                   </div>
                   <div>
                     <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
@@ -267,8 +278,13 @@ const Favorites = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-[24px] mt-[24px]">
-                  <div className="text-[16px] leading-[18px] font-bold">
-                    460
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
                   </div>
                   <div>
                     <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
@@ -349,8 +365,13 @@ const Favorites = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-[24px] mt-[24px]">
-                  <div className="text-[16px] leading-[18px] font-bold">
-                    460
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
                   </div>
                   <div>
                     <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
@@ -431,8 +452,13 @@ const Favorites = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-[24px] mt-[24px]">
-                  <div className="text-[16px] leading-[18px] font-bold">
-                    460
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
                   </div>
                   <div>
                     <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">

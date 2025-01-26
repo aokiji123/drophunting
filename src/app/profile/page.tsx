@@ -18,6 +18,7 @@ import Link from "next/link";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import Loading from "@/shared/components/Loading";
 import { tabs } from "@/shared/utils/tabs";
+import { HiMiniPencil } from "react-icons/hi2";
 
 const Profile = () => {
   const pathname = usePathname();
@@ -98,11 +99,16 @@ const Profile = () => {
           </nav>
           <section className="min-h-[1300px] w-full lg:w-[85%] bg-[--dark-gray] p-[32px] rounded-[16px]">
             <div className="flex-col flex sm:items-center sm:flex-row border-4 border-transparent">
-              <Image
-                src={avatar}
-                alt="Avatar"
-                className="w-[64px] h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] rounded-[22px]"
-              />
+              <div className="relative">
+                <Image
+                  src={avatar}
+                  alt="Avatar"
+                  className="w-[64px] h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] rounded-[22px]"
+                />
+                <div className="cursor-pointer absolute -bottom-4 -right-2 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full">
+                  <HiMiniPencil size={14} />
+                </div>
+              </div>
               <div className="py-[10px] sm:p-[24px]">
                 <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2">
                   {user?.name}

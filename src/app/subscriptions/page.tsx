@@ -17,6 +17,7 @@ import { MdOutlineDone, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
 import { CiCircleInfo } from "react-icons/ci";
 import { tabs } from "@/shared/utils/tabs";
+import SmallChartPie from "@/shared/components/SmallChartPie";
 
 enum CurrencyType {
   Fiat = "Fiat",
@@ -114,10 +115,11 @@ const Subscriptions = () => {
                 </p>
               </div>
               <div className="mt-7">
-                <div className="flex items-center gap-[20px]">
+                <div className="flex items-center gap-[10px]">
                   <p className="text-[15px] leading-[16px] font-semibold">
                     Free Views
                   </p>
+                  <SmallChartPie half />
                   <p className="text-[15px] leading-[16px] font-semibold">
                     1/2
                   </p>
