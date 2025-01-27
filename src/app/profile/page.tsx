@@ -19,8 +19,12 @@ import useAuthContext from "@/shared/hooks/useAuthContext";
 import Loading from "@/shared/components/Loading";
 import { tabs } from "@/shared/utils/tabs";
 import { HiMiniPencil } from "react-icons/hi2";
+import ru from "@/shared/assets/icons/ru.png";
+import en from "@/shared/assets/icons/en.png";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+  const { i18n } = useTranslation();
   const pathname = usePathname();
   const isActive = (href: string) => {
     if (href === "/profile") {
@@ -29,7 +33,7 @@ const Profile = () => {
     return pathname === href;
   };
 
-  const [language, setLanguage] = useState("🇬🇧English");
+  const [language, setLanguage] = useState("English");
   const [time, setTime] = useState("UTC+03:00");
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
@@ -46,7 +50,14 @@ const Profile = () => {
   const handleLanguageChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setLanguage(event.target.value);
+    const selectedLanguage = event.target.value;
+    setLanguage(selectedLanguage);
+
+    if (selectedLanguage === "English") {
+      i18n.changeLanguage("en");
+    } else if (selectedLanguage === "Russian") {
+      i18n.changeLanguage("ru");
+    }
   };
 
   const handleTimeChange = (event: {
@@ -136,9 +147,10 @@ const Profile = () => {
                 <CustomSelect
                   value={language}
                   onChange={handleLanguageChange}
+                  modal={false}
                   options={[
-                    { label: "🇬🇧 English", value: "🇬🇧English" },
-                    { label: "🇷🇺 Russian", value: "🇷🇺Russian" },
+                    { label: "English", value: "English", image: en },
+                    { label: "Russian", value: "Russian", image: ru },
                   ]}
                 />
               </div>

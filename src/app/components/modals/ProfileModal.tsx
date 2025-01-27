@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import Image from "next/image";
-import {
-  FormControl,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
 import { FaDollarSign, FaPowerOff } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { LuPercent } from "react-icons/lu";
@@ -15,8 +9,10 @@ import useAuthContext from "@/shared/hooks/useAuthContext";
 import { useRouter } from "next/navigation";
 import avatar from "@/shared/assets/avatar.png";
 import ru from "@/shared/assets/icons/ru.png";
-import gb from "@/shared/assets/icons/gb.png";
+import en from "@/shared/assets/icons/en.png";
 import Link from "next/link";
+import { CustomSelect } from "@/shared/components/CustomSelect";
+import { useTranslation } from "react-i18next";
 
 type ProfileModalType = {
   toggleProfileModal: () => void;
@@ -46,12 +42,22 @@ const tabs = [
 ];
 
 const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
-  const [language, setLanguage] = useState("en");
+  const { i18n } = useTranslation();
+  const [language, setLanguage] = useState("English");
   const { logout, user } = useAuthContext();
   const router = useRouter();
 
-  const handleChange = (e: SelectChangeEvent) => {
-    setLanguage(e.target.value);
+  const handleChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    const selectedLanguage = e.target.value;
+    setLanguage(selectedLanguage);
+
+    if (selectedLanguage === "English") {
+      i18n.changeLanguage("en");
+    } else if (selectedLanguage === "Russian") {
+      i18n.changeLanguage("ru");
+    }
   };
 
   const handleLogout = async () => {
@@ -86,7 +92,7 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
           {tabs.map((tab) => (
             <li
               key={tab.name}
-              className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-2 px-[12px] py-[8px]"
+              className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-2 px-[16px] py-[8px]"
             >
               {tab.icon}
               <Link
@@ -103,74 +109,18 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
       <div className="p-4">
         <ul className="space-y-3">
           <li className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-3">
-            <FormControl
-              fullWidth
-              sx={{
-                bgcolor: "transparent",
-                ".MuiOutlinedInput-notchedOutline": { border: "none" },
-                ".MuiSelect-select": {
-                  color: "white",
-                  fontSize: "16px",
-                  fontWeight: 600,
-                  padding: 0,
-                },
-                ".MuiSelect-icon": { color: "white" },
-                "& .MuiPaper-root": {
-                  bgcolor: "#1C1E22",
-                  color: "white",
-                  borderRadius: "8px",
-                },
-                "& .MuiMenuItem-root": {
-                  bgcolor: "#1C1E22",
-                  "&:hover": {
-                    bgcolor: "#33363A",
-                  },
-                },
-              }}
-            >
-              <Select
-                value={language}
-                onChange={handleChange}
-                inputProps={{
-                  "aria-label": "Language select",
-                }}
-                sx={{
-                  height: "40px",
-                }}
-              >
-                <MenuItem value="en">
-                  <div className="flex items-center gap-5 px-[12px] py-[8px]">
-                    <Image
-                      src={gb}
-                      alt="English"
-                      width={24}
-                      height={24}
-                      className="w-6 h-6 rounded-full"
-                    />
-                    <p className="text-[16px] font-semibold leading-[20px]">
-                      English
-                    </p>
-                  </div>
-                </MenuItem>
-                <MenuItem value="ru">
-                  <div className="flex items-center gap-5 px-[12px] py-[8px]">
-                    <Image
-                      src={ru}
-                      alt="Russian"
-                      className="w-6 h-6 rounded-full"
-                      width={24}
-                      height={24}
-                    />
-                    <p className="text-[16px] font-semibold leading-[20px]">
-                      Russian
-                    </p>
-                  </div>
-                </MenuItem>
-              </Select>
-            </FormControl>
+            <CustomSelect
+              value={language}
+              onChange={handleChange}
+              modal
+              options={[
+                { label: "English", value: "English", image: en },
+                { label: "Russian", value: "Russian", image: ru },
+              ]}
+            />
           </li>
           <li
-            className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-5 px-[12px] py-[8px]"
+            className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-5 px-[16px] py-[8px]"
             onClick={handleLogout}
           >
             <FaPowerOff size={24} />

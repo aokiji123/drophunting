@@ -13,26 +13,19 @@ import ProfileModal from "@/app/components/modals/ProfileModal";
 import BalanceModal from "@/app/components/modals/BalanceModal";
 import NotificationsModal from "@/app/components/modals/NotificationsModal";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 // import {
 //   FormControl,
 //   MenuItem,
 //   Select,
 //   SelectChangeEvent,
 // } from "@mui/material";
-// import gb from "@/shared/assets/icons/gb.png";
+// import en from "@/shared/assets/icons/en.png";
 // import ru from "@/shared/assets/icons/ru.png";
 // import { GrLanguage } from "react-icons/gr";
 
-export const tabs = [
-  { name: "Guides", href: "/guides" },
-  {
-    name: "Blog",
-    href: "/blog",
-  },
-  { name: "Store", href: "/store" },
-];
-
 const Header = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const isActive = (href: string) => {
@@ -47,6 +40,16 @@ const Header = () => {
     }
     return pathname === href;
   };
+
+  const tabs = [
+    { name: t("guides"), href: "/guides" },
+    {
+      name: t("blog"),
+      href: "/blog",
+    },
+    { name: t("store"), href: "/store" },
+  ];
+
   // const [language, setLanguage] = useState("en");
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
@@ -172,7 +175,7 @@ const Header = () => {
         <button className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
           <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-            Upgrade
+            {t("upgrade")}
           </p>
         </button>
         <div

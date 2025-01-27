@@ -1,18 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  async middleware() {
-    return [
-      {
-        source: "/auth/:path*",
-        destination: "/middleware",
-      },
-      {
-        source: "/profile",
-        destination: "/middleware",
-      },
-    ];
-  },
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;
