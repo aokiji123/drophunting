@@ -10,8 +10,8 @@ import { FaDiscord, FaInstagram } from "react-icons/fa";
 import { RiTelegram2Fill } from "react-icons/ri";
 
 import landingLogo from "../../../public/assets/landing-logo.png";
-import landingHeaderBg from "../../../public/assets/landing-header-bg.png";
-import landingFooterBg from "../../../public/assets/landing-footer-bg.png";
+import landingHeaderBg from "../../../public/assets/landing-header-bg.jpg";
+import landingFooterBg from "../../../public/assets/landing-footer-bg.jpg";
 import video from "../../../public/assets/video.png";
 import blocks from "../../../public/assets/blocks.png";
 import greenBlur from "../../../public/assets/green-blur.png";
@@ -24,7 +24,7 @@ import ethereum from "../../../public/assets/ethereum.png";
 import coin from "../../../public/assets/coin.png";
 import dollar from "../../../public/assets/dollar.png";
 import landingZenchain from "../../../public/assets/landing-zenchain.png";
-import dollarBag from "../../../public/assets/dollar-bag.png";
+import dollarBag from "../../../public/assets/dollar-bag.jpg";
 import group from "../../../public/assets/group.png";
 
 const Landing = () => {
@@ -32,7 +32,7 @@ const Landing = () => {
     <div className="bg-black text-white">
       <div className="h-[970px] overflow-hidden">
         <div
-          className="bg-cover bg-center bg-no-repeat h-[1400px]"
+          className="bg-cover bg-center bg-no-repeat h-screen"
           style={{
             backgroundImage: `url(${landingHeaderBg.src})`,
             backgroundSize: "cover",
@@ -40,7 +40,7 @@ const Landing = () => {
             backgroundRepeat: "no-repeat",
           }}
         >
-          <header className="flex justify-between items-center h-[70px] px-[24px] bg-black">
+          <header className="flex justify-between items-center h-[70px] px-[24px]">
             <Image className="w-[170px]" src={landingLogo} alt="Landing Logo" />
             <ul className="flex gap-[16px]">
               <li>
@@ -65,58 +65,81 @@ const Landing = () => {
           </header>
           <div className="p-[64px]">
             <div className="flex items-center">
-              <div className="w-[50%] flex flex-col gap-[28px]">
-                <p className="text-[14px] leading-[16px] text-[#89FF45] uppercase">
-                  Airdrop Агрегатор #1
-                </p>
-                <p className="text-[94px] leading-[86px] uppercase font-drukBold">
-                  Получайте лучшие{" "}
-                  <span className="text-[#89FF45]">AirDrop</span> первыми
-                </p>
-                <ul className="font-chakra list-none flex flex-col gap-[24px] mb-[63p] -tracking-tighter">
-                  <li className="relative flex items-center gap-[16px]">
-                    <div>
-                      <FaCheck size={18} className="text-[#ABE91A]" />
-                    </div>
-                    <p className="text-[18px] leading-[24px]">
-                      Новые дропы каждый день
-                    </p>
-                  </li>
-                  <li className="relative flex items-center gap-[16px]">
-                    <div>
-                      <FaCheck size={18} className="text-[#ABE91A]" />
-                    </div>
-                    <p className="text-[18px] leading-[24px]">
-                      А еще вот это новинки
-                    </p>
-                  </li>
-                  <li className="relative flex items-center gap-[16px]">
-                    <div>
-                      <FaCheck size={18} className="text-[#ABE91A]" />
-                    </div>
-                    <p className="text-[18px] leading-[24px]">
-                      Новинки узнавайте первыми о которых не знал никто
-                    </p>
-                  </li>
-                </ul>
-                <button className="w-[320px] bg-[#11CA00] py-[24px] px-[56px] rounded-[8px] text-[18px] leading-[18px] font-bold flex items-center justify-center">
-                  Перейти в агрегатор
-                </button>
+              <div className="w-[55%]">
+                <div className="flex flex-col gap-[28px]">
+                  <p className="text-[14px] leading-[16px] text-[#89FF45] uppercase">
+                    Airdrop Агрегатор #1
+                  </p>
+                  <p
+                    className="text-[94px] leading-[80px] uppercase font-extrabold"
+                    style={{
+                      letterSpacing: -5,
+                      wordSpacing: -5,
+                      fontFamily: '"Druk Cyr", sans-serif',
+                    }}
+                  >
+                    Получайте лучшие{" "}
+                    <span className="text-[#89FF45]">AirDrop</span> первыми
+                  </p>
+                  <ul className="font-chakra list-none flex flex-col gap-[24px] my-[40px] -tracking-tighter">
+                    <li className="relative flex items-center gap-[16px]">
+                      <div>
+                        <FaCheck size={18} className="text-[#ABE91A]" />
+                      </div>
+                      <p className="text-[18px] leading-[24px]">
+                        Новые дропы каждый день
+                      </p>
+                    </li>
+                    <li className="relative flex items-center gap-[16px]">
+                      <div>
+                        <FaCheck size={18} className="text-[#ABE91A]" />
+                      </div>
+                      <p className="text-[18px] leading-[24px]">
+                        А еще вот это новинки
+                      </p>
+                    </li>
+                    <li className="relative flex items-center gap-[16px]">
+                      <div>
+                        <FaCheck size={18} className="text-[#ABE91A]" />
+                      </div>
+                      <p className="text-[18px] leading-[24px]">
+                        Новинки узнавайте первыми о которых не знал никто
+                      </p>
+                    </li>
+                  </ul>
+                  <button className="w-[320px] bg-[#11CA00] py-[24px] px-[56px] rounded-[8px] text-[18px] leading-[18px] font-bold flex items-center justify-center">
+                    Перейти в агрегатор
+                  </button>
+                </div>
               </div>
-              <div className="w-[50%]">
+              <div className="w-[45%]">
                 <Image src={video} alt="Video" />
               </div>
             </div>
-            <div className="flex items-center gap-[14px] mt-[44px] z-5">
+            <div className="flex items-center gap-[14px] mt-[104px] z-5">
               <div className="flex flex-col gap-[16px] w-[190px]">
-                <p className="font-drukBold text-[64px] leading-[64px]">2102</p>
+                <p
+                  className="text-[64px] leading-[64px] font-extrabold"
+                  style={{
+                    fontFamily: '"Druk Cyr", sans-serif',
+                    letterSpacing: -5,
+                  }}
+                >
+                  2102
+                </p>
                 <p className="text-[#ABABAB] text-[14px] leading-[20px]">
                   Аирдропов уже прошли на Drophunting
                 </p>
               </div>
               <div className="flex flex-col gap-[16px] w-[400px]">
-                <p className="font-drukBold text-[64px] leading-[64px]">
-                  $294210391
+                <p
+                  className="text-[64px] leading-[64px] font-extrabold"
+                  style={{
+                    fontFamily: '"Druk Cyr", sans-serif',
+                    letterSpacing: -5,
+                  }}
+                >
+                  $ 294 210 391
                 </p>
                 <p className="text-[#ABABAB] text-[14px] leading-[20px]">
                   Доступная сумма выигрышей через DropHunting. Охотьтесь по
@@ -131,8 +154,12 @@ const Landing = () => {
         <div className="flex items-center gap-[45px]">
           <div className="w-[50%] flex flex-col gap-[48px] relative">
             <p
-              className="text-[80px] leading-[80px] uppercase font-extrabold" // TODO: text-[94px]
-              style={{ fontFamily: "Druk Cyr Bold" }}
+              className="text-[94px] leading-[100px] uppercase font-extrabold"
+              style={{
+                letterSpacing: -3,
+                wordSpacing: -3,
+                fontFamily: '"Druk Cyr", sans-serif',
+              }}
             >
               Выполняй задания по гайдам и зарабатывай
             </p>
@@ -144,7 +171,7 @@ const Landing = () => {
                   </div>
                 </div>
                 <p className="text-[17px] leading-[22px]">
-                  <span className="font-bold">Экономьте свое время.</span>
+                  <span className="font-bold">Экономьте свое время. </span>
                   <span>Узнавайте сразу все обновления в одном месте</span>
                 </p>
               </div>
@@ -206,7 +233,14 @@ const Landing = () => {
             <Image src={telegram} alt="Telegram" />
           </div>
           <div className="flex flex-col gap-[24px]">
-            <p className="text-[50px] leading-[50px] uppercase font-extrabold">
+            <p
+              className="text-[50px] leading-[50px] uppercase font-extrabold"
+              style={{
+                letterSpacing: -3,
+                wordSpacing: -3,
+                fontFamily: '"Druk Cyr", sans-serif',
+              }}
+            >
               Подпишись на телеграм канал
               {/* TODO: Underline */}
             </p>
@@ -226,10 +260,24 @@ const Landing = () => {
         </div>
       </div>
       <div className="px-[156px] py-[80px] relative">
-        <p className="font-druk text-[28px] leading-[75px] text-[#67F25B] text-center">
+        <p
+          className="text-[28px] leading-[75px] uppercase font-extrabold text-[#67F25B] text-center"
+          style={{
+            letterSpacing: -3,
+            wordSpacing: -3,
+            fontFamily: '"Druk Cyr", sans-serif',
+          }}
+        >
           РЕЗУЛЬТАТЫ
         </p>
-        <p className="font-drukBold font-extrabold text-[80px] leading-[80px] text-center mb-[20px]">
+        <p
+          className="font-extrabold text-[80px] leading-[80px] text-center mb-[20px]"
+          style={{
+            letterSpacing: -3,
+            wordSpacing: -3,
+            fontFamily: '"Druk Cyr", sans-serif',
+          }}
+        >
           НАГРАДЫ С ПРОШЕДШИХ ДРОПОВ
         </p>
         <p className="text-center text-[17px] leading-[24px]">
@@ -317,14 +365,30 @@ const Landing = () => {
         />
       </div>
       <div className="px-[96px] py-[80px]">
-        <p className="text-[80px] leading-[80px] font-drukBold font-bold mb-[40px]">
+        <p
+          className="text-[80px] leading-[80px] font-extrabold mb-[40px] uppercase"
+          style={{
+            letterSpacing: -3,
+            wordSpacing: -3,
+            fontFamily: '"Druk Cyr", sans-serif',
+          }}
+        >
           Как это работает
         </p>
         <div className="relative flex flex-col gap-[40px]">
           <div className="flex justify-between items-center gap-[32px]">
             <div className="flex gap-[55px]">
               <div className="h-[55px] w-[55px] bg-white text-black rounded-full flex items-center justify-center">
-                <p className="text-[28px] leading-[28px] font-drukBold">1</p>
+                <p
+                  className="text-[28px] leading-[28px] font-extrabold"
+                  style={{
+                    letterSpacing: -3,
+                    wordSpacing: -3,
+                    fontFamily: '"Druk Cyr", sans-serif',
+                  }}
+                >
+                  1
+                </p>
               </div>
               <div className="flex flex-col gap-[20px] w-[500px]">
                 <p className="text-[26px] leading-[30px] font-bold">
@@ -344,7 +408,16 @@ const Landing = () => {
           <div className="flex justify-between items-center gap-[32px]">
             <div className="flex gap-[55px]">
               <div className="h-[55px] w-[55px] bg-white text-black rounded-full flex items-center justify-center">
-                <p className="text-[28px] leading-[28px] font-drukBold">2</p>
+                <p
+                  className="text-[28px] leading-[28px] font-extrabold"
+                  style={{
+                    letterSpacing: -3,
+                    wordSpacing: -3,
+                    fontFamily: '"Druk Cyr", sans-serif',
+                  }}
+                >
+                  2
+                </p>
               </div>
               <div className="flex flex-col gap-[20px] w-[500px]">
                 <p className="text-[26px] leading-[30px] font-bold">
@@ -368,7 +441,16 @@ const Landing = () => {
           <div className="flex justify-between items-center gap-[32px]">
             <div className="flex gap-[55px]">
               <div className="h-[55px] w-[55px] bg-white text-black rounded-full flex items-center justify-center">
-                <p className="text-[28px] leading-[28px] font-drukBold">3</p>
+                <p
+                  className="text-[28px] leading-[28px] font-extrabold"
+                  style={{
+                    letterSpacing: -3,
+                    wordSpacing: -3,
+                    fontFamily: '"Druk Cyr", sans-serif',
+                  }}
+                >
+                  3
+                </p>
               </div>
               <div className="flex flex-col gap-[20px] w-[500px]">
                 <p className="text-[26px] leading-[30px] font-bold">
@@ -398,7 +480,14 @@ const Landing = () => {
       >
         <div className="w-[700px] flex flex-col gap-[64px] items-center">
           <div className="flex flex-col gap-[20px] text-center">
-            <p className="text-[80px] leading-[75px] font-drukBold font-extrabold">
+            <p
+              className="text-[80px] leading-[75px] font-extrabold uppercase"
+              style={{
+                letterSpacing: -3,
+                wordSpacing: -3,
+                fontFamily: '"Druk Cyr", sans-serif',
+              }}
+            >
               Присоединяйся к комьюнити
             </p>
             <p className="text-[17px] leading-[24px] text-center">
@@ -429,7 +518,14 @@ const Landing = () => {
         />
         <div className="flex justify-between">
           <div className="flex flex-col gap-[24]">
-            <p className="text-[50px] leading-[44px] font-druk font-bold">
+            <p
+              className="text-[40px] leading-[44px] font-extrabold uppercase"
+              style={{
+                letterSpacing: -3,
+                wordSpacing: -3,
+                fontFamily: '"Druk Cyr", sans-serif',
+              }}
+            >
               Лучшие аирдропы в мире
             </p>
             <p className="text-[14px] leading-[24px] w-[360px]">

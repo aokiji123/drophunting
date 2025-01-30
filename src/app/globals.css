@@ -3,17 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Druk Cyr';
-  src: url('/public/fonts/DrukCyr-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
+@layer utilities {
+  .font-condensed {
+    font-stretch: condensed;
+  }
 }
 
 @font-face {
-  font-family: 'Druk Cyr Bold';
-  src: url('/public/fonts/DrukCyr-Bold.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Druk Cyr';
+  src: url('/public/fonts/Druk-Medium-Trial.otf') format('woff2');
+  font-weight: 500;
   font-style: normal;
 }
 
