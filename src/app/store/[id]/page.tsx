@@ -5,7 +5,7 @@ import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoIosArrowBack, IoMdClose } from "react-icons/io";
 import Image from "next/image";
-import storePhoto from "../../../shared/assets/store-photo.png";
+import storePhoto from "../../../../public/assets/store-photo.png";
 import { useRouter } from "next/navigation";
 
 const Guide = () => {

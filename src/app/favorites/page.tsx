@@ -3,12 +3,15 @@ import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoMdTime } from "react-icons/io";
 import { IoCalendarClear } from "react-icons/io5";
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import {
+  MdFavorite,
+  MdFavoriteBorder,
+  MdOutlineKeyboardArrowRight,
+} from "react-icons/md";
 import Image from "next/image";
-import bless from "../../shared/assets/bless.png";
-import solana from "../../shared/assets/solana.png";
+import bless from "../../../public/assets/bless.png";
+import solana from "../../../public/assets/solana.png";
 import { Slider, styled } from "@mui/material";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import React from "react";
 import HalfChartPie from "@/shared/components/HalfChartPie";

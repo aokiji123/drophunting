@@ -9,9 +9,9 @@ import { CustomSwitch } from "@/shared/components/CustomSwitch";
 import { BiLogoTelegram } from "react-icons/bi";
 import { RiKey2Line } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
-import avatar from "@/shared/assets/avatar.png";
-import authenticator from "@/shared/assets/icons/authenticator.png";
-import cancel from "@/shared/assets/icons/cancel.png";
+import avatar from "../../../public/assets/avatar.png";
+import authenticator from "../../../public/assets/icons/authenticator.png";
+import cancel from "../../../public/assets/icons/cancel.png";
 import { CustomSelect } from "@/shared/components/CustomSelect";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
 import Link from "next/link";
@@ -19,8 +19,8 @@ import useAuthContext from "@/shared/hooks/useAuthContext";
 import Loading from "@/shared/components/Loading";
 import { tabs } from "@/shared/utils/tabs";
 import { HiMiniPencil } from "react-icons/hi2";
-import ru from "@/shared/assets/icons/ru.png";
-import en from "@/shared/assets/icons/en.png";
+import ru from "../../../public/assets/icons/ru.png";
+import en from "../../../public/assets/icons/en.png";
 import { useTranslation } from "react-i18next";
 
 const Profile = () => {
@@ -67,7 +67,7 @@ const Profile = () => {
   };
 
   const handleTelegramSwitchChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };

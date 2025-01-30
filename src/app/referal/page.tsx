@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-import avatar from "../../shared/assets/avatar.png";
+import avatar from "../../../public/assets/avatar.png";
 import { tabs } from "@/shared/utils/tabs";
 
 const CustomSlider = styled(Slider)({
@@ -51,7 +51,7 @@ const Referal = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [value, setValue] = useState(
-    "https:\\invitation.drophunting.io/2101024/10",
+    "https:\\invitation.drophunting.io/2101024/10"
   );
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {

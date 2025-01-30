@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import logoRectangle from "@/shared/assets/rectangle.png";
+import logoRectangle from "../../../../public/assets/rectangle.png";
 import Link from "next/link";
 
 const Footer = () => {

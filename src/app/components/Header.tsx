@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import logoRectangle from "@/shared/assets/rectangle.png";
+import logoRectangle from "../../../public/assets/rectangle.png";
 import { Badge } from "antd";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdFavoriteBorder, MdOutlineArrowDropDown } from "react-icons/md";
-import starIcon from "@/shared/assets/icons/star.png";
-import avatar from "@/shared/assets/avatar.png";
+import starIcon from "../../../public/assets/icons/star.png";
+import avatar from "../../../public/assets/avatar.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
 import ProfileModal from "@/app/components/modals/ProfileModal";
@@ -20,8 +20,8 @@ import { useTranslation } from "react-i18next";
 //   Select,
 //   SelectChangeEvent,
 // } from "@mui/material";
-// import en from "@/shared/assets/icons/en.png";
-// import ru from "@/shared/assets/icons/ru.png";
+// import en from "../../../public/assets/icons/en.png";
+// import ru from "../../../public/assets/icons/ru.png";
 // import { GrLanguage } from "react-icons/gr";
 
 const Header = () => {

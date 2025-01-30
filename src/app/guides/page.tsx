@@ -11,12 +11,12 @@ import {
   MdFavorite,
   MdFavoriteBorder,
   MdOutlineArrowDropDown,
+  MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import Image from "next/image";
-import bless from "../../shared/assets/bless.png";
-import solana from "../../shared/assets/solana.png";
+import bless from "../../../public/assets/bless.png";
+import solana from "../../../public/assets/solana.png";
 import { Slider, styled } from "@mui/material";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 

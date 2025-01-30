@@ -4,8 +4,8 @@ import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoIosArrowBack, IoMdTime } from "react-icons/io";
 import Image from "next/image";
-import blog from "../../../shared/assets/blog.png";
-import blogPhoto from "../../../shared/assets/blog-photo.png";
+import blog from "../../../../public/assets/blog.png";
+import blogPhoto from "../../../../public/assets/blog-photo.png";
 import { MdOutlineDone } from "react-icons/md";
 import { useRouter } from "next/navigation";
 
@@ -68,7 +68,10 @@ const Guide = () => {
                 }`}
               >
                 <div
-                  className={`${isRead && `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`}`}
+                  className={`${
+                    isRead &&
+                    `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
+                  }`}
                 >
                   {isRead && <MdOutlineDone size={16} />}
                 </div>
@@ -187,7 +190,10 @@ const Guide = () => {
                   }`}
                 >
                   <div
-                    className={`${isRead && `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`}`}
+                    className={`${
+                      isRead &&
+                      `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
+                    }`}
                   >
                     {isRead && <MdOutlineDone size={16} />}
                   </div>

@@ -5,7 +5,7 @@ import { IoMdTime } from "react-icons/io";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdOutlineArrowDropDown, MdOutlineDone } from "react-icons/md";
 import Image from "next/image";
-import blog from "../../shared/assets/blog.png";
+import blog from "../../../public/assets/blog.png";
 import { useState } from "react";
 
 const Blog = () => {
@@ -70,7 +70,10 @@ const Blog = () => {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((blogIndex) => (
               <div
                 key={blogIndex}
-                className={`relative ${selectedBlogs.includes(blogIndex) && `bg-black opacity-[0.5] z-0`}`}
+                className={`relative ${
+                  selectedBlogs.includes(blogIndex) &&
+                  `bg-black opacity-[0.5] z-0`
+                }`}
               >
                 <div
                   className={`max-w-[400px] min-h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300`}
@@ -108,7 +111,10 @@ const Blog = () => {
                         }`}
                       >
                         <div
-                          className={`${selectedBlogs.includes(blogIndex) && `bg-[#CBFF512E] rounded-full p-[6px]`}`}
+                          className={`${
+                            selectedBlogs.includes(blogIndex) &&
+                            `bg-[#CBFF512E] rounded-full p-[6px]`
+                          }`}
                         >
                           {selectedBlogs.includes(blogIndex) && (
                             <div>

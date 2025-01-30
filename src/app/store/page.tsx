@@ -4,7 +4,7 @@ import Footer from "@/app/components/Footer";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import Image from "next/image";
-import store from "../../shared/assets/store.png";
+import store from "../../../public/assets/store.png";
 
 const Store = () => {
   return (

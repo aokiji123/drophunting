@@ -11,8 +11,8 @@ import {
 } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import Image from "next/image";
-import zenchain from "../../../shared/assets/zenchain.png";
-import blogDesc from "../../../shared/assets/blog-desc.png";
+import zenchain from "../../../../public/assets/zenchain.png";
+import blogDesc from "../../../../public/assets/blog-desc.png";
 import { IoCalendarClear } from "react-icons/io5";
 import { MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
 import { PiXLogo } from "react-icons/pi";
@@ -79,7 +79,7 @@ const Guide = () => {
 
   const toggleTaskFromEvent = (
     e: React.MouseEvent<HTMLLIElement> | React.MouseEvent<HTMLDivElement>,
-    taskName: string,
+    taskName: string
   ) => {
     e.stopPropagation();
     toggleTask(taskName);
@@ -377,7 +377,10 @@ const Guide = () => {
                               }`}
                             >
                               <div
-                                className={`${selectedTasks.includes(task.name) && `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`}`}
+                                className={`${
+                                  selectedTasks.includes(task.name) &&
+                                  `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
+                                }`}
                               >
                                 {selectedTasks.includes(task.name) && (
                                   <MdOutlineDone size={16} />

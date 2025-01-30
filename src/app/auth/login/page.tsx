@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import Image from "next/image";
-import loginIcon from "../../../shared/assets/icons/login.png";
+import loginIcon from "../../../../public/assets/icons/login.png";
 import { useForm } from "react-hook-form";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";

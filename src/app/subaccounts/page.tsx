@@ -15,8 +15,8 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-import avatar from "../../shared/assets/avatar.png";
-import avatar2 from "../../shared/assets/avatar-2.png";
+import avatar from "../../../public/assets/avatar.png";
+import avatar2 from "../../../public/assets/avatar-2.png";
 import { tabs } from "@/shared/utils/tabs";
 import SmallChartPie from "@/shared/components/SmallChartPie";
 
@@ -24,7 +24,7 @@ const Subaccounts = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [value, setValue] = useState(
-    "https:\\invitation.drophunting.io/2101024/10",
+    "https:\\invitation.drophunting.io/2101024/10"
   );
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {

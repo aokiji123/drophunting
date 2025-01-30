@@ -2,8 +2,8 @@
 import React from "react";
 import { IoIosArrowBack } from "react-icons/io";
 import Image from "next/image";
-import logoRectangle from "@/shared/assets/rectangle.png";
-import blur from "@/shared/assets/blur.png";
+import logoRectangle from "../../../../public/assets/rectangle.png";
+import blur from "../../../../public/assets/blur.png";
 import { useRouter } from "next/navigation";
 
 const Header = () => {

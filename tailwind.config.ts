@@ -17,6 +17,8 @@ export default {
       chakra: ['"Chakra Petch"', "sans-serif"],
       plex: ['"IBM Plex Mono"', "monospace"],
       sans: ['"IBM Plex Sans"', "monospace"],
+      druk: ['"Druk Cyr"', "monospace"],
+      drukBold: ['"Druk Cyr Bold"', "monospace"],
     },
   },
   plugins: [],
