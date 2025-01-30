@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -26,13 +26,31 @@ import dollar from "../../../public/assets/dollar.png";
 import landingZenchain from "../../../public/assets/landing-zenchain.png";
 import dollarBag from "../../../public/assets/dollar-bag.jpg";
 import group from "../../../public/assets/group.png";
+import underline from "../../../public/assets/underline.png";
+import goldBitcoin from "../../../public/assets/gold-bitcoin.png";
+import goldCrypto from "../../../public/assets/gold-crypto.png";
+import greenTether from "../../../public/assets/green-tether.png";
+import {
+  MenuItem,
+  SelectChangeEvent,
+  FormControl,
+  Select,
+} from "@mui/material";
+import { GrLanguage } from "react-icons/gr";
+import { useState } from "react";
 
 const Landing = () => {
+  const [language, setLanguage] = useState("en");
+
+  const handleChange = (e: SelectChangeEvent) => {
+    setLanguage(e.target.value);
+  };
+
   return (
     <div className="bg-black text-white">
-      <div className="h-[970px] overflow-hidden">
+      <div className="xl:h-[970px] overflow-hidden">
         <div
-          className="bg-cover bg-center bg-no-repeat h-screen"
+          className="bg-black bg-cover bg-center bg-no-repeat xl:h-[1400px]"
           style={{
             backgroundImage: `url(${landingHeaderBg.src})`,
             backgroundSize: "cover",
@@ -57,21 +75,74 @@ const Landing = () => {
               </li>
             </ul>
             <div className="flex items-center gap-[16px]">
-              <p className="text-[14px] leading-[16px]">En</p>
+              <FormControl
+                sx={{
+                  bgcolor: "transparent",
+                  ".MuiOutlinedInput-notchedOutline": { border: "none" },
+                  ".MuiSelect-select": {
+                    color: "white",
+                    fontSize: "16px",
+                    fontWeight: 600,
+                    padding: 0,
+                  },
+                  ".MuiSelect-icon": { color: "white", padding: 0 },
+                  "& .MuiPaper-root": {
+                    bgcolor: "#1C1E22",
+                    color: "white",
+                    borderRadius: "8px",
+                    padding: 0,
+                  },
+                  "& .MuiMenuItem-root": {
+                    bgcolor: "#1C1E22",
+                    padding: 0,
+                    "&:hover": {
+                      bgcolor: "transparent",
+                    },
+                  },
+                }}
+              >
+                <Select
+                  value={language}
+                  onChange={handleChange}
+                  inputProps={{
+                    "aria-label": "Language select",
+                  }}
+                  sx={{
+                    height: "40px",
+                  }}
+                >
+                  <MenuItem value="en">
+                    <div className="flex items-center gap-1 py-[8px]">
+                      <GrLanguage />
+                      <p className="text-[16px] font-semibold leading-[20px]">
+                        En
+                      </p>
+                    </div>
+                  </MenuItem>
+                  <MenuItem value="ru">
+                    <div className="flex items-center gap-1 py-[8px]">
+                      <GrLanguage />
+                      <p className="text-[16px] font-semibold leading-[20px]">
+                        Ru
+                      </p>
+                    </div>
+                  </MenuItem>
+                </Select>
+              </FormControl>
               <button className="bg-[#11CA00] py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
                 Перейти в агрегатор
               </button>
             </div>
           </header>
-          <div className="p-[64px]">
-            <div className="flex items-center">
-              <div className="w-[55%]">
+          <div className="p-[16px] sm:p-[32px] md:p-[64px]">
+            <div className="flex xl:items-center flex-col xl:flex-row gap-[40px]">
+              <div className="w-full xl:w-[55%]">
                 <div className="flex flex-col gap-[28px]">
                   <p className="text-[14px] leading-[16px] text-[#89FF45] uppercase">
                     Airdrop Агрегатор #1
                   </p>
                   <p
-                    className="text-[94px] leading-[80px] uppercase font-extrabold"
+                    className="text-[54px] leading-[50px] sm:text-[70px] sm:leading-[70px] md:text-[94px] md:leading-[80px] uppercase font-extrabold"
                     style={{
                       letterSpacing: -5,
                       wordSpacing: -5,
@@ -81,7 +152,7 @@ const Landing = () => {
                     Получайте лучшие{" "}
                     <span className="text-[#89FF45]">AirDrop</span> первыми
                   </p>
-                  <ul className="font-chakra list-none flex flex-col gap-[24px] my-[40px] -tracking-tighter">
+                  <ul className="font-chakra list-none flex flex-col gap-[24px] mb-[40px] -tracking-tighter">
                     <li className="relative flex items-center gap-[16px]">
                       <div>
                         <FaCheck size={18} className="text-[#ABE91A]" />
@@ -107,19 +178,19 @@ const Landing = () => {
                       </p>
                     </li>
                   </ul>
-                  <button className="w-[320px] bg-[#11CA00] py-[24px] px-[56px] rounded-[8px] text-[18px] leading-[18px] font-bold flex items-center justify-center">
+                  <button className="w-[320px] bg-[#11CA00] py-[18px] md:py-[24px] px-[32px] md:px-[56px] rounded-[8px] text-[18px] leading-[18px] font-bold flex items-center justify-center">
                     Перейти в агрегатор
                   </button>
                 </div>
               </div>
-              <div className="w-[45%]">
+              <div className="max-w-[600px] xl:w-[45%]">
                 <Image src={video} alt="Video" />
               </div>
             </div>
-            <div className="flex items-center gap-[14px] mt-[104px] z-5">
+            <div className="flex md:items-center flex-col md:flex-row gap-[14px] mt-[40px] xl:mt-[64px] z-5">
               <div className="flex flex-col gap-[16px] w-[190px]">
                 <p
-                  className="text-[64px] leading-[64px] font-extrabold"
+                  className="text-[48px] leading-[48px] md:text-[64px] md:leading-[64px] font-extrabold"
                   style={{
                     fontFamily: '"Druk Cyr", sans-serif',
                     letterSpacing: -5,
@@ -133,7 +204,7 @@ const Landing = () => {
               </div>
               <div className="flex flex-col gap-[16px] w-[400px]">
                 <p
-                  className="text-[64px] leading-[64px] font-extrabold"
+                  className="text-[48px] leading-[48px] md:text-[64px] md:leading-[64px] font-extrabold"
                   style={{
                     fontFamily: '"Druk Cyr", sans-serif',
                     letterSpacing: -5,
@@ -150,20 +221,18 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[96px] py-[80px] overflow-hidden flex flex-col gap-[80px]">
-        <div className="flex items-center gap-[45px]">
-          <div className="w-[50%] flex flex-col gap-[48px] relative">
+      <div className="px-[24px] md:px-[64px] lg:px-[96px] py-[80px] overflow-hidden flex flex-col gap-[80px]">
+        <div className="flex items-center flex-col xl:flex-row gap-[45px]">
+          <div className="w-full xl:w-[50%] flex flex-col gap-[48px] relative">
             <p
-              className="text-[94px] leading-[100px] uppercase font-extrabold"
+              className="text-[32px] md:text-[64px] xl:text-[80px] md:leading-[64px] xl:leading-[90px] uppercase font-extrabold"
               style={{
-                letterSpacing: -3,
-                wordSpacing: -3,
                 fontFamily: '"Druk Cyr", sans-serif',
               }}
             >
               Выполняй задания по гайдам и зарабатывай
             </p>
-            <div className="w-[500px] flex flex-col gap-[40px]">
+            <div className="max-w-[500px] flex flex-col gap-[40px]">
               <div className="flex gap-[23px]">
                 <div>
                   <div className="flex items-center justify-center w-[44px] h-[44px] bg-gradient-to-b from-[#0D0F14] to-[#1E4413] rounded-xl border-[1px] border-[#2E432B8C] text-[#C2FF89]">
@@ -206,13 +275,13 @@ const Landing = () => {
                 </p>
               </div>
             </div>
+          </div>
+          <div className="w-full xl:w-[50%] relative">
             <Image
               src={arrow}
               alt="Arrow"
-              className="absolute top-[-50px] right-[-50px] w-[100px] h-[100px]"
+              className="absolute top-[50px] left-0 xl:top-[-50px] xl:left-[-50px] w-[70px] h-[70px] md:w-[100px] md:h-[100px]"
             />
-          </div>
-          <div className="w-[50%]">
             <div className="relative">
               <Image
                 src={greenBlur}
@@ -228,22 +297,27 @@ const Landing = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-[24px] bg-[#131721] rounded-[24px] h-[280px] overflow-hidden">
-          <div className="w-[40%]">
+        <div className="flex items-center flex-col xl:flex-row xl:gap-[24px] bg-[#131721] rounded-[24px] xl:h-[280px] overflow-hidden pt-0 xl:pt-[24px] p-[24px]">
+          <div className="md:w-[50%]">
             <Image src={telegram} alt="Telegram" />
           </div>
           <div className="flex flex-col gap-[24px]">
-            <p
-              className="text-[50px] leading-[50px] uppercase font-extrabold"
-              style={{
-                letterSpacing: -3,
-                wordSpacing: -3,
-                fontFamily: '"Druk Cyr", sans-serif',
-              }}
-            >
-              Подпишись на телеграм канал
-              {/* TODO: Underline */}
-            </p>
+            <div className="relative">
+              <p
+                className="text-[42px] leading-[42px] xl:text-[50px] xl:leading-[50px] uppercase font-extrabold border-t-[1px] border-[#289BFF17] pt-[24px] xl:border-none xl:pt-0"
+                style={{
+                  letterSpacing: -3,
+                  fontFamily: '"Druk Cyr", sans-serif',
+                }}
+              >
+                Подпишись на телеграм канал
+              </p>
+              {/* <Image
+                src={underline}
+                alt="Underline"
+                className="block xl:hidden w-[400px] absolute top-[80px] right-[20px]"
+              /> */}
+            </div>
             <p className="text-[17px] leading-[20px]">
               Каждый день новые дропы. Подпишись и будь в курсе последних
               обновлений в проектах
@@ -259,7 +333,7 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[156px] py-[80px] relative">
+      <div className="px-[156px] py-[80px] relative z-10">
         <p
           className="text-[28px] leading-[75px] uppercase font-extrabold text-[#67F25B] text-center"
           style={{
@@ -285,11 +359,17 @@ const Landing = () => {
           гарантированные вознаграждения
         </p>
 
-        <div className="mt-[50px] flex flex-wrap justify-center items-center gap-[25px] z-10 relative">
+        <div className="relative z-0 mt-[50px] flex flex-wrap justify-center items-center gap-[25px]">
+          <Image
+            className="absolute top-[-100px] left-[-400px] h-[900px] z-[-10] rotate-180"
+            src={greenBlur}
+            alt="Green Blur"
+          />
+
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((el) => (
             <div
               key={el}
-              className="w-[360px] bg-[#1F2027AB] rounded-[16px] p-[26px]"
+              className="w-[360px] bg-[#1F2027AB] rounded-[16px] p-[26px] z-10 relative"
             >
               <div className="flex items-center gap-[24px] mb-[24px]">
                 <div className="w-[50px] h-[50px] rounded-[10px]">
@@ -324,11 +404,7 @@ const Landing = () => {
               </div>
             </div>
           ))}
-          <Image
-            className="absolute top-[-100px] left-[-400px] h-[900px] z-0 rotate-180"
-            src={greenBlur}
-            alt="Green Blur"
-          />
+
           <Image
             className="absolute top-[-70px] left-[30px] w-[100px] h-[100px]"
             src={bitcoin}
@@ -365,112 +441,72 @@ const Landing = () => {
         />
       </div>
       <div className="px-[96px] py-[80px]">
-        <p
-          className="text-[80px] leading-[80px] font-extrabold mb-[40px] uppercase"
-          style={{
-            letterSpacing: -3,
-            wordSpacing: -3,
-            fontFamily: '"Druk Cyr", sans-serif',
-          }}
-        >
-          Как это работает
-        </p>
         <div className="relative flex flex-col gap-[40px]">
-          <div className="flex justify-between items-center gap-[32px]">
-            <div className="flex gap-[55px]">
-              <div className="h-[55px] w-[55px] bg-white text-black rounded-full flex items-center justify-center">
-                <p
-                  className="text-[28px] leading-[28px] font-extrabold"
-                  style={{
-                    letterSpacing: -3,
-                    wordSpacing: -3,
-                    fontFamily: '"Druk Cyr", sans-serif',
-                  }}
-                >
-                  1
-                </p>
+          {[
+            {
+              number: "1",
+              title: "Проекты публикуют дроп, а вы следите за ними",
+              description:
+                "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+              image: group,
+            },
+            {
+              number: "2",
+              title: "Проекты публикуют дроп, а вы следите за ними",
+              description:
+                "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+              image: landingZenchain,
+            },
+            {
+              number: "3",
+              title: "Зарабатывайте деньги на гарантированнх дропах",
+              description:
+                "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+              image: dollarBag,
+            },
+          ].map((item, index, array) => (
+            <div
+              key={item.number}
+              className="flex justify-between items-center gap-[32px] relative"
+            >
+              <div className="flex gap-[55px]">
+                <div className="relative flex items-center justify-center h-[55px] w-[55px] bg-white text-black rounded-full">
+                  <p
+                    className="text-[28px] leading-[28px] font-extrabold"
+                    style={{
+                      letterSpacing: -3,
+                      wordSpacing: -3,
+                      fontFamily: '"Druk Cyr", sans-serif',
+                    }}
+                  >
+                    {item.number}
+                  </p>
+                  {index !== array.length - 1 && (
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[1px] h-[480px] bg-[#424242]"></div>
+                  )}
+                </div>
+                <div className="flex flex-col gap-[20px] w-[500px]">
+                  <p className="text-[26px] leading-[30px] font-bold">
+                    {item.title}
+                  </p>
+                  <p className="text-[16px] leading-[24px] text-[#BDC0CF]">
+                    {item.description}
+                  </p>
+                </div>
               </div>
-              <div className="flex flex-col gap-[20px] w-[500px]">
-                <p className="text-[26px] leading-[30px] font-bold">
-                  Проекты публикуют дроп, а вы следите за ними
-                </p>
-                <p className="text-[16px] leading-[24px] text-[#BDC0CF]">
-                  Проекты публикуют различные дрропы которые вы можете найти в
-                  каталоге или в нашем телеграм канале. Каждый из них показан
-                  сколько требуется вложений и будет ли гарантированный дроп
-                </p>
-              </div>
-            </div>
-            <div>
-              <Image src={group} alt="Group" className="w-[600px]" />
-            </div>
-          </div>
-          <div className="flex justify-between items-center gap-[32px]">
-            <div className="flex gap-[55px]">
-              <div className="h-[55px] w-[55px] bg-white text-black rounded-full flex items-center justify-center">
-                <p
-                  className="text-[28px] leading-[28px] font-extrabold"
-                  style={{
-                    letterSpacing: -3,
-                    wordSpacing: -3,
-                    fontFamily: '"Druk Cyr", sans-serif',
-                  }}
-                >
-                  2
-                </p>
-              </div>
-              <div className="flex flex-col gap-[20px] w-[500px]">
-                <p className="text-[26px] leading-[30px] font-bold">
-                  Проекты публикуют дроп, а вы следите за ними
-                </p>
-                <p className="text-[16px] leading-[24px] text-[#BDC0CF]">
-                  Проекты публикуют различные дрропы которые вы можете найти в
-                  каталоге или в нашем телеграм канале. Каждый из них показан
-                  сколько требуется вложений и будет ли гарантированный дроп
-                </p>
-              </div>
-            </div>
-            <div>
-              <Image
-                src={landingZenchain}
-                alt="Zenchain"
-                className="w-[500px]"
-              />
-            </div>
-          </div>
-          <div className="flex justify-between items-center gap-[32px]">
-            <div className="flex gap-[55px]">
-              <div className="h-[55px] w-[55px] bg-white text-black rounded-full flex items-center justify-center">
-                <p
-                  className="text-[28px] leading-[28px] font-extrabold"
-                  style={{
-                    letterSpacing: -3,
-                    wordSpacing: -3,
-                    fontFamily: '"Druk Cyr", sans-serif',
-                  }}
-                >
-                  3
-                </p>
-              </div>
-              <div className="flex flex-col gap-[20px] w-[500px]">
-                <p className="text-[26px] leading-[30px] font-bold">
-                  Зарабатывайте деньги на гарантированнх дропах
-                </p>
-                <p className="text-[16px] leading-[24px] text-[#BDC0CF]">
-                  Проекты публикуют различные дрропы которые вы можете найти в
-                  каталоге или в нашем телеграм канале. Каждый из них показан
-                  сколько требуется вложений и будет ли гарантированный дроп
-                </p>
+              <div>
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  className="w-[500px]"
+                />
               </div>
             </div>
-            <div>
-              <Image src={dollarBag} alt="Dollar Bag" className="w-[500px]" />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
       <div
-        className="bg-cover bg-center bg-no-repeat h-[950px] flex items-center justify-center"
+        className="bg-cover bg-center bg-no-repeat h-[950px] flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: `url(${landingFooterBg.src})`,
           backgroundSize: "cover",
@@ -478,8 +514,8 @@ const Landing = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="w-[700px] flex flex-col gap-[64px] items-center">
-          <div className="flex flex-col gap-[20px] text-center">
+        <div className="w-[700px] flex flex-col gap-[64px] items-center relative">
+          <div className="flex flex-col gap-[20px] text-center relative">
             <p
               className="text-[80px] leading-[75px] font-extrabold uppercase"
               style={{
@@ -508,6 +544,21 @@ const Landing = () => {
               </div>
             </div>
           </div>
+          <Image
+            src={goldBitcoin}
+            alt="Gold Bitcoin"
+            className="absolute w-[115px] h-[115px] top-[-100px] left-[-200px]"
+          />
+          <Image
+            src={goldCrypto}
+            alt="Gold Crypto"
+            className="absolute w-[140px] h-[140px] bottom-[150px] right-[-300px]"
+          />
+          <Image
+            src={greenTether}
+            alt="Green Tether"
+            className="absolute w-[185px] h-[185px] top-[-300px] right-[-200px]"
+          />
         </div>
       </div>
       <footer className="bg-black h-[400px] px-[200px] pt-[56px]">
