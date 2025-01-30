@@ -26,7 +26,7 @@ import dollar from "../../../public/assets/dollar.png";
 import landingZenchain from "../../../public/assets/landing-zenchain.png";
 import dollarBag from "../../../public/assets/dollar-bag.jpg";
 import group from "../../../public/assets/group.png";
-import underline from "../../../public/assets/underline.png";
+// import underline from "../../../public/assets/underline.png";
 import goldBitcoin from "../../../public/assets/gold-bitcoin.png";
 import goldCrypto from "../../../public/assets/gold-crypto.png";
 import greenTether from "../../../public/assets/green-tether.png";
