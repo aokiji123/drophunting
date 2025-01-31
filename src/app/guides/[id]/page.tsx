@@ -101,7 +101,7 @@ const Guide = () => {
       <main className="my-[8px] px-[20px] md:px-[96px]">
         <button
           onClick={() => router.push("/guides")}
-          className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]"
+          className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]"
         >
           <IoIosArrowBack size={20} />
           <p>Back</p>
@@ -195,12 +195,12 @@ const Guide = () => {
                 machines that aims to integrate networks such as Bitcoin,
                 Ethereum and Solana into a single Layer 1 solution.
               </p>
-              <div className="flex flex-col mt-[20px]">
-                <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
-                  It focuses on enabling communication...
-                </p>
-                <p className="text-[#CBFF51] text-[14px] leading-[20px]">
-                  More
+              <div className="mt-[20px] ">
+                <p className="xl:flex xl:flex-col xl:gap-0 text-[#9A9A9A] text-[14px] leading-[20px]">
+                  It focuses on enabling communication...{" "}
+                  <span className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0">
+                    More
+                  </span>
                 </p>
               </div>
             </div>

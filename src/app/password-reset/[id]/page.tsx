@@ -18,6 +18,7 @@ const PasswordResetHandler = () => {
   const router = useRouter();
   const { newPassword: newPasswordCreation } = useAuthContext();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
@@ -28,9 +29,23 @@ const PasswordResetHandler = () => {
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    setLoading(true);
     event.preventDefault();
-    if (password) {
+    setError("");
+    setLoading(true);
+
+    if (!password || !newPassword) {
+      setError("Both fields are required.");
+      setLoading(false);
+      return;
+    }
+
+    if (password !== newPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
+    try {
       await newPasswordCreation({
         email: email as string,
         token,
@@ -38,8 +53,11 @@ const PasswordResetHandler = () => {
         password_confirmation: newPassword,
       });
       router.push("/auth/password-reset-confirmation");
-      setLoading(false);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      setError("Failed to reset password. Please try again.");
     }
+
     setLoading(false);
   };
 
@@ -47,9 +65,9 @@ const PasswordResetHandler = () => {
     <div className="bg-black mx-auto text-white min-h-screen flex flex-col overflow-hidden">
       <Header />
 
-      <main className="flex flex-col items-center justify-center text-center flex-grow">
-        <div className="flex flex-col items-center justify-center min-h-[80vh]">
-          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-[--dark-gray] rounded-xl shadow-lg border-[0.75px] border-gray-300">
+      <main className="flex flex-col items-center text-center flex-grow">
+        <div className="flex flex-col items-center min-h-[80vh] mt-[38px]">
+          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-[--dark-gray] rounded-xl bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
             <RiKey2Line size={28} className="text-[#EDEDED]" />
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">
@@ -66,22 +84,31 @@ const PasswordResetHandler = () => {
                 placeholder="New password"
                 value={password}
                 onChange={handlePasswordChange}
-                className="p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-2 focus:border-[1px] focus:border-gray-500 focus:outline-none"
+                className={`p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-2 focus:border-[1px] focus:border-gray-500 focus:outline-none ${
+                  error
+                    ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
+                    : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
+                }`}
               />
               <input
                 type="password"
                 placeholder="Repeat new password"
                 value={newPassword}
                 onChange={handleNewPasswordChange}
-                className="p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-4 focus:border-[1px] focus:border-gray-500 focus:outline-none"
+                className={`p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-4 focus:border-[1px] focus:border-gray-500 focus:outline-none ${
+                  error
+                    ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
+                    : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
+                }`}
               />
               <button
-                className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
+                className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
                 type="submit"
               >
                 {loading ? "Loading..." : "Reset password"}
               </button>
             </form>
+            {error && <p className="text-[--error] text-sm mb-4">{error}</p>}
           </div>
         </div>
       </main>

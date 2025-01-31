@@ -172,7 +172,7 @@ const Header = () => {
         {/*<button className="px-[6px] py-[4px] sm:p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">*/}
         {/*  Login*/}
         {/*</button>*/}
-        <button className="hidden sm:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
+        <button className="hidden md:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
           <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
             {t("upgrade")}
@@ -189,15 +189,16 @@ const Header = () => {
           onClick={toggleProfileModal}
           className="flex items-center cursor-pointer"
         >
-          <div className="relative w-[24px] sm:w-[28px] lg:w-[44px] h-[24px] sm:h-[28px] lg:h-[44px] rounded-full p-[1px] bg-gradient-to-b from-[#139EA5] to-[#BFFB5E]">
-            <div className="w-full h-full rounded-full overflow-hidden">
+          <div className="relative w-[28px] sm:w-[32px] lg:w-[48px] h-[28px] sm:h-[32px] lg:h-[48px] rounded-full p-[2px] bg-gradient-to-b from-[#139EA5] to-[#BFFB5E]">
+            <div className="w-full h-full rounded-full overflow-hidden bg-white">
               <Image
                 src={avatar}
                 alt="Avatar"
-                className="w-[24px] sm:w-[28px] lg:w-[44px] h-[24px] sm:h-[28px] lg:h-[44px] rounded-full"
+                className="w-full h-full rounded-full border-[2px] border-[#101114]"
               />
             </div>
           </div>
+
           <MdOutlineArrowDropDown size={20} className="p-0" />
         </div>
         <div>

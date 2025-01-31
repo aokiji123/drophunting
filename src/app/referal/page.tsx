@@ -93,7 +93,7 @@ const Referal = () => {
               </div>
               <div className="mt-4">
                 <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                  Referal
+                  Invite friends
                 </p>
                 <p className="text-[#949392] leading-[20px] w-[325px] sm:w-[450px] lg:w-[650px] mb-5">
                   Invite friends and get 20% rewards
@@ -179,7 +179,7 @@ const Referal = () => {
               <div>
                 <div className="flex items-center gap-3">
                   <p className="text-[16px] font-bold leading-[24px] -tracking-[3%]">
-                    My referals
+                    Your referals
                   </p>
                   <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
                     5

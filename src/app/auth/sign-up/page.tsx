@@ -6,7 +6,7 @@ import { FiUser } from "react-icons/fi";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form"; // Import useForm from react-hook-form
+import { useForm } from "react-hook-form";
 
 type SignUpFormData = {
   name: string;
@@ -19,7 +19,7 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignUpFormData>(); // Use react-hook-form
+  } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
   const { register: registerUser } = useAuthContext();
   const router = useRouter();
@@ -42,9 +42,9 @@ const SignUp = () => {
   return (
     <div className="bg-black mx-auto text-white min-h-screen flex flex-col overflow-hidden">
       <Header />
-      <main className="flex flex-col items-center justify-center text-center flex-grow">
-        <div className="flex flex-col items-center justify-center min-h-[80vh]">
-          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-[--dark-gray] rounded-xl shadow-lg border-[0.75px] border-gray-300">
+      <main className="flex flex-col items-center text-center flex-grow">
+        <div className="flex flex-col items-center min-h-[80vh] mt-[38px]">
+          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] rounded-xl bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
             <FiUser size={28} className="text-[#EDEDED]" />
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] mt-[35px] sm:w-[375px]">
@@ -52,7 +52,7 @@ const SignUp = () => {
               Welcome to DropHunting
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
-              Get access to hundreds of airports and earn money with DropHunting
+              Get access to hundreds of airdrops and earn money with DropHunting
             </p>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -128,23 +128,23 @@ const SignUp = () => {
 
               <button
                 type="submit"
-                className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
+                className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-bold font-sans hover:bg-blue-500 hover:rounded-[10px]"
                 disabled={loading}
               >
-                {loading ? "Signing up..." : "Sign up"}
+                {loading ? "Logging in..." : "Log In"}
               </button>
 
               {serverError && (
                 <p className="text-[--error] text-sm mt-4">{serverError}</p>
               )}
 
-              <div className="flex items-center justify-center gap-4">
-                <p className="w-[70%]">Already have an account?</p>
+              <div className="flex items-center justify-center gap-4 mt-4">
+                <p>Already have an account?</p>
                 <Link
                   className="px-3 py-2 bg-[--dark-gray] font-bold rounded-xl hover:bg-blue-500 hover:rounded-[10px]"
                   href="/auth/login"
                 >
-                  Log In
+                  Sign In
                 </Link>
               </div>
             </form>

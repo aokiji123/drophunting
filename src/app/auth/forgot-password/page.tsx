@@ -11,19 +11,38 @@ const ForgotPassword = () => {
   const router = useRouter();
   const { sendPasswordResetLink } = useAuthContext();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    setLoading(true);
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (email) {
-      sendPasswordResetLink({ email });
-      router.push("/auth/email-confirmation");
+    setError("");
+    setLoading(true);
+
+    if (!email) {
+      setError("Email is required.");
       setLoading(false);
+      return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      await sendPasswordResetLink({ email });
+      router.push("/auth/email-confirmation");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      setError("Failed to send reset link. Please try again.");
+    }
+
     setLoading(false);
   };
 
@@ -31,9 +50,9 @@ const ForgotPassword = () => {
     <div className="bg-black mx-auto text-white min-h-screen flex flex-col overflow-hidden">
       <Header />
 
-      <main className="flex flex-col items-center justify-center text-center flex-grow">
-        <div className="flex flex-col items-center justify-center min-h-[80vh]">
-          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] bg-[--dark-gray] rounded-xl shadow-lg border-[0.75px] border-gray-300">
+      <main className="flex flex-col items-center text-center flex-grow">
+        <div className="flex flex-col items-center min-h-[80vh] mt-[38px]">
+          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] rounded-xl bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
             <RiKey2Line size={28} className="text-[#EDEDED]" />
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] mt-[35px] sm:w-[375px]">
@@ -46,17 +65,32 @@ const ForgotPassword = () => {
               allow you to choose a new one.
             </p>
 
-            <form onSubmit={handleSubmit}>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={handleEmailChange}
-                className="p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-4 focus:border-[1px] focus:border-gray-500 focus:outline-none"
-              />
+            <form onSubmit={handleSubmit} className="w-full max-w-[420px]">
+              <div className="mb-4">
+                <input
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
+                    error
+                      ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
+                      : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
+                  }`}
+                  aria-invalid={!!error}
+                  aria-describedby="email-error"
+                  autoComplete="off"
+                />
+                {error && (
+                  <p id="email-error" className="text-[--error] text-xs mt-1">
+                    {error}
+                  </p>
+                )}
+              </div>
+
               <button
-                className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
+                className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-sans mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
                 type="submit"
+                disabled={loading}
               >
                 {loading ? "Loading..." : "Email password reset link"}
               </button>

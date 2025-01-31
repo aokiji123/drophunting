@@ -68,15 +68,14 @@ const Blog = () => {
 
           <div className="flex flex-wrap gap-[16px] sm:gap-[28px] items-center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((blogIndex) => (
-              <div
-                key={blogIndex}
-                className={`relative ${
-                  selectedBlogs.includes(blogIndex) &&
-                  `bg-black opacity-[0.5] z-0`
-                }`}
-              >
+              <div key={blogIndex} className="relative">
+                {/* 🔥 Correct Overlay: Keeps opacity but doesn't affect the check button */}
+                {selectedBlogs.includes(blogIndex) && (
+                  <div className="absolute inset-0 bg-black opacity-50 z-10 pointer-events-none"></div>
+                )}
+
                 <div
-                  className={`max-w-[400px] min-h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300`}
+                  className="relative max-w-[400px] min-h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300"
                   onClick={() => toggleBlogSelection(blogIndex)}
                 >
                   <Image src={blog} alt="Blog" className="w-full" />
@@ -96,18 +95,20 @@ const Blog = () => {
                       The Fuel Genesis Drop gives 1 billion FUEL (10% of the
                       total supply) to more than 200,000 unique addresses
                     </p>
-                    <div className="flex items-center justify-between mt-[15px]">
+                    <div className="flex items-center justify-between mt-[15px] relative">
                       <div className="text-[#A0A8AE] flex items-center bg-[#0D0E0F] px-[8px] py-[6px] rounded-[6px] gap-1">
                         <IoMdTime size={12} />
                         <p className="text-[13px] leading-[16px] font-semibold">
                           10 min
                         </p>
                       </div>
+
+                      {/* ✅ Always on top, even when selected */}
                       <div
-                        className={`w-[40px] h-[40px] min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 cursor-pointer z-20 ${
+                        className={`w-[40px] h-[40px] min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 bg-[#101114] cursor-pointer z-20 relative ${
                           selectedBlogs.includes(blogIndex)
                             ? "border-[1px] border-[#47572D75] bg-[#000] text-[#CBFF51]"
-                            : "border-gray-700"
+                            : "border-[#2A2D33] border-[1px]"
                         }`}
                       >
                         <div

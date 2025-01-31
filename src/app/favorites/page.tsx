@@ -11,6 +11,7 @@ import {
 import Image from "next/image";
 import bless from "../../../public/assets/bless.png";
 import solana from "../../../public/assets/solana.png";
+import retrodrops from "../../../public/assets/retrodrops.png";
 import { Slider, styled } from "@mui/material";
 import { GoDotFill } from "react-icons/go";
 import React from "react";
@@ -67,7 +68,11 @@ const Favorites = () => {
                       Free
                     </p>
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         Retrodrops
                       </p>
@@ -154,7 +159,11 @@ const Favorites = () => {
                       Free
                     </p>
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         Retrodrops
                       </p>
@@ -243,7 +252,11 @@ const Favorites = () => {
                       Free
                     </p>
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         Retrodrops
                       </p>
@@ -330,7 +343,11 @@ const Favorites = () => {
                       Free
                     </p>
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         Retrodrops
                       </p>
@@ -417,7 +434,11 @@ const Favorites = () => {
                       Free
                     </p>
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         Retrodrops
                       </p>

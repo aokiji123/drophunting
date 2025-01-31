@@ -16,6 +16,7 @@ export default {
     fontFamily: {
       chakra: ['"Chakra Petch"', "sans-serif"],
       plex: ['"IBM Plex Mono"', "monospace"],
+      sans: '"IBM PLex Sans", "monospace"',
     },
   },
   plugins: [],

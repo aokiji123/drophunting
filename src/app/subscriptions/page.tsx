@@ -26,8 +26,8 @@ enum CurrencyType {
 
 const plans = [
   { name: "Quarterly", days: 90, price: 129, monthlyCost: 43 },
-  { name: "Half year", days: 180, price: 229, monthlyCost: 30 },
-  { name: "Year", days: 365, price: 329, monthlyCost: 27 },
+  { name: "Half year", days: 180, price: 229, monthlyCost: 30, margin: true },
+  { name: "Year", days: 365, price: 329, monthlyCost: 27, margin: true },
   { name: "New year", days: 45, price: 59, monthlyCost: 0 },
 ];
 
@@ -126,7 +126,7 @@ const Subscriptions = () => {
                 </div>
                 <button
                   onClick={toggleModal}
-                  className="h-[44px] bg-[--green] px-[14px] py-[20px] font-bold leading-[16px] tracking-[-1%] rounded-[12px] flex items-center justify-center mt-[40px] my-[60px]"
+                  className="h-[44px] bg-[--green] px-[14px] py-[20px] font-sans font-bold leading-[16px] tracking-[-1%] rounded-[12px] flex items-center justify-center mt-[40px] my-[60px]"
                 >
                   See plans
                 </button>
@@ -208,7 +208,7 @@ const Subscriptions = () => {
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="h-[750px] overflow-y-scroll sm:h-[930px] w-[96%] xl:w-[1040px] xl:h-[800px] bg-[#1C1E22] p-6 rounded-[16px] shadow-lg flex flex-col xl:flex-row gap-[10px] xl:gap-[72px] relative sm:overflow-auto">
                 <button
-                  className="top-10 absolute sm:top-5 right-5"
+                  className="absolute top-5 right-5"
                   onClick={toggleModal}
                 >
                   <IoMdClose
@@ -216,12 +216,12 @@ const Subscriptions = () => {
                     className="hover:text-[#9EA0A6] cursor-pointer"
                   />
                 </button>
-                <div className="py-[20px] sm:p-0 w-[100%] flex flex-col gap-[20px] xl:w-[450px]">
+                <div className="py-[10px] sm:p-0 w-[100%] flex flex-col gap-[12px] md:gap-[20px] xl:w-[450px]">
                   <p className="text-[#CBFF51] leading-[20px]">Plans</p>
                   <p className="font-bold text-[22px] xl:text-[24px] sm:text-[26px] leading-[36px] -tracking-[3%] w-[330px]">
                     Get Unlimited Access to the Site Materials
                   </p>
-                  <p className="font-semibold leading-[20px] text-[#949392]  xl:w-[450px]">
+                  <p className="font-semibold text-[13px] leading-[20px] text-[#949392] xl:w-[450px]">
                     You will also receive an invitation to a private channel and
                     access.
                   </p>
@@ -274,7 +274,11 @@ const Subscriptions = () => {
                               <MdOutlineDone size={20} />
                             )}
                           </div>
-                          <div className="flex flex-col sm:flex-row items-center sm:gap-[12px]">
+                          <div
+                            className={`flex flex-col sm:flex-row items-center justify-between sm:gap-[12px] ${
+                              plan.margin ? `w-[170px]` : `w-[162px]`
+                            }`}
+                          >
                             <p className="font-bold">{plan.name}</p>
                             <p className="text-[#8E8E8E]">{plan.days} days</p>
                           </div>
@@ -298,7 +302,7 @@ const Subscriptions = () => {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-[25px]">
+                  {/* <div className="mt-[25px]">
                     <p className="mb-1 leading-[16px] font-semibold">Cupon</p>
                     <div className="flex items-center gap-2">
                       <input
@@ -309,14 +313,14 @@ const Subscriptions = () => {
                         Done
                       </button>
                     </div>
-                  </div>
+                  </div> */}
 
                   <hr className="my-[20px] sm:my-[45px] border-0 h-px bg-[#27292D]" />
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col gap-1">
-                      <p className="leading-[20px] font-semibold">Amount Due</p>
-                      <p className="text-[24px] leading-[28px] font-bold">
+                  <div className="flex items-center justify-between md:h-[45px]">
+                    <div className="flex flex-col gap-[2px]">
+                      <p className="leading-[20px]">Amount Due</p>
+                      <p className="text-[20px] leading-[24px] md:text-[24px] md:leading-[28px] font-bold">
                         $129
                       </p>
                     </div>
@@ -325,7 +329,7 @@ const Subscriptions = () => {
                     {/*  <MdOutlineKeyboardArrowRight />*/}
                     {/*</button>*/}
                     <button
-                      className="flex items-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px]"
+                      className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center"
                       onClick={toggleInnerModal}
                     >
                       Top Up balance
