@@ -212,8 +212,8 @@ const Profile = () => {
                 <p className="text-[20px] font-bold leading-[16px] mb-6">
                   Security
                 </p>
-                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[600px]">
-                  <div className="flex gap-4 mb-3">
+                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[591px]">
+                  <div className="flex gap-2 mb-3">
                     <div>
                       <RiKey2Line
                         size={20}
@@ -234,12 +234,12 @@ const Profile = () => {
                   </button>
                 </div>
               </div>
-              <div className="mb-[40px]">
+              <div className="mb-[40px] w-[600px]">
                 <p className="text-[18px] font-bold leading-[18px] mb-6">
                   Two-Factor Authentication (2FA)
                 </p>
-                <div className="flex-col :flex-row flex :items-center :justify-between w-[600px]">
-                  <div className="mb-3 flex gap-4">
+                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[591px]">
+                  <div className="mb-3 flex gap-2">
                     <div>
                       <Image
                         src={authenticator}
@@ -249,14 +249,15 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
-                        Authenticator App
+                        Authenticator app
                       </p>
                       <p className="w-[250px] sm:w-full leading-[18px] text-[#949392]">
-                        Use your email to protect your account and transactions
+                        Use Google Authenticator to protect your account and
+                        transactions
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-row items-center gap-5">
+                  <div className="flex flex-row items-center gap-[24px]">
                     <button>
                       <div className="flex items-center gap-1 ml-[35px]">
                         <IoIosCloseCircle size={16} />

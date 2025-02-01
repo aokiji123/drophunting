@@ -206,14 +206,14 @@ const Subscriptions = () => {
             <div className="fixed inset-0 bg-black bg-opacity-40 z-40"></div>
 
             <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div className="h-[750px] overflow-y-scroll sm:h-[930px] w-[96%] xl:w-[1040px] xl:h-[800px] bg-[#1C1E22] p-6 rounded-[16px] shadow-lg flex flex-col xl:flex-row gap-[10px] xl:gap-[72px] relative sm:overflow-auto">
+              <div className="overflow-y-scroll sm:h-[896px] w-[96%] xl:w-[1040px] xl:h-[726px] bg-[#1C1E22] p-6 rounded-[16px] shadow-lg flex flex-col xl:flex-row gap-[10px] xl:gap-[72px] relative sm:overflow-auto">
                 <button
                   className="absolute top-5 right-5"
                   onClick={toggleModal}
                 >
                   <IoMdClose
                     size={24}
-                    className="hover:text-[#9EA0A6] cursor-pointer"
+                    className="text-[#8E8E8E] cursor-pointer"
                   />
                 </button>
                 <div className="py-[10px] sm:p-0 w-[100%] flex flex-col gap-[12px] md:gap-[20px] xl:w-[450px]">
@@ -275,8 +275,8 @@ const Subscriptions = () => {
                             )}
                           </div>
                           <div
-                            className={`flex flex-col sm:flex-row items-center justify-between sm:gap-[12px] ${
-                              plan.margin ? `w-[170px]` : `w-[162px]`
+                            className={`flex flex-col sm:flex-row sm:items-center justify-between sm:gap-[12px] ${
+                              plan.margin ? `sm:w-[170px]` : `sm:w-[162px]`
                             }`}
                           >
                             <p className="font-bold">{plan.name}</p>
@@ -285,7 +285,7 @@ const Subscriptions = () => {
                         </div>
                         <div>
                           {plan.monthlyCost !== 0 ? (
-                            <div className="flex flex-col sm:flex-row items-center gap-[1px] sm:gap-[12px]">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-[1px] sm:gap-[12px]">
                               <p className="text-[16px] leading-[18px] font-bold text-[#CBFF51]">
                                 ${plan.price}
                               </p>
@@ -294,7 +294,7 @@ const Subscriptions = () => {
                               </p>
                             </div>
                           ) : (
-                            <p className="text-[16px] text-left leading-[18px] font-bold text-[#CBFF51] mr-[25px] sm:mr-[95px]">
+                            <p className="text-[16px] text-left leading-[18px] font-bold text-[#CBFF51] w-[75px] sm:mr-[50px]">
                               ${plan.price}
                             </p>
                           )}
@@ -357,16 +357,16 @@ const Subscriptions = () => {
 
                   {isInnerModalOpen && (
                     <>
-                      <div className="fixed inset-0 bg-black bg-opacity-40 z-55"></div>
+                      <div className="fixed inset-0 bg-black bg-opacity-40 z-80"></div>
 
-                      <div className="absolute top-1/2 transform translate-y-1/2 sm:translate-y-0 sm:top-[60px] left-1/2 -translate-x-1/2 w-[320px] sm:w-[380px] h-[320px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
+                      <div className="absolute top-[60px] left-1/2 -translate-x-1/2 w-[351px] sm:w-[381px] h-[320px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
                         <button
                           className="top-10 absolute sm:top-5 right-5"
                           onClick={toggleInnerModal}
                         >
                           <IoMdClose
                             size={24}
-                            className="hover:text-[#9EA0A6] cursor-pointer"
+                            className="text-[#8E8E8E] cursor-pointer"
                           />
                         </button>
                         <div>
@@ -377,9 +377,9 @@ const Subscriptions = () => {
                             <p className="font-semibold leading-[16px]">
                               Currency type
                             </p>
-                            <div className="flex items-center bg-[#292B2F] rounded-full p-1 mt-2 w-[155px]">
+                            <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
                               <button
-                                className={`px-4 py-2 rounded-full text-sm font-medium ${
+                                className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
                                   selected === "Fiat"
                                     ? "bg-[#36383D] text-white"
                                     : "bg-transparent text-gray-400"
@@ -389,7 +389,7 @@ const Subscriptions = () => {
                                 Fiat
                               </button>
                               <button
-                                className={`px-4 py-2 rounded-full text-sm font-medium ${
+                                className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
                                   selected === "Crypto"
                                     ? "bg-[#36383D] text-white"
                                     : "bg-transparent text-gray-400"

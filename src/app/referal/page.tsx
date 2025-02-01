@@ -136,7 +136,7 @@ const Referal = () => {
                 </div>
               </div>
               <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full">
-                <div className="flex flex-col lg:flex-row gap-[24px]">
+                <div className="flex flex-col sm:flex-row gap-[24px]">
                   {/* <div className="flex md:items-center gap-4">
                     <IoLockClosedOutline size={24} className="text-[#8E8E8E]" />
                     <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
@@ -146,7 +146,7 @@ const Referal = () => {
                   <button className="flex items-center rounded-[12px] py-[7px] px-[10px] md:py-[14px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px]">
                     Upgrade plan
                   </button> */}
-                  <div className="lg:border-r-[1px] lg:border-[#202126] lg:pr-[24px]">
+                  <div className="lg:border-r-[1px] lg:border-[#202126] lg:pr-[24px] w-full md:w-[65%]">
                     <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
                       Send invitation link
                     </p>
@@ -154,18 +154,18 @@ const Referal = () => {
                       <input
                         onChange={handleValueChange}
                         value={value}
-                        className="bg-[#24262B] w-[350px] xl:w-[400px] p-[12px] rounded-[12px] truncate text-[14px] leading-[20px]"
+                        className="w-full bg-[#24262B] p-[12px] rounded-[12px] truncate text-[14px] leading-[20px]"
                       />
                       <button className="flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px]">
                         Copy
                       </button>
                     </div>
                   </div>
-                  <div>
-                    <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
+                  <div className="w-full md:w-[35%]">
+                    <p className="text-[13px] sm:text-[14px] w-full leading-[20px] font-bold mr-[5px]">
                       Rewards
                     </p>
-                    <div className="flex items-center lg:justify-between mt-3 gap-[20px] md:gap-[50px]">
+                    <div className="flex items-center justify-between mt-3 gap-[20px]">
                       <p className="text-[25px] leading-[28px] font-semibold">
                         $720,31
                       </p>
@@ -189,8 +189,8 @@ const Referal = () => {
                   sx={{
                     backgroundColor: "transparent",
                     overflowX: {
-                      xs: "scroll",
-                      sm: "visible",
+                      sm: "scroll",
+                      md: "visible",
                     },
                   }}
                 >

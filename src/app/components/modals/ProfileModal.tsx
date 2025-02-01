@@ -66,7 +66,7 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
   };
 
   return (
-    <div className="h-full bg-[#1C1E22] lg:relative lg:h-auto lg:w-[300px] lg:p-0 py-5 rounded-[12px] overflow-y-auto">
+    <div className="h-full bg-[#1C1E22] lg:relative lg:h-auto lg:w-[300px] lg:p-0 py-5 rounded-[12px]">
       <button
         className="block lg:hidden absolute top-3 right-3 text-white"
         onClick={toggleProfileModal}
@@ -80,8 +80,8 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
             alt="User Avatar"
             className="w-[40px] h-[40px] rounded-full"
           />
-          <div>
-            <p className="font-bold">{user?.name}</p>
+          <div className="w-[207px]">
+            <p className="font-bold truncate">{user?.name}</p>
             <p className="text-gray-400 text-sm truncate">{user?.email}</p>
           </div>
         </div>

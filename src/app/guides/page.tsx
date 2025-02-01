@@ -54,7 +54,7 @@ const Guides = () => {
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex flex-wrap items-center gap-[6px] mb-[20px] xl:mb-0">
+          <div className="flex overflow-x-scroll md:overflow-auto items-center gap-[6px] mb-[20px] xl:mb-0">
             <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
               All
             </button>

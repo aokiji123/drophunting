@@ -33,9 +33,9 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
         <p className="text-[18x] font-bold leading-[20px]">Top Up Balance</p>
         <div className="mt-5">
           <p className="font-semibold leading-[16px]">Currency type</p>
-          <div className="flex items-center bg-[#292B2F] rounded-full p-1 mt-2 w-[155px]">
+          <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
             <button
-              className={`px-4 py-2 rounded-full text-sm font-medium ${
+              className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
                 selected === "Fiat"
                   ? "bg-[#36383D] text-white"
                   : "bg-transparent text-gray-400"
@@ -45,7 +45,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
               Fiat
             </button>
             <button
-              className={`px-4 py-2 rounded-full text-sm font-medium ${
+              className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
                 selected === "Crypto"
                   ? "bg-[#36383D] text-white"
                   : "bg-transparent text-gray-400"
