@@ -86,8 +86,8 @@ const Profile = () => {
 
       <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
-          <nav className="lg:w-[15%] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-scroll w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
+          <nav className="lg:w-[240px] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
+            <ul className="no-scrollbar overflow-scroll w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
               {tabs.map((tab) => (
                 <li
                   key={tab.name}
@@ -108,8 +108,8 @@ const Profile = () => {
               ))}
             </ul>
           </nav>
-          <section className="min-h-[1300px] w-full lg:w-[85%] bg-[--dark-gray] p-[32px] rounded-[16px]">
-            <div className="flex-col flex sm:items-center sm:flex-row border-4 border-transparent">
+          <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
+            <div className="flex-col flex sm:flex-row border-4 gap-[24px] border-transparent">
               <div className="relative">
                 <Image
                   src={avatar}
@@ -120,11 +120,14 @@ const Profile = () => {
                   <HiMiniPencil size={14} />
                 </div>
               </div>
-              <div className="py-[10px] sm:p-[24px]">
-                <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2">
+
+              <div>
+                <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2 break-words max-w-[350px] md:max-w-[550px]">
                   {user?.name}
                 </p>
-                <p className="leading-[14px] text-[#8E8E8E]">{user?.email}</p>
+                <p className="leading-[14px] text-[#8E8E8E] break-words max-w-[350px] md:max-w-[550px]">
+                  {user?.email}
+                </p>
               </div>
             </div>
             <div className="w-full sm:w-[550px] mt-[32px]">
@@ -209,7 +212,7 @@ const Profile = () => {
                 <p className="text-[20px] font-bold leading-[16px] mb-6">
                   Security
                 </p>
-                <div className="flex-col lg:flex-row flex lg:items-center lg:justify-between w-[600px]">
+                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[600px]">
                   <div className="flex gap-4 mb-3">
                     <div>
                       <RiKey2Line
@@ -235,7 +238,7 @@ const Profile = () => {
                 <p className="text-[18px] font-bold leading-[18px] mb-6">
                   Two-Factor Authentication (2FA)
                 </p>
-                <div className="flex-col lg:flex-row flex lg:items-center lg:justify-between w-[600px]">
+                <div className="flex-col :flex-row flex :items-center :justify-between w-[600px]">
                   <div className="mb-3 flex gap-4">
                     <div>
                       <Image

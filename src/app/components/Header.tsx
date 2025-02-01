@@ -106,10 +106,7 @@ const Header = () => {
           onClick={toggleNotificationsModal}
           className="cursor-pointer"
         >
-          <IoMdNotificationsOutline
-            size={20}
-            className="text-white hover:text-[#9EA0A6]"
-          />
+          <IoMdNotificationsOutline size={20} className="text-[#9EA0A6]" />
         </Badge>
         {/*<FormControl*/}
         {/*  fullWidth*/}
@@ -166,7 +163,7 @@ const Header = () => {
           <MdFavoriteBorder
             onClick={() => router.push("/favorites")}
             size={20}
-            className="text-white hover:text-[#9EA0A6] cursor-pointer"
+            className="text-[#9EA0A6] cursor-pointer"
           />
         </div>
         {/*<button className="px-[6px] py-[4px] sm:p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">*/}

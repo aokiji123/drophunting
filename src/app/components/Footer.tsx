@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto py-[100px] pb-[30px]">
+    <footer className="mt-auto py-[24px] pb-[30px]">
       <div className="flex items-center justify-center text-center mb-4">
         <Image className="mr-2" src={logoRectangle} alt="Logo Rectangle" />
         <p className="font-bold text-[18px] font-chakra">Drophunting</p>

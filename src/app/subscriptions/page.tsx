@@ -176,9 +176,9 @@ const Subscriptions = () => {
                     <TableHead>
                       <TableRow>
                         <TableCell>Plan</TableCell>
-                        <TableCell align="right">Date start</TableCell>
-                        <TableCell align="right">Date end</TableCell>
-                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="left">Date start</TableCell>
+                        <TableCell align="left">Date end</TableCell>
+                        <TableCell align="left">Price</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -190,9 +190,9 @@ const Subscriptions = () => {
                         }}
                       >
                         <TableCell align="left">Quartal Plan</TableCell>
-                        <TableCell align="right">11.01.2024</TableCell>
-                        <TableCell align="right">11.04.2024</TableCell>
-                        <TableCell align="right">129$</TableCell>
+                        <TableCell align="left">11.01.2024</TableCell>
+                        <TableCell align="left">11.04.2024</TableCell>
+                        <TableCell align="left">129$</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
@@ -317,9 +317,9 @@ const Subscriptions = () => {
 
                   <hr className="my-[20px] sm:my-[45px] border-0 h-px bg-[#27292D]" />
 
-                  <div className="flex items-center justify-between md:h-[45px]">
+                  <div className="flex items-center justify-between h-[46px] md:h-[58px]">
                     <div className="flex flex-col gap-[2px]">
-                      <p className="leading-[20px]">Amount Due</p>
+                      <p className="leading-[20px]">Amount due</p>
                       <p className="text-[20px] leading-[24px] md:text-[24px] md:leading-[28px] font-bold">
                         $129
                       </p>
@@ -332,7 +332,7 @@ const Subscriptions = () => {
                       className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center"
                       onClick={toggleInnerModal}
                     >
-                      Top Up balance
+                      Top up balance
                       <MdOutlineKeyboardArrowRight />
                     </button>
                   </div>

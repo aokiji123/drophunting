@@ -48,7 +48,7 @@ const Guides = () => {
     <div className="bg-black text-white">
       <Header />
 
-      <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] md:px-[96px] md:py-[64px]">
+      <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px]">
         <p className="text-[42px] leading-[50px] font-bold">Guides</p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Celebrate your web3 journey. Complete quests and earn drops!

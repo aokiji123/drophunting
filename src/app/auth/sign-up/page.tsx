@@ -15,11 +15,7 @@ type SignUpFormData = {
 };
 
 const SignUp = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignUpFormData>();
+  const { register, handleSubmit } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
   const { register: registerUser } = useAuthContext();
   const router = useRouter();
@@ -32,9 +28,9 @@ const SignUp = () => {
       await registerUser(data);
       router.push("/profile");
       setLoading(false);
-    } catch (err) {
-      setServerError("Sign-up failed, please try again.");
-      console.error("Sign-up error:", err);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      setServerError("Sign-up failed, please try again");
       setLoading(false);
     }
   };
@@ -54,6 +50,7 @@ const SignUp = () => {
             <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
               Get access to hundreds of airdrops and earn money with DropHunting
             </p>
+
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="w-full max-w-[420px]"
@@ -62,68 +59,48 @@ const SignUp = () => {
                 <input
                   type="text"
                   placeholder="Name"
-                  {...register("name", { required: "Name is required" })}
+                  {...register("name")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    errors.name
+                    serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!errors.name}
+                  aria-invalid={!!serverError}
                   aria-describedby="name-error"
                   autoComplete="off"
                 />
-                {errors.name && (
-                  <p id="name-error" className="text-[--error] text-xs mt-1">
-                    {errors.name.message}
-                  </p>
-                )}
               </div>
 
               <div className="mb-2">
                 <input
                   type="text"
                   placeholder="Email"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    errors.email
+                    serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!errors.email}
+                  aria-invalid={!!serverError}
                   aria-describedby="email-error"
                   autoComplete="off"
                 />
-                {errors.email && (
-                  <p id="email-error" className="text-[--error] text-xs mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
               </div>
 
               <div className="mb-4">
                 <input
                   type="password"
                   placeholder="Password"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
+                  {...register("password")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    errors.password
+                    serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!errors.password}
+                  aria-invalid={!!serverError}
                   aria-describedby="password-error"
                   autoComplete="off"
                 />
-                {errors.password && (
-                  <p
-                    id="password-error"
-                    className="text-[--error] text-xs mt-1"
-                  >
-                    {errors.password.message}
-                  </p>
-                )}
               </div>
 
               <button
@@ -131,17 +108,19 @@ const SignUp = () => {
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-bold font-sans hover:bg-blue-500 hover:rounded-[10px]"
                 disabled={loading}
               >
-                {loading ? "Logging in..." : "Log In"}
+                {loading ? "Signing up..." : "Sign Up"}
               </button>
 
               {serverError && (
                 <p className="text-[--error] text-sm mt-4">{serverError}</p>
               )}
 
-              <div className="flex items-center justify-center gap-4 mt-4">
-                <p>Already have an account?</p>
+              <div className="flex items-center justify-center gap-[16px] mt-5">
+                <p className="text-[14px leading-[20px] text-[#B0B0B0]">
+                  Already have an account?
+                </p>
                 <Link
-                  className="px-3 py-2 bg-[--dark-gray] font-bold rounded-xl hover:bg-blue-500 hover:rounded-[10px]"
+                  className="bg-[--dark-gray] font-sans rounded-xl hover:bg-blue-500 hover:rounded-[10px] text-[14px] leading-[16px] font-medium w-[69px] h-[32px] flex items-center justify-center"
                   href="/auth/login"
                 >
                   Sign In
@@ -151,6 +130,7 @@ const SignUp = () => {
           </div>
         </div>
       </main>
+
       <Footer />
     </div>
   );

@@ -1,7 +1,10 @@
-import type { Metadata } from "next";
+"use client";
+// import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/shared/context/AuthContext";
+import i18n from "@/shared/i18n";
+import { I18nextProvider } from "react-i18next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +16,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Drophunting",
-};
+// export const metadata: Metadata = {
+//   title: "Drophunting",
+// };
 
 export default function RootLayout({
   children,
@@ -27,7 +30,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <I18nextProvider i18n={i18n}>
+          <AuthProvider>{children}</AuthProvider>
+        </I18nextProvider>
       </body>
     </html>
   );

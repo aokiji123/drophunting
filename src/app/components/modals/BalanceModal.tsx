@@ -24,7 +24,10 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
         className="top-10 absolute sm:top-5 right-5"
         onClick={toggleBalanceModal}
       >
-        <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer " />
+        <IoMdClose
+          size={24}
+          className="block lg:hidden hover:text-[#9EA0A6] cursor-pointer "
+        />
       </button>
       <div>
         <p className="text-[18x] font-bold leading-[20px]">Top Up Balance</p>

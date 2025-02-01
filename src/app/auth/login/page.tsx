@@ -15,11 +15,7 @@ type LoginFormData = {
 };
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>();
+  const { register, handleSubmit } = useForm<LoginFormData>();
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -70,46 +66,31 @@ const Login = () => {
                 <input
                   type="text"
                   placeholder="Email"
-                  {...register("email", { required: "Email is required" })}
+                  {...register("email")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    errors.email
+                    serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!errors.email}
+                  aria-invalid={!!serverError}
                   aria-describedby="email-error"
                   autoComplete="off"
                 />
-                {errors.email && (
-                  <p id="email-error" className="text-[--error] text-xs mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
               </div>
 
               <div className="mb-4">
                 <input
                   type="password"
                   placeholder="Password"
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
-                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none   ${
-                    errors.password
+                  {...register("password")}
+                  className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
+                    serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!errors.password}
+                  aria-invalid={!!serverError}
                   aria-describedby="password-error"
                 />
-                {errors.password && (
-                  <p
-                    id="password-error"
-                    className="text-[--error] text-xs mt-1"
-                  >
-                    {errors.password.message}
-                  </p>
-                )}
               </div>
 
               <button
@@ -130,10 +111,14 @@ const Login = () => {
               >
                 Forgot your password?
               </Link>
-              <div className="flex items-center justify-center gap-2 mt-5">
-                <p>Don&#39;t have an account?</p>
+
+              {/* Sign Up Link */}
+              <div className="flex items-center justify-center gap-[16px] mt-5">
+                <p className="text-[14px leading-[20px] text-[#B0B0B0]">
+                  Don&#39;t have an account?
+                </p>
                 <Link
-                  className="px-3 py-2 bg-[--dark-gray] font-bold rounded-xl hover:bg-blue-500 hover:rounded-[10px]"
+                  className="bg-[--dark-gray] font-sans rounded-xl hover:bg-blue-500 hover:rounded-[10px] text-[14px] leading-[16px] font-medium w-[69px] h-[32px] flex items-center justify-center"
                   href="/auth/sign-up"
                 >
                   Sign Up
