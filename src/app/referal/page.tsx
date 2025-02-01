@@ -13,6 +13,7 @@ import {
   TableRow,
   Slider,
   Box,
+  sliderClasses,
   styled,
 } from "@mui/material";
 import Link from "next/link";
@@ -22,22 +23,26 @@ import { tabs } from "@/shared/utils/tabs";
 
 const CustomSlider = styled(Slider)({
   height: 8,
-  "& .MuiSlider-track": {
+  [`& .${sliderClasses.root}`]: {
+    padding: 5,
+    margin: 0,
+  },
+  [`& .${sliderClasses.track}`]: {
     background: "linear-gradient(to right, #5af86e, #d2f21b)",
     border: "none",
     zIndex: 2,
   },
-  "& .MuiSlider-thumb": {
+  [`& .${sliderClasses.thumb}`]: {
     display: "none",
   },
-  "& .MuiSlider-rail": {
+  [`& .${sliderClasses.rail}`]: {
     opacity: 0.3,
-    backgroundColor: "#333",
+    backgroundColor: "#282A2E",
   },
-  "& .MuiSlider-mark": {
+  [`& .${sliderClasses.mark}`]: {
     height: 6,
     width: 1,
-    backgroundColor: "#777",
+    backgroundColor: "#FFFFFF17",
     zIndex: 1,
   },
 });
@@ -99,8 +104,8 @@ const Referal = () => {
                   Invite friends and get 20% rewards
                 </p>
               </div>
-              <div className="flex flex-col gap-[20px] sm:flex-row sm:items-center sm:gap-[50px]">
-                <div className="flex flex-col gap-[16px]">
+              <div className="flex gap-[20px] flex-row items-center sm:gap-[50px]">
+                <div className="flex flex-col gap-[16px] w-[96px]">
                   <p className="font-semibold leading-[20px]">Your profit</p>
                   <p className="text-[25px] leading-[28px] font-semibold">
                     20%
@@ -110,7 +115,7 @@ const Referal = () => {
                   <p className="font-semibold leading-[20px]">
                     Referals invited
                   </p>
-                  <div className="flex flex-row items-center gap-[20px]">
+                  <div className="flex flex-row items-center gap-[20px] w-full">
                     <p className="text-[25px] leading-[28px] font-semibold">
                       5
                     </p>

@@ -75,7 +75,10 @@ const Header = () => {
   return (
     <header className="relative flex items-center justify-between h-[72px] px-[12px] sm:px-8">
       <div>
-        <div className="flex items-center text-center">
+        <div
+          className="flex items-center text-center cursor-pointer"
+          onClick={() => router.push("/guides")}
+        >
           <Image className="mr-2" src={logoRectangle} alt="Logo Rectangle" />
           <p className="font-bold text-[20px] font-chakra">Drophunting</p>
         </div>
