@@ -14,7 +14,7 @@ const PasswordResetConfirmation = () => {
 
       <main className="flex flex-col items-center text-center flex-grow">
         <div className="flex flex-col items-center min-h-[80vh] mt-[38px]">
-          <div className="flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
+          <div className="flex items-center justify-center w-16 h-16 rounded-[14px] bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
             <DraftsOutlinedIcon className="w-[28px] h-[28px] text-[#EDEDED]" />
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">

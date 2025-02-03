@@ -140,8 +140,8 @@ const Referal = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full">
-                <div className="flex flex-col sm:flex-row gap-[24px]">
+              <div className="bg-[#1B1C20] sm:p-[24px] rounded-[12px] my-6 w-full border-[1px] border-[#202126]">
+                <div className="flex flex-col sm:flex-row sm:gap-[24px]">
                   {/* <div className="flex md:items-center gap-4">
                     <IoLockClosedOutline size={24} className="text-[#8E8E8E]" />
                     <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
@@ -151,7 +151,7 @@ const Referal = () => {
                   <button className="flex items-center rounded-[12px] py-[7px] px-[10px] md:py-[14px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px]">
                     Upgrade plan
                   </button> */}
-                  <div className="lg:border-r-[1px] lg:border-[#202126] lg:pr-[24px] w-full md:w-[65%]">
+                  <div className="border-b-[1px] border-[#202126] p-[24px] sm:p-0 sm:border-r-[1px] sm:border-[#202126] sm:pr-[24px] w-full md:w-[324px] lg:w-[65%]">
                     <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
                       Send invitation link
                     </p>
@@ -166,7 +166,7 @@ const Referal = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="w-full md:w-[35%]">
+                  <div className="w-full md:w-[35%] p-[24px] sm:p-0">
                     <p className="text-[13px] sm:text-[14px] w-full leading-[20px] font-bold mr-[5px]">
                       Rewards
                     </p>
@@ -182,7 +182,7 @@ const Referal = () => {
                 </div>
               </div>
               <div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 mb-[8px]">
                   <p className="text-[16px] font-bold leading-[24px] -tracking-[3%]">
                     Your referals
                   </p>
@@ -209,7 +209,7 @@ const Referal = () => {
                         fontSize: "13px",
                         lineHeight: "16px",
                         borderBottom: "1px solid #27292D",
-                        padding: "16px 8px",
+                        padding: "8px",
                         fontFamily: "IBM Plex Mono",
                       },
                       "& .MuiTableCell-body": {
@@ -217,7 +217,7 @@ const Referal = () => {
                         fontSize: "14px",
                         lineHeight: "20px",
                         borderBottom: "1px solid #27292D",
-                        padding: "16px 8px",
+                        padding: "10px 8px",
                         fontFamily: "IBM Plex Mono",
                       },
                     }}

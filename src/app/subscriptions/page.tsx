@@ -205,8 +205,8 @@ const Subscriptions = () => {
           <>
             <div className="fixed bg-black bg-opacity-40 z-40"></div>
 
-            <div className="overflow-y-scroll fixed flex items-center justify z-50">
-              <div className="overflow-y-scroll sm:h-[896px] w-[96%] xl:w-[1040px] xl:h-[726px] bg-[#1C1E22] p-6 rounded-[16px] shadow-lg flex flex-col xl:flex-row gap-[10px] xl:gap-[72px] relative sm:overflow-auto">
+            <div className="overflow-y-scroll fixed flex items-center justify-center z-50 shadow-lg">
+              <div className="overflow-scroll h-full w-[96%] xl:w-[1040px] xl:h-[726px] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col xl:flex-row xl:gap-[72px] relative sm:overflow-auto">
                 <button
                   className="absolute top-5 right-5"
                   onClick={toggleModal}

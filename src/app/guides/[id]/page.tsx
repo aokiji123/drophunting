@@ -98,7 +98,7 @@ const Guide = () => {
     <div className="bg-black text-white">
       <Header />
 
-      <main className="my-[8px] px-[20px] md:px-[96px]">
+      <main className="my-[8px] px-[20px] md:mb-[80px] md:px-[96px]">
         <button
           onClick={() => router.push("/guides")}
           className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]"
@@ -106,8 +106,8 @@ const Guide = () => {
           <IoIosArrowBack size={20} />
           <p>Back</p>
         </button>
-        <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[80px]">
-          <section className="w-full xl:w-[30%] flex flex-col gap-[24px]">
+        <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[120px]">
+          <section className="w-full xl:w-[34%] flex flex-col gap-[24px]">
             <div className="flex items-center gap-[24px]">
               <Image
                 src={zenchain}

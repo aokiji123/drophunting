@@ -54,7 +54,7 @@ const Guides = () => {
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex overflow-x-scroll md:overflow-auto items-center gap-[6px] mb-[20px] xl:mb-0">
+          <div className="flex overflow-x-scroll pb-[20px] md:overflow-auto md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
             <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
               All
             </button>
@@ -87,12 +87,12 @@ const Guides = () => {
             />
             <input
               placeholder="Search"
-              className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
+              className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-full sm:w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
             />
           </div>
         </div>
-        <div>
-          <div className="flex items-center gap-[40px] xl:justify-between">
+        <div className="min-w-[341px]">
+          <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
               112 airdrops
             </p>

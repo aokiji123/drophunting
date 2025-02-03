@@ -132,7 +132,7 @@ const Profile = () => {
             </div>
             <div className="w-full sm:w-[550px] mt-[32px]">
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Имя</p>
+                <p className="mb-1 md:mb-0 font-semibold">Name</p>
                 <input
                   readOnly
                   value="Drophunter3000"
@@ -140,13 +140,13 @@ const Profile = () => {
                 />
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Кошелек</p>
+                <p className="mb-1 md:mb-0 font-semibold">Wallet</p>
                 <p className="md:py-[12px] md:px-[16px] w-[350px]">
                   233ssjJSK...219D
                 </p>
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Язык</p>
+                <p className="mb-1 md:mb-0 font-semibold">Language</p>
                 <CustomSelect
                   value={language}
                   onChange={handleLanguageChange}

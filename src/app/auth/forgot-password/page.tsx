@@ -52,7 +52,7 @@ const ForgotPassword = () => {
 
       <main className="flex flex-col items-center text-center flex-grow">
         <div className="flex flex-col items-center min-h-[80vh] mt-[38px]">
-          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] rounded-xl bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
+          <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] rounded-[14px] bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
             <RiKey2Line size={28} className="text-[#EDEDED]" />
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] mt-[35px] sm:w-[375px]">
