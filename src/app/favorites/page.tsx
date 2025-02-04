@@ -2,10 +2,15 @@
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoMdTime } from "react-icons/io";
-import { IoCalendarClear } from "react-icons/io5";
+import {
+  IoCalendarClear,
+  IoFilterOutline,
+  IoSearchOutline,
+} from "react-icons/io5";
 import {
   MdFavorite,
   MdFavoriteBorder,
+  MdOutlineArrowDropDown,
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import Image from "next/image";
@@ -49,10 +54,29 @@ const Favorites = () => {
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
+        <div className="relative text-[#848487] mt-[40px]">
+          <IoSearchOutline
+            className="absolute top-3 left-3 cursor-pointer"
+            size={16}
+          />
+          <input
+            placeholder="Search"
+            className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
+          />
+        </div>
         <div>
-          <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
-            5 favorites
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
+              5 favorites
+            </p>
+            <div className="flex items-center gap-[5px] text-[#676A70]">
+              <IoFilterOutline size={20} />
+              <p>
+                Sort by <span className="text-white cursor-pointer">New</span>
+              </p>
+              <MdOutlineArrowDropDown className="text-white" size={20} />
+            </div>
+          </div>
           <div className="flex flex-wrap gap-[16px] lg:gap-[28px] items-center">
             <div>
               <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">

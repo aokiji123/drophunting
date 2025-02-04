@@ -33,7 +33,7 @@ const tasks = [
 ];
 
 const CustomSlider = styled(Slider)({
-  height: 8,
+  height: 6,
   "& .MuiSlider-track": {
     background: "#CBFF51",
     border: "none",
@@ -47,7 +47,8 @@ const CustomSlider = styled(Slider)({
   "& .MuiSlider-mark": {
     height: 10,
     width: 4,
-    backgroundColor: "#000",
+    backgroundColor: "#101114",
+    transform: "rotate(30deg) translateY(-3px) translateX(-5px)",
   },
 });
 
@@ -98,7 +99,7 @@ const Guide = () => {
     <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="my-[8px] px-[20px] md:mb-[80px] md:px-[96px]">
+      <main className="my-[8px] px-[16px] sm:mb-[64px] sm:px-[32px] lg:mb-[80px] lg:px-[96px]">
         <button
           onClick={() => router.push("/guides")}
           className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]"
@@ -134,29 +135,31 @@ const Guide = () => {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-[6px]">
-              <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
-                <IoMdTime size={16} />
-                <p className="text-[14px] leading-[16px] font-semibold">
-                  12 min
-                </p>
+            <div className="flex flex-col md:flex-row md:items-center justify-between xl:items-start xl:flex-col gap-[24px]">
+              <div className="flex items-center gap-[6px]">
+                <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
+                  <IoMdTime size={16} />
+                  <p className="text-[14px] leading-[16px] font-semibold">
+                    12 min
+                  </p>
+                </div>
+                <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold">
+                  Free
+                </div>
+                <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] py-[8px] px-[10px] rounded-lg h-[32px] flex items-center justify-center">
+                  <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
+                    Guaranteed drop
+                  </p>
+                </div>
               </div>
-              <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold">
-                Free
-              </div>
-              <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] py-[8px] px-[10px] rounded-lg h-[32px] flex items-center justify-center">
-                <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-                  Guaranteed drop
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-[7px]">
-              <button className="flex items-center gap-2 bg-[#11CA00] rounded-[14px] px-[20px] py-[15px] text-[16px] leading-[20px] h-[44px] justify-center font-bold">
-                <IoCalendarClear size={20} />
-                <p>Remind on Telegram</p>
-              </button>
-              <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
-                <MdFavoriteBorder size={20} />
+              <div className="flex items-center gap-[7px]">
+                <button className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
+                  <IoCalendarClear size={20} />
+                  <p>Remind on Telegram</p>
+                </button>
+                <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
+                  <MdFavoriteBorder size={20} />
+                </div>
               </div>
             </div>
 
