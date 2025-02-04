@@ -32,7 +32,7 @@ const Subaccounts = () => {
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
       <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">

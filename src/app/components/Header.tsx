@@ -172,7 +172,7 @@ const Header = () => {
         {/*<button className="px-[6px] py-[4px] sm:p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">*/}
         {/*  Login*/}
         {/*</button>*/}
-        <button className="hidden md:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
+        <button className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
           <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
             {t("upgrade")}

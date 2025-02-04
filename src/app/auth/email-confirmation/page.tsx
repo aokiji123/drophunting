@@ -3,10 +3,13 @@ import React from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
+import { useRouter } from "next/navigation";
 
 const EmailConfirmation = () => {
+  const router = useRouter();
+
   return (
-    <div className="bg-black mx-auto text-white min-h-screen flex flex-col overflow-hidden">
+    <div className="bg-[#101114] mx-auto text-white min-h-screen flex flex-col overflow-hidden">
       <Header />
 
       <main className="flex flex-col items-center text-center flex-grow">
@@ -23,6 +26,12 @@ const EmailConfirmation = () => {
               password, please follow the link provided in the message.
             </p>
           </div>
+          <button
+            className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
+            onClick={() => router.push("/auth/login")}
+          >
+            Log In
+          </button>
         </div>
       </main>
 

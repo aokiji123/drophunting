@@ -22,7 +22,7 @@ const Guide = () => {
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
       <main>

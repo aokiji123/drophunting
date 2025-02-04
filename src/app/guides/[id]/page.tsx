@@ -95,7 +95,7 @@ const Guide = () => {
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
       <main className="my-[8px] px-[20px] md:mb-[80px] md:px-[96px]">

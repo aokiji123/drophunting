@@ -9,7 +9,7 @@ const PasswordResetConfirmation = () => {
   const router = useRouter();
 
   return (
-    <div className="bg-black mx-auto text-white min-h-screen flex flex-col overflow-hidden">
+    <div className="bg-[#101114] mx-auto text-white min-h-screen flex flex-col overflow-hidden">
       <Header />
 
       <main className="flex flex-col items-center text-center flex-grow">

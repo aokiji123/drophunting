@@ -18,7 +18,7 @@ const Guide = () => {
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
       <main>
@@ -55,8 +55,8 @@ const Guide = () => {
           </p>
           <div
             onClick={toggleReadState}
-            className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] max-w-[180px] ${
-              isRead ? "bg-[#1D2A19]" : "bg-[#1a1a21]"
+            className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-[184px] h-[56px] ${
+              isRead ? "bg-[#1D2A19]" : "bg-[#070709]"
             }`}
           >
             <div className="flex items-center gap-4 max-w-[]">
@@ -177,11 +177,11 @@ const Guide = () => {
           <div className="flex items-center justify-center">
             <div
               onClick={toggleReadState}
-              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 max-w-[180px] ${
-                isRead ? "bg-[#1D2A19]" : "bg-[#1a1a21]"
+              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 w-[180px] max-h-[56px] ${
+                isRead ? "bg-[#1D2A19]" : "bg-[#070709]"
               }`}
             >
-              <div className="flex items-center gap-4 max-w-[]">
+              <div className="flex items-center gap-4">
                 <div
                   className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                     isRead

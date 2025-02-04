@@ -8,7 +8,7 @@ import store from "../../../public/assets/store.png";
 
 const Store = () => {
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
       <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] md:px-[96px] md:py-[64px]">

@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      screens: {
+        md: "769px", // Override md breakpoint
+      },
     },
     fontFamily: {
       chakra: ['"Chakra Petch"', "sans-serif"],

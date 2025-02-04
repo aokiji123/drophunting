@@ -45,10 +45,10 @@ const CustomSlider = styled(Slider)({
 
 const Guides = () => {
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px]">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px]">
         <p className="text-[42px] leading-[50px] font-bold">Guides</p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Celebrate your web3 journey. Complete quests and earn drops!
@@ -106,7 +106,7 @@ const Guides = () => {
           </div>
           <div className="flex flex-wrap gap-[16px] sm:gap-[28px] items-center">
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -197,7 +197,7 @@ const Guides = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] md:w-[396px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -290,7 +290,7 @@ const Guides = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] md:w-[396px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -381,7 +381,7 @@ const Guides = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] md:w-[396px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -472,7 +472,7 @@ const Guides = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] md:w-[396px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">

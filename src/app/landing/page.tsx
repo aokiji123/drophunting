@@ -47,10 +47,10 @@ const Landing = () => {
   };
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <div className="xl:h-[970px] overflow-hidden">
         <div
-          className="bg-black bg-cover bg-center bg-no-repeat xl:h-[1400px]"
+          className="bg-[#101114] bg-cover bg-center bg-no-repeat xl:h-[1400px]"
           style={{
             backgroundImage: `url(${landingHeaderBg.src})`,
             backgroundSize: "cover",

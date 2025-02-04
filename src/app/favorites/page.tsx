@@ -41,10 +41,10 @@ const CustomSlider = styled(Slider)({
 
 const Favorites = () => {
   return (
-    <div className="bg-black text-white">
+    <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] md:px-[96px] md:py-[64px]">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px]">
         <p className="text-[42px] leading-[50px] font-bold">Favorites</p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Celebrate your web3 journey. Complete quests and earn drops!
@@ -53,12 +53,12 @@ const Favorites = () => {
           <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
             5 favorites
           </p>
-          <div className="flex flex-wrap gap-[16px] sm:gap-[28px] items-center">
+          <div className="flex flex-wrap gap-[16px] lg:gap-[28px] items-center">
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <IoMdTime size={12} className="text-[#A0A8AE]" />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         12 min
@@ -67,7 +67,7 @@ const Favorites = () => {
                     <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                       Free
                     </p>
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <Image
                         src={retrodrops}
                         alt="Retrodrops"
@@ -146,10 +146,10 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <IoMdTime size={12} className="text-[#A0A8AE]" />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         12 min
@@ -158,7 +158,7 @@ const Favorites = () => {
                     <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                       Free
                     </p>
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <Image
                         src={retrodrops}
                         alt="Retrodrops"
@@ -228,10 +228,9 @@ const Favorites = () => {
                   <CustomSlider defaultValue={8} step={1} min={0} max={100} />
                   <p className="text-[16px] leading-[18px] font-bold">8%</p>
                 </div>
-                <div className="mt-[14px] flex items-center text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
-                  <p className="text-[13px] leading-[16px] font-semibold mr-[5px]">
-                    Last updates:{" "}
-                    <span className="text-white">10 dec 2024</span>
+                <div className="mt-[14px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
+                  <p className="text-[13px] leading-[16px] font-semibold">
+                    Last updates: 10 dec 2024
                   </p>
                   <MdOutlineKeyboardArrowRight size={20} />
                   <GoDotFill className="text-red-500" />
@@ -239,10 +238,10 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <IoMdTime size={12} className="text-[#A0A8AE]" />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         12 min
@@ -251,7 +250,7 @@ const Favorites = () => {
                     <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                       Free
                     </p>
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <Image
                         src={retrodrops}
                         alt="Retrodrops"
@@ -330,10 +329,10 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <IoMdTime size={12} className="text-[#A0A8AE]" />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         12 min
@@ -342,7 +341,7 @@ const Favorites = () => {
                     <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                       Free
                     </p>
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <Image
                         src={retrodrops}
                         alt="Retrodrops"
@@ -421,10 +420,10 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] md:w-[400px] min-h-[300px] bg-[#17181B] px-[20px] py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <IoMdTime size={12} className="text-[#A0A8AE]" />
                       <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                         12 min
@@ -433,7 +432,7 @@ const Favorites = () => {
                     <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
                       Free
                     </p>
-                    <div className="flex items-center gap-1 px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                       <Image
                         src={retrodrops}
                         alt="Retrodrops"

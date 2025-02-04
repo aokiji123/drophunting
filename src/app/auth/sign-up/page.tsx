@@ -36,7 +36,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="bg-black mx-auto text-white min-h-screen flex flex-col overflow-hidden">
+    <div className="bg-[#101114] mx-auto text-white min-h-screen flex flex-col overflow-hidden">
       <Header />
       <main className="flex flex-col items-center text-center flex-grow">
         <div className="flex flex-col items-center min-h-[80vh] mt-[38px]">
