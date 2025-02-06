@@ -12,7 +12,6 @@ import {
   TableHead,
   TableRow,
   Slider,
-  Box,
   sliderClasses,
   styled,
 } from "@mui/material";
@@ -23,8 +22,8 @@ import { tabs } from "@/shared/utils/tabs";
 
 const CustomSlider = styled(Slider)({
   height: 8,
-  [`& .${sliderClasses.root}`]: {
-    padding: 5,
+  [`&.${sliderClasses.root}`]: {
+    padding: 0,
     margin: 0,
   },
   [`& .${sliderClasses.track}`]: {
@@ -40,7 +39,7 @@ const CustomSlider = styled(Slider)({
     backgroundColor: "#282A2E",
   },
   [`& .${sliderClasses.mark}`]: {
-    height: 6,
+    height: 4,
     width: 1,
     backgroundColor: "#FFFFFF17",
     zIndex: 1,
@@ -104,8 +103,8 @@ const Referal = () => {
                   Invite friends and get 20% rewards
                 </p>
               </div>
-              <div className="flex gap-[20px] flex-row items-center sm:gap-[50px]">
-                <div className="flex flex-col gap-[16px] w-[96px]">
+              <div className="flex gap-[24px] flex-row items-center sm:gap-[36px]">
+                <div className="flex flex-col gap-[16px] min-w-[96px]">
                   <p className="font-semibold leading-[20px]">Your profit</p>
                   <p className="text-[25px] leading-[28px] font-semibold">
                     20%
@@ -115,12 +114,15 @@ const Referal = () => {
                   <p className="font-semibold leading-[20px]">
                     Referals invited
                   </p>
-                  <div className="flex flex-row items-center gap-[20px] w-full">
+                  <div className="flex flex-row items-center gap-[20px]">
                     <p className="text-[25px] leading-[28px] font-semibold">
                       5
                     </p>
-                    <Box
-                      sx={{
+                    <div
+                      style={{
+                        backgroundColor: "#232427BA",
+                        borderRadius: 100,
+                        padding: 4,
                         width: 300,
                         display: "flex",
                         alignItems: "center",
@@ -136,7 +138,7 @@ const Referal = () => {
                         min={0}
                         max={20}
                       />
-                    </Box>
+                    </div>
                   </div>
                 </div>
               </div>

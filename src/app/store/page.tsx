@@ -11,12 +11,12 @@ const Store = () => {
     <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] md:px-[96px] md:py-[64px]">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px]">
         <p className="text-[42px] leading-[50px] font-bold">Store</p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Buy new products from Drophunting and earn with us
         </p>
-        <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
+        <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-[6px] mb-[20px] xl:mb-0">
             <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
               All
@@ -28,7 +28,7 @@ const Store = () => {
               Education
             </button>
           </div>
-          <div className="relative text-[#848487]">
+          <div className="relative text-[#848487] h-[40px]">
             <IoSearchOutline
               className="absolute top-3 left-3 cursor-pointer"
               size={16}
@@ -40,7 +40,7 @@ const Store = () => {
           </div>
         </div>
         <div>
-          <div className="flex items-center gap-[40px] xl:justify-between">
+          <div className="flex items-center gap-[40px] lg:justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
               6 products
             </p>
@@ -53,11 +53,11 @@ const Store = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-[16px] sm:gap-[28px] items-center">
+          <div className="flex flex-wrap gap-[16px] lg:gap-[28px] items-center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((storeIndex) => (
               <div
                 key={storeIndex}
-                className={`max-w-[400px] min-h-[480px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300`}
+                className={`w-[340px] lg:w-[397px] min-h-[480px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden`}
               >
                 <Image src={store} alt="Store" className="w-full" />
                 <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">

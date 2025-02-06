@@ -13,11 +13,12 @@ import { GoDotFill } from "react-icons/go";
 import Image from "next/image";
 import zenchain from "../../../../public/assets/zenchain.png";
 import blogDesc from "../../../../public/assets/blog-desc.png";
+import instructions from "../../../../public/assets/document.png";
 import { IoCalendarClear } from "react-icons/io5";
 import { MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
 import { PiXLogo } from "react-icons/pi";
 import { GrLanguage } from "react-icons/gr";
-import { FaRegFileAlt, FaTelegramPlane } from "react-icons/fa";
+import { FaTelegramPlane } from "react-icons/fa";
 import { Slider, styled } from "@mui/material";
 import { AiOutlineLink } from "react-icons/ai";
 import { useRouter } from "next/navigation";
@@ -354,13 +355,12 @@ const Guide = () => {
                         <p className="text-[#CBFF51] text-[15px] leading-[21px]">
                           Registration here
                         </p>
-                        <div className="flex items-center gap-2 bg-[#202124] pr-[16px] pl-[10px] py-[8px] rounded-[100px] w-[180px]">
-                          <div>
-                            <FaRegFileAlt
-                              className="text-[#8E8E8E]"
-                              size={16}
-                            />
-                          </div>
+                        <div className="flex items-center gap-2 bg-[#202124] pr-[16px] pl-[10px] py-[8px] rounded-[100px] w-[180px] h-[32px]">
+                          <Image
+                            src={instructions}
+                            className="w-[16px] h-[16px]"
+                            alt="Instructions"
+                          />
                           <p>Instructions.pdf</p>
                         </div>
                         <div

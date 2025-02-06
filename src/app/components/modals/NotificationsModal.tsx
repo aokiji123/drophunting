@@ -14,10 +14,10 @@ const NotificationsModal = ({
   return (
     <>
       <button
-        className="block md:hidden absolute top-4 right-3 text-white"
+        className="block md:hidden absolute top-4 right-3 text-[#8E8E8E]"
         onClick={toggleNotificationsModal}
       >
-        <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
+        <IoMdClose size={24} className="cursor-pointer" />
       </button>
       <p className="text-[16px] leading-[16px] font-bold">Notifications</p>
       <div className="flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] cursor-pointer hover:text-[#9EA0A6] text-white">

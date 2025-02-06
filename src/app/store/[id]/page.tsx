@@ -185,11 +185,11 @@ const Guide = () => {
                 <div className="flex flex-col gap-2 mb-[24px]">
                   <p className="font-semibold">Your message</p>
                   <textarea
-                    className="w-full min-h-[50px] h-[160px] bg-[#292B2F] px-[16px] py-[12px] rounded-[14px]"
+                    className="w-full min-h-[50px] h-[160px] bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] resize-none"
                     placeholder="Describe your idea"
                   />
                 </div>
-                <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold text-[17px] leading-[20px]">
+                <button className="w-full font-sans flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold text-[17px] leading-[20px]">
                   Send
                 </button>
               </div>
