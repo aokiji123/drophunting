@@ -59,12 +59,12 @@ const Guide = () => {
               isRead ? "bg-[#1D2A19]" : "bg-[#070709]"
             }`}
           >
-            <div className="flex items-center gap-4 max-w-[]">
+            <div className="flex items-center gap-4">
               <div
                 className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                   isRead
                     ? "border-[#47572D75] bg-[#151B15]"
-                    : "border-[#32353D]"
+                    : "border-[#32353D] bg-[#101114]"
                 }`}
               >
                 <div

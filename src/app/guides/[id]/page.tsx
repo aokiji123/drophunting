@@ -241,8 +241,8 @@ const Guide = () => {
                 max={tasks.length}
               />
             </div>
-            <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px]">
-              <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[15px] leading-[16px] font-bold">
+            <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
+              <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
                 <p>Free task previews on your plan</p>
                 <div className="flex items-center gap-[8px]">
                   <SmallChartPie half />
@@ -253,7 +253,7 @@ const Guide = () => {
                   />
                 </div>
               </div>
-              <button className="h-[44px] bg-[#11CA00] p-[8px] sm:p-[20px] rounded-[14px] text-[16px] leading-[20px] flex items-center justify-center">
+              <button className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center">
                 Upgrade plan
               </button>
             </div>

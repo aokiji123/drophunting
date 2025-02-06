@@ -13,7 +13,7 @@ export default {
         foreground: "var(--foreground)",
       },
       screens: {
-        md: "769px", // Override md breakpoint
+        smd: "769px",
       },
     },
     fontFamily: {

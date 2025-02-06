@@ -329,7 +329,7 @@ const Subscriptions = () => {
                     {/*  <MdOutlineKeyboardArrowRight />*/}
                     {/*</button>*/}
                     <button
-                      className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center"
+                      className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
                       onClick={toggleInnerModal}
                     >
                       Top up balance
