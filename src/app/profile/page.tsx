@@ -18,9 +18,9 @@ import Link from "next/link";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import Loading from "@/shared/components/Loading";
 import { tabs } from "@/shared/utils/tabs";
-import { HiMiniPencil } from "react-icons/hi2";
 import ru from "../../../public/assets/icons/ru.png";
 import en from "../../../public/assets/icons/en.png";
+import pencil from "../../../public/assets/icons/pencil.png";
 import { useTranslation } from "react-i18next";
 
 const Profile = () => {
@@ -110,14 +110,18 @@ const Profile = () => {
           </nav>
           <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
             <div className="flex-col flex sm:flex-row border-4 gap-[24px] border-transparent">
-              <div className="relative">
+              <div className="relative w-[64px] h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] flex-shrink-0">
                 <Image
                   src={avatar}
                   alt="Avatar"
-                  className="w-[64px] relative h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] rounded-[22px]"
+                  className="w-full h-full object-cover object-center rounded-[22px]"
                 />
-                <div className="cursor-pointer absolute -bottom-4 -right-2 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full">
-                  <HiMiniPencil size={14} />
+                <div className="cursor-pointer absolute -bottom-1 -right-1 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full translate-x-1/4 translate-y-1/4">
+                  <Image
+                    src={pencil}
+                    alt="Pencil"
+                    className="w-[10px] h-[10px]"
+                  />
                 </div>
               </div>
 

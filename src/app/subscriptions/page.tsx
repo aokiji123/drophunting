@@ -203,228 +203,217 @@ const Subscriptions = () => {
           </section>
         </div>
         {isModalOpen && (
-          <>
-            <div className="fixed inset-0 bg-black bg-opacity-40 z-40"></div>
-
-            <div className="overflow-y-auto fixed flex items-center justify-center z-50 shadow-lg">
-              <div className="overflow-auto h-full w-[96%] xl:w-[1040px] xl:h-[726px] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col xl:flex-row xl:gap-[72px] relative sm:overflow-auto">
-                <button
-                  className="absolute top-5 right-5"
-                  onClick={toggleModal}
-                >
-                  <IoMdClose
-                    size={24}
-                    className="text-[#8E8E8E] cursor-pointer"
-                  />
-                </button>
-                <div className="py-[10px] sm:p-0 w-[100%] flex flex-col gap-[12px] md:gap-[20px] xl:w-[450px]">
-                  <p className="text-[#CBFF51] leading-[20px]">Plans</p>
-                  <p className="font-bold text-[22px] xl:text-[24px] sm:text-[26px] leading-[36px] -tracking-[3%]">
-                    Get Unlimited Access to the Site Materials
-                  </p>
-                  <p className="font-semibold text-[13px] leading-[20px] text-[#949392] xl:w-[450px]">
-                    You will also receive an invitation to a private channel and
-                    access.
-                  </p>
-                  <div>
-                    <div className="relative mb-5">
-                      <MdOutlineDone
-                        size={20}
-                        className="text-[#CBFF51] absolute top-0 left-0"
-                      />
-                      <p className="font-semibold leading-[20px] px-[25px]">
-                        Unlimited access to view guides
-                      </p>
-                    </div>
-                    <div className="relative">
-                      <MdOutlineDone
-                        size={20}
-                        className="text-[#CBFF51] absolute top-0 left-0"
-                      />
-                      <p className="font-semibold leading-[20px] px-[25px]">
-                        Private channel and access to a closed section with
-                        projects with maximum potential
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-[100%] bg-transparent xl:w-[450px]">
-                  <h2 className="text-[18px] leading-[20px] -tracking-[0.18px] font-bold pt-[10px] xl:pt-[36px] mb-[15px]">
-                    Select plan
-                  </h2>
-                  <ul className="flex flex-col gap-2">
-                    {plans.map((plan) => (
-                      <li
-                        key={plan.name}
-                        onClick={() => setSelectedPlan(plan.name)}
-                        className={`cursor-pointer p-4 rounded-[12px] flex justify-between items-center border-[1px] transition-all duration-300 ${
-                          selectedPlan === plan.name
-                            ? "border-[#436237] border-[1px] bg-[#1D2A19]"
-                            : "border-gray-700 hover:border-gray-500"
-                        }`}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div
-                            className={`w-[24px] h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                              selectedPlan === plan.name
-                                ? "border-[1px] border-[#73A304] bg-[#528E09]"
-                                : "border-gray-700"
-                            }`}
-                          >
-                            {selectedPlan === plan.name && (
-                              <MdOutlineDone size={20} />
-                            )}
-                          </div>
-                          <div
-                            className={`flex flex-col sm:flex-row sm:items-center justify-between sm:gap-[12px] ${
-                              plan.margin ? `sm:w-[170px]` : `sm:w-[162px]`
-                            }`}
-                          >
-                            <p className="font-bold">{plan.name}</p>
-                            <p className="text-[#8E8E8E]">{plan.days} days</p>
-                          </div>
-                        </div>
-                        <div>
-                          {plan.monthlyCost !== 0 ? (
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-[1px] sm:gap-[12px]">
-                              <p className="text-[16px] leading-[18px] font-bold text-[#CBFF51]">
-                                ${plan.price}
-                              </p>
-                              <p className="leading-[15px] text-[#8E8E8E]">
-                                ${plan.monthlyCost}/month
-                              </p>
-                            </div>
-                          ) : (
-                            <p className="text-[16px] text-left leading-[18px] font-bold text-[#CBFF51] w-[75px] sm:mr-[50px]">
-                              ${plan.price}
-                            </p>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                  {/* <div className="mt-[25px]">
-                    <p className="mb-1 leading-[16px] font-semibold">Cupon</p>
-                    <div className="flex items-center gap-2">
-                      <input
-                        className="bg-[#212226] p-2 w-[200px] rounded-[12px] placeholder:text-[14px] placeholder:leading-[20px]"
-                        placeholder="Cupon code"
-                      />
-                      <button className="bg-[#333333] px-[10px] py-[12px] text-[#A4A4A4] font-bold leading-[16px] rounded-[10px]">
-                        Done
-                      </button>
-                    </div>
-                  </div> */}
-
-                  <hr className="my-[20px] sm:my-[45px] border-0 h-px bg-[#27292D]" />
-
-                  <div className="flex items-center justify-between h-[46px] md:h-[58px]">
-                    <div className="flex flex-col gap-[2px]">
-                      <p className="leading-[20px]">Amount due</p>
-                      <p className="text-[20px] leading-[24px] md:text-[24px] md:leading-[28px] font-bold">
-                        $129
-                      </p>
-                    </div>
-                    {/*<button className="flex items-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px] text-[17px]">*/}
-                    {/*  Go to payment*/}
-                    {/*  <MdOutlineKeyboardArrowRight />*/}
-                    {/*</button>*/}
-                    <button
-                      className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
-                      onClick={toggleInnerModal}
-                    >
-                      Top up balance
-                      <MdOutlineKeyboardArrowRight />
-                    </button>
-                  </div>
-
-                  <p className="text-[#8E8E8E] leading-[20px] mt-[26px]">
-                    <span className="text-[#FF6F6F]">
-                      Account balance: $0.00.
-                    </span>{" "}
-                    <span className="hidden sm:inline">
-                      There are not enough funds on your account to pay for the
-                      order.
-                    </span>
-                  </p>
-
-                  <div className="flex text-[#D7B5FF] bg-[#B030BE0A] gap-2 mt-4 rounded-[12px] p-[10px]">
-                    <CiCircleInfo size={24} />
-                    <p className="text-[13px] leading-[18px]">
-                      Tip: if you get blocked at the time of payment -{" "}
-                      <span className="text-[#E37DFF]">use a VPN</span>
+          <div className="fixed inset-0 bg-black bg-opacity-40 z-40 overflow-y-auto flex justify-center items-center">
+            <div className="relative w-[96%] xl:w-[1040px] max-h-[90vh] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col xl:flex-row xl:gap-[72px] shadow-lg overflow-y-auto">
+              <button className="absolute top-5 right-5" onClick={toggleModal}>
+                <IoMdClose
+                  size={24}
+                  className="text-[#8E8E8E] cursor-pointer"
+                />
+              </button>
+              <div className="py-[10px] sm:p-0 w-[100%] flex flex-col gap-[12px] md:gap-[20px] xl:w-[450px]">
+                <p className="text-[#CBFF51] leading-[20px]">Plans</p>
+                <p className="font-bold text-[22px] xl:text-[24px] sm:text-[26px] leading-[36px] -tracking-[3%]">
+                  Get Unlimited Access to the Site Materials
+                </p>
+                <p className="font-semibold text-[13px] leading-[20px] text-[#949392] xl:w-[450px]">
+                  You will also receive an invitation to a private channel and
+                  access.
+                </p>
+                <div>
+                  <div className="relative mb-5">
+                    <MdOutlineDone
+                      size={20}
+                      className="text-[#CBFF51] absolute top-0 left-0"
+                    />
+                    <p className="font-semibold leading-[20px] px-[25px]">
+                      Unlimited access to view guides
                     </p>
                   </div>
-
-                  {isInnerModalOpen && (
-                    <>
-                      <div className="fixed inset-0 bg-black bg-opacity-40 z-80"></div>
-
-                      <div className="absolute top-[60px] left-1/2 -translate-x-1/2 w-[351px] sm:w-[381px] h-[320px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
-                        <button
-                          className="top-10 absolute sm:top-5 right-5"
-                          onClick={toggleInnerModal}
-                        >
-                          <IoMdClose
-                            size={24}
-                            className="text-[#8E8E8E] cursor-pointer"
-                          />
-                        </button>
-                        <div>
-                          <p className="text-[18x] font-bold leading-[20px]">
-                            Top Up Balance
-                          </p>
-                          <div className="mt-5">
-                            <p className="font-semibold leading-[16px]">
-                              Currency type
-                            </p>
-                            <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
-                              <button
-                                className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
-                                  selected === "Fiat"
-                                    ? "bg-[#36383D] text-white"
-                                    : "bg-transparent text-gray-400"
-                                }`}
-                                onClick={() => handleSwitch(CurrencyType.Fiat)}
-                              >
-                                Fiat
-                              </button>
-                              <button
-                                className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
-                                  selected === "Crypto"
-                                    ? "bg-[#36383D] text-white"
-                                    : "bg-transparent text-gray-400"
-                                }`}
-                                onClick={() =>
-                                  handleSwitch(CurrencyType.Crypto)
-                                }
-                              >
-                                Crypto
-                              </button>
-                            </div>
-                          </div>
-                          <div className="my-5">
-                            <p className="font-semibold leading-[16px]">
-                              Amount
-                            </p>
-                            <input
-                              className="bg-[#292B2F] border-[1px] border-transparent py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] focus:border-gray-500 focus:outline-none"
-                              value={inputBalance}
-                              onChange={handleInputBalanceChange}
-                            />
-                          </div>
-                          <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold text-[17px] leading-[20px]">
-                            Go to payment
-                            <MdOutlineKeyboardArrowRight />
-                          </button>
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <div className="relative">
+                    <MdOutlineDone
+                      size={20}
+                      className="text-[#CBFF51] absolute top-0 left-0"
+                    />
+                    <p className="font-semibold leading-[20px] px-[25px]">
+                      Private channel and access to a closed section with
+                      projects with maximum potential
+                    </p>
+                  </div>
                 </div>
               </div>
+              <div className="w-[100%] bg-transparent xl:w-[450px]">
+                <h2 className="text-[18px] leading-[20px] -tracking-[0.18px] font-bold pt-[10px] xl:pt-[36px] mb-[15px]">
+                  Select plan
+                </h2>
+                <ul className="flex flex-col gap-2">
+                  {plans.map((plan) => (
+                    <li
+                      key={plan.name}
+                      onClick={() => setSelectedPlan(plan.name)}
+                      className={`cursor-pointer p-4 rounded-[12px] flex justify-between items-center border-[1px] transition-all duration-300 ${
+                        selectedPlan === plan.name
+                          ? "border-[#436237] border-[1px] bg-[#1D2A19]"
+                          : "border-gray-700 hover:border-gray-500"
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`w-[24px] h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                            selectedPlan === plan.name
+                              ? "border-[1px] border-[#73A304] bg-[#528E09]"
+                              : "border-gray-700"
+                          }`}
+                        >
+                          {selectedPlan === plan.name && (
+                            <MdOutlineDone size={20} />
+                          )}
+                        </div>
+                        <div
+                          className={`flex flex-col sm:flex-row sm:items-center justify-between sm:gap-[12px] ${
+                            plan.margin ? `sm:w-[170px]` : `sm:w-[162px]`
+                          }`}
+                        >
+                          <p className="font-bold">{plan.name}</p>
+                          <p className="text-[#8E8E8E]">{plan.days} days</p>
+                        </div>
+                      </div>
+                      <div>
+                        {plan.monthlyCost !== 0 ? (
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-[1px] sm:gap-[12px]">
+                            <p className="text-[16px] leading-[18px] font-bold text-[#CBFF51]">
+                              ${plan.price}
+                            </p>
+                            <p className="leading-[15px] text-[#8E8E8E]">
+                              ${plan.monthlyCost}/month
+                            </p>
+                          </div>
+                        ) : (
+                          <p className="text-[16px] text-left leading-[18px] font-bold text-[#CBFF51] w-[75px] sm:mr-[50px]">
+                            ${plan.price}
+                          </p>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                <div className="hidden md:block mt-[25px]">
+                  <p className="mb-1 leading-[16px] font-semibold">Cupon</p>
+                  <div className="flex items-center gap-2">
+                    <input
+                      className="bg-[#212226] p-2 w-[200px] rounded-[12px] placeholder:text-[14px] placeholder:leading-[20px]"
+                      placeholder="Cupon code"
+                    />
+                    <button className="bg-[#333333] px-[10px] py-[12px] text-[#A4A4A4] font-bold leading-[16px] rounded-[10px]">
+                      Done
+                    </button>
+                  </div>
+                </div>
+
+                <hr className="my-[16px] md:my-[32px] border-0 h-px bg-[#27292D]" />
+
+                <div className="flex items-center justify-between h-[46px] md:h-[58px]">
+                  <div className="flex flex-col gap-[2px]">
+                    <p className="leading-[20px]">Amount due</p>
+                    <p className="text-[20px] leading-[24px] md:text-[24px] md:leading-[28px] font-bold">
+                      $129
+                    </p>
+                  </div>
+                  {/*<button className="flex items-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px] text-[17px]">*/}
+                  {/*  Go to payment*/}
+                  {/*  <MdOutlineKeyboardArrowRight />*/}
+                  {/*</button>*/}
+                  <button
+                    className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
+                    onClick={toggleInnerModal}
+                  >
+                    Top up balance
+                    <MdOutlineKeyboardArrowRight />
+                  </button>
+                </div>
+
+                <p className="text-[#8E8E8E] leading-[20px] mt-[26px]">
+                  <span className="text-[#FF6F6F]">
+                    Account balance: $0.00.
+                  </span>{" "}
+                  <span className="hidden sm:inline">
+                    There are not enough funds on your account to pay for the
+                    order.
+                  </span>
+                </p>
+
+                <div className="flex text-[#D7B5FF] bg-[#B030BE0A] gap-2 mt-4 rounded-[12px] p-[10px]">
+                  <CiCircleInfo size={24} />
+                  <p className="text-[13px] leading-[18px]">
+                    Tip: if you get blocked at the time of payment -{" "}
+                    <span className="text-[#E37DFF]">use a VPN</span>
+                  </p>
+                </div>
+
+                {isInnerModalOpen && (
+                  <>
+                    <div className="fixed inset-0 bg-black bg-opacity-40 z-80"></div>
+
+                    <div className="modal absolute top-[30px] left-1/2 -translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6">
+                      <button
+                        className="top-10 absolute sm:top-5 right-5"
+                        onClick={toggleInnerModal}
+                      >
+                        <IoMdClose
+                          size={24}
+                          className="text-[#8E8E8E] cursor-pointer"
+                        />
+                      </button>
+                      <div>
+                        <p className="text-[18x] font-bold leading-[20px]">
+                          Top Up Balance
+                        </p>
+                        <div className="mt-5">
+                          <p className="font-semibold leading-[16px]">
+                            Currency type
+                          </p>
+                          <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
+                            <button
+                              className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
+                                selected === "Fiat"
+                                  ? "bg-[#36383D] text-white"
+                                  : "bg-transparent text-gray-400"
+                              }`}
+                              onClick={() => handleSwitch(CurrencyType.Fiat)}
+                            >
+                              Fiat
+                            </button>
+                            <button
+                              className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
+                                selected === "Crypto"
+                                  ? "bg-[#36383D] text-white"
+                                  : "bg-transparent text-gray-400"
+                              }`}
+                              onClick={() => handleSwitch(CurrencyType.Crypto)}
+                            >
+                              Crypto
+                            </button>
+                          </div>
+                        </div>
+                        <div className="my-5">
+                          <p className="font-semibold leading-[16px]">Amount</p>
+                          <input
+                            className="bg-[#292B2F] border-[1px] border-transparent py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] focus:border-gray-500 focus:outline-none"
+                            value={inputBalance}
+                            onChange={handleInputBalanceChange}
+                          />
+                        </div>
+                        <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold text-[17px] leading-[20px]">
+                          Go to payment
+                          <MdOutlineKeyboardArrowRight />
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-          </>
+          </div>
         )}
       </main>
 

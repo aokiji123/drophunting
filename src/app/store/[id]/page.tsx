@@ -42,7 +42,7 @@ const Guide = () => {
                 Project
               </p>
             </div>
-            <p className="text-[32px] leading-[40px] font-bold tracking-[-2%]">
+            <p className="text-[22px] leading-[26px] sm:text-[24px] sm:leading-[32px] lg:text-[32px] lg:leading-[40px] font-bold tracking-[-2%]">
               Premium. 5 Airdrops with winning
             </p>
 
@@ -52,26 +52,29 @@ const Guide = () => {
               <Image
                 src={storePhoto}
                 alt="Store"
-                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px]"
+                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px] object-cover"
               />
-              <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
-                <div className="flex flex-col gap-[20px]">
-                  <p className="text-[18px] leading-[22px] font-bold">
+              <div className="p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
+                <div className="flex flex-col gap-[12px] lg:gap-[20px]">
+                  <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
                     Premium. 5 Airdrops with winning
                   </p>
-                  <p className="text-[14px] leading-[20px] text-[#B0B0B0]">
+                  <p className="text-[13px] lg:text-[14px] leading-[20px] text-[#B0B0B0]">
                     DropHunting provides turnkey project spinning service.
                   </p>
                 </div>
-                <div className="flex items-center gap-[12px]">
-                  <p className="text-[18px] leading-[20px] font-semibold">
+                <div className="flex items-center gap-[12px] my-[12px] md:my-[28px]">
+                  <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-semibold">
                     From 150$
                   </p>
                   <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
                     per project
                   </p>
                 </div>
-                <button className="font-sans w-full px-[24px] py-[18px] rounded-[16px] bg-[#11CA00] text-[17px] leading-[20px] font-semibold">
+                <button
+                  onClick={toggleModal}
+                  className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold"
+                >
                   Order product
                 </button>
               </div>
@@ -135,26 +138,29 @@ const Guide = () => {
               <Image
                 src={storePhoto}
                 alt="Store"
-                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px]"
+                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px] object-cover"
               />
-              <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
-                <div className="flex flex-col gap-[20px]">
-                  <p className="text-[18px] leading-[22px] font-bold">
+              <div className="p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
+                <div className="flex flex-col gap-[12px] lg:gap-[20px]">
+                  <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
                     Premium. 5 Airdrops with winning
                   </p>
-                  <p className="text-[14px] leading-[20px] text-[#B0B0B0]">
+                  <p className="text-[13px] lg:text-[14px] leading-[20px] text-[#B0B0B0]">
                     DropHunting provides turnkey project spinning service.
                   </p>
                 </div>
-                <div className="flex items-center gap-[12px]">
-                  <p className="text-[18px] leading-[20px] font-semibold">
+                <div className="flex items-center gap-[12px] my-[12px] md:my-[28px]">
+                  <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-semibold">
                     From 150$
                   </p>
                   <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
                     per project
                   </p>
                 </div>
-                <button className="font-sans w-full px-[24px] py-[18px] rounded-[16px] bg-[#11CA00] text-[17px] leading-[20px] font-semibold">
+                <button
+                  onClick={toggleModal}
+                  className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold"
+                >
                   Order product
                 </button>
               </div>
@@ -165,36 +171,40 @@ const Guide = () => {
           <>
             <div className="fixed inset-0 bg-black bg-opacity-40 z-55"></div>
 
-            <div className="absolute transform translate-y-1/2 sm:translate-y-0 top-[60px] left-1/2 -translate-x-1/2 w-[320px] sm:w-[380px] min-h-[500px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
+            <div className="absolute top-[150px] md:top-[60px] left-1/2 -translate-x-1/2 w-[357px] sm:w-[381px] h-[474px] lg:h-[494px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
               <button className="absolute top-5 right-5" onClick={toggleModal}>
                 <IoMdClose
                   size={24}
-                  className="hover:text-[#9EA0A6] cursor-pointer"
+                  className="text-[#9EA0A6] cursor-pointer"
                 />
               </button>
               <div>
-                <p className="text-[24px] font-bold leading-[20px]">
+                <p className="text-[20px] lg:text-[24px] font-bold leading-[20px]">
                   Order Product
                 </p>
-                <p className="text-[14px] leading-[16px] font-chakra text-[#8E8E8E] mt-[12px] mb-[28px]">
+                <p className="text-[14px] leading-[16px] font-chakra text-[#8E8E8E] mt-[12px] mb-[16px] lg:mb-[28px]">
                   Leave your contacts and the drophunting team will be sure to
                   get back to you
                 </p>
                 <div className="flex flex-col gap-2 mb-[16px]">
-                  <p className="font-semibold">Telegram</p>
+                  <p className="font-semibold text-[13px] lg:text-[14px]">
+                    Telegram
+                  </p>
                   <input
                     className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px]"
                     placeholder="@nickname"
                   />
                 </div>
                 <div className="flex flex-col gap-2 mb-[24px]">
-                  <p className="font-semibold">Your message</p>
+                  <p className="font-semibold text-[13px] lg:text-[14px]">
+                    Your message
+                  </p>
                   <textarea
                     className="w-full min-h-[50px] h-[160px] bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] resize-none"
                     placeholder="Describe your idea"
                   />
                 </div>
-                <button className="w-full font-sans flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold text-[17px] leading-[20px]">
+                <button className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
                   Send
                 </button>
               </div>

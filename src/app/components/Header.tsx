@@ -226,8 +226,16 @@ const Header = () => {
       {/*</div>*/}
 
       {isBalanceModalOpen && (
-        <div className="hidden sm:block modal absolute top-[70px] right-[120px] shadow-2xl w-[320px] sm:w-[380px] h-[320px] rounded-[12px] z-100 bg-[#1C1E22] p-6">
-          <BalanceModal toggleBalanceModal={toggleBalanceModal} />
+        <div
+          className="hidden sm:block fixed inset-0 sm:bg-black sm:bg-opacity-40 lg:bg-none lg:bg-opacity-0 z-100"
+          onClick={toggleBalanceModal}
+        >
+          <div
+            className="modal absolute top-[70px] lg:right-[330px] right-1/2 translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <BalanceModal toggleBalanceModal={toggleBalanceModal} />
+          </div>
         </div>
       )}
 
