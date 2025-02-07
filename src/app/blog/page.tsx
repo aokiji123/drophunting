@@ -24,13 +24,13 @@ const Blog = () => {
     <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="px-[16px] pt-[40] pb-[64] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] md:px-[96px] md:py-[64px]">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px]">
         <p className="text-[42px] leading-[50px] font-bold">Blog</p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
-        <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex flex-wrap items-center gap-[6px] mb-[20px] xl:mb-0">
+        <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
             <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
               All
             </button>
@@ -53,7 +53,7 @@ const Blog = () => {
           </div>
         </div>
         <div>
-          <div className="flex items-center gap-[40px] xl:justify-between">
+          <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
               87 articles
             </p>
@@ -65,21 +65,19 @@ const Blog = () => {
               <MdOutlineArrowDropDown className="text-white" size={20} />
             </div>
           </div>
-
-          <div className="flex flex-wrap gap-[16px] sm:gap-[28px] items-center">
+          <div className="flex flex-wrap gap-[16px] sm:gap-[24px] lg:gap-[28px] items-center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((blogIndex) => (
               <div key={blogIndex} className="relative">
-                {/* 🔥 Correct Overlay: Keeps opacity but doesn't affect the check button */}
                 {selectedBlogs.includes(blogIndex) && (
                   <div className="absolute inset-0 bg-black opacity-50 z-10 pointer-events-none"></div>
                 )}
 
                 <div
-                  className="relative max-w-[400px] min-h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300"
+                  className="relative w-[334px] sm:w-[340px] h-[414px] lg:w-[397px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden"
                   onClick={() => toggleBlogSelection(blogIndex)}
                 >
                   <Image src={blog} alt="Blog" className="w-full" />
-                  <div className="h-[260px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col gap-[20px]">
+                  <div className="h-[260px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col gap-[12px] lg:gap-[20px]">
                     <p className="text-[18px] leading-[22px] font-bold">
                       Road to Minnet
                     </p>
@@ -95,7 +93,7 @@ const Blog = () => {
                       The Fuel Genesis Drop gives 1 billion FUEL (10% of the
                       total supply) to more than 200,000 unique addresses
                     </p>
-                    <div className="flex items-center justify-between mt-[15px] relative">
+                    <div className="flex items-center justify-between lg:mt-[15px] relative">
                       <div className="text-[#A0A8AE] flex items-center bg-[#0D0E0F] px-[8px] py-[6px] rounded-[6px] gap-1">
                         <IoMdTime size={12} />
                         <p className="text-[13px] leading-[16px] font-semibold">
@@ -103,7 +101,6 @@ const Blog = () => {
                         </p>
                       </div>
 
-                      {/* ✅ Always on top, even when selected */}
                       <div
                         className={`w-[40px] h-[40px] min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 bg-[#101114] cursor-pointer z-20 relative ${
                           selectedBlogs.includes(blogIndex)

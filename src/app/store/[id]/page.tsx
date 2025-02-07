@@ -36,7 +36,7 @@ const Guide = () => {
           </button>
         </div>
         <div className="pt-[16px] pb-[80px] px-[32px] md:gap-[56px] flex justify-center">
-          <div className="lg:w-[610px]">
+          <div className="w-[447px] lg:w-[618px]">
             <div className="flex items-center mb-[16px]">
               <p className="rounded-[6px] px-[8px] py-[6px] bg-[#211E12] text-[13px] leading-[16px] font-semibold text-[#C6A975]">
                 Project
@@ -47,9 +47,13 @@ const Guide = () => {
             </p>
 
             <div
-              className={`block lg:hidden max-w-[400px] min-h-[480px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300 mt-[32px]`}
+              className={`block md:hidden w-[335px] h-[360px] md:w-[308px] md:h-[420px] lg:w-[366px] lg:h-[481px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}
             >
-              <Image src={storePhoto} alt="Store" className="w-full" />
+              <Image
+                src={storePhoto}
+                alt="Store"
+                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px]"
+              />
               <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
                 <div className="flex flex-col gap-[20px]">
                   <p className="text-[18px] leading-[22px] font-bold">
@@ -67,7 +71,7 @@ const Guide = () => {
                     per project
                   </p>
                 </div>
-                <button className="w-full px-[24px] py-[18px] rounded-[16px] bg-[#11CA00] text-[17px] leading-[20px] font-semibold">
+                <button className="font-sans w-full px-[24px] py-[18px] rounded-[16px] bg-[#11CA00] text-[17px] leading-[20px] font-semibold">
                   Order product
                 </button>
               </div>
@@ -126,9 +130,13 @@ const Guide = () => {
           </div>
           <div>
             <div
-              className={`hidden lg:block max-w-[400px] min-h-[480px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden transition-all duration-300`}
+              className={`hidden md:block w-[335px] h-[360px] md:w-[308px] md:h-[420px] lg:w-[366px] lg:h-[481px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}
             >
-              <Image src={storePhoto} alt="Store" className="w-full" />
+              <Image
+                src={storePhoto}
+                alt="Store"
+                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px]"
+              />
               <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
                 <div className="flex flex-col gap-[20px]">
                   <p className="text-[18px] leading-[22px] font-bold">
@@ -146,10 +154,7 @@ const Guide = () => {
                     per project
                   </p>
                 </div>
-                <button
-                  onClick={toggleModal}
-                  className="w-full px-[24px] py-[18px] rounded-[16px] bg-[#11CA00] text-[17px] leading-[20px] font-semibold"
-                >
+                <button className="font-sans w-full px-[24px] py-[18px] rounded-[16px] bg-[#11CA00] text-[17px] leading-[20px] font-semibold">
                   Order product
                 </button>
               </div>

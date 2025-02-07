@@ -77,7 +77,7 @@ const Subscriptions = () => {
       <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
           <nav className="lg:w-[15%] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-scroll w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
+            <ul className="no-scrollbar overflow-auto w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
               {tabs.map((tab) => (
                 <li
                   key={tab.name}
@@ -163,6 +163,7 @@ const Subscriptions = () => {
                         fontFamily: "IBM Plex Mono",
                       },
                       "& .MuiTableCell-body": {
+                        minWidth: 120,
                         color: "#FFFFFF",
                         fontSize: "14px",
                         lineHeight: "20px",
@@ -205,8 +206,8 @@ const Subscriptions = () => {
           <>
             <div className="fixed inset-0 bg-black bg-opacity-40 z-40"></div>
 
-            <div className="overflow-y-scroll fixed flex items-center justify-center z-50 shadow-lg">
-              <div className="overflow-scroll h-full w-[96%] xl:w-[1040px] xl:h-[726px] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col xl:flex-row xl:gap-[72px] relative sm:overflow-auto">
+            <div className="overflow-y-auto fixed flex items-center justify-center z-50 shadow-lg">
+              <div className="overflow-auto h-full w-[96%] xl:w-[1040px] xl:h-[726px] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col xl:flex-row xl:gap-[72px] relative sm:overflow-auto">
                 <button
                   className="absolute top-5 right-5"
                   onClick={toggleModal}

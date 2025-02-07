@@ -67,9 +67,9 @@ const Referal = () => {
       <Header />
 
       <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">
-        <div className="flex flex-col lg:flex-row justify-center w-full p-3">
+        <div className="flex flex-col lg:flex-row justify-center md:items-center lg:items-baseline w-full p-3">
           <nav className="lg:w-[15%] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-scroll w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
+            <ul className="no-scrollbar overflow-auto w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
               {tabs.map((tab) => (
                 <li
                   key={tab.name}
@@ -90,7 +90,7 @@ const Referal = () => {
               ))}
             </ul>
           </nav>
-          <section className="min-h-[750px] w-full lg:w-[85%] bg-[#17181B] p-[16px] sm:p-[32px] rounded-[16px]">
+          <section className="min-h-[750px] md:flex md:items-center md:justify-center md:w-[704px] lg:w-[954px] lg:h-[881px] lg:justify-normal lg:items-baseline lg:block bg-[#17181B] p-[16px] sm:p-[32px] rounded-[16px]">
             <div className="flex-col flex">
               <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
                 <LuPercent size={24} />

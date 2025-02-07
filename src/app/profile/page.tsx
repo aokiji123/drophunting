@@ -84,10 +84,10 @@ const Profile = () => {
     <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px]">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
           <nav className="lg:w-[240px] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-scroll w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
+            <ul className="no-scrollbar overflow-auto w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
               {tabs.map((tab) => (
                 <li
                   key={tab.name}
@@ -114,7 +114,7 @@ const Profile = () => {
                 <Image
                   src={avatar}
                   alt="Avatar"
-                  className="w-[64px] h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] rounded-[22px]"
+                  className="w-[64px] relative h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] rounded-[22px]"
                 />
                 <div className="cursor-pointer absolute -bottom-4 -right-2 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full">
                   <HiMiniPencil size={14} />

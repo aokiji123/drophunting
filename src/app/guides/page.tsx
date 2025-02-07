@@ -48,13 +48,13 @@ const Guides = () => {
     <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px] min-w-[375px]">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px] min-w-[375p]">
         <p className="text-[42px] leading-[50px] font-bold">Guides</p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex overflow-x-scroll md:overflow-auto md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
+          <div className="flex overflow-x-auto md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
             <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
               All
             </button>

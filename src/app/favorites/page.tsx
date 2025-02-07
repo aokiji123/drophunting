@@ -17,13 +17,17 @@ import Image from "next/image";
 import bless from "../../../public/assets/bless.png";
 import solana from "../../../public/assets/solana.png";
 import retrodrops from "../../../public/assets/retrodrops.png";
-import { Slider, styled } from "@mui/material";
+import { Slider, sliderClasses, styled } from "@mui/material";
 import { GoDotFill } from "react-icons/go";
 import React from "react";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 
 const CustomSlider = styled(Slider)({
   height: 8,
+  [`&.${sliderClasses.root}`]: {
+    padding: 0,
+    margin: 0,
+  },
   "& .MuiSlider-track": {
     background: "linear-gradient(to right, #5af86e, #d2f21b)",
     border: "none",
@@ -81,7 +85,7 @@ const Favorites = () => {
           </div>
           <div className="flex flex-wrap gap-[16px] lg:gap-[28px] items-center">
             <div>
-              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -113,7 +117,7 @@ const Favorites = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-[24px] flex gap-[16px]">
+                <div className="mt-[12px] flex gap-[16px]">
                   <Image
                     className="w-[48px] h-[48px] rounded-[10px]"
                     src={bless}
@@ -135,7 +139,7 @@ const Favorites = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-[24px] mt-[24px]">
+                <div className="flex items-center gap-[24px] my-[-5px]">
                   <div className="relative">
                     <div>
                       <HalfChartPie small />
@@ -163,7 +167,7 @@ const Favorites = () => {
                   <CustomSlider defaultValue={8} step={1} min={0} max={100} />
                   <p className="text-[16px] leading-[18px] font-bold">8%</p>
                 </div>
-                <div className="mt-[14px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
+                <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
                   <p className="text-[13px] leading-[16px] font-semibold">
                     Last updates: 10 dec 2024
                   </p>
@@ -172,7 +176,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -204,7 +208,7 @@ const Favorites = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-[24px] flex gap-[16px]">
+                <div className="mt-[12px] flex gap-[16px]">
                   <Image
                     className="w-[48px] h-[48px] rounded-[10px]"
                     src={bless}
@@ -226,7 +230,7 @@ const Favorites = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-[24px] mt-[24px]">
+                <div className="flex items-center gap-[24px] my-[-5px]">
                   <div className="relative">
                     <div>
                       <HalfChartPie small />
@@ -254,7 +258,7 @@ const Favorites = () => {
                   <CustomSlider defaultValue={8} step={1} min={0} max={100} />
                   <p className="text-[16px] leading-[18px] font-bold">8%</p>
                 </div>
-                <div className="mt-[14px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
+                <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
                   <p className="text-[13px] leading-[16px] font-semibold">
                     Last updates: 10 dec 2024
                   </p>
@@ -264,7 +268,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -292,102 +296,11 @@ const Favorites = () => {
                       <IoCalendarClear className="text-[#515459]" size={20} />
                     </div>
                     <div className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center">
-                      <MdFavorite className="text-[#CBFF51]" size={20} />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-[24px] flex gap-[16px]">
-                  <Image
-                    className="w-[48px] h-[48px] rounded-[10px]"
-                    src={bless}
-                    alt="Bless logo"
-                  />
-                  <div className="flex flex-col gap-[8px]">
-                    <div className="flex items-center gap-3">
-                      <p className="text-[18px] font-bold leading-[22pxs]">
-                        Bless
-                      </p>
-                      <Image
-                        src={solana}
-                        alt="Solana logo"
-                        className="w-[20px] h-[20px]"
-                      />
-                    </div>
-                    <p className="text-[13px] text-[#8E8E8E]">
-                      Platform helping development dApp on Solana
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-[24px] mt-[24px]">
-                  <div className="relative">
-                    <div>
-                      <HalfChartPie small />
-                    </div>
-                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
-                      460
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
-                      Invest.
-                    </p>
-                    <p className="text-[16px] leading-[18px] font-bold">
-                      $2.2 bln
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
-                      TVL
-                    </p>
-                    <p className="text-[16px] leading-[18px] font-bold">$12k</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-[12px]">
-                  <CustomSlider defaultValue={8} step={1} min={0} max={100} />
-                  <p className="text-[16px] leading-[18px] font-bold">8%</p>
-                </div>
-                <div className="mt-[14px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
-                  <p className="text-[13px] leading-[16px] font-semibold">
-                    Last updates: 10 dec 2024
-                  </p>
-                  <MdOutlineKeyboardArrowRight size={20} />
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
-                <div className="flex justify-between">
-                  <div className="flex items-center gap-1">
-                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <IoMdTime size={12} className="text-[#A0A8AE]" />
-                      <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
-                        12 min
-                      </p>
-                    </div>
-                    <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
-                      Free
-                    </p>
-                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
-                      <Image
-                        src={retrodrops}
-                        alt="Retrodrops"
-                        className="w-[12px] h-[12px]"
-                      />
-                      <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
-                        Retrodrops
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-[3px]">
-                    <div className="w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
-                      <IoCalendarClear className="text-[#515459]" size={20} />
-                    </div>
-                    <div className="w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
                       <MdFavoriteBorder className="text-[#515459]" size={20} />
                     </div>
                   </div>
                 </div>
-                <div className="mt-[24px] flex gap-[16px]">
+                <div className="mt-[12px] flex gap-[16px]">
                   <Image
                     className="w-[48px] h-[48px] rounded-[10px]"
                     src={bless}
@@ -409,7 +322,7 @@ const Favorites = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-[24px] mt-[24px]">
+                <div className="flex items-center gap-[24px] my-[-5px]">
                   <div className="relative">
                     <div>
                       <HalfChartPie small />
@@ -437,7 +350,7 @@ const Favorites = () => {
                   <CustomSlider defaultValue={8} step={1} min={0} max={100} />
                   <p className="text-[16px] leading-[18px] font-bold">8%</p>
                 </div>
-                <div className="mt-[14px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
+                <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
                   <p className="text-[13px] leading-[16px] font-semibold">
                     Last updates: 10 dec 2024
                   </p>
@@ -446,7 +359,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] min-h-[300px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -478,7 +391,7 @@ const Favorites = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-[24px] flex gap-[16px]">
+                <div className="mt-[12px] flex gap-[16px]">
                   <Image
                     className="w-[48px] h-[48px] rounded-[10px]"
                     src={bless}
@@ -500,7 +413,7 @@ const Favorites = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-[24px] mt-[24px]">
+                <div className="flex items-center gap-[24px] my-[-5px]">
                   <div className="relative">
                     <div>
                       <HalfChartPie small />
@@ -528,7 +441,189 @@ const Favorites = () => {
                   <CustomSlider defaultValue={8} step={1} min={0} max={100} />
                   <p className="text-[16px] leading-[18px] font-bold">8%</p>
                 </div>
-                <div className="mt-[14px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[10px]">
+                <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
+                  <p className="text-[13px] leading-[16px] font-semibold">
+                    Last updates: 10 dec 2024
+                  </p>
+                  <MdOutlineKeyboardArrowRight size={20} />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
+                        12 min
+                      </p>
+                    </div>
+                    <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
+                      Free
+                    </p>
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
+                      <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
+                        Retrodrops
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-[3px]">
+                    <div className="w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
+                      <IoCalendarClear className="text-[#515459]" size={20} />
+                    </div>
+                    <div className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center">
+                      <MdFavorite className="text-[#CBFF51]" size={20} />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-[12px] flex gap-[16px]">
+                  <Image
+                    className="w-[48px] h-[48px] rounded-[10px]"
+                    src={bless}
+                    alt="Bless logo"
+                  />
+                  <div className="flex flex-col gap-[8px]">
+                    <div className="flex items-center gap-3">
+                      <p className="text-[18px] font-bold leading-[22pxs]">
+                        Bless
+                      </p>
+                      <Image
+                        src={solana}
+                        alt="Solana logo"
+                        className="w-[20px] h-[20px]"
+                      />
+                    </div>
+                    <p className="text-[13px] text-[#8E8E8E]">
+                      Platform helping development dApp on Solana
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-[24px] my-[-5px]">
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
+                      Invest.
+                    </p>
+                    <p className="text-[16px] leading-[18px] font-bold">
+                      $2.2 bln
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
+                      TVL
+                    </p>
+                    <p className="text-[16px] leading-[18px] font-bold">$12k</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-[12px]">
+                  <CustomSlider defaultValue={8} step={1} min={0} max={100} />
+                  <p className="text-[16px] leading-[18px] font-bold">8%</p>
+                </div>
+                <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
+                  <p className="text-[13px] leading-[16px] font-semibold">
+                    Last updates: 10 dec 2024
+                  </p>
+                  <MdOutlineKeyboardArrowRight size={20} />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+                <div className="flex justify-between">
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                      <IoMdTime size={12} className="text-[#A0A8AE]" />
+                      <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
+                        12 min
+                      </p>
+                    </div>
+                    <p className="px-[6px] py-[5px] bg-[#212125] rounded-[8px] text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
+                      Free
+                    </p>
+                    <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
+                      <Image
+                        src={retrodrops}
+                        alt="Retrodrops"
+                        className="w-[12px] h-[12px]"
+                      />
+                      <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
+                        Retrodrops
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-[3px]">
+                    <div className="w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
+                      <IoCalendarClear className="text-[#515459]" size={20} />
+                    </div>
+                    <div className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center">
+                      <MdFavorite className="text-[#CBFF51]" size={20} />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-[12px] flex gap-[16px]">
+                  <Image
+                    className="w-[48px] h-[48px] rounded-[10px]"
+                    src={bless}
+                    alt="Bless logo"
+                  />
+                  <div className="flex flex-col gap-[8px]">
+                    <div className="flex items-center gap-3">
+                      <p className="text-[18px] font-bold leading-[22pxs]">
+                        Bless
+                      </p>
+                      <Image
+                        src={solana}
+                        alt="Solana logo"
+                        className="w-[20px] h-[20px]"
+                      />
+                    </div>
+                    <p className="text-[13px] text-[#8E8E8E]">
+                      Platform helping development dApp on Solana
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-[24px] my-[-5px]">
+                  <div className="relative">
+                    <div>
+                      <HalfChartPie small />
+                    </div>
+                    <div className="absolute bottom-[20px] left-[25px] text-[16px] leading-[18px] font-bold z-5">
+                      460
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
+                      Invest.
+                    </p>
+                    <p className="text-[16px] leading-[18px] font-bold">
+                      $2.2 bln
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
+                      TVL
+                    </p>
+                    <p className="text-[16px] leading-[18px] font-bold">$12k</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-[12px]">
+                  <CustomSlider defaultValue={8} step={1} min={0} max={100} />
+                  <p className="text-[16px] leading-[18px] font-bold">8%</p>
+                </div>
+                <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
                   <p className="text-[13px] leading-[16px] font-semibold">
                     Last updates: 10 dec 2024
                   </p>
