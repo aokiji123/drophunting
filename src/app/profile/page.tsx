@@ -12,7 +12,6 @@ import { IoIosCloseCircle } from "react-icons/io";
 import avatar from "../../../public/assets/avatar.png";
 import authenticator from "../../../public/assets/icons/authenticator.png";
 import cancel from "../../../public/assets/icons/cancel.png";
-import { CustomSelect } from "@/shared/components/CustomSelect";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
 import Link from "next/link";
 import useAuthContext from "@/shared/hooks/useAuthContext";
@@ -22,6 +21,18 @@ import ru from "../../../public/assets/icons/ru.png";
 import en from "../../../public/assets/icons/en.png";
 import pencil from "../../../public/assets/icons/pencil.png";
 import { useTranslation } from "react-i18next";
+import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
+
+const languages = [
+  { code: "ru", name: "Russian", flag: ru },
+  { code: "en", name: "English", flag: en },
+];
+
+const timeOptions = [
+  { label: "UTC+03:00", value: "UTC+03:00" },
+  { label: "UTC+04:00", value: "UTC+04:00" },
+  { label: "UTC+05:00", value: "UTC+05:00" },
+];
 
 const Profile = () => {
   const { i18n } = useTranslation();
@@ -33,11 +44,12 @@ const Profile = () => {
     return pathname === href;
   };
 
-  const [language, setLanguage] = useState("English");
-  const [time, setTime] = useState("UTC+03:00");
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+  const [selectedTime, setSelectedTime] = useState("UTC+03:00");
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
-
   const { user, loading } = useAuthContext();
   const [isPageLoading, setIsPageLoading] = useState(true);
 
@@ -47,23 +59,15 @@ const Profile = () => {
     }
   }, [loading]);
 
-  const handleLanguageChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    const selectedLanguage = event.target.value;
-    setLanguage(selectedLanguage);
-
-    if (selectedLanguage === "English") {
-      i18n.changeLanguage("en");
-    } else if (selectedLanguage === "Russian") {
-      i18n.changeLanguage("ru");
-    }
+  const handleLanguageChange = (code: string) => {
+    setSelectedLanguage(code);
+    i18n.changeLanguage(code);
+    setIsLanguageDropdownOpen(false);
   };
 
-  const handleTimeChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setTime(event.target.value);
+  const handleTimeChange = (value: string) => {
+    setSelectedTime(value);
+    setIsTimeDropdownOpen(false);
   };
 
   const handleTelegramSwitchChange = (
@@ -151,27 +155,103 @@ const Profile = () => {
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Language</p>
-                <CustomSelect
-                  value={language}
-                  onChange={handleLanguageChange}
-                  modal={false}
-                  options={[
-                    { label: "English", value: "English", image: en },
-                    { label: "Russian", value: "Russian", image: ru },
-                  ]}
-                />
+                <div className="relative max-w-[350px] sm:w-[350px]">
+                  <button
+                    className="w-full h-[48px] bg-[#212226] flex items-center justify-between p-[12px] rounded-[12px]"
+                    onClick={() =>
+                      setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+                    }
+                  >
+                    <div className="flex items-center gap-[12px]">
+                      <Image
+                        src={
+                          languages.find(
+                            (lang) => lang.code === selectedLanguage
+                          )?.flag || en
+                        }
+                        alt={selectedLanguage}
+                        className="h-[20px] w-[20px] object-cover rounded-full"
+                      />
+                      <p className="text-[15px] leading-[24px] font-normal">
+                        {
+                          languages.find(
+                            (lang) => lang.code === selectedLanguage
+                          )?.name
+                        }
+                      </p>
+                    </div>
+                    {isLanguageDropdownOpen ? (
+                      <FaAngleUp size={16} className="text-[#8E8E8E]" />
+                    ) : (
+                      <FaAngleDown size={16} className="text-[#8E8E8E]" />
+                    )}
+                  </button>
+                  {isLanguageDropdownOpen && (
+                    <div className="absolute left-0 mt-[2px] w-full bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
+                      {languages.map((lang) => (
+                        <div
+                          key={lang.code}
+                          className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                            selectedLanguage === lang.code && `bg-[#181C20]`
+                          }`}
+                          onClick={() => handleLanguageChange(lang.code)}
+                        >
+                          <div className="flex items-center gap-[12px]">
+                            <Image
+                              src={lang.flag}
+                              alt={lang.name}
+                              className="h-[20px] w-[20px] object-cover rounded-full"
+                            />
+                            <p className="text-[15px] leading-[24px] font-normal">
+                              {lang.name}
+                            </p>
+                          </div>
+                          {selectedLanguage === lang.code && (
+                            <FaCheck size={16} className="text-[#CBFF51]" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Worldtime</p>
-                <CustomSelect
-                  value={time}
-                  onChange={handleTimeChange}
-                  options={[
-                    { label: "UTC+03:00", value: "UTC+03:00" },
-                    { label: "UTC+04:00", value: "UTC+04:00" },
-                    { label: "UTC+05:00", value: "UTC+05:00" },
-                  ]}
-                />
+                <div className="relative max-w-[350px] sm:w-[350px]">
+                  <button
+                    className="w-full h-[48px] bg-[#212226] flex items-center justify-between p-[12px] rounded-[12px]"
+                    onClick={() => setIsTimeDropdownOpen(!isTimeDropdownOpen)}
+                  >
+                    <p className="text-[15px] leading-[24px] font-normal">
+                      {selectedTime}
+                    </p>
+                    {isTimeDropdownOpen ? (
+                      <FaAngleUp size={16} className="text-[#8E8E8E]" />
+                    ) : (
+                      <FaAngleDown size={16} className="text-[#8E8E8E]" />
+                    )}
+                  </button>
+                  {isTimeDropdownOpen && (
+                    <div className="absolute left-0 mt-[2px] w-full bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
+                      {timeOptions.map((option) => (
+                        <div
+                          key={option.value}
+                          className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                            selectedTime === option.value && `bg-[#181C20]`
+                          }`}
+                          onClick={() => handleTimeChange(option.value)}
+                        >
+                          <p className="text-[15px] leading-[24px] font-normal">
+                            {option.label}
+                          </p>
+                          {selectedTime === option.value && (
+                            <FaCheck size={16} className="text-[#CBFF51]" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
