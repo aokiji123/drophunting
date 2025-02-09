@@ -84,7 +84,7 @@ const Guides = () => {
               ICO/DO
             </button>
           </div>
-          <div className="relative text-[#848487]">
+          <div className="relative text-[#848487] z-0">
             <IoSearchOutline
               className="absolute top-3 left-3 cursor-pointer"
               size={16}

@@ -118,17 +118,7 @@ const Referal = () => {
                     <p className="text-[25px] leading-[28px] font-semibold">
                       5
                     </p>
-                    <div
-                      style={{
-                        backgroundColor: "#232427BA",
-                        borderRadius: 100,
-                        padding: 4,
-                        width: 300,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
+                    <div className="bg-[#232427BA] rounded-[100px] p-[4px] w-[441px] flex items-center justify-center">
                       <CustomSlider
                         defaultValue={5}
                         step={1}

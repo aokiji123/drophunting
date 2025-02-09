@@ -18,11 +18,11 @@ import greenBlur from "../../../public/assets/green-blur.png";
 import arrow from "../../../public/assets/arrow.png";
 import telegram from "../../../public/assets/telegram.png";
 import prevDrop from "../../../public/assets/prev-drop.png";
-import paint from "../../../public/assets/paint.png";
-import bitcoin from "../../../public/assets/bitcoin.png";
-import ethereum from "../../../public/assets/ethereum.png";
-import coin from "../../../public/assets/coin.png";
-import dollar from "../../../public/assets/dollar.png";
+// import paint from "../../../public/assets/paint.png";
+// import bitcoin from "../../../public/assets/bitcoin.png";
+// import ethereum from "../../../public/assets/ethereum.png";
+// import coin from "../../../public/assets/coin.png";
+// import dollar from "../../../public/assets/dollar.png";
 import landingZenchain from "../../../public/assets/landing-zenchain.png";
 import dollarBag from "../../../public/assets/dollar-bag.jpg";
 import group from "../../../public/assets/group.png";
@@ -38,6 +38,7 @@ import {
 } from "@mui/material";
 import { GrLanguage } from "react-icons/gr";
 import { useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Landing = () => {
   const [language, setLanguage] = useState("en");
@@ -47,8 +48,8 @@ const Landing = () => {
   };
 
   return (
-    <div className="bg-[#101114] text-white">
-      <div className="xl:h-[970px] overflow-hidden">
+    <div className="bg-black text-white">
+      <div className="xl:h-[885px] overflow-hidden">
         <div
           className="bg-[#101114] bg-cover bg-center bg-no-repeat xl:h-[1400px]"
           style={{
@@ -60,7 +61,7 @@ const Landing = () => {
         >
           <header className="flex justify-between items-center h-[70px] px-[24px]">
             <Image className="w-[170px]" src={landingLogo} alt="Landing Logo" />
-            <ul className="flex gap-[16px]">
+            <ul className="hidden lg:flex gap-[16px]">
               <li>
                 <Link href="/">О сервисе</Link>
               </li>
@@ -74,7 +75,7 @@ const Landing = () => {
                 <Link href="/">Контакты</Link>
               </li>
             </ul>
-            <div className="flex items-center gap-[16px]">
+            <div className="flex items-center gap-[8px] md:gap-[16px]">
               <FormControl
                 sx={{
                   bgcolor: "transparent",
@@ -115,7 +116,7 @@ const Landing = () => {
                     <div className="flex items-center gap-1 py-[8px]">
                       <GrLanguage />
                       <p className="text-[16px] font-semibold leading-[20px]">
-                        En
+                        EN
                       </p>
                     </div>
                   </MenuItem>
@@ -123,18 +124,21 @@ const Landing = () => {
                     <div className="flex items-center gap-1 py-[8px]">
                       <GrLanguage />
                       <p className="text-[16px] font-semibold leading-[20px]">
-                        Ru
+                        RU
                       </p>
                     </div>
                   </MenuItem>
                 </Select>
               </FormControl>
-              <button className="bg-[#11CA00] py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+              <button className="hidden bg-[#11CA00] py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] md:flex items-center justify-center">
                 Перейти в агрегатор
               </button>
+              <div className="cursor-pointer">
+                <GiHamburgerMenu className="block lg:hidden" size={24} />
+              </div>
             </div>
           </header>
-          <div className="p-[16px] sm:p-[32px] md:p-[64px]">
+          <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px]">
             <div className="flex xl:items-center flex-col xl:flex-row gap-[40px]">
               <div className="w-full xl:w-[55%]">
                 <div className="flex flex-col gap-[28px]">
@@ -187,10 +191,10 @@ const Landing = () => {
                 <Image src={video} alt="Video" />
               </div>
             </div>
-            <div className="flex md:items-center flex-col md:flex-row gap-[14px] mt-[40px] xl:mt-[64px] z-5">
+            <div className="flex items-center gap-[14px] mt-[40px] xl:mt-[64px] z-5">
               <div className="flex flex-col gap-[16px] w-[190px]">
                 <p
-                  className="text-[48px] leading-[48px] md:text-[64px] md:leading-[64px] font-extrabold"
+                  className="text-[48px] leading-[48px] md:text-[54px] md:leading-[54px] lg:text-[64px] lg:leading-[64px] font-extrabold"
                   style={{
                     fontFamily: '"Druk Cyr", sans-serif',
                     letterSpacing: -5,
@@ -204,7 +208,7 @@ const Landing = () => {
               </div>
               <div className="flex flex-col gap-[16px] w-[400px]">
                 <p
-                  className="text-[48px] leading-[48px] md:text-[64px] md:leading-[64px] font-extrabold"
+                  className="text-[48px] leading-[48px] md:text-[54px] md:leading-[54px] lg:text-[64px] lg:leading-[64px] font-extrabold"
                   style={{
                     fontFamily: '"Druk Cyr", sans-serif',
                     letterSpacing: -5,
@@ -221,7 +225,7 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[24px] md:px-[64px] lg:px-[96px] py-[80px] overflow-hidden flex flex-col gap-[80px]">
+      <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px] overflow-hidden flex flex-col gap-[80px]">
         <div className="flex items-center flex-col xl:flex-row gap-[45px]">
           <div className="w-full xl:w-[50%] flex flex-col gap-[48px] relative">
             <p
@@ -297,7 +301,7 @@ const Landing = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-col xl:flex-row xl:gap-[24px] bg-[#131721] rounded-[24px] xl:h-[280px] overflow-hidden pt-0 xl:pt-[24px] p-[24px]">
+        <div className="flex items-center flex-col md:flex-row md:gap-[24px] bg-[#131721] rounded-[24px] xl:h-[280px] overflow-hidden pt-0 xl:pt-[24px] p-[24px]">
           <div className="md:w-[50%]">
             <Image src={telegram} alt="Telegram" />
           </div>
@@ -333,9 +337,9 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[156px] py-[80px] relative z-10">
+      <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[156px] xl:py-[80px] relative z-10">
         <p
-          className="text-[28px] leading-[75px] uppercase font-extrabold text-[#67F25B] text-center"
+          className="text-[20px] leading-[20px] md:text-[28px] md:leading-[75px] uppercase font-extrabold text-[#67F25B] text-center"
           style={{
             letterSpacing: -3,
             wordSpacing: -3,
@@ -345,7 +349,7 @@ const Landing = () => {
           РЕЗУЛЬТАТЫ
         </p>
         <p
-          className="font-extrabold text-[80px] leading-[80px] text-center mb-[20px]"
+          className="font-extrabold text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] text-center mb-[20px]"
           style={{
             letterSpacing: -3,
             wordSpacing: -3,
@@ -354,50 +358,54 @@ const Landing = () => {
         >
           НАГРАДЫ С ПРОШЕДШИХ ДРОПОВ
         </p>
-        <p className="text-center text-[17px] leading-[24px]">
+        <p className="text-center text-[14px] leading-[21px] md:text-[17px] md:leading-[24px]">
           Наши пользователи участвуют в более чем 500 дропов и зарабатывают
           гарантированные вознаграждения
         </p>
 
-        <div className="relative z-0 mt-[50px] flex flex-wrap justify-center items-center gap-[25px]">
-          <Image
+        <div className="relative z-0 mt-[50px] flex flex-wrap items-center gap-[8px] md:gap-[12px] lg:gap-[25px]">
+          {/* <Image
             className="absolute top-[-100px] left-[-400px] h-[900px] z-[-10] rotate-180"
             src={greenBlur}
             alt="Green Blur"
-          />
+          /> */}
 
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((el) => (
+          {[1, 2, 3, 4, 5].map((el) => (
             <div
               key={el}
-              className="w-[360px] bg-[#1F2027AB] rounded-[16px] p-[26px] z-10 relative"
+              className="w-[163px] h-[171px] sm:w-[346px] sm:h-[158px] lg:w-[359px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] sm:p-[20px] lg:p-[25px] z-10 relative"
             >
-              <div className="flex items-center gap-[24px] mb-[24px]">
-                <div className="w-[50px] h-[50px] rounded-[10px]">
-                  <Image src={prevDrop} alt="Previous Drop Logo" />
+              <div className="flex flex-col sm:flex-row sm:items-center gap-[20px] sm:gap-[24px] mb-[20px] lg:mb-[24px]">
+                <div>
+                  <Image
+                    src={prevDrop}
+                    alt="Previous Drop Logo"
+                    className="w-[32px] h-[32px] sm:w-[48px] sm:h-[48px] rounded-[10px]"
+                  />
                 </div>
                 <div className="flex flex-col gap-[8px]">
-                  <p className="text-[19px] leading-[22px] font-bold">
+                  <p className="text-[14px] leading-[17px] sm:text-[16px] sm:leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
                     Hemi Network
                   </p>
-                  <p className="text-[13px] leading-[16px] text-[#8E8E8E]">
+                  <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#8E8E8E]">
                     Ноябрь 2024
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-[20px]">
-                <div className="flex items-center gap-[20px]">
-                  <p className="text-[13px] leading-[16px] text-[#8E8E8E]">
+              <div className="flex sm:flex-col gap-[12px] lg:gap-[20px]">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-[20px]">
+                  <p className="text-[11px] sm:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
                     Заработано
                   </p>
-                  <p className="text-[28px] leading-[18px] font-semibold">
+                  <p className="text-[14px] sm:text-[20px] lg:text-[28px] leading-[18px] font-semibold">
                     $2500
                   </p>
                 </div>
-                <div className="flex items-center gap-[35px]">
-                  <p className="text-[13px] leading-[16px] text-[#8E8E8E]">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-[35px]">
+                  <p className="text-[11px] sm:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
                     Вложения
                   </p>
-                  <p className="text-[20px] leading-[18px] text-[#ADADAD]">
+                  <p className="text-[14px] sm:text-[20px] leading-[18px] text-[#ADADAD]">
                     $0
                   </p>
                 </div>
@@ -405,7 +413,7 @@ const Landing = () => {
             </div>
           ))}
 
-          <Image
+          {/* <Image
             className="absolute top-[-70px] left-[30px] w-[100px] h-[100px]"
             src={bitcoin}
             alt="Bitcoin"
@@ -424,23 +432,33 @@ const Landing = () => {
             className="absolute bottom-[-100px] right-[30px] w-[165px] h-[165px]"
             src={coin}
             alt="Coin"
-          />
+          /> */}
         </div>
         <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center mt-[50px] bg-white py-[10px] px-[16px] rounded-[12px] w-[180px] h-[60px]">
+          <div className="flex items-center justify-center mt-[50px] bg-white py-[10px] px-[16px] rounded-[12px] w-[184px] h-[40px] sm:h-[48px] lg:h-[57px]">
             <div className="text-[14px] leading-[16px] text-black">
               Показать еще
             </div>
           </div>
         </div>
 
-        <Image
+        {/* <Image
           className="absolute top-[30px] right-[300px] w-[300px] -rotate-12"
           src={paint}
           alt="Paint"
-        />
+        /> */}
       </div>
-      <div className="px-[96px] py-[80px]">
+      <div className="px-[20px] py-[50px] md:px-[40px] md:pt-[80px] md:pb-[64px] xl:px-[96px] xl:py-[80px]">
+        <p
+          className="font-extrabold text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px]"
+          style={{
+            letterSpacing: -3,
+            wordSpacing: -3,
+            fontFamily: '"Druk Cyr", sans-serif',
+          }}
+        >
+          Как это работает?
+        </p>
         <div className="relative flex flex-col gap-[40px]">
           {[
             {
@@ -467,12 +485,12 @@ const Landing = () => {
           ].map((item, index, array) => (
             <div
               key={item.number}
-              className="flex justify-between items-center gap-[32px] relative"
+              className="flex flex-col lg:flex-row lg:justify-between md:items-center gap-[16px] md:gap-[32px] relative"
             >
-              <div className="flex gap-[55px]">
-                <div className="relative flex items-center justify-center h-[55px] w-[55px] bg-white text-black rounded-full">
+              <div className="flex gap-[24px] md:gap-[55px]">
+                <div className="relative flex items-center justify-center h-[36px] w-[36px] md:h-[55px] md:w-[55px] bg-white text-black rounded-full">
                   <p
-                    className="text-[28px] leading-[28px] font-extrabold"
+                    className="text-[18px] leading-[18px] md:text-[28px] md:leading-[28px] font-extrabold"
                     style={{
                       letterSpacing: -3,
                       wordSpacing: -3,
@@ -485,7 +503,7 @@ const Landing = () => {
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[1px] h-[480px] bg-[#424242]"></div>
                   )}
                 </div>
-                <div className="flex flex-col gap-[20px] w-[500px]">
+                <div className="flex flex-col gap-[20px] w-[275px] xs:w-[400px] sm:w-[500px] md:w-[595px] lg:w-[491px]">
                   <p className="text-[26px] leading-[30px] font-bold">
                     {item.title}
                   </p>
@@ -498,7 +516,7 @@ const Landing = () => {
                 <Image
                   src={item.image}
                   alt={item.title}
-                  className="w-[500px]"
+                  className="pl-[60px] w-[500px]"
                 />
               </div>
             </div>
@@ -506,7 +524,7 @@ const Landing = () => {
         </div>
       </div>
       <div
-        className="bg-cover bg-center bg-no-repeat h-[950px] flex items-center justify-center overflow-hidden"
+        className="bg-cover bg-center bg-no-repeat h-[616px] md:h-[768px] flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: `url(${landingFooterBg.src})`,
           backgroundSize: "cover",
@@ -514,10 +532,10 @@ const Landing = () => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="w-[700px] flex flex-col gap-[64px] items-center relative">
-          <div className="flex flex-col gap-[20px] text-center relative">
+        <div className="flex flex-col gap-[64px] items-center relative px-[40px]">
+          <div className="w-[335px] sm:w-[505px] md:w-[705px] lg:w-[923px] flex flex-col gap-[20px] text-center relative">
             <p
-              className="text-[80px] leading-[75px] font-extrabold uppercase"
+              className="text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[75px] font-extrabold uppercase"
               style={{
                 letterSpacing: -3,
                 wordSpacing: -3,
@@ -526,13 +544,13 @@ const Landing = () => {
             >
               Присоединяйся к комьюнити
             </p>
-            <p className="text-[17px] leading-[24px] text-center">
+            <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[24px] text-center">
               Подпишись на Drop Hunting в соц сетях чтобы не пропустить ни
               одного дропа и всегда быть в курсе событий
             </p>
           </div>
           <div className="flex flex-col gap-[40px]">
-            <button className="w-[570px] bg-[#11CA00] py-[24px] px-[56px] rounded-[8px] text-[18px] leading-[18px] font-bold flex items-center justify-center">
+            <button className="w-[335px] md:w-[573px] bg-[#11CA00] h-[56px] md:h-[88px] py-[24px] px-[56px] rounded-[8px] text-[16px] leading-[18px] md:text-[22px] md:leading-[18px] font-bold flex items-center justify-center">
               Перейти в агрегатор
             </button>
             <div className="flex items-center justify-center">
@@ -547,79 +565,109 @@ const Landing = () => {
           <Image
             src={goldBitcoin}
             alt="Gold Bitcoin"
-            className="absolute w-[115px] h-[115px] top-[-100px] left-[-200px]"
+            className="absolute w-[67px] h-[67px] md:w-[102px] md:h-[102px] lg:w-[115px] lg:h-[115px] top-[-80px] left-[5px] md:top-[-100px] sm:left-[-20px] md:left-0 lg:left-[-60px] xl:left-[-160px]"
           />
           <Image
             src={goldCrypto}
             alt="Gold Crypto"
-            className="absolute w-[140px] h-[140px] bottom-[150px] right-[-300px]"
+            className="absolute w-[77px] h-[77px]  md:w-[115px] md:h-[115px] lg:w-[140px] lg:h-[140px] right-0 bottom-[-70px] sm:right-0 md:bottom-[160px] lg:bottom-[110px] md:right-[-60px] lg:right-[-100px] xl:right-[-200px]"
           />
           <Image
             src={greenTether}
             alt="Green Tether"
-            className="absolute w-[185px] h-[185px] top-[-300px] right-[-200px]"
+            className="absolute w-[75px] h-[75px] md:w-[118px] lg:w-[185px] md:h-[118px] lg:h-[185px] top-[-120px] right-[20px] md:top-[-160px] md:right-[-40px] lg:top-[-200px] lg:right-[-70px] xl:right-[-140px]"
           />
         </div>
       </div>
-      <footer className="bg-black h-[400px] px-[200px] pt-[56px]">
-        <Image
-          src={landingLogo}
-          alt="DropHunting logo"
-          className="w-[170px] mb-[30px]"
-        />
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-[24]">
-            <p
-              className="text-[40px] leading-[44px] font-extrabold uppercase"
-              style={{
-                letterSpacing: -3,
-                wordSpacing: -3,
-                fontFamily: '"Druk Cyr", sans-serif',
-              }}
-            >
-              Лучшие аирдропы в мире
-            </p>
-            <p className="text-[14px] leading-[24px] w-[360px]">
-              Больше никаких &quot;приваток&quot; и подписок на сотни телеграм
-              каналов
-            </p>
-            <div className="flex items-center gap-[10px]">
-              <BsTwitterX size={23} />
-              <FaDiscord size={27} />
-              <RiTelegram2Fill size={27} />
-              <FaInstagram size={27} />
+      <footer className="bg-black h-[751px] md:h-[617px] lg:h-[440px] px-[40px] lg:px-[100px] xl:px-[200px] pt-[56px] flex flex-col justify-between">
+        <div>
+          <Image
+            src={landingLogo}
+            alt="DropHunting logo"
+            className="w-[170px] mb-[32px]"
+          />
+          <div className="flex flex-col md:flex-row md:justify-between gap-[24px] md:gap-[48px]">
+            <div className="flex flex-col gap-[24px]">
+              <p
+                className="text-[42px] leading-[42px] md:text-[51px] md:leading-[47px] font-extrabold uppercase"
+                style={{
+                  letterSpacing: -3,
+                  wordSpacing: -3,
+                  fontFamily: '"Druk Cyr", sans-serif',
+                }}
+              >
+                Лучшие аирдропы в мире
+              </p>
+              <p className="text-[14px] leading-[24px] max-w-[360px]">
+                Больше никаких &quot;приваток&quot; и подписок на сотни телеграм
+                каналов
+              </p>
+              <div className="flex items-center gap-[10px] mb-[24px]">
+                <BsTwitterX size={23} />
+                <FaDiscord size={27} />
+                <RiTelegram2Fill size={27} />
+                <FaInstagram size={27} />
+              </div>
+              <ul className="hidden lg:hidden md:flex flex-col gap-[17px] w-[150px]">
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  О сервисе
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Результаты
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Как это работает
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Контакты
+                </li>
+              </ul>
             </div>
-          </div>
-          <div className="flex gap-[20px]">
-            <ul className="flex flex-col gap-[20px] w-[150px]">
-              <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                О сервисе
-              </li>
-              <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                Результаты
-              </li>
-              <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                Как это работает
-              </li>
-              <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                Контакты
-              </li>
-            </ul>
-            <div className="flex flex-col gap-[12px]">
-              <button className="bg-[#11CA00] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
-                Перейти в агрегатор
-              </button>
-              <button className="bg-[#21274C] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
-                Подписаться на бот
-              </button>
+            <div className="flex flex-col md:flex-row gap-[48px] md:gap-[24px]">
+              <ul className="hidden lg:flex flex-col gap-[17px] w-[150px]">
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  О сервисе
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Результаты
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Как это работает
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Контакты
+                </li>
+              </ul>
+              <div className="flex flex-col gap-[12px]">
+                <button className="bg-[#11CA00] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+                  Перейти в агрегатор
+                </button>
+                <button className="bg-[#21274C] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+                  Подписаться на бот
+                </button>
+              </div>
+              <ul className="flex md:hidden flex-col gap-[17px] w-[150px]">
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  О сервисе
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Результаты
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Как это работает
+                </li>
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
+                  Контакты
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-[40px] mt-[70px]">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between lg:justify-normal gap-[12px] md:gap-[40px] py-[24px]">
           <p className="text-[13px] leading-[16px] text-[#ABABAB]">
             Drop Hunting 2025
           </p>
-          <ul className="flex items-center gap-[24px]">
+          <ul className="flex flex-wrap items-center gap-[12px] md:gap-[24px]">
             <li className="text-[12px] leading-[12px] text-[#535353]">
               Политика пользовательского соглашения
             </li>

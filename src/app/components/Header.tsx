@@ -227,7 +227,7 @@ const Header = () => {
 
       {isBalanceModalOpen && (
         <div
-          className="hidden sm:block fixed inset-0 sm:bg-black sm:bg-opacity-40 lg:bg-none lg:bg-opacity-0 z-100"
+          className="hidden sm:block fixed inset-0 sm:bg-black sm:bg-opacity-40 lg:bg-none lg:bg-opacity-0 z-200"
           onClick={toggleBalanceModal}
         >
           <div

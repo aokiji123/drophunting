@@ -14,6 +14,7 @@ export default {
       },
       screens: {
         smd: "769px",
+        xs: "475px",
       },
     },
     fontFamily: {
