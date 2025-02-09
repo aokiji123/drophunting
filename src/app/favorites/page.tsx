@@ -85,7 +85,7 @@ const Favorites = () => {
           </div>
           <div className="flex flex-wrap gap-[16px] lg:gap-[28px] items-center">
             <div>
-              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -176,7 +176,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -268,7 +268,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -359,7 +359,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -450,7 +450,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -541,7 +541,7 @@ const Favorites = () => {
               </div>
             </div>
             <div>
-              <div className="w-[340px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">

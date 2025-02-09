@@ -27,7 +27,7 @@ const CustomSlider = styled(Slider)({
     margin: 0,
   },
   [`& .${sliderClasses.track}`]: {
-    background: "linear-gradient(to right, #5af86e, #d2f21b)",
+    background: "linear-gradient(to right, #d2f21b, #5af86e)",
     border: "none",
     zIndex: 2,
   },
@@ -137,6 +137,7 @@ const Referal = () => {
                           .map((mark) => ({ value: mark.value }))}
                         min={0}
                         max={20}
+                        disabled
                       />
                     </div>
                   </div>
