@@ -27,7 +27,21 @@
   --input-bg-error: #231b1b;
 }
 
-/* ::-webkit-scrollbar {
+html {
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "IBM Plex Mono", sans-serif;
+  font-size: 14px;
+}
+
+::-webkit-scrollbar {
+  position: fixed;
+  right: 0;
   width: 8px;
   height: 8px;
 }
@@ -39,7 +53,7 @@
 ::-webkit-scrollbar-thumb {
   background-color: #36323c;
   border-radius: 20px;
-} */
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -76,13 +90,6 @@
 .modal {
   z-index: 9999 !important;
   position: absolute;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: "IBM Plex Mono", sans-serif;
-  font-size: 14px;
 }
 
 .zindex {

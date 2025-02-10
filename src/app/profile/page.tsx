@@ -130,10 +130,10 @@ const Profile = () => {
               </div>
 
               <div>
-                <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2 break-words max-w-[350px] md:max-w-[550px]">
+                <p className="text-[20px] sm:text-[28px] md:text-[30px] font-semibold leading-[28px] mb-2 break-words max-w-[400px] lg:max-w-[550px]">
                   {user?.name}
                 </p>
-                <p className="leading-[14px] text-[#8E8E8E] break-words max-w-[350px] md:max-w-[550px]">
+                <p className="leading-[14px] text-[#8E8E8E] break-words max-w-[400px] lg:max-w-[550px]">
                   {user?.email}
                 </p>
               </div>
@@ -324,11 +324,11 @@ const Profile = () => {
                 </p>
                 <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[591px]">
                   <div className="mb-3 flex gap-2">
-                    <div>
+                    <div className="w-[20px] h-[20px]">
                       <Image
                         src={authenticator}
                         alt="Authenticator"
-                        className="flex-shrink-0 text-white w-[20px] h-[20px]"
+                        className="flex-shrink-0 text-white"
                       />
                     </div>
                     <div>

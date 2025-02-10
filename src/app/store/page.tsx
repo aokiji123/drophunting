@@ -53,11 +53,11 @@ const Store = () => {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-[16px] sm:gap-[24px] lg:gap-[28px] items-center">
+          <div className="flex flex-wrap gap-[16px] sm:gap-[24px] lg:gap-[28px] justify-center md:justify-normal items-center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((storeIndex) => (
               <div
                 key={storeIndex}
-                className="relative w-[335px] sm:w-[340px] h-[482px] lg:w-[397px] lg:h-[483px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden"
+                className="relative w-[335px] sm:w-[336px] h-[482px] lg:w-[394px] lg:h-[483px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden"
               >
                 <Image src={store} alt="Store" className="w-full" />
                 <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">

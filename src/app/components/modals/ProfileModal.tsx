@@ -84,7 +84,7 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
             alt="User Avatar"
             className="w-[40px] h-[40px] rounded-full"
           />
-          <div className="w-[207px]">
+          <div className="w-[207px] pr-[15px] lg:p-0">
             <p className="font-bold truncate">{user?.name}</p>
             <p className="text-gray-400 text-sm truncate">{user?.email}</p>
           </div>

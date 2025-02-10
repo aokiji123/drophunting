@@ -207,7 +207,7 @@ const Header = () => {
       </div>
 
       {isNotificationsModalOpen && (
-        <div className="modal absolute w-[360px] sm:w-[400px] top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:w-[450px] bg-[#1C1E22] rounded-[12px] p-[20px] z-[30px] shadow-2xl overflow-y-auto">
+        <div className="modal absolute w-[359px] top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
           <NotificationsModal
             toggleNotificationsModal={toggleNotificationsModal}
           />
@@ -227,7 +227,7 @@ const Header = () => {
 
       {isBalanceModalOpen && (
         <div
-          className="hidden sm:block fixed inset-0 sm:bg-black sm:bg-opacity-40 lg:bg-none lg:bg-opacity-0 z-200"
+          className="hidden sm:block modal fixed inset-0 sm:bg-black sm:bg-opacity-40 lg:bg-none lg:bg-opacity-0 z-200"
           onClick={toggleBalanceModal}
         >
           <div

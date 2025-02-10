@@ -110,7 +110,7 @@ const Referal = () => {
                     20%
                   </p>
                 </div>
-                <div className="flex flex-col gap-[8px] mt-[3px]">
+                <div className="flex flex-col gap-[8px] mt-[3px] flex-grow">
                   <p className="font-semibold leading-[20px]">
                     Referals invited
                   </p>
@@ -118,7 +118,10 @@ const Referal = () => {
                     <p className="text-[25px] leading-[28px] font-semibold">
                       5
                     </p>
-                    <div className="bg-[#232427BA] rounded-[100px] p-[4px] w-[441px] flex items-center justify-center">
+                    <div
+                      className="bg-[#232427BA] rounded-[100px] p-[4px] flex items-center justify-center"
+                      style={{ maxWidth: "441px", width: "100%" }}
+                    >
                       <CustomSlider
                         defaultValue={5}
                         step={1}
@@ -133,6 +136,7 @@ const Referal = () => {
                   </div>
                 </div>
               </div>
+
               <div className="bg-[#1B1C20] sm:p-[12px] rounded-[12px] my-6 w-full border-[1px] border-[#202126]">
                 <div className="flex flex-col sm:flex-row">
                   {/* <div className="flex md:items-center gap-4">

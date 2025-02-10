@@ -42,7 +42,7 @@ const Guide = () => {
                 Project
               </p>
             </div>
-            <p className="text-[22px] leading-[26px] sm:text-[24px] sm:leading-[32px] lg:text-[32px] lg:leading-[40px] font-bold tracking-[-2%]">
+            <p className="text-[22px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[32px] lg:leading-[40px] font-bold tracking-[-2%]">
               Premium. 5 Airdrops with winning
             </p>
 
@@ -54,9 +54,9 @@ const Guide = () => {
                 alt="Store"
                 className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px] object-cover"
               />
-              <div className="p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
+              <div className="p-[16px] lg:p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
                 <div className="flex flex-col gap-[12px] lg:gap-[20px]">
-                  <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
+                  <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[20px] font-bold">
                     Premium. 5 Airdrops with winning
                   </p>
                   <p className="text-[13px] lg:text-[14px] leading-[20px] text-[#B0B0B0]">
@@ -133,14 +133,14 @@ const Guide = () => {
           </div>
           <div>
             <div
-              className={`hidden md:block w-[335px] h-[360px] md:w-[308px] md:h-[420px] lg:w-[366px] lg:h-[481px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}
+              className={`hidden md:block w-[335px] h-[360px] md:w-[310px] md:h-[420px] lg:w-[366px] lg:h-[481px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden`}
             >
               <Image
                 src={storePhoto}
                 alt="Store"
                 className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px] object-cover"
               />
-              <div className="p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
+              <div className="p-[16px] lg:p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
                 <div className="flex flex-col gap-[12px] lg:gap-[20px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
                     Premium. 5 Airdrops with winning

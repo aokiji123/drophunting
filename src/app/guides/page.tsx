@@ -58,7 +58,7 @@ const Guides = () => {
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex overflow-x-auto md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
+          <div className="flex overflow-x-auto pb-[5px] md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
             <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
               All
             </button>
@@ -108,9 +108,9 @@ const Guides = () => {
               <MdOutlineArrowDropDown className="text-white" size={20} />
             </div>
           </div>
-          <div className="flex flex-wrap gap-[16px] lg:gap-[28px] items-center">
+          <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center md:justify-normal items-center">
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -202,7 +202,7 @@ const Guides = () => {
             </div>
 
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -295,7 +295,7 @@ const Guides = () => {
             </div>
 
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -388,7 +388,7 @@ const Guides = () => {
             </div>
 
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -480,7 +480,7 @@ const Guides = () => {
             </div>
 
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -572,7 +572,7 @@ const Guides = () => {
             </div>
 
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -664,7 +664,7 @@ const Guides = () => {
             </div>
 
             <div>
-              <div className="w-[343px] sm:w-[344px] lg:w-[396px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+              <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">
                   <div className="flex items-center gap-1">
                     <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
