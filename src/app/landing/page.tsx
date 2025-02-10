@@ -6,7 +6,7 @@ import { FaCheck, FaDollarSign } from "react-icons/fa6";
 import { MdAccessTime } from "react-icons/md";
 import { HiLightningBolt } from "react-icons/hi";
 import { BsTwitterX } from "react-icons/bs";
-import { FaDiscord, FaInstagram } from "react-icons/fa";
+import { FaDiscord, FaInstagram, FaPlay, FaCaretDown } from "react-icons/fa";
 import { RiTelegram2Fill } from "react-icons/ri";
 
 import landingLogo from "../../../public/assets/landing-logo.png";
@@ -18,11 +18,11 @@ import greenBlur from "../../../public/assets/green-blur.png";
 import arrow from "../../../public/assets/arrow.png";
 import telegram from "../../../public/assets/telegram.png";
 import prevDrop from "../../../public/assets/prev-drop.png";
-// import paint from "../../../public/assets/paint.png";
-// import bitcoin from "../../../public/assets/bitcoin.png";
-// import ethereum from "../../../public/assets/ethereum.png";
-// import coin from "../../../public/assets/coin.png";
-// import dollar from "../../../public/assets/dollar.png";
+import paint from "../../../public/assets/paint.png";
+import bitcoin from "../../../public/assets/bitcoin.png";
+import ethereum from "../../../public/assets/ethereum.png";
+import coin from "../../../public/assets/coin.png";
+import dollar from "../../../public/assets/dollar.png";
 import landingZenchain from "../../../public/assets/landing-zenchain.png";
 import dollarBag from "../../../public/assets/dollar-bag.jpg";
 import group from "../../../public/assets/group.png";
@@ -30,28 +30,15 @@ import group from "../../../public/assets/group.png";
 import goldBitcoin from "../../../public/assets/gold-bitcoin.png";
 import goldCrypto from "../../../public/assets/gold-crypto.png";
 import greenTether from "../../../public/assets/green-tether.png";
-import {
-  MenuItem,
-  SelectChangeEvent,
-  FormControl,
-  Select,
-} from "@mui/material";
 import { GrLanguage } from "react-icons/gr";
-import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 const Landing = () => {
-  const [language, setLanguage] = useState("en");
-
-  const handleChange = (e: SelectChangeEvent) => {
-    setLanguage(e.target.value);
-  };
-
   return (
     <div className="bg-black text-white">
       <div className="xl:h-[885px] overflow-hidden">
         <div
-          className="bg-[#101114] bg-cover bg-center bg-no-repeat xl:h-[1400px]"
+          className="bg-[#101114] bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url(${landingHeaderBg.src})`,
             backgroundSize: "cover",
@@ -76,82 +63,29 @@ const Landing = () => {
               </li>
             </ul>
             <div className="flex items-center gap-[8px] md:gap-[16px]">
-              <FormControl
-                sx={{
-                  bgcolor: "transparent",
-                  ".MuiOutlinedInput-notchedOutline": { border: "none" },
-                  ".MuiSelect-select": {
-                    color: "white",
-                    fontSize: "16px",
-                    fontWeight: 600,
-                    padding: 0,
-                  },
-                  ".MuiSelect-icon": { color: "white", padding: 0 },
-                  "& .MuiPaper-root": {
-                    bgcolor: "#1C1E22",
-                    color: "white",
-                    borderRadius: "8px",
-                    padding: 0,
-                  },
-                  "& .MuiMenuItem-root": {
-                    bgcolor: "#1C1E22",
-                    padding: 0,
-                    "&:hover": {
-                      bgcolor: "transparent",
-                    },
-                  },
-                }}
-              >
-                <Select
-                  value={language}
-                  onChange={handleChange}
-                  inputProps={{
-                    "aria-label": "Language select",
-                  }}
-                  sx={{
-                    height: "40px",
-                  }}
-                >
-                  <MenuItem value="en">
-                    <div className="flex items-center gap-1 py-[8px]">
-                      <GrLanguage />
-                      <p className="text-[16px] font-semibold leading-[20px]">
-                        EN
-                      </p>
-                    </div>
-                  </MenuItem>
-                  <MenuItem value="ru">
-                    <div className="flex items-center gap-1 py-[8px]">
-                      <GrLanguage />
-                      <p className="text-[16px] font-semibold leading-[20px]">
-                        RU
-                      </p>
-                    </div>
-                  </MenuItem>
-                </Select>
-              </FormControl>
+              <div className="cursor-pointer">
+                <div className="flex items-center gap-[4px]">
+                  <GrLanguage size={20} />
+                  <p>EN</p>
+                  <FaCaretDown />
+                </div>
+              </div>
               <button className="hidden bg-[#11CA00] py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] md:flex items-center justify-center">
                 Перейти в агрегатор
               </button>
-              <div className="cursor-pointer">
-                <GiHamburgerMenu className="block lg:hidden" size={24} />
-              </div>
+              <GiHamburgerMenu className="block lg:hidden" size={24} />
             </div>
           </header>
           <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px]">
             <div className="flex xl:items-center flex-col xl:flex-row gap-[40px]">
               <div className="w-full xl:w-[55%]">
                 <div className="flex flex-col gap-[28px]">
-                  <p className="text-[14px] leading-[16px] text-[#89FF45] uppercase">
+                  <p className="text-[13px] md:text-[14px] leading-[16px] text-[#89FF45] uppercase">
                     Airdrop Агрегатор #1
                   </p>
                   <p
-                    className="text-[54px] leading-[50px] sm:text-[70px] sm:leading-[70px] md:text-[94px] md:leading-[80px] uppercase font-extrabold"
-                    style={{
-                      letterSpacing: -5,
-                      wordSpacing: -5,
-                      fontFamily: '"Druk Cyr", sans-serif',
-                    }}
+                    className="text-[56px] leading-[56px] md:text-[86px] md:leading-[80px] lg:text-[94px] lg:leading-[86px] uppercase font-bold font-druk"
+                    style={{ letterSpacing: 0 }}
                   >
                     Получайте лучшие{" "}
                     <span className="text-[#89FF45]">AirDrop</span> первыми
@@ -161,7 +95,7 @@ const Landing = () => {
                       <div>
                         <FaCheck size={18} className="text-[#ABE91A]" />
                       </div>
-                      <p className="text-[18px] leading-[24px]">
+                      <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[18px] md:leading-[24px]">
                         Новые дропы каждый день
                       </p>
                     </li>
@@ -169,7 +103,7 @@ const Landing = () => {
                       <div>
                         <FaCheck size={18} className="text-[#ABE91A]" />
                       </div>
-                      <p className="text-[18px] leading-[24px]">
+                      <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[18px] md:leading-[24px]">
                         А еще вот это новинки
                       </p>
                     </li>
@@ -177,29 +111,26 @@ const Landing = () => {
                       <div>
                         <FaCheck size={18} className="text-[#ABE91A]" />
                       </div>
-                      <p className="text-[18px] leading-[24px]">
+                      <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[18px] md:leading-[24px]">
                         Новинки узнавайте первыми о которых не знал никто
                       </p>
                     </li>
                   </ul>
-                  <button className="w-[320px] bg-[#11CA00] py-[18px] md:py-[24px] px-[32px] md:px-[56px] rounded-[8px] text-[18px] leading-[18px] font-bold flex items-center justify-center">
+                  <button className="w-full sm:w-[260px] md:h-[56px] lg:w-[318px] lg:h-[66px] bg-[#11CA00] py-[18px] md:py-[24px] px-[38px] lg:px-[56px] rounded-[8px] text-[15px] md:text-[16px] lg:text-[18px] leading-[18px] font-semibold flex items-center justify-center">
                     Перейти в агрегатор
                   </button>
                 </div>
               </div>
-              <div className="max-w-[600px] xl:w-[45%]">
+              <div className="max-w-[600px] xl:w-[45%] relative">
                 <Image src={video} alt="Video" />
+                <div className="absolute top-1/2 left-1/2 w-[52px] h-[52px] sm:h-[88px] sm:w-[88px] lg:w-[92px] lg:h-[92px] bg-black opacity-75 flex justify-center items-center rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer">
+                  <FaPlay className="h-[14px] w-[14px] sm:h-[22px] sm:w-[22px] lg:h-[24px] lg:w-[24px]" />
+                </div>
               </div>
             </div>
             <div className="flex items-center gap-[14px] mt-[40px] xl:mt-[64px] z-5">
               <div className="flex flex-col gap-[16px] w-[190px]">
-                <p
-                  className="text-[48px] leading-[48px] md:text-[54px] md:leading-[54px] lg:text-[64px] lg:leading-[64px] font-extrabold"
-                  style={{
-                    fontFamily: '"Druk Cyr", sans-serif',
-                    letterSpacing: -5,
-                  }}
-                >
+                <p className="text-[48px] leading-[48px] md:text-[54px] md:leading-[54px] lg:text-[64px] lg:leading-[64px] font-bold font-druk">
                   2102
                 </p>
                 <p className="text-[#ABABAB] text-[14px] leading-[20px]">
@@ -207,13 +138,7 @@ const Landing = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-[16px] w-[400px]">
-                <p
-                  className="text-[48px] leading-[48px] md:text-[54px] md:leading-[54px] lg:text-[64px] lg:leading-[64px] font-extrabold"
-                  style={{
-                    fontFamily: '"Druk Cyr", sans-serif',
-                    letterSpacing: -5,
-                  }}
-                >
+                <p className="text-[48px] leading-[48px] md:text-[54px] md:leading-[54px] lg:text-[64px] lg:leading-[64px] font-bold font-druk">
                   $ 294 210 391
                 </p>
                 <p className="text-[#ABABAB] text-[14px] leading-[20px]">
@@ -228,12 +153,7 @@ const Landing = () => {
       <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px] overflow-hidden flex flex-col gap-[80px]">
         <div className="flex items-center flex-col xl:flex-row gap-[45px]">
           <div className="w-full xl:w-[50%] flex flex-col gap-[48px] relative">
-            <p
-              className="text-[32px] md:text-[64px] xl:text-[80px] md:leading-[64px] xl:leading-[90px] uppercase font-extrabold"
-              style={{
-                fontFamily: '"Druk Cyr", sans-serif',
-              }}
-            >
+            <p className="text-[32px] md:text-[64px] xl:text-[80px] md:leading-[64px] xl:leading-[90px] uppercase font-bold font-druk">
               Выполняй задания по гайдам и зарабатывай
             </p>
             <div className="max-w-[500px] flex flex-col gap-[40px]">
@@ -243,7 +163,7 @@ const Landing = () => {
                     <MdAccessTime size={24} />
                   </div>
                 </div>
-                <p className="text-[17px] leading-[22px]">
+                <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[22px]">
                   <span className="font-bold">Экономьте свое время. </span>
                   <span>Узнавайте сразу все обновления в одном месте</span>
                 </p>
@@ -254,7 +174,7 @@ const Landing = () => {
                     <FaDollarSign size={24} />
                   </div>
                 </div>
-                <p className="text-[17px] leading-[22px]">
+                <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[22px]">
                   <span className="font-bold">
                     Распределите ресурсы правильно.{" "}
                   </span>
@@ -270,7 +190,7 @@ const Landing = () => {
                     <HiLightningBolt size={24} />
                   </div>
                 </div>
-                <p className="text-[17px] leading-[22px]">
+                <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[22px]">
                   <span className="font-bold">Быстро и точно. </span>
                   <span>
                     Собирайте все возможные аирдропы в одном месте и получайте
@@ -301,28 +221,22 @@ const Landing = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center flex-col md:flex-row md:gap-[24px] bg-[#131721] rounded-[24px] xl:h-[280px] overflow-hidden pt-0 xl:pt-[24px] p-[24px]">
+        <div className="flex items-center flex-col md:flex-row md:gap-[24px] bg-[#131721] rounded-[24px] xl:h-[280px] overflow-hidden p-[24px]">
           <div className="md:w-[50%]">
             <Image src={telegram} alt="Telegram" />
           </div>
           <div className="flex flex-col gap-[24px]">
             <div className="relative">
-              <p
-                className="text-[42px] leading-[42px] xl:text-[50px] xl:leading-[50px] uppercase font-extrabold border-t-[1px] border-[#289BFF17] pt-[24px] xl:border-none xl:pt-0"
-                style={{
-                  letterSpacing: -3,
-                  fontFamily: '"Druk Cyr", sans-serif',
-                }}
-              >
+              <p className="text-[34px] leading-[34px] md:text-[40px] md:leading-[37px] lg:text-[50px] lg:leading-[50px] uppercase font-bold font-druk">
                 Подпишись на телеграм канал
               </p>
               {/* <Image
                 src={underline}
                 alt="Underline"
-                className="block xl:hidden w-[400px] absolute top-[80px] right-[20px]"
+                className="block w-[200px] absolute top-[60px] right-[280px]"
               /> */}
             </div>
-            <p className="text-[17px] leading-[20px]">
+            <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[17px] md:leading-[22px]">
               Каждый день новые дропы. Подпишись и будь в курсе последних
               обновлений в проектах
             </p>
@@ -337,75 +251,61 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[156px] xl:py-[80px] relative z-10">
-        <p
-          className="text-[20px] leading-[20px] md:text-[28px] md:leading-[75px] uppercase font-extrabold text-[#67F25B] text-center"
-          style={{
-            letterSpacing: -3,
-            wordSpacing: -3,
-            fontFamily: '"Druk Cyr", sans-serif',
-          }}
-        >
+      <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[156px] xl:py-[80px] relative z-10 overflow-hidden flex flex-col items-center">
+        <p className="text-[20px] leading-[20px] md:text-[28px] md:leading-[75px] uppercase font-bold font-druk text-[#67F25B] text-center">
           РЕЗУЛЬТАТЫ
         </p>
-        <p
-          className="font-extrabold text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] text-center mb-[20px]"
-          style={{
-            letterSpacing: -3,
-            wordSpacing: -3,
-            fontFamily: '"Druk Cyr", sans-serif',
-          }}
-        >
+        <p className="font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] text-center mb-[20px]">
           НАГРАДЫ С ПРОШЕДШИХ ДРОПОВ
         </p>
-        <p className="text-center text-[14px] leading-[21px] md:text-[17px] md:leading-[24px]">
+        <p className="text-center text-[14px] leading-[21px] md:text-[17px] max-w-[539px] lg:w-full md:leading-[24px]">
           Наши пользователи участвуют в более чем 500 дропов и зарабатывают
           гарантированные вознаграждения
         </p>
 
         <div className="relative z-0 mt-[50px] flex flex-wrap items-center gap-[8px] md:gap-[12px] lg:gap-[25px]">
-          {/* <Image
-            className="absolute top-[-100px] left-[-400px] h-[900px] z-[-10] rotate-180"
+          <Image
+            className="absolute top-[-130px] left-[-100px] md:left-[-200px] lg:left-[-250px] xl:left-[-300px] h-[900px] z-[-10] rotate-180"
             src={greenBlur}
             alt="Green Blur"
-          /> */}
+          />
 
-          {[1, 2, 3, 4, 5].map((el) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((el) => (
             <div
               key={el}
-              className="w-[163px] h-[171px] sm:w-[346px] sm:h-[158px] lg:w-[359px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] sm:p-[20px] lg:p-[25px] z-10 relative"
+              className="w-[159px] h-[171px] md:w-[334px] md:h-[158px] lg:w-[356px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] md:p-[20px] lg:p-[25px] z-10 relative"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center gap-[20px] sm:gap-[24px] mb-[20px] lg:mb-[24px]">
+              <div className="flex flex-col md:flex-row md:items-center gap-[20px] md:gap-[24px] mb-[20px] lg:mb-[24px]">
                 <div>
                   <Image
                     src={prevDrop}
                     alt="Previous Drop Logo"
-                    className="w-[32px] h-[32px] sm:w-[48px] sm:h-[48px] rounded-[10px]"
+                    className="w-[32px] h-[32px] md:w-[48px] md:h-[48px] rounded-[10px]"
                   />
                 </div>
                 <div className="flex flex-col gap-[8px]">
-                  <p className="text-[14px] leading-[17px] sm:text-[16px] sm:leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
+                  <p className="text-[14px] leading-[17px] md:text-[16px] md:leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
                     Hemi Network
                   </p>
-                  <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#8E8E8E]">
+                  <p className="text-[12px] leading-[14px] md:text-[13px] md:leading-[16px] text-[#8E8E8E]">
                     Ноябрь 2024
                   </p>
                 </div>
               </div>
-              <div className="flex sm:flex-col gap-[12px] lg:gap-[20px]">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-[20px]">
-                  <p className="text-[11px] sm:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
+              <div className="flex md:flex-col gap-[12px] lg:gap-[20px]">
+                <div className="flex flex-col md:flex-row md:items-center md:gap-[20px]">
+                  <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
                     Заработано
                   </p>
-                  <p className="text-[14px] sm:text-[20px] lg:text-[28px] leading-[18px] font-semibold">
+                  <p className="text-[14px] md:text-[20px] lg:text-[28px] leading-[18px] font-semibold">
                     $2500
                   </p>
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:gap-[35px]">
-                  <p className="text-[11px] sm:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
+                <div className="flex flex-col md:flex-row smd:items-center md:gap-[35px]">
+                  <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
                     Вложения
                   </p>
-                  <p className="text-[14px] sm:text-[20px] leading-[18px] text-[#ADADAD]">
+                  <p className="text-[14px] md:text-[20px] leading-[18px] text-[#ADADAD]">
                     $0
                   </p>
                 </div>
@@ -413,26 +313,26 @@ const Landing = () => {
             </div>
           ))}
 
-          {/* <Image
-            className="absolute top-[-70px] left-[30px] w-[100px] h-[100px]"
+          <Image
+            className="absolute top-[-40px] sm:top-[-80px] left-[-40px] lg:top-[-150px] sm:left-[-65px] lg:left-[-90px] w-[57px] h-[57px] sm:w-[88px] lg:w-[100px] sm:h-[88px] lg:h-[100px]"
             src={bitcoin}
             alt="Bitcoin"
           />
           <Image
-            className="absolute top-[-130px] right-[-20px] w-[180px] h-[180px]"
+            className="hidden sm:block absolute sm:top-[-110px] right-[-70px] lg:right-[-150px] sm:w-[105px] lg:w-[180px] sm:h-[105px] lg:h-[180px]"
             src={dollar}
             alt="Dollar"
           />
           <Image
-            className="absolute bottom-[-20px] left-[10px] w-[120px] h-[120px]"
+            className="absolute bottom-[-50px] sm:bottom-[-110px] left-[-30px] sm:left-[-70px] lg:left-[-120px] xl:left-[-160px] w-[55px] h-[55px] sm:w-[105px] lg:w-[120px] sm:h-[105px] lg:h-[120px]"
             src={ethereum}
             alt="Ethereum"
           />
           <Image
-            className="absolute bottom-[-100px] right-[30px] w-[165px] h-[165px]"
+            className="absolute bottom-[-50px] sm:bottom-[-100px] right-[-10px] sm:right-[-40px] lg:right-[-110px] w-[62px] h-[62px] sm:w-[138px] sm:h-[138px] lg:w-[165px] lg:h-[165px]"
             src={coin}
             alt="Coin"
-          /> */}
+          />
         </div>
         <div className="flex items-center justify-center">
           <div className="flex items-center justify-center mt-[50px] bg-white py-[10px] px-[16px] rounded-[12px] w-[184px] h-[40px] sm:h-[48px] lg:h-[57px]">
@@ -442,22 +342,15 @@ const Landing = () => {
           </div>
         </div>
 
-        {/* <Image
-          className="absolute top-[30px] right-[300px] w-[300px] -rotate-12"
+        <Image
+          className="absolute top-[10px] lg:top-[30px] right-[-10px] sm:right-[30px] md:right-[10px] lg:right-[70px] xl:right-[140px] w-[145px] md:w-[217px] lg:w-[297px] -rotate-12"
           src={paint}
           alt="Paint"
-        /> */}
+        />
       </div>
       <div className="px-[20px] py-[50px] md:px-[40px] md:pt-[80px] md:pb-[64px] xl:px-[96px] xl:py-[80px]">
-        <p
-          className="font-extrabold text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px]"
-          style={{
-            letterSpacing: -3,
-            wordSpacing: -3,
-            fontFamily: '"Druk Cyr", sans-serif',
-          }}
-        >
-          Как это работает?
+        <p className="font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px] uppercase">
+          Как это работает
         </p>
         <div className="relative flex flex-col gap-[40px]">
           {[
@@ -482,26 +375,19 @@ const Landing = () => {
                 "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
               image: dollarBag,
             },
-          ].map((item, index, array) => (
+          ].map((item) => (
             <div
               key={item.number}
               className="flex flex-col lg:flex-row lg:justify-between md:items-center gap-[16px] md:gap-[32px] relative"
             >
               <div className="flex gap-[24px] md:gap-[55px]">
                 <div className="relative flex items-center justify-center h-[36px] w-[36px] md:h-[55px] md:w-[55px] bg-white text-black rounded-full">
-                  <p
-                    className="text-[18px] leading-[18px] md:text-[28px] md:leading-[28px] font-extrabold"
-                    style={{
-                      letterSpacing: -3,
-                      wordSpacing: -3,
-                      fontFamily: '"Druk Cyr", sans-serif',
-                    }}
-                  >
+                  <p className="text-[18px] leading-[18px] md:text-[28px] md:leading-[28px] font-bold font-druk">
                     {item.number}
                   </p>
-                  {index !== array.length - 1 && (
+                  {/* {index !== array.length - 1 && (
                     <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[1px] h-[480px] bg-[#424242]"></div>
-                  )}
+                  )} */}
                 </div>
                 <div className="flex flex-col gap-[20px] w-[275px] xs:w-[400px] sm:w-[500px] md:w-[595px] lg:w-[491px]">
                   <p className="text-[26px] leading-[30px] font-bold">
@@ -516,7 +402,7 @@ const Landing = () => {
                 <Image
                   src={item.image}
                   alt={item.title}
-                  className="pl-[60px] w-[500px]"
+                  className="pl-[60px] lg:p-0 w-[500px]"
                 />
               </div>
             </div>
@@ -534,14 +420,7 @@ const Landing = () => {
       >
         <div className="flex flex-col gap-[64px] items-center relative px-[40px]">
           <div className="w-[335px] sm:w-[505px] md:w-[705px] lg:w-[923px] flex flex-col gap-[20px] text-center relative">
-            <p
-              className="text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[75px] font-extrabold uppercase"
-              style={{
-                letterSpacing: -3,
-                wordSpacing: -3,
-                fontFamily: '"Druk Cyr", sans-serif',
-              }}
-            >
+            <p className="text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[75px] font-bold font-druk uppercase">
               Присоединяйся к комьюнити
             </p>
             <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[24px] text-center">
@@ -588,14 +467,7 @@ const Landing = () => {
           />
           <div className="flex flex-col md:flex-row md:justify-between gap-[24px] md:gap-[48px]">
             <div className="flex flex-col gap-[24px]">
-              <p
-                className="text-[42px] leading-[42px] md:text-[51px] md:leading-[47px] font-extrabold uppercase"
-                style={{
-                  letterSpacing: -3,
-                  wordSpacing: -3,
-                  fontFamily: '"Druk Cyr", sans-serif',
-                }}
-              >
+              <p className="text-[42px] leading-[42px] md:text-[51px] md:leading-[47px] font-bold font-druk uppercase">
                 Лучшие аирдропы в мире
               </p>
               <p className="text-[14px] leading-[24px] max-w-[360px]">
