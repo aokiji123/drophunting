@@ -227,7 +227,7 @@ const Header = () => {
 
       {isBalanceModalOpen && (
         <div
-          className="hidden sm:block modal fixed inset-0 sm:bg-black sm:bg-opacity-40 lg:bg-none lg:bg-opacity-0 z-200"
+          className="hidden sm:block non-absolut-modal fixed inset-0 sm:bg-black sm:bg-opacity-40 z-200"
           onClick={toggleBalanceModal}
         >
           <div
@@ -241,13 +241,20 @@ const Header = () => {
 
       {isProfileModalOpen && (
         <div
-          className={`fixed top-0 right-0 z-50 ${
-            isProfileModalOpen &&
-            "h-screen bg-[#1C1E22] lg:absolute lg:top-[70px] lg:right-[50px] lg:bg-transparent lg:w-[300px] lg:h-auto lg:shadow-2xl"
-          }`}
+          className={`fixed top-0 right-0 z-50 transform ${
+            isProfileModalOpen ? "translate-x-0" : "translate-x-full"
+          } w-[299px] md:w-[366px] h-full bg-[#1C1E22] lg:hidden`}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              toggleProfileModal();
+            }
+          }}
         >
           <ProfileModal toggleProfileModal={toggleProfileModal} />
         </div>
+      )}
+      {isProfileModalOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
       )}
     </header>
   );

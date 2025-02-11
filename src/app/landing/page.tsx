@@ -32,8 +32,24 @@ import goldCrypto from "../../../public/assets/gold-crypto.png";
 import greenTether from "../../../public/assets/green-tether.png";
 import { GrLanguage } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useEffect, useState } from "react";
+import LandingModal from "../components/modals/LandingModal";
 
 const Landing = () => {
+  const [isLandingModalOpen, setIsLandingModalOpen] = useState(false);
+
+  const toggleLandingModal = () => {
+    setIsLandingModalOpen(!isLandingModalOpen);
+  };
+
+  useEffect(() => {
+    if (isLandingModalOpen) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+  }, [isLandingModalOpen]);
+
   return (
     <div className="bg-black text-white">
       <div className="xl:h-[885px] overflow-hidden">
@@ -64,7 +80,7 @@ const Landing = () => {
             </ul>
             <div className="flex items-center gap-[8px] md:gap-[16px]">
               <div className="cursor-pointer">
-                <div className="flex items-center gap-[4px]">
+                <div className="flex items-center gap-[6px]">
                   <GrLanguage size={20} />
                   <p>EN</p>
                   <FaCaretDown />
@@ -73,8 +89,29 @@ const Landing = () => {
               <button className="hidden bg-[#11CA00] py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] md:flex items-center justify-center">
                 Перейти в агрегатор
               </button>
-              <GiHamburgerMenu className="block lg:hidden" size={24} />
+              <GiHamburgerMenu
+                className="block lg:hidden cursor-pointer"
+                size={24}
+                onClick={toggleLandingModal}
+              />
             </div>
+
+            <div
+              className={`fixed top-0 right-0 z-50 transform ${
+                isLandingModalOpen ? "translate-x-0" : "translate-x-full"
+              } w-[299px] md:w-[366px] h-full bg-[#1C1E22] lg:hidden`}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  toggleLandingModal();
+                }
+              }}
+            >
+              <LandingModal toggleLandingModal={toggleLandingModal} />
+            </div>
+
+            {isLandingModalOpen && (
+              <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
+            )}
           </header>
           <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px]">
             <div className="flex xl:items-center flex-col xl:flex-row gap-[40px]">

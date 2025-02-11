@@ -191,6 +191,10 @@ body {
   position: absolute;
 }
 
+.non-absolut-modal {
+  z-index: 9999 !important;
+}
+
 .zindex {
   z-index: 100 !important;
 }
