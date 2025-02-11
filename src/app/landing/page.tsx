@@ -26,7 +26,7 @@ import dollar from "../../../public/assets/dollar.png";
 import landingZenchain from "../../../public/assets/landing-zenchain.png";
 import dollarBag from "../../../public/assets/dollar-bag.jpg";
 import group from "../../../public/assets/group.png";
-// import underline from "../../../public/assets/underline.png";
+import underline from "../../../public/assets/underline.png";
 import goldBitcoin from "../../../public/assets/gold-bitcoin.png";
 import goldCrypto from "../../../public/assets/gold-crypto.png";
 import greenTether from "../../../public/assets/green-tether.png";
@@ -228,14 +228,19 @@ const Landing = () => {
           <div className="flex flex-col gap-[24px]">
             <div className="relative">
               <p className="text-[34px] leading-[34px] md:text-[40px] md:leading-[37px] lg:text-[50px] lg:leading-[50px] uppercase font-bold font-druk">
-                Подпишись на телеграм канал
+                Подпишись
+                <br className="block xs:hidden" />{" "}
+                <span className="relative inline-block">
+                  на телеграм канал
+                  <Image
+                    src={underline}
+                    alt="Underline"
+                    className="absolute left-[20px] bottom-[-5px] sm:bottom-[-15px] w-[100px] sm:w-full"
+                  />
+                </span>
               </p>
-              {/* <Image
-                src={underline}
-                alt="Underline"
-                className="block w-[200px] absolute top-[60px] right-[280px]"
-              /> */}
             </div>
+
             <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[17px] md:leading-[22px]">
               Каждый день новые дропы. Подпишись и будь в курсе последних
               обновлений в проектах
@@ -348,8 +353,8 @@ const Landing = () => {
           alt="Paint"
         />
       </div>
-      <div className="px-[20px] py-[50px] md:px-[40px] md:pt-[80px] md:pb-[64px] xl:px-[96px] xl:py-[80px]">
-        <p className="font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px] uppercase">
+      <div className="px-[20px] py-[50px] pl-0 md:px-[40px] md:pt-[80px] md:pl-0 md:pb-[64px] xl:px-[96px] xl:pl-0 xl:py-[80px] overflow-hidden">
+        <p className="pl-[20px] md:pl-[40px] xl:pl-[96px] font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px] uppercase">
           Как это работает
         </p>
         <div className="relative flex flex-col gap-[40px]">
@@ -378,16 +383,22 @@ const Landing = () => {
           ].map((item) => (
             <div
               key={item.number}
-              className="flex flex-col lg:flex-row lg:justify-between md:items-center gap-[16px] md:gap-[32px] relative"
+              className="pl-[20px] md:pl-[40px] xl:pl-[96px] flex flex-col lg:flex-row lg:justify-between md:items-center gap-[16px] md:gap-[32px] relative overflow-hidden lg:overflow-visible"
             >
-              <div className="flex gap-[24px] md:gap-[55px]">
+              <div className="flex items gap-[24px] md:gap-[55px]">
                 <div className="relative flex items-center justify-center h-[36px] w-[36px] md:h-[55px] md:w-[55px] bg-white text-black rounded-full">
                   <p className="text-[18px] leading-[18px] md:text-[28px] md:leading-[28px] font-bold font-druk">
                     {item.number}
+                    {Number(item.number) == 1 && (
+                      <span className="h-[550px] lg:h-[180px] mmmxl:h-[215px] mmxl:h-[235px] mxl:h-[275px] xl:h-[280px] lxl:h-[300px] w-[1px] bg-[#424242] absolute top-[65px] md:top-[80px] left-1/2 transform translate-x-1/2"></span>
+                    )}
+                    {Number(item.number) == 2 && (
+                      <span className="h-[550px] lg:h-[230px] mmmxl:h-[260px] mmxl:h-[280px] mxl:h-[335px] xl:h-[350px] lxl:h-[370px] w-[1px] bg-[#424242] absolute top-[65px] md:top-[80px] left-1/2 transform translate-x-1/2"></span>
+                    )}
+                    {Number(item.number) == 3 && (
+                      <span className="hidden"></span>
+                    )}
                   </p>
-                  {/* {index !== array.length - 1 && (
-                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-[1px] h-[480px] bg-[#424242]"></div>
-                  )} */}
                 </div>
                 <div className="flex flex-col gap-[20px] w-[275px] xs:w-[400px] sm:w-[500px] md:w-[595px] lg:w-[491px]">
                   <p className="text-[26px] leading-[30px] font-bold">
