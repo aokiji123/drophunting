@@ -138,7 +138,7 @@ const Profile = () => {
                 </p>
               </div>
             </div>
-            <div className="w-full sm:w-[550px] mt-[32px]">
+            <div className="w-full md:w-[550px] mt-[32px]">
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Name</p>
                 <input
@@ -149,7 +149,7 @@ const Profile = () => {
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Wallet</p>
-                <p className="md:py-[12px] md:px-[16px] w-[350px]">
+                <p className="md:py-[12px] md:px-[16px] w-full md:w-[350px]">
                   233ssjJSK...219D
                 </p>
               </div>
@@ -296,7 +296,7 @@ const Profile = () => {
                 <p className="text-[20px] font-bold leading-[16px] mb-6">
                   Security
                 </p>
-                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[591px]">
+                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-full md:w-[591px]">
                   <div className="flex gap-2 mb-3">
                     <div>
                       <RiKey2Line
@@ -308,7 +308,7 @@ const Profile = () => {
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
                         Change password
                       </p>
-                      <p className="w-[250px] sm:w-full leading-[18px] text-[#949392]">
+                      <p className="w-full md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
                         Use your email to protect your account and transactions
                       </p>
                     </div>
@@ -318,24 +318,26 @@ const Profile = () => {
                   </button>
                 </div>
               </div>
-              <div className="mb-[40px] w-[600px]">
+              <div className="mb-[40px] w-full md:w-[600px]">
                 <p className="text-[18px] font-bold leading-[18px] mb-6">
                   Two-Factor Authentication (2FA)
                 </p>
-                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-[591px]">
+                <div className="flex-col md:flex-row flex md:items-center md:justify-between w-full md:w-[591px]">
                   <div className="mb-3 flex gap-2">
-                    <div className="w-[20px] h-[20px]">
+                    <div className="w-[20px] h-[20px] flex-shrink-0">
                       <Image
                         src={authenticator}
                         alt="Authenticator"
-                        className="flex-shrink-0 text-white"
+                        width={20}
+                        height={20}
+                        className="text-white"
                       />
                     </div>
                     <div>
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
                         Authenticator app
                       </p>
-                      <p className="w-[250px] sm:w-full leading-[18px] text-[#949392]">
+                      <p className="md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
                         Use Google Authenticator to protect your account and
                         transactions
                       </p>

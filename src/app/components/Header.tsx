@@ -50,27 +50,19 @@ const Header = () => {
     { name: t("store"), href: "/store" },
   ];
 
-  // const [language, setLanguage] = useState("en");
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [isBalanceModalOpen, setIsBalanceModalOpen] = useState(false);
-  const [isNotificationsModalOpen, setIsNotificationsModalOpen] =
-    useState(false);
+  const [openModal, setOpenModal] = useState<string | null>(null);
+
+  const toggleModal = (modalName: string) => {
+    setOpenModal((prev) => (prev === modalName ? null : modalName));
+  };
 
   // const handleChange = (e: SelectChangeEvent) => {
   //   setLanguage(e.target.value);
   // };
 
-  const toggleProfileModal = () => {
-    setIsProfileModalOpen(!isProfileModalOpen);
-  };
-
-  const toggleBalanceModal = () => {
-    setIsBalanceModalOpen(!isBalanceModalOpen);
-  };
-
-  const toggleNotificationsModal = () => {
-    setIsNotificationsModalOpen(!isNotificationsModalOpen);
-  };
+  const toggleProfileModal = () => toggleModal("profile");
+  const toggleBalanceModal = () => toggleModal("balance");
+  const toggleNotificationsModal = () => toggleModal("notifications");
 
   return (
     <header className="relative flex items-center justify-between h-[72px] px-[12px] sm:px-8">
@@ -206,8 +198,8 @@ const Header = () => {
         </div>
       </div>
 
-      {isNotificationsModalOpen && (
-        <div className="modal absolute max-w-[350px] w-full xs:w-[359px] mx-auto top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
+      {openModal === "notifications" && (
+        <div className="modal absolute max-w-[359px] w-full mx-auto top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:max-w-[443px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
           <NotificationsModal
             toggleNotificationsModal={toggleNotificationsModal}
           />
@@ -225,7 +217,7 @@ const Header = () => {
       {/*  <IoMdClose size={20} className="hover:text-[#9EA0A6] cursor-pointer " />*/}
       {/*</div>*/}
 
-      {isBalanceModalOpen && (
+      {openModal === "balance" && (
         <div
           className="fixed inset-0 z-50 sm:block hidden" // ✅ Hides only on sm, keeps fixed elsewhere
           onClick={toggleBalanceModal}
@@ -238,21 +230,21 @@ const Header = () => {
           </div>
         </div>
       )}
-      {isBalanceModalOpen && (
+      {openModal === "balance" && (
         <div className="hidden fixed sm:block lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
       )}
 
-      {isProfileModalOpen && (
+      {openModal === "profile" && (
         <div
           className={`fixed top-0 right-0 z-50 ${
-            isProfileModalOpen &&
+            openModal === "profile" &&
             "h-screen bg-[#1C1E22] lg:absolute lg:top-[70px] lg:right-[50px] lg:bg-transparent lg:w-[300px] lg:h-auto lg:shadow-2xl"
           }`}
         >
           <ProfileModal toggleProfileModal={toggleProfileModal} />
         </div>
       )}
-      {isProfileModalOpen && (
+      {openModal === "profile" && (
         <div className="fixed lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
       )}
     </header>

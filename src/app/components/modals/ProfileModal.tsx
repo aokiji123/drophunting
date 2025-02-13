@@ -78,7 +78,10 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
         <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
       </button>
       <div className="p-[8px]">
-        <div className="flex items-center gap-3 p-[12px] pt-[8px]">
+        <div
+          className="flex items-center gap-3 p-[12px] pt-[8px] cursor-pointer"
+          onClick={() => router.push("/profile")}
+        >
           <Image
             src={avatar}
             alt="User Avatar"
