@@ -262,12 +262,18 @@ const Guide = () => {
               {tasks.map((task) => (
                 <li
                   key={task.name}
-                  onClick={(e) => toggleTaskFromEvent(e, task.name)}
                   className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
                 >
-                  <div className="flex items-center justify-between">
+                  <div
+                    className="flex items-center justify-between"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleAccordion(task.name);
+                    }}
+                  >
                     <div className="flex items-center gap-4">
                       <div
+                        onClick={(e) => toggleTaskFromEvent(e, task.name)}
                         className={`w-[24px] h-[24px] min-w-[24px] min-h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 ${
                           selectedTasks.includes(task.name)
                             ? "border-[1px] border-[#73A304] bg-[#528E09]"
@@ -310,13 +316,7 @@ const Guide = () => {
                           Link copied
                         </p>
                       )}
-                      <div
-                        className="text-[#8E8E8E] cursor-pointer"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleAccordion(task.name);
-                        }}
-                      >
+                      <div className="text-[#8E8E8E] cursor-pointer">
                         {activeTask === task.name ? (
                           <IoIosArrowUp size={20} />
                         ) : (
@@ -327,7 +327,13 @@ const Guide = () => {
                   </div>
                   <div>
                     {activeTask === task.name && (
-                      <div className="mt-3 px-[16px] flex flex-col gap-[16px]">
+                      <div
+                        className="mt-3 px-[16px] flex flex-col gap-[16px]"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleAccordion(task.name);
+                        }}
+                      >
                         <p className="text-[14px] leading-[16px] text-[#9A9A9A] font-semibold">
                           1 attachment
                         </p>

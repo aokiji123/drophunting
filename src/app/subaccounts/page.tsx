@@ -35,14 +35,14 @@ const Subaccounts = () => {
     <div className="bg-[#101114] text-white">
       <Header />
 
-      <main className="container flex-col flex items-center mx-auto justify-center lg:flex-row overflow-hidden">
+      <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px]">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
-          <nav className="lg:w-[15%] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-y-scroll w-full lg:w-[115%] xl:w-[100%] border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
+          <nav className="lg:w-[240px] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
+            <ul className="no-scrollbar overflow-auto w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
               {tabs.map((tab) => (
                 <li
                   key={tab.name}
-                  className={`p-[6px] lg:pr-[16px] lg:pl-0px xl:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
+                  className={`p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
                     isActive(tab.href)
                       ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
                       : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
@@ -59,7 +59,7 @@ const Subaccounts = () => {
               ))}
             </ul>
           </nav>
-          <section className="min-h-[750px] w-full lg:w-[85%] bg-[#17181B] p-[16px] sm:p-[32px] rounded-[16px]">
+          <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
             <div className="flex-col flex">
               <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
                 <FiUsers size={24} />

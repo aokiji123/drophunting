@@ -207,7 +207,7 @@ const Header = () => {
       </div>
 
       {isNotificationsModalOpen && (
-        <div className="modal absolute w-[359px] top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
+        <div className="modal absolute max-w-[350px] w-full xs:w-[359px] mx-auto top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
           <NotificationsModal
             toggleNotificationsModal={toggleNotificationsModal}
           />
@@ -227,34 +227,33 @@ const Header = () => {
 
       {isBalanceModalOpen && (
         <div
-          className="hidden sm:block non-absolut-modal fixed inset-0 sm:bg-black sm:bg-opacity-40 z-200"
+          className="fixed inset-0 z-50 sm:block hidden" // ✅ Hides only on sm, keeps fixed elsewhere
           onClick={toggleBalanceModal}
         >
           <div
-            className="modal absolute top-[70px] lg:right-[330px] right-1/2 translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6"
+            className="absolute top-[70px] lg:right-[330px] right-1/2 translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <BalanceModal toggleBalanceModal={toggleBalanceModal} />
           </div>
         </div>
       )}
+      {isBalanceModalOpen && (
+        <div className="hidden fixed sm:block lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
+      )}
 
       {isProfileModalOpen && (
         <div
-          className={`fixed top-0 right-0 z-50 transform ${
-            isProfileModalOpen ? "translate-x-0" : "translate-x-full"
-          } w-[299px] md:w-[366px] h-full bg-[#1C1E22] lg:hidden`}
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              toggleProfileModal();
-            }
-          }}
+          className={`fixed top-0 right-0 z-50 ${
+            isProfileModalOpen &&
+            "h-screen bg-[#1C1E22] lg:absolute lg:top-[70px] lg:right-[50px] lg:bg-transparent lg:w-[300px] lg:h-auto lg:shadow-2xl"
+          }`}
         >
           <ProfileModal toggleProfileModal={toggleProfileModal} />
         </div>
       )}
       {isProfileModalOpen && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
+        <div className="fixed lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
       )}
     </header>
   );

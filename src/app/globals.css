@@ -128,12 +128,20 @@ html {
   overflow: auto;
   scrollbar-gutter: stable;
 }
+/* 
+*:focus {
+  outline: none;
+} */
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: "IBM Plex Mono", sans-serif;
   font-size: 14px;
+}
+
+body:focus {
+  outline: none;
 }
 
 ::-webkit-scrollbar {

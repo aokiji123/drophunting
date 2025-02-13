@@ -83,7 +83,7 @@ const Favorites = () => {
               <MdOutlineArrowDropDown className="text-white" size={20} />
             </div>
           </div>
-          <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center md:justify-normal items-center">
+          <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center items-center">
             <div>
               <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
                 <div className="flex justify-between">

@@ -191,7 +191,7 @@ const Guide = () => {
                     Telegram
                   </p>
                   <input
-                    className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px]"
+                    className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] focus:outline-blue-500"
                     placeholder="@nickname"
                   />
                 </div>
@@ -199,10 +199,12 @@ const Guide = () => {
                   <p className="font-semibold text-[13px] lg:text-[14px]">
                     Your message
                   </p>
-                  <textarea
-                    className="w-full min-h-[50px] h-[160px] bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] resize-none"
-                    placeholder="Describe your idea"
-                  />
+                  <div className="p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px]">
+                    <textarea
+                      className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none focus:outline-blue-500 overflow-auto"
+                      placeholder="Describe your idea"
+                    />
+                  </div>
                 </div>
                 <button className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
                   Send

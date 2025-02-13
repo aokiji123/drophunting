@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/components/Header";
@@ -15,7 +15,7 @@ import cancel from "../../../public/assets/icons/cancel.png";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
 import Link from "next/link";
 import useAuthContext from "@/shared/hooks/useAuthContext";
-import Loading from "@/shared/components/Loading";
+// import Loading from "@/shared/components/Loading";
 import { tabs } from "@/shared/utils/tabs";
 import ru from "../../../public/assets/icons/ru.png";
 import en from "../../../public/assets/icons/en.png";
@@ -50,14 +50,14 @@ const Profile = () => {
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
-  const { user, loading } = useAuthContext();
-  const [isPageLoading, setIsPageLoading] = useState(true);
+  const { user } = useAuthContext();
+  // const [isPageLoading, setIsPageLoading] = useState(true);
 
-  useEffect(() => {
-    if (!loading) {
-      setIsPageLoading(false);
-    }
-  }, [loading]);
+  // useEffect(() => {
+  //   if (!loading) {
+  //     setIsPageLoading(false);
+  //   }
+  // }, [loading]);
 
   const handleLanguageChange = (code: string) => {
     setSelectedLanguage(code);
@@ -76,13 +76,13 @@ const Profile = () => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };
 
-  if (isPageLoading) {
-    return (
-      <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
-        <Loading />
-      </div>
-    );
-  }
+  // if (isPageLoading) {
+  //   return (
+  //     <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
+  //       <Loading />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-[#101114] text-white">

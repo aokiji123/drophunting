@@ -65,11 +65,11 @@ const Blog = () => {
               <MdOutlineArrowDropDown className="text-white" size={20} />
             </div>
           </div>
-          <div className="flex flex-wrap gap-[16px] sm:gap-[24px] lg:gap-[28px] justify-center md:justify-normal items-center">
+          <div className="flex flex-wrap gap-[16px] sm:gap-[24px] lg:gap-[28px] justify-center items-center">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((blogIndex) => (
               <div key={blogIndex} className="relative">
                 {selectedBlogs.includes(blogIndex) && (
-                  <div className="absolute inset-0 bg-black opacity-50 z-10 pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-black opacity-50 z-10 pointer-events-none rounded-[16px]"></div>
                 )}
 
                 <div
