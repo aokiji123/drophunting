@@ -14,6 +14,7 @@ import BalanceModal from "@/app/components/modals/BalanceModal";
 import NotificationsModal from "@/app/components/modals/NotificationsModal";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
+import { PlansModal } from "./modals/PlansModal";
 // import {
 //   FormControl,
 //   MenuItem,
@@ -63,6 +64,7 @@ const Header = () => {
   const toggleProfileModal = () => toggleModal("profile");
   const toggleBalanceModal = () => toggleModal("balance");
   const toggleNotificationsModal = () => toggleModal("notifications");
+  const togglePlansModal = () => toggleModal("plans");
 
   return (
     <header className="relative flex items-center justify-between h-[72px] px-[12px] sm:px-8">
@@ -164,7 +166,10 @@ const Header = () => {
         {/*<button className="px-[6px] py-[4px] sm:p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">*/}
         {/*  Login*/}
         {/*</button>*/}
-        <button className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]">
+        <button
+          className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]"
+          onClick={togglePlansModal}
+        >
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
           <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
             {t("upgrade")}
@@ -246,6 +251,10 @@ const Header = () => {
       )}
       {openModal === "profile" && (
         <div className="fixed lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
+      )}
+
+      {openModal === "plans" && (
+        <PlansModal togglePlansModal={togglePlansModal} />
       )}
     </header>
   );

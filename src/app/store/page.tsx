@@ -5,8 +5,15 @@ import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import Image from "next/image";
 import store from "../../../public/assets/store.png";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+const filters = ["All", "Project", "Education"];
 
 const Store = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const router = useRouter();
+
   return (
     <div className="bg-[#101114] text-white">
       <Header />
@@ -18,15 +25,17 @@ const Store = () => {
         </p>
         <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
-            <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
-              All
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Project
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Education
-            </button>
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                  activeFilter === filter ? "bg-[#11CA00]" : "bg-[#1D1E23]"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
           <div className="relative text-[#848487] h-[40px]">
             <IoSearchOutline
@@ -56,7 +65,8 @@ const Store = () => {
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((storeIndex) => (
               <div
                 key={storeIndex}
-                className="relative w-[335px] sm:w-[336px] h-[482px] lg:w-[394px] lg:h-[483px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden"
+                className="relative w-[335px] sm:w-[336px] h-[482px] lg:w-[394px] lg:h-[483px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] hover:border-[#CBFF51] cursor-pointer overflow-hidden"
+                onClick={() => router.push(`store/${storeIndex}`)}
               >
                 <Image src={store} alt="Store" className="w-full" />
                 <div className="h-[280px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">

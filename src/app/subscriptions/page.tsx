@@ -39,6 +39,7 @@ const Subscriptions = () => {
   const [selectedPlan, setSelectedPlan] = useState("Quarterly");
   const [inputBalance, setInputBalance] = useState("$ 100.00");
   const [selected, setSelected] = useState("Fiat");
+  const [coupon, setCoupon] = useState("");
 
   const handleSwitch = (type: CurrencyType) => {
     setSelected(type);
@@ -243,7 +244,7 @@ const Subscriptions = () => {
                 </div>
               </div>
               <div className="w-[100%] bg-transparent xl:w-[450px]">
-                <h2 className="text-[18px] leading-[20px] -tracking-[0.18px] font-bold pt-[10px] xl:pt-[36px] mb-[15px]">
+                <h2 className="text-[18px] leading-[20px] -tracking-[0.18px] font-bold pt-[32px] xl:pt-[36px] mb-[15px]">
                   Select plan
                 </h2>
                 <ul className="flex flex-col gap-2">
@@ -303,8 +304,17 @@ const Subscriptions = () => {
                     <input
                       className="bg-[#212226] p-2 w-[200px] rounded-[12px] placeholder:text-[14px] placeholder:leading-[20px]"
                       placeholder="Cupon code"
+                      value={coupon}
+                      onChange={(e) => setCoupon(e.target.value)}
                     />
-                    <button className="bg-[#333333] px-[10px] py-[12px] text-[#A4A4A4] font-bold leading-[16px] rounded-[10px]">
+                    <button
+                      className={`px-[10px] py-[12px] text-white font-bold leading-[16px] rounded-[10px] transition-colors ${
+                        coupon
+                          ? "bg-green-500 hover:bg-green-600"
+                          : "bg-[#333333] text-[#A4A4A4] cursor-not-allowed"
+                      }`}
+                      disabled={!coupon}
+                    >
                       Done
                     </button>
                   </div>

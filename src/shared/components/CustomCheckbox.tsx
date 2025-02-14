@@ -1,15 +1,23 @@
 import { Checkbox } from "@mui/material";
 import { ICheckboxProps } from "@/shared/interfaces/ICheckboxProps";
 import { FaCheck } from "react-icons/fa6";
+import { useState } from "react";
 
 export const CustomCheckbox: React.FC<ICheckboxProps> = ({
   checked,
   label,
 }) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  const handleChange = () => {
+    setIsChecked(!isChecked);
+  };
+
   return (
     <div className="flex items-center gap-3 mb-4 relative">
       <Checkbox
-        checked={checked}
+        checked={isChecked}
+        onChange={handleChange}
         sx={{
           backgroundColor: "#212226",
           borderRadius: "4px",
@@ -30,7 +38,10 @@ export const CustomCheckbox: React.FC<ICheckboxProps> = ({
         }}
       />
       <FaCheck
-        className={`${checked ? "absolute top-[5px] left-[5px] text-[#17181B]" : "hidden"}`}
+        className={`${
+          isChecked ? "absolute top-[5px] left-[5px] text-[#17181B]" : "hidden"
+        }`}
+        onClick={handleChange}
       />
       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
         {label}

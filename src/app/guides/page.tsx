@@ -21,6 +21,7 @@ import { Slider, sliderClasses, styled } from "@mui/material";
 import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -48,7 +49,20 @@ const CustomSlider = styled(Slider)({
   },
 });
 
+const filters = [
+  "All",
+  "Retrodrops",
+  "Testnets",
+  "DeFi",
+  "DePin",
+  "MiniApps",
+  "Early",
+  "ICO/DO",
+];
+
 const Guides = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const router = useRouter();
   const [favorites, setFavorites] = useState<Record<number, boolean>>({});
 
   const toggleFavorite = (id: number) => {
@@ -69,30 +83,17 @@ const Guides = () => {
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
           <div className="flex overflow-x-auto pb-[5px] md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
-            <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
-              All
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Retrodrops
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Testnets
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              DeFi
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              DePin
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              MiniApps
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Early
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              ICO/DO
-            </button>
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                  activeFilter === filter ? "bg-[#11CA00]" : "bg-[#1D1E23]"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
           <div className="relative text-[#848487] z-0">
             <IoSearchOutline
@@ -121,7 +122,10 @@ const Guides = () => {
           <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center items-center">
             {[1, 2, 3, 4, 5, 6].map((el) => (
               <div key={el}>
-                <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+                <div
+                  className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126] hover:border-[#CBFF51] cursor-pointer"
+                  onClick={() => router.push(`guides/${el}`)}
+                >
                   <div className="flex justify-between">
                     <div className="flex items-center gap-1">
                       <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -150,7 +154,10 @@ const Guides = () => {
                       </div>
                       <div
                         className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
-                        onClick={() => toggleFavorite(el)}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          toggleFavorite(el);
+                        }}
                       >
                         {favorites[el] ? (
                           <MdFavorite className="text-[#CBFF51]" size={20} />
@@ -212,7 +219,13 @@ const Guides = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-[12px]">
-                    <CustomSlider defaultValue={8} step={1} min={0} max={100} />
+                    <CustomSlider
+                      defaultValue={8}
+                      step={1}
+                      min={0}
+                      max={100}
+                      disabled
+                    />
                     <p className="text-[16px] leading-[18px] font-bold">8%</p>
                   </div>
                   <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">

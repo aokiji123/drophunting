@@ -23,11 +23,9 @@ export default function HalfChartPie({ small }: HalfChartPieType) {
         },
         [`& .${gaugeClasses.valueArc}`]: {
           fill: "url(#gradient)",
-          strokeLinecap: "round", // This softens the arc edges
         },
         [`& .${gaugeClasses.referenceArc}`]: {
           fill: "#27272B",
-          strokeLinecap: "round", // This rounds the bottom reference arc
         },
       })}
     >

@@ -7,8 +7,13 @@ import { MdOutlineArrowDropDown, MdOutlineDone } from "react-icons/md";
 import Image from "next/image";
 import blog from "../../../public/assets/blog.png";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+const filters = ["All", "Newbie", "Reports"];
 
 const Blog = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const router = useRouter();
   const [selectedBlogs, setSelectedBlogs] = useState<number[]>([]);
 
   const toggleBlogSelection = (blogIndex: number) => {
@@ -31,15 +36,17 @@ const Blog = () => {
         </p>
         <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
-            <button className="p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">
-              All
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Newbie
-            </button>
-            <button className="p-[12px] rounded-[12px] bg-[#1D1E23] h-[40px] flex items-center justify-center">
-              Reports
-            </button>
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                  activeFilter === filter ? "bg-[#11CA00]" : "bg-[#1D1E23]"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
           <div className="relative text-[#848487]">
             <IoSearchOutline
@@ -73,8 +80,8 @@ const Blog = () => {
                 )}
 
                 <div
-                  className="relative w-[334px] sm:w-[336px] h-[414px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden"
-                  onClick={() => toggleBlogSelection(blogIndex)}
+                  className="relative w-[334px] sm:w-[336px] h-[414px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden hover:border-[#CBFF51] cursor-pointer"
+                  onClick={() => router.push(`blog/${blogIndex}`)}
                 >
                   <Image src={blog} alt="Blog" className="w-full" />
                   <div className="h-[260px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col gap-[12px] lg:gap-[20px]">
@@ -102,6 +109,10 @@ const Blog = () => {
                       </div>
 
                       <div
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          toggleBlogSelection(blogIndex);
+                        }}
                         className={`w-[40px] h-[40px] min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 bg-[#101114] cursor-pointer z-20 relative ${
                           selectedBlogs.includes(blogIndex)
                             ? "border-[1px] border-[#47572D75] bg-[#000] text-[#CBFF51]"

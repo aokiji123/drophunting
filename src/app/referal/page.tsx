@@ -57,9 +57,16 @@ const Referal = () => {
   const [value, setValue] = useState(
     "https:\\invitation.drophunting.io/2101024/10"
   );
+  const [copied, setCopied] = useState(false);
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -158,8 +165,16 @@ const Referal = () => {
                         value={value}
                         className="w-full bg-[#24262B] p-[12px] rounded-[12px] truncate text-[14px] leading-[20px]"
                       />
-                      <button className="flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px]">
+                      <button
+                        onClick={handleCopy}
+                        className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500"
+                      >
                         Copy
+                        {copied && (
+                          <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
+                            Link copied!
+                          </span>
+                        )}
                       </button>
                     </div>
                   </div>

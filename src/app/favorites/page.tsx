@@ -21,6 +21,7 @@ import { Slider, sliderClasses, styled } from "@mui/material";
 import { GoDotFill } from "react-icons/go";
 import React, { useState } from "react";
 import HalfChartPie from "@/shared/components/HalfChartPie";
+import { useRouter } from "next/navigation";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -49,6 +50,7 @@ const CustomSlider = styled(Slider)({
 });
 
 const Favorites = () => {
+  const router = useRouter();
   const [favorites, setFavorites] = useState<Record<number, boolean>>(
     Object.fromEntries([1, 2, 3, 4, 5, 6].map((el) => [el, true]))
   );
@@ -97,7 +99,10 @@ const Favorites = () => {
           <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center items-center">
             {[1, 2, 3, 4, 5, 6].map((el) => (
               <div key={el}>
-                <div className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126]">
+                <div
+                  className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126] hover:border-[#CBFF51] cursor-pointer"
+                  onClick={() => router.push(`guides/${el}`)}
+                >
                   <div className="flex justify-between">
                     <div className="flex items-center gap-1">
                       <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -126,7 +131,10 @@ const Favorites = () => {
                       </div>
                       <div
                         className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
-                        onClick={() => toggleFavorite(el)}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          toggleFavorite(el);
+                        }}
                       >
                         {favorites[el] ? (
                           <MdFavorite className="text-[#CBFF51]" size={20} />
@@ -188,7 +196,13 @@ const Favorites = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-[12px]">
-                    <CustomSlider defaultValue={8} step={1} min={0} max={100} />
+                    <CustomSlider
+                      defaultValue={8}
+                      step={1}
+                      min={0}
+                      max={100}
+                      disabled
+                    />
                     <p className="text-[16px] leading-[18px] font-bold">8%</p>
                   </div>
                   <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">

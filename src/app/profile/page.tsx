@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/components/Header";
@@ -9,7 +9,7 @@ import { CustomSwitch } from "@/shared/components/CustomSwitch";
 import { BiLogoTelegram } from "react-icons/bi";
 import { RiKey2Line } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
-import avatar from "../../../public/assets/avatar.png";
+import avatarImg from "../../../public/assets/avatar.png";
 import authenticator from "../../../public/assets/icons/authenticator.png";
 import cancel from "../../../public/assets/icons/cancel.png";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
@@ -37,6 +37,7 @@ const timeOptions = [
 const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
+  const { user: _user } = useAuthContext();
   const isActive = (href: string) => {
     if (href === "/profile") {
       return pathname === "/" || pathname === "/profile";
@@ -50,7 +51,10 @@ const Profile = () => {
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
-  const { user } = useAuthContext();
+  const [user, setUser] = useState(_user);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [avatar, setAvatar] = useState(avatarImg);
+
   // const [isPageLoading, setIsPageLoading] = useState(true);
 
   // useEffect(() => {
@@ -58,6 +62,32 @@ const Profile = () => {
   //     setIsPageLoading(false);
   //   }
   // }, [loading]);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result as string;
+        setAvatar({ src: imageUrl, height: 83, width: 83 });
+        setUser((prevUser) => ({
+          ...prevUser,
+          avatar: { src: imageUrl, height: 83, width: 83 },
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUser((prevUser) => ({ ...prevUser, name: event.target.value }));
+  };
 
   const handleLanguageChange = (code: string) => {
     setSelectedLanguage(code);
@@ -119,13 +149,21 @@ const Profile = () => {
                   src={avatar}
                   alt="Avatar"
                   className="w-full h-full object-cover object-center rounded-[22px]"
+                  width={83}
+                  height={83}
                 />
-                <div className="cursor-pointer absolute -bottom-1 -right-1 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full translate-x-1/4 translate-y-1/4">
-                  <Image
-                    src={pencil}
-                    alt="Pencil"
-                    className="w-[10px] h-[10px]"
-                  />
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  ref={fileInputRef}
+                  onChange={handleImageChange}
+                />
+                <div
+                  className="cursor-pointer absolute -bottom-1 -right-1 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full translate-x-1/4 translate-y-1/4"
+                  onClick={handleImageClick}
+                >
+                  <Image src={pencil} alt="Edit" width={10} height={10} />
                 </div>
               </div>
 
@@ -142,8 +180,8 @@ const Profile = () => {
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Name</p>
                 <input
-                  readOnly
-                  value="Drophunter3000"
+                  value={user?.name ?? ""}
+                  onChange={handleNameChange}
                   className="max-w-[350px] sm:w-[350px] bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
                 />
               </div>
@@ -359,7 +397,7 @@ const Profile = () => {
 
               <hr className="mb-[45px] mt-[60px] border-0 h-px bg-[#27292D]" />
 
-              <button className="bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold">
+              <button className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold">
                 <div>
                   <Image
                     src={cancel}

@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { FiUsers } from "react-icons/fi";
-import { IoIosInformationCircle } from "react-icons/io";
 import {
   Table,
   TableBody,
@@ -26,9 +25,16 @@ const Subaccounts = () => {
   const [value, setValue] = useState(
     "https:\\invitation.drophunting.io/2101024/10"
   );
+  const [copied, setCopied] = useState(false);
 
   const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(value);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -81,10 +87,6 @@ const Subaccounts = () => {
                   </p>
                   <SmallChartPie />
                   <p className="leading-[16px] font-semibold">2/2</p>
-                  <IoIosInformationCircle
-                    size={20}
-                    className="text-[#515256]"
-                  />
                 </div>
                 <hr className="mb-[25px] mt-[10px] border-0 h-px bg-[#27292D]" />
                 <div className="flexitems-center justify-between">
@@ -100,14 +102,22 @@ const Subaccounts = () => {
                   <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
                     Send invitation link
                   </p>
-                  <div className="flex items-center justify-between md:w-[465px] gap-[10px] mt-3">
+                  <div className="relative flex items-center justify-between md:w-[465px] gap-[10px] mt-3">
                     <input
                       onChange={handleValueChange}
                       value={value}
                       className="bg-[#24262B] p-[12px] rounded-[12px] w-full truncate leading-[20px]"
                     />
-                    <button className="flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px]">
+                    <button
+                      onClick={handleCopy}
+                      className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500"
+                    >
                       Copy
+                      {copied && (
+                        <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
+                          Link copied!
+                        </span>
+                      )}
                     </button>
                   </div>
                 </div>

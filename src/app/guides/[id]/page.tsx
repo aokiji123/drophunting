@@ -6,7 +6,6 @@ import {
   IoIosArrowBack,
   IoIosArrowDown,
   IoIosArrowUp,
-  IoIosInformationCircle,
   IoMdTime,
 } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
@@ -193,6 +192,12 @@ const Guide = () => {
                       Good
                     </p>
                   </div>
+                  <p className="absolute top-[105px] left-[14px] text-[8px] text-[#A2ACB0]">
+                    0
+                  </p>
+                  <p className="absolute top-[105px] right-[5px] text-[8px] text-[#A2ACB0]">
+                    1000
+                  </p>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-2">
@@ -261,10 +266,6 @@ const Guide = () => {
                 <div className="flex items-center gap-[8px]">
                   <SmallChartPie half />
                   <p>1/3</p>
-                  <IoIosInformationCircle
-                    size={20}
-                    className="text-[#515256]"
-                  />
                 </div>
               </div>
               <button className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center">
