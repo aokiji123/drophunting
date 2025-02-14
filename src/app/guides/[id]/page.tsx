@@ -15,7 +15,7 @@ import zenchain from "../../../../public/assets/zenchain.png";
 import blogDesc from "../../../../public/assets/blog-desc.png";
 import instructions from "../../../../public/assets/document.png";
 import { IoCalendarClear } from "react-icons/io5";
-import { MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
 import { PiXLogo } from "react-icons/pi";
 import { GrLanguage } from "react-icons/gr";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -62,6 +62,7 @@ const Guide = () => {
   const router = useRouter();
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
   const [activeTask, setActiveTask] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
@@ -89,6 +90,10 @@ const Guide = () => {
 
   const toggleAccordion = (taskName: string) => {
     setActiveTask((prev) => (prev === taskName ? null : taskName));
+  };
+
+  const toggleIsFavorite = () => {
+    setIsFavorite(!isFavorite);
   };
 
   const handleCopyLink = (taskName: string) => {
@@ -158,8 +163,16 @@ const Guide = () => {
                   <IoCalendarClear size={20} />
                   <p>Remind on Telegram</p>
                 </button>
-                <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
-                  <MdFavoriteBorder size={20} />
+                <div onClick={toggleIsFavorite} className="cursor-pointer">
+                  {isFavorite ? (
+                    <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px] text-[#CBFF51]">
+                      <MdFavorite size={20} />
+                    </div>
+                  ) : (
+                    <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
+                      <MdFavoriteBorder size={20} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
