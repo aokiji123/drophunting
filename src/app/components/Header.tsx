@@ -204,7 +204,7 @@ const Header = () => {
       </div>
 
       {openModal === "notifications" && (
-        <div className="modal absolute max-w-[359px] w-full mx-auto top-[75px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:max-w-[443px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
+        <div className="modal absolute max-w-[359px] w-full mx-auto top-[70px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:max-w-[443px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
           <NotificationsModal
             toggleNotificationsModal={toggleNotificationsModal}
           />
@@ -223,14 +223,8 @@ const Header = () => {
       {/*</div>*/}
 
       {openModal === "balance" && (
-        <div
-          className="fixed inset-0 z-50 sm:block hidden" // ✅ Hides only on sm, keeps fixed elsewhere
-          onClick={toggleBalanceModal}
-        >
-          <div
-            className="absolute top-[70px] lg:right-[330px] right-1/2 translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="absolute top-0 lg:right-0 right-1/2 translate-x-1/2 z-50 sm:block hidden">
+          <div className="absolute top-[70px] lg:right-[330px] right-1/2 translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6">
             <BalanceModal toggleBalanceModal={toggleBalanceModal} />
           </div>
         </div>

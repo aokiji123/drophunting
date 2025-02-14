@@ -48,7 +48,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 z-40 overflow-y-auto flex justify-center items-center">
+    <div className="fixed inset-0 bg-black bg-opacity-40 z-40 overflow-y-auto lg:flex justify-center items-center hidden">
       <div className="relative w-[96%] xl:w-[1040px] max-h-[90vh] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col xl:flex-row xl:gap-[72px] shadow-lg overflow-y-auto">
         <button className="absolute top-5 right-5" onClick={togglePlansModal}>
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
