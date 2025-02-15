@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://app.esdev.fun",
+  baseURL: "https://app.esdev.tech",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
