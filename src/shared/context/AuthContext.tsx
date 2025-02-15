@@ -53,7 +53,7 @@ export interface AuthContextValues {
   user: User | null;
   login: (data: LoginParams) => Promise<Axios.AxiosXHR<{ token: string }>>;
   register: (
-    data: RegisterParams,
+    data: RegisterParams
   ) => Promise<Axios.AxiosXHR<{ token: string }>>;
   logout: () => Promise<void>;
   loading: boolean;
@@ -64,7 +64,7 @@ export interface AuthContextValues {
     email: string;
   }) => Promise<Axios.AxiosXHR<{ status: string }>>;
   newPassword: (
-    data: NewPasswordParams,
+    data: NewPasswordParams
   ) => Promise<Axios.AxiosXHR<{ status: string }>>;
   sendEmailVerificationLink: () => Promise<Axios.AxiosXHR<{ status: string }>>;
 }
@@ -149,15 +149,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       const response = await axiosInstance.post<{ token: string }>(
-        "/login",
-        data,
+        "/api/login",
+        data
       );
 
       const token = response.data?.token;
       if (token) {
         localStorage.setItem("auth-token", token);
-        axiosInstance.defaults.headers.common["Authorization"] =
-          `Bearer ${token}`;
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
       }
 
       await getUser();
@@ -176,15 +177,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       const response = await axiosInstance.post<{ token: string }>(
-        "/register",
-        data,
+        "/api/register",
+        data
       );
 
       const token = response.data?.token;
       if (token) {
         localStorage.setItem("auth-token", token);
-        axiosInstance.defaults.headers.common["Authorization"] =
-          `Bearer ${token}`;
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
       }
 
       await getUser();
@@ -202,7 +204,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setLoading(true);
     try {
       const token = localStorage.getItem("auth-token");
-      await axiosInstance.post("/logout", {
+      await axiosInstance.post("/api/logout", {
         Authorization: `Bearer ${token}`,
       });
       localStorage.removeItem("auth-token");
@@ -222,8 +224,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       const response = await axiosInstance.post<{ status: string }>(
-        "/forgot-password",
-        data,
+        "/api/forgot-password",
+        data
       );
       setStatus(response.data?.status);
       return response;
@@ -242,8 +244,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       const response = await axiosInstance.post<{ status: string }>(
-        "/reset-password",
-        data,
+        "/api/reset-password",
+        data
       );
       setStatus(response.data?.status);
       return response;
@@ -260,7 +262,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setStatus(null);
     try {
       const response = await axiosInstance.post<{ status: string }>(
-        "/email/verification-notification",
+        "/api/email/verification-notification"
       );
       setStatus(response.data?.status);
       return response;
