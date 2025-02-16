@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 const Guide = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -191,7 +192,7 @@ const Guide = () => {
                     Telegram
                   </p>
                   <input
-                    className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] focus:outline-blue-500"
+                    className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] outline-none border-[1px] border-transparent focus:border-blue-500"
                     placeholder="@nickname"
                   />
                 </div>
@@ -199,10 +200,17 @@ const Guide = () => {
                   <p className="font-semibold text-[13px] lg:text-[14px]">
                     Your message
                   </p>
-                  <div className="p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px]">
+                  <div
+                    className={`p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px] ${
+                      isFocused ? "outline outline-blue-500" : ""
+                    }`}
+                    data-focused={isFocused}
+                  >
                     <textarea
-                      className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none focus:outline-blue-500 overflow-auto"
+                      className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none overflow-auto focus:outline-none"
                       placeholder="Describe your idea"
+                      onFocus={() => setIsFocused(true)}
+                      onBlur={() => setIsFocused(false)}
                     />
                   </div>
                 </div>
