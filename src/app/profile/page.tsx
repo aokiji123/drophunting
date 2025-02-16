@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/components/Header";
@@ -15,7 +15,6 @@ import cancel from "../../../public/assets/icons/cancel.png";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
 import Link from "next/link";
 import useAuthContext from "@/shared/hooks/useAuthContext";
-// import Loading from "@/shared/components/Loading";
 import { tabs } from "@/shared/utils/tabs";
 import ru from "../../../public/assets/icons/ru.png";
 import en from "../../../public/assets/icons/en.png";
@@ -38,30 +37,34 @@ const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
   const { user: _user } = useAuthContext();
-  const isActive = (href: string) => {
-    if (href === "/profile") {
-      return pathname === "/" || pathname === "/profile";
-    }
-    return pathname === href;
-  };
-
+  const [user, setUser] = useState(_user);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [selectedTime, setSelectedTime] = useState("UTC+03:00");
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
-  const [user, setUser] = useState(_user);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatar, setAvatar] = useState(avatarImg);
 
-  // const [isPageLoading, setIsPageLoading] = useState(true);
+  useEffect(() => {
+    if (_user) {
+      setUser(_user);
+    }
+  }, [_user]);
 
-  // useEffect(() => {
-  //   if (!loading) {
-  //     setIsPageLoading(false);
-  //   }
-  // }, [loading]);
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [user]);
+
+  const isActive = (href: string) => {
+    if (href === "/profile") {
+      return pathname === "/" || pathname === "/profile";
+    }
+    return pathname === href;
+  };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -105,14 +108,6 @@ const Profile = () => {
   ) => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };
-
-  // if (isPageLoading) {
-  //   return (
-  //     <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
-  //       <Loading />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="bg-[#101114] text-white">
