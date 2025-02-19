@@ -221,13 +221,13 @@ const Guide = () => {
               </div>
             </div>
             <div className="flex items-center gap-[10px]">
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] curs">
                 <GrLanguage size={24} />
               </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] curs">
                 <PiXLogo size={24} />
               </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] curs">
                 <FaTelegramPlane size={24} />
               </div>
             </div>
