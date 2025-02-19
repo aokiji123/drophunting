@@ -1,42 +1,108 @@
-import * as React from "react";
+"use client";
+
+import HalfChartPieMUI from "@/shared/components/HalfChartPieMUI";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
-type HalfChartPieType = {
-  small?: boolean;
+export type HalfChartPieProps = {
+  size?: "small" | "medium" | "big";
 };
 
-export default function HalfChartPie({ small }: HalfChartPieType) {
-  const settings = {
-    width: small ? 80 : 140,
-    height: small ? 80 : 140,
-    value: 60,
-    startAngle: -90,
-    endAngle: 90,
-  };
-
+export default function HalfChartPie({ size = "small" }: HalfChartPieProps) {
   return (
-    <Gauge
-      {...settings}
-      sx={() => ({
-        [`& .${gaugeClasses.valueText}`]: {
-          display: "none",
-        },
-        [`& .${gaugeClasses.valueArc}`]: {
-          fill: "url(#gradient)",
-        },
-        [`& .${gaugeClasses.referenceArc}`]: {
-          fill: "#27272B",
-        },
-      })}
-    >
-      <svg width="0" height="0">
-        <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="30%" y2="0%">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="100%" stopColor="#FF9000" />
-          </linearGradient>
-        </defs>
-      </svg>
-    </Gauge>
+    <div className="relative">
+      <div>
+        <HalfChartPieMUI size={size} />
+        {size === "big" && (
+          <Gauge
+            className="!absolute top-0 z-[1]"
+            width={140}
+            height={140}
+            value={0}
+            startAngle={-90}
+            endAngle={90}
+            cornerRadius={"50%"}
+            outerRadius={"105%"}
+            innerRadius={"77%"}
+            sx={() => ({
+              [`& .${gaugeClasses.valueText}`]: { display: "none" },
+              [`& .${gaugeClasses.referenceArc}`]: {
+                fill: "rgba(0, 0, 0, 0)",
+                stroke: "#1D1F24",
+                strokeWidth: "3",
+              },
+              [`& .${gaugeClasses.valueArc}`]: { display: "none" },
+            })}
+          />
+        )}
+        {size === "medium" && (
+          <Gauge
+            className="!absolute top-0 z-[1]"
+            width={120}
+            height={120}
+            value={0}
+            startAngle={-90}
+            endAngle={90}
+            cornerRadius={"50%"}
+            outerRadius={"105%"}
+            innerRadius={"77%"}
+            sx={() => ({
+              [`& .${gaugeClasses.valueText}`]: { display: "none" },
+              [`& .${gaugeClasses.referenceArc}`]: {
+                fill: "rgba(0, 0, 0, 0)",
+                stroke: "#1D1F24",
+                strokeWidth: "3",
+              },
+              [`& .${gaugeClasses.valueArc}`]: { display: "none" },
+            })}
+          />
+        )}
+      </div>
+      <div
+        className={`absolute ${
+          size === "big"
+            ? "bottom-[25px] left-[52px]"
+            : size === "medium"
+            ? "bottom-[20px] left-[42px]"
+            : "bottom-[20px] left-[25px]"
+        }`}
+      >
+        <div
+          className={`${
+            size === "big"
+              ? "text-[20px] leading-[24px] pb-0.5"
+              : size === "medium"
+              ? "text-[18px] leading-[20px]"
+              : "text-[16px] leading-[18px]"
+          } font-bold z-5`}
+        >
+          460
+        </div>
+        {size !== "small" && (
+          <p className="font-sf font-medium text-[14px] leading-[15px] text-[#FFA025] relative top-1">
+            Good
+          </p>
+        )}
+      </div>
+      {size === "big" && (
+        <>
+          <p className="font-sf font-medium absolute top-[105px] left-[9px] text-[8px] text-[#A2ACB0]">
+            0
+          </p>
+          <p className="font-sf font-medium absolute top-[105px] right-[8px] text-[8px] text-[#A2ACB0]">
+            1000
+          </p>
+        </>
+      )}
+      {size === "medium" && (
+        <>
+          <p className="font-sf font-medium absolute top-[88px] left-[11px] text-[8px] text-[#A2ACB0]">
+            0
+          </p>
+          <p className="font-sf font-medium absolute top-[88px] right-[5px] text-[8px] text-[#A2ACB0]">
+            1000
+          </p>
+        </>
+      )}
+    </div>
   );
 }

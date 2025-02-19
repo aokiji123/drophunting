@@ -156,7 +156,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                   <button
                     className={`px-[10px] py-[12px] text-white font-bold leading-[16px] rounded-[10px] transition-colors ${
                       coupon
-                        ? "bg-green-500 hover:bg-green-600"
+                        ? "bg-[#11CA00] hover:bg-blue-500"
                         : "bg-[#333333] text-[#A4A4A4] cursor-not-allowed"
                     }`}
                     disabled={!coupon}

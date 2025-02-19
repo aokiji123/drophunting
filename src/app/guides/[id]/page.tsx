@@ -23,6 +23,8 @@ import { AiOutlineLink } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import SmallChartPie from "@/shared/components/SmallChartPie";
 import HalfChartPie from "@/shared/components/HalfChartPie";
+import { PlansModal } from "@/app/components/modals/PlansModal";
+import Link from "next/link";
 
 const tasks = [
   { name: "Follow Discord", minutes: "1 min" },
@@ -62,6 +64,7 @@ const Guide = () => {
   const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
   const [activeTask, setActiveTask] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [showPlansModal, setShowPlansModal] = useState(false);
   const [percentage, setPercentage] = useState(0);
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
@@ -95,6 +98,10 @@ const Guide = () => {
     setIsFavorite(!isFavorite);
   };
 
+  const togglePlansModal = () => {
+    setShowPlansModal(!showPlansModal);
+  };
+
   const handleCopyLink = (taskName: string) => {
     setActiveModal(taskName);
     setTimeout(() => setActiveModal(null), 2000);
@@ -112,7 +119,7 @@ const Guide = () => {
           <IoIosArrowBack size={20} />
           <p>Back</p>
         </button>
-        <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[120px]">
+        <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[24px] xl:gap-[120px]">
           <section className="w-full xl:w-[34%] flex flex-col gap-[24px]">
             <div className="flex items-center gap-[24px]">
               <Image
@@ -178,37 +185,21 @@ const Guide = () => {
 
             <hr className="border-0 h-px bg-[#27292D]" />
 
-            <div className="flex items-center gap-8 xl:gap-0 xl:justify-between">
-              <div className="flex flex-col items-center gap-2">
-                <div className="relative">
-                  <div>
-                    <HalfChartPie />
-                  </div>
-                  <div className="absolute bottom-[25px] left-[52px] ">
-                    <div className="text-[20px] leading-[24px] font-bold z-5">
-                      460
-                    </div>
-                    <p className="text-[14px] leading-[15px] text-[#FFA025]">
-                      Good
-                    </p>
-                  </div>
-                  <p className="absolute top-[105px] left-[14px] text-[8px] text-[#A2ACB0]">
-                    0
-                  </p>
-                  <p className="absolute top-[105px] right-[5px] text-[8px] text-[#A2ACB0]">
-                    1000
-                  </p>
-                </div>
-              </div>
+            <div className="flex items-center gap-8 xl:gap-0 xl:justify-between -mt-[30px]">
+              <HalfChartPie size="big" />
               <div className="flex flex-col items-center gap-2">
                 <p className="text-[14px] leading-[16px] text-[#50535D]">
                   Investment
                 </p>
-                <p className="text-[20px] leading-[24px] font-bold">$2.2 bln</p>
+                <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold">
+                  $2.2 bln
+                </p>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <p className="text-[14px] leading-[16px] text-[#50535D]">TVL</p>
-                <p className="text-[20px] leading-[24px] font-bold">$12k</p>
+                <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold">
+                  $12k
+                </p>
               </div>
             </div>
             <div>
@@ -220,20 +211,23 @@ const Guide = () => {
               <div className="mt-[20px] ">
                 <p className="xl:flex xl:flex-col xl:gap-0 text-[#9A9A9A] text-[14px] leading-[20px]">
                   It focuses on enabling communication...{" "}
-                  <span className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0">
+                  <Link
+                    href="#"
+                    className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0"
+                  >
                     More
-                  </span>
+                  </Link>
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-[10px]">
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392]">
+              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
                 <GrLanguage size={24} />
               </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392]">
+              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
                 <PiXLogo size={24} />
               </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392]">
+              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
                 <FaTelegramPlane size={24} />
               </div>
             </div>
@@ -268,7 +262,10 @@ const Guide = () => {
                   <p>1/3</p>
                 </div>
               </div>
-              <button className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center">
+              <button
+                className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
+                onClick={togglePlansModal}
+              >
                 Upgrade plan
               </button>
             </div>
@@ -432,6 +429,7 @@ const Guide = () => {
       </main>
 
       <Footer />
+      {showPlansModal && <PlansModal togglePlansModal={togglePlansModal} />}
     </div>
   );
 };
