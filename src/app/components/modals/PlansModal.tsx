@@ -1,3 +1,4 @@
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
@@ -25,6 +26,8 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
   const [inputBalance, setInputBalance] = useState("$ 100.00");
   const [selected, setSelected] = useState("Fiat");
   const [coupon, setCoupon] = useState("");
+
+  const scrollRef = useCustomScrollbar();
 
   const handleSwitch = (type: CurrencyType) => {
     setSelected(type);
@@ -55,6 +58,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
         </button>
         <p className="text-[#CBFF51] leading-[20px] mb-[10px]">Plans</p>
         <div
+          ref={scrollRef}
           className="overflow-y-auto flex-1 px-2"
           style={{ maxHeight: "calc(100vh - 120px)" }}
         >

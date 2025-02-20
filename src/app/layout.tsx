@@ -1,10 +1,15 @@
 "use client";
-// import type { Metadata } from "next";
+
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { I18nextProvider } from "react-i18next";
+
 import { AuthProvider } from "@/shared/context/AuthContext";
 import i18n from "@/shared/i18n";
-import { I18nextProvider } from "react-i18next";
+
+import "./globals.css";
+import "overlayscrollbars/overlayscrollbars.css";
+import "../shared/styles/scrollbar.css";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,18 +21,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// export const metadata: Metadata = {
-//   title: "Drophunting",
-// };
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const bodyRef = useCustomScrollbar();
+
   return (
-    <html lang="en">
+    <html lang="en" style={{ overflow: "auto" }}>
       <body
+        ref={bodyRef}
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#101114]`}
       >
         <I18nextProvider i18n={i18n}>
