@@ -16,6 +16,7 @@ import Link from "next/link";
 import { tabs } from "@/shared/utils/tabs";
 import SmallChartPie from "@/shared/components/SmallChartPie";
 import { PlansModal } from "../components/modals/PlansModal";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const Subscriptions = () => {
   const pathname = usePathname();
@@ -30,6 +31,12 @@ const Subscriptions = () => {
       document.body.classList.remove("no-scroll");
     }
   };
+
+  const tableRef = useCustomScrollbar({
+    scrollbars: {
+      autoHide: "never",
+    },
+  });
 
   return (
     <div className="bg-[#101114] text-white">
@@ -102,12 +109,10 @@ const Subscriptions = () => {
                   </p>
                 </div>
                 <TableContainer
+                  ref={tableRef}
                   sx={{
                     backgroundColor: "transparent",
-                    overflowX: {
-                      xs: "scroll",
-                      sm: "visible",
-                    },
+                    overflowX: "scroll",
                   }}
                 >
                   <Table

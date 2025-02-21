@@ -19,6 +19,7 @@ import Link from "next/link";
 import Image from "next/image";
 import avatar from "../../../public/assets/avatar.png";
 import { tabs } from "@/shared/utils/tabs";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -68,6 +69,12 @@ const Referal = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const tableRef = useCustomScrollbar({
+    scrollbars: {
+      autoHide: "never",
+    },
+  });
 
   return (
     <div className="bg-[#101114] text-white">
@@ -203,12 +210,10 @@ const Referal = () => {
                   </p>
                 </div>
                 <TableContainer
+                  ref={tableRef}
                   sx={{
                     backgroundColor: "transparent",
-                    overflowX: {
-                      sm: "scroll",
-                      md: "visible",
-                    },
+                    overflowX: "visible",
                   }}
                 >
                   <Table

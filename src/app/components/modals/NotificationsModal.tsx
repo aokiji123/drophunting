@@ -3,6 +3,7 @@ import { GoDotFill } from "react-icons/go";
 import { LuBell } from "react-icons/lu";
 import { FiFlag } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const notifications = [
   {
@@ -44,6 +45,8 @@ type NotificationsModalType = {
 const NotificationsModal = ({
   toggleNotificationsModal,
 }: NotificationsModalType) => {
+  const scrollRef = useCustomScrollbar();
+
   return (
     <div className="flex flex-col h-full">
       <button
@@ -55,7 +58,7 @@ const NotificationsModal = ({
       <p className="text-[16px] leading-[16px] font-bold pl-[15px]">
         Notifications
       </p>
-      <div className="overflow-y-auto mt-2">
+      <div className="overflow-y-auto mt-2" ref={scrollRef}>
         {notifications.map((n) => (
           <div
             key={n.id}

@@ -204,7 +204,7 @@ const Header = () => {
       </div>
 
       {openModal === "notifications" && (
-        <div className="modal absolute max-w-[359px] w-full mx-auto top-[70px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:max-w-[443px] md:w-[443px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[10px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
+        <div className="modal absolute max-w-[359px] w-full mx-auto top-[70px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:max-w-[450px] md:w-[450px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[5px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
           <NotificationsModal
             toggleNotificationsModal={toggleNotificationsModal}
           />

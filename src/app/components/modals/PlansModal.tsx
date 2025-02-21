@@ -52,14 +52,16 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-40 overflow-y-auto flex justify-center items-center">
-      <div className="relative w-[95%] xl:w-[1040px] h-[90%] lg:h-auto bg-[#1C1E22] p-6 rounded-[16px] flex flex-col shadow-lg overflow-y-auto">
+      <div className="relative w-[95%] xl:w-[1040px] h-[90%] lg:h-auto bg-[#1C1E22] p-2 rounded-[16px] flex flex-col shadow-lg overflow-y-auto">
         <button className="absolute top-5 right-5" onClick={togglePlansModal}>
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
-        <p className="text-[#CBFF51] leading-[20px] mb-[10px]">Plans</p>
+        <p className="text-[#CBFF51] leading-[20px] mb-[10px] p-4 pb-0">
+          Plans
+        </p>
         <div
           ref={scrollRef}
-          className="overflow-y-auto flex-1 px-2"
+          className="overflow-y-auto flex-1 p-4 pt-0"
           style={{ maxHeight: "calc(100vh - 120px)" }}
         >
           <div className="flex flex-col lg:flex-row lg:justify-between">

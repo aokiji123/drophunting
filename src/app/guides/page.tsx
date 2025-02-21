@@ -22,6 +22,7 @@ import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -72,6 +73,12 @@ const Guides = () => {
     }));
   };
 
+  const scrollRef = useCustomScrollbar({
+    scrollbars: {
+      autoHide: "never",
+    },
+  });
+
   return (
     <div className="bg-[#101114] text-white">
       <Header />
@@ -82,18 +89,20 @@ const Guides = () => {
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex overflow-x-auto pb-[5px] md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
-                  activeFilter === filter ? "bg-[#11CA00]" : "bg-[#1D1E23]"
-                }`}
-              >
-                {filter}
-              </button>
-            ))}
+          <div ref={scrollRef}>
+            <div className="flex pb-[5px] md:pb-0 items-center gap-[6px] mb-[20px] xl:mb-0">
+              {filters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                    activeFilter === filter ? "bg-[#11CA00]" : "bg-[#1D1E23]"
+                  }`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="relative text-[#848487] z-0">
             <IoSearchOutline

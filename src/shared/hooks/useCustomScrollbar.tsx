@@ -1,15 +1,20 @@
-import { useOverlayScrollbars } from "overlayscrollbars-react";
+import {
+  OverlayScrollbarsComponentProps,
+  useOverlayScrollbars,
+} from "overlayscrollbars-react";
 import { useEffect, useRef } from "react";
 
-export default function useCustomScrollbar(options = {}) {
+export default function useCustomScrollbar(
+  options: OverlayScrollbarsComponentProps["options"] = {}
+) {
   const targetRef = useRef(null);
 
   const [initialize] = useOverlayScrollbars({
     options: {
-      ...options,
       scrollbars: {
         autoHide: "scroll",
       },
+      ...options,
     },
   });
 

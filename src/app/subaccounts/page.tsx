@@ -18,6 +18,7 @@ import avatar from "../../../public/assets/avatar.png";
 import avatar2 from "../../../public/assets/avatar-2.png";
 import { tabs } from "@/shared/utils/tabs";
 import SmallChartPie from "@/shared/components/SmallChartPie";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const Subaccounts = () => {
   const pathname = usePathname();
@@ -36,6 +37,12 @@ const Subaccounts = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const tableRef = useCustomScrollbar({
+    scrollbars: {
+      autoHide: "never",
+    },
+  });
 
   return (
     <div className="bg-[#101114] text-white">
@@ -132,6 +139,7 @@ const Subaccounts = () => {
                   </p>
                 </div>
                 <TableContainer
+                  ref={tableRef}
                   sx={{
                     backgroundColor: "transparent",
                     overflowX: "scroll",
