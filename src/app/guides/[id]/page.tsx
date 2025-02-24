@@ -221,15 +221,21 @@ const Guide = () => {
               </div>
             </div>
             <div className="flex items-center gap-[10px]">
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] curs">
-                <GrLanguage size={24} />
-              </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] curs">
-                <PiXLogo size={24} />
-              </div>
-              <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] curs">
-                <FaTelegramPlane size={24} />
-              </div>
+              <Link href="#">
+                <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+                  <GrLanguage size={24} />
+                </div>
+              </Link>
+              <Link href="#">
+                <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+                  <PiXLogo size={24} />
+                </div>
+              </Link>
+              <Link href="#">
+                <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+                  <FaTelegramPlane size={24} />
+                </div>
+              </Link>
             </div>
           </section>
           <section className="w-full xl:w-[70%] flex flex-col gap-[18px]">
