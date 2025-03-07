@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import axiosInstance from "@/shared/api/axios";
+import axiosInstance, { updateAxiosToken } from "@/shared/api/axios";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { AxiosError } from "axios";
@@ -106,10 +106,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const initializeSession = async () => {
-      setLoading(true); // Start loading during initialization
-      const token = localStorage.getItem("auth-token");
-      if (token) {
-        await getUser();
+      setLoading(true);
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("auth-token");
+        if (token) {
+          await getUser();
+        } else {
+          setSessionVerified(false);
+          setLoading(false);
+        }
       } else {
         setSessionVerified(false);
         setLoading(false);
@@ -119,28 +124,30 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const getUser = async () => {
-    const token = localStorage.getItem("auth-token");
-
-    if (token) {
-      try {
-        const { data } = await axiosInstance.get("/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(data as SetStateAction<User | null>);
-        setSessionVerified(true);
-      } catch (e) {
-        console.warn("Error fetching user:", e);
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("auth-token");
+      if (token) {
+        try {
+          const { data } = await axiosInstance.get("/api/user", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser(data as SetStateAction<User | null>);
+          setSessionVerified(true);
+        } catch (e) {
+          console.warn("Error fetching user:", e);
+          setSessionVerified(false);
+          setUser(null);
+          updateAxiosToken(null);
+        } finally {
+          setLoading(false);
+        }
+      } else {
         setSessionVerified(false);
         setUser(null);
-      } finally {
-        setLoading(false); // Ensure loading stops
+        setLoading(false);
       }
-    } else {
-      setSessionVerified(false);
-      setUser(null);
-      setLoading(false); // Ensure loading stops
     }
   };
 
@@ -155,10 +162,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const token = response.data?.token;
       if (token) {
-        localStorage.setItem("auth-token", token);
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${token}`;
+        updateAxiosToken(token);
       }
 
       await getUser();
@@ -183,10 +187,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const token = response.data?.token;
       if (token) {
-        localStorage.setItem("auth-token", token);
-        axiosInstance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${token}`;
+        updateAxiosToken(token);
       }
 
       await getUser();
@@ -203,11 +204,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("auth-token");
+      const token =
+        typeof window !== "undefined"
+          ? localStorage.getItem("auth-token")
+          : null;
       await axiosInstance.post("/api/logout", {
         Authorization: `Bearer ${token}`,
       });
-      localStorage.removeItem("auth-token");
+      updateAxiosToken(null);
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("user");
+      }
       setUser(null);
       setSessionVerified(false);
     } catch (e) {

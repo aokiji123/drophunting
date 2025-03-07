@@ -21,31 +21,54 @@ import en from "../../../public/assets/icons/en.png";
 import pencil from "../../../public/assets/icons/pencil.png";
 import { useTranslation } from "react-i18next";
 import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
+import useStore from "@/shared/store";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
+import { useRouter } from "next/navigation";
+import { DeleteAccountModal } from "@/app/components/modals/DeleteAccountModal";
+import { ChangePasswordModal } from "@/app/components/modals/ChangePasswordModal";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
   { code: "en", name: "English", flag: en },
 ];
 
-const timeOptions = [
-  { label: "UTC+03:00", value: "UTC+03:00" },
-  { label: "UTC+04:00", value: "UTC+04:00" },
-  { label: "UTC+05:00", value: "UTC+05:00" },
-];
-
 const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
-  const { user: _user } = useAuthContext();
+  const { user: _user, loading } = useAuthContext();
   const [user, setUser] = useState(_user);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
-  const [selectedTime, setSelectedTime] = useState("UTC+03:00");
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatar, setAvatar] = useState(avatarImg);
+  const {
+    timezones,
+    selectedTimezone,
+    setSelectedTimezone,
+    fetchTimezones,
+    deleteUser,
+  } = useStore();
+  const router = useRouter();
+
+  const scrollRef = useCustomScrollbar();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+
+  const handleDeleteAccount = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteUser();
+    router.push("/auth/login");
+  };
+
+  useEffect(() => {
+    fetchTimezones();
+  }, [fetchTimezones]);
 
   useEffect(() => {
     if (_user) {
@@ -99,7 +122,7 @@ const Profile = () => {
   };
 
   const handleTimeChange = (value: string) => {
-    setSelectedTime(value);
+    setSelectedTimezone(value);
     setIsTimeDropdownOpen(false);
   };
 
@@ -108,6 +131,16 @@ const Profile = () => {
   ) => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };
+
+  if (loading) {
+    return (
+      <div className="bg-[#101114] text-white">
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#101114] text-white">
@@ -256,7 +289,8 @@ const Profile = () => {
                     onClick={() => setIsTimeDropdownOpen(!isTimeDropdownOpen)}
                   >
                     <p className="text-[15px] leading-[24px] font-normal">
-                      {selectedTime}
+                      {timezones.find((tz) => tz.value === selectedTimezone)
+                        ?.label || selectedTimezone}
                     </p>
                     {isTimeDropdownOpen ? (
                       <FaAngleUp size={16} className="text-[#8E8E8E]" />
@@ -265,23 +299,34 @@ const Profile = () => {
                     )}
                   </button>
                   {isTimeDropdownOpen && (
-                    <div className="absolute left-0 mt-[2px] w-full bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
-                      {timeOptions.map((option) => (
-                        <div
-                          key={option.value}
-                          className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
-                            selectedTime === option.value && `bg-[#181C20]`
-                          }`}
-                          onClick={() => handleTimeChange(option.value)}
-                        >
-                          <p className="text-[15px] leading-[24px] font-normal">
-                            {option.label}
-                          </p>
-                          {selectedTime === option.value && (
-                            <FaCheck size={16} className="text-[#CBFF51]" />
-                          )}
-                        </div>
-                      ))}
+                    <div className="absolute left-0 mt-[2px] w-full bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50">
+                      <div
+                        ref={scrollRef}
+                        className="max-h-[300px] space-y-[2px] pr-2"
+                        style={{
+                          overflowY: "auto",
+                          scrollbarWidth: "thin",
+                          scrollbarColor: "#27292D #141518",
+                        }}
+                      >
+                        {timezones.map((timezone) => (
+                          <div
+                            key={timezone.value}
+                            className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                              selectedTimezone === timezone.value &&
+                              `bg-[#181C20]`
+                            }`}
+                            onClick={() => handleTimeChange(timezone.value)}
+                          >
+                            <p className="text-[15px] leading-[24px] font-normal">
+                              {timezone.label}
+                            </p>
+                            {selectedTimezone === timezone.value && (
+                              <FaCheck size={16} className="text-[#CBFF51]" />
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -346,7 +391,10 @@ const Profile = () => {
                       </p>
                     </div>
                   </div>
-                  <button className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] ml-[35px] rounded-[10px]">
+                  <button
+                    className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] ml-[35px] rounded-[10px]"
+                    onClick={() => setShowChangePasswordModal(true)}
+                  >
                     Change
                   </button>
                 </div>
@@ -392,7 +440,10 @@ const Profile = () => {
 
               <hr className="mb-[45px] mt-[60px] border-0 h-px bg-[#27292D]" />
 
-              <button className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold">
+              <button
+                className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                onClick={handleDeleteAccount}
+              >
                 <div>
                   <Image
                     src={cancel}
@@ -408,6 +459,19 @@ const Profile = () => {
       </main>
 
       <Footer />
+
+      {showDeleteModal && (
+        <DeleteAccountModal
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
+
+      {showChangePasswordModal && (
+        <ChangePasswordModal
+          onClose={() => setShowChangePasswordModal(false)}
+        />
+      )}
     </div>
   );
 };

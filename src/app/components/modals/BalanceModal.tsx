@@ -1,22 +1,73 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import useStore from "@/shared/store";
+import { validateAmount, formatAmount } from "@/shared/utils/validation";
 
 type BalanceModalType = {
   toggleBalanceModal: () => void;
 };
 
 const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
-  const [inputBalance, setInputBalance] = useState("$ 100.00");
+  const { payWithYookassa, payWithNowPayments, paymentRedirectUrl } =
+    useStore();
+  const [amount, setAmount] = useState<number>(100);
+  const [inputValue, setInputValue] = useState<string>("100");
   const [selected, setSelected] = useState("Fiat");
+  const [error, setError] = useState<string | undefined>();
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSwitch = (type: string) => {
     setSelected(type);
   };
 
   const handleInputBalanceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputBalance(e.target.value);
+    const rawValue = e.target.value;
+    setInputValue(rawValue);
+
+    const validation = validateAmount(rawValue, selected as "Fiat" | "Crypto");
+    if (validation.isValid && validation.amount !== null) {
+      setAmount(validation.amount);
+      setError(undefined);
+    } else {
+      setError(validation.error);
+      if (rawValue === "") {
+        setAmount(0);
+        setInputValue("0");
+      }
+    }
   };
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsFocused(false);
+    if (!error && amount > 0) {
+      setInputValue(formatAmount(amount));
+    }
+  };
+
+  const handlePayment = async () => {
+    if (error || amount <= 0) return;
+
+    if (selected === "Fiat") {
+      await payWithYookassa(amount);
+    } else {
+      await payWithNowPayments(amount);
+    }
+
+    if (paymentRedirectUrl) {
+      window.location.href = paymentRedirectUrl;
+    }
+  };
+
+  useEffect(() => {
+    if (paymentRedirectUrl) {
+      window.location.href = paymentRedirectUrl;
+    }
+  }, [paymentRedirectUrl]);
 
   return (
     <div>
@@ -26,11 +77,11 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
       >
         <IoMdClose
           size={24}
-          className="block lg:hidden hover:text-[#9EA0A6] cursor-pointer "
+          className="block lg:hidden hover:text-[#9EA0A6] cursor-pointer"
         />
       </button>
       <div>
-        <p className="text-[18x] font-bold leading-[20px]">Top Up Balance</p>
+        <p className="text-[18px] font-bold leading-[20px]">Top Up Balance</p>
         <div className="mt-5">
           <p className="font-semibold leading-[16px]">Currency type</p>
           <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
@@ -59,12 +110,29 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
         <div className="my-5">
           <p className="font-semibold leading-[16px]">Amount</p>
           <input
-            className="bg-[#292B2F] border-[1px] border-transparent py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] focus:border-gray-500 focus:outline-none"
-            value={inputBalance}
+            type="text"
+            className={`bg-[#292B2F] border-[1px] ${
+              error ? "border-red-500" : "border-transparent"
+            } py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] ${
+              error ? "focus:border-red-500" : "focus:border-gray-500"
+            } focus:outline-none`}
+            value={isFocused ? inputValue : formatAmount(amount)}
             onChange={handleInputBalanceChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
+            placeholder="Enter amount"
           />
+          {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
-        <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold leading-[20px] text-[17px]">
+        <button
+          onClick={handlePayment}
+          disabled={!!error || amount <= 0}
+          className={`w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] ${
+            error || amount <= 0
+              ? "bg-gray-500 cursor-not-allowed"
+              : "bg-[#11CA00] hover:bg-blue-500"
+          } font-semibold leading-[20px] text-[17px]`}
+        >
           Go to payment
           <MdOutlineKeyboardArrowRight />
         </button>

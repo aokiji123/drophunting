@@ -7,7 +7,6 @@ import Profile from "@/app/profile/page";
 export default function Home() {
   const { sessionVerified } = useAuthContext();
   const router = useRouter();
-  console.log(sessionVerified);
 
   useEffect(() => {
     if (sessionVerified) {

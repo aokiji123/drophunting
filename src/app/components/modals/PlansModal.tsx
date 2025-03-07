@@ -3,6 +3,8 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineDone, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { validateAmount, formatAmount } from "@/shared/utils/validation";
+import useStore from "@/shared/store";
 
 type PlansModalType = {
   togglePlansModal: () => void;
@@ -23,9 +25,14 @@ const plans = [
 export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
   const [isInnerModalOpen, setIsInnerModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("Quarterly");
-  const [inputBalance, setInputBalance] = useState("$ 100.00");
-  const [selected, setSelected] = useState("Fiat");
+  const [amount, setAmount] = useState(100);
+  const [inputValue, setInputValue] = useState<string>("100");
+  const [selected, setSelected] = useState(CurrencyType.Fiat);
   const [coupon, setCoupon] = useState("");
+  const [error, setError] = useState<string | undefined>();
+  const [isFocused, setIsFocused] = useState(false);
+  const { payWithYookassa, payWithNowPayments, paymentRedirectUrl } =
+    useStore();
 
   const scrollRef = useCustomScrollbar();
 
@@ -34,7 +41,31 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
   };
 
   const handleInputBalanceChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputBalance(e.target.value);
+    const rawValue = e.target.value;
+    setInputValue(rawValue);
+
+    const validation = validateAmount(rawValue, selected as "Fiat" | "Crypto");
+    if (validation.isValid && validation.amount !== null) {
+      setAmount(validation.amount);
+      setError(undefined);
+    } else {
+      setError(validation.error);
+      if (rawValue === "") {
+        setAmount(0);
+        setInputValue("0");
+      }
+    }
+  };
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsFocused(false);
+    if (!error && amount > 0) {
+      setInputValue(formatAmount(amount));
+    }
   };
 
   const toggleInnerModal = () => {
@@ -45,6 +76,26 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
       document.body.classList.remove("no-scroll");
     }
   };
+
+  const handlePayment = async () => {
+    if (error || amount <= 0) return;
+
+    if (selected === "Fiat") {
+      await payWithYookassa(amount);
+    } else {
+      await payWithNowPayments(amount);
+    }
+
+    if (paymentRedirectUrl) {
+      window.location.href = paymentRedirectUrl;
+    }
+  };
+
+  useEffect(() => {
+    if (paymentRedirectUrl) {
+      window.location.href = paymentRedirectUrl;
+    }
+  }, [paymentRedirectUrl]);
 
   useEffect(() => {
     return () => document.body.classList.remove("no-scroll");
@@ -189,7 +240,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               {/*  <MdOutlineKeyboardArrowRight />*/}
               {/*</button>*/}
               <button
-                className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
+                className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] hover:bg-blue-500 font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
                 onClick={toggleInnerModal}
               >
                 Top up balance
@@ -261,12 +312,31 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                   <div className="my-5">
                     <p className="font-semibold leading-[16px]">Amount</p>
                     <input
-                      className="bg-[#292B2F] border-[1px] border-transparent py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] focus:border-gray-500 focus:outline-none"
-                      value={inputBalance}
+                      type="text"
+                      className={`bg-[#292B2F] border-[1px] ${
+                        error ? "border-red-500" : "border-transparent"
+                      } py-[12px] px-[16px] rounded-[14px] mt-2 w-full focus:border-[1px] ${
+                        error ? "focus:border-red-500" : "focus:border-gray-500"
+                      } focus:outline-none`}
+                      value={isFocused ? inputValue : formatAmount(amount)}
                       onChange={handleInputBalanceChange}
+                      onFocus={handleInputFocus}
+                      onBlur={handleInputBlur}
+                      placeholder="Enter amount"
                     />
+                    {error && (
+                      <p className="text-red-500 text-sm mt-1">{error}</p>
+                    )}
                   </div>
-                  <button className="w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] bg-[#11CA00] font-semibold text-[17px] leading-[20px]">
+                  <button
+                    onClick={handlePayment}
+                    disabled={!!error || amount <= 0}
+                    className={`w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] ${
+                      error || amount <= 0
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-[#11CA00] hover:bg-blue-500"
+                    } font-semibold leading-[20px] text-[17px]`}
+                  >
                     Go to payment
                     <MdOutlineKeyboardArrowRight />
                   </button>
