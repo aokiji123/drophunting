@@ -35,7 +35,9 @@ export function middleware(request: NextRequest) {
   ];
 
   if (!token) {
-    if (publicRoutes.has(pathname)) return NextResponse.next();
+    if (publicRoutes.has(pathname)) {
+      return NextResponse.next();
+    }
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
@@ -47,7 +49,7 @@ export function middleware(request: NextRequest) {
     privateRoutes.includes(pathname) ||
     dynamicRoutePatterns.some((pattern) => pattern.test(pathname));
 
-  if (!isKnownRoute) {
+  if (!isKnownRoute && pathname !== "/not-found") {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 

@@ -20,9 +20,10 @@ import retrodrops from "../../../public/assets/retrodrops.png";
 import { Slider, sliderClasses, styled } from "@mui/material";
 import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
+import useAuthContext from "@/shared/hooks/useAuthContext";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -65,6 +66,14 @@ const Guides = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const router = useRouter();
   const [favorites, setFavorites] = useState<Record<number, boolean>>({});
+
+  const { user, sessionVerified } = useAuthContext();
+
+  useEffect(() => {
+    if (!sessionVerified || !user) {
+      router.push("/auth/login");
+    }
+  }, [sessionVerified, user, router]);
 
   const toggleFavorite = (id: number) => {
     setFavorites((prev) => ({

@@ -1,22 +1,22 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import Guides from "./guides/page";
+import useAuthContext from "@/shared/hooks/useAuthContext";
 
 export default function Home() {
-  const { sessionVerified } = useAuthContext();
+  const { user, sessionVerified } = useAuthContext();
   const router = useRouter();
 
   useEffect(() => {
-    if (sessionVerified) {
-      router.push("/guides");
+    if (!sessionVerified || !user) {
+      router.push("/auth/login");
     }
-  }, [sessionVerified, router]);
+  }, [sessionVerified, user, router]);
 
   return (
     <div className="bg-[#101114] overflow-auto">
-      <Guides />
+      {sessionVerified && user ? <Guides /> : null}
     </div>
   );
 }
