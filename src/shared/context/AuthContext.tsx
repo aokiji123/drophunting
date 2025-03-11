@@ -1,4 +1,5 @@
 "use client";
+
 import {
   createContext,
   ReactNode,
@@ -10,6 +11,7 @@ import axiosInstance, { updateAxiosToken } from "@/shared/api/axios";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 
 type AuthProviderProps = {
   children: ReactNode;
@@ -51,10 +53,8 @@ type NewPasswordParams = {
 export interface AuthContextValues {
   errors: Errors;
   user: User | null;
-  login: (data: LoginParams) => Promise<Axios.AxiosXHR<{ token: string }>>;
-  register: (
-    data: RegisterParams
-  ) => Promise<Axios.AxiosXHR<{ token: string }>>;
+  login: (data: LoginParams) => Promise<{ token: string }>;
+  register: (data: RegisterParams) => Promise<{ token: string }>;
   logout: () => Promise<void>;
   loading: boolean;
   sessionVerified: boolean;
@@ -62,36 +62,24 @@ export interface AuthContextValues {
   setStatus: React.Dispatch<React.SetStateAction<string | null>>;
   sendPasswordResetLink: (data: {
     email: string;
-  }) => Promise<Axios.AxiosXHR<{ status: string }>>;
-  newPassword: (
-    data: NewPasswordParams
-  ) => Promise<Axios.AxiosXHR<{ status: string }>>;
-  sendEmailVerificationLink: () => Promise<Axios.AxiosXHR<{ status: string }>>;
+  }) => Promise<{ status: string }>;
+  newPassword: (data: NewPasswordParams) => Promise<{ status: string }>;
+  sendEmailVerificationLink: () => Promise<{ status: string }>;
 }
 
 const defaultContextValue: AuthContextValues = {
   errors: {},
   user: null,
-  login: async () => {
-    return {} as Axios.AxiosXHR<{ token: string }>;
-  },
-  register: async () => {
-    return {} as Axios.AxiosXHR<{ token: string }>;
-  },
+  login: async () => ({ token: "" }),
+  register: async () => ({ token: "" }),
   logout: async () => {},
   loading: false,
   sessionVerified: false,
   status: null,
   setStatus: () => {},
-  sendPasswordResetLink: async () => {
-    return {} as Axios.AxiosXHR<{ status: string }>;
-  },
-  newPassword: async () => {
-    return {} as Axios.AxiosXHR<{ status: string }>;
-  },
-  sendEmailVerificationLink: async () => {
-    return {} as Axios.AxiosXHR<{ status: string }>;
-  },
+  sendPasswordResetLink: async () => ({ status: "" }),
+  newPassword: async () => ({ status: "" }),
+  sendEmailVerificationLink: async () => ({ status: "" }),
 };
 
 export const AuthContext =
@@ -100,21 +88,16 @@ export const AuthContext =
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [errors, setErrors] = useState<Errors>({});
-  const [loading, setLoading] = useState(false); // Default to false
+  const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [sessionVerified, setSessionVerified] = useState(false);
 
   useEffect(() => {
     const initializeSession = async () => {
       setLoading(true);
-      if (typeof window !== "undefined") {
-        const token = localStorage.getItem("auth-token");
-        if (token) {
-          await getUser();
-        } else {
-          setSessionVerified(false);
-          setLoading(false);
-        }
+      const token = Cookies.get("auth-token");
+      if (token) {
+        await getUser();
       } else {
         setSessionVerified(false);
         setLoading(false);
@@ -124,30 +107,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const getUser = async () => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("auth-token");
-      if (token) {
-        try {
-          const { data } = await axiosInstance.get("/api/user", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          setUser(data as SetStateAction<User | null>);
-          setSessionVerified(true);
-        } catch (e) {
-          console.warn("Error fetching user:", e);
-          setSessionVerified(false);
-          setUser(null);
-          updateAxiosToken(null);
-        } finally {
-          setLoading(false);
-        }
-      } else {
+    const token = Cookies.get("auth-token");
+    if (token) {
+      try {
+        const { data } = await axiosInstance.get("/api/user", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(data as SetStateAction<User | null>);
+        setSessionVerified(true);
+      } catch (e) {
+        console.warn("Error fetching user:", e);
         setSessionVerified(false);
         setUser(null);
+        updateAxiosToken(null);
+        Cookies.remove("auth-token");
+      } finally {
         setLoading(false);
       }
+    } else {
+      setSessionVerified(false);
+      setUser(null);
+      setLoading(false);
     }
   };
 
@@ -159,14 +139,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         "/api/login",
         data
       );
-
       const token = response.data?.token;
       if (token) {
+        Cookies.set("auth-token", token, {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+        });
         updateAxiosToken(token);
       }
-
       await getUser();
-      return response;
+      return response.data;
     } catch (e) {
       const err = e as AxiosError;
       setErrors(err.response?.data?.errors || {});
@@ -184,14 +167,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
         "/api/register",
         data
       );
-
       const token = response.data?.token;
       if (token) {
+        Cookies.set("auth-token", token, {
+          expires: 7,
+          secure: true,
+          sameSite: "Strict",
+        });
         updateAxiosToken(token);
       }
-
       await getUser();
-      return response;
+      return response.data;
     } catch (e) {
       const err = e as AxiosError;
       setErrors(err.response?.data?.errors || {});
@@ -204,17 +190,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const logout = async () => {
     setLoading(true);
     try {
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("auth-token")
-          : null;
-      await axiosInstance.post("/api/logout", {
-        Authorization: `Bearer ${token}`,
-      });
+      await axiosInstance.post("/api/logout");
       updateAxiosToken(null);
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("user");
-      }
+      Cookies.remove("auth-token");
+      Cookies.remove("user");
       setUser(null);
       setSessionVerified(false);
     } catch (e) {
@@ -235,7 +214,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         data
       );
       setStatus(response.data?.status);
-      return response;
+      return response.data;
     } catch (e) {
       const err = e as AxiosError;
       setErrors(err.response?.data?.errors || {});
@@ -255,7 +234,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         data
       );
       setStatus(response.data?.status);
-      return response;
+      return response.data;
     } catch (e) {
       throw e;
     } finally {
@@ -272,7 +251,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         "/api/email/verification-notification"
       );
       setStatus(response.data?.status);
-      return response;
+      return response.data;
     } catch (e) {
       throw e;
     } finally {
@@ -299,3 +278,5 @@ export function AuthProvider({ children }: AuthProviderProps) {
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
 }
+
+export default AuthProvider;

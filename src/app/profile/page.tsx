@@ -26,6 +26,7 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import { useRouter } from "next/navigation";
 import { DeleteAccountModal } from "@/app/components/modals/DeleteAccountModal";
 import { ChangePasswordModal } from "@/app/components/modals/ChangePasswordModal";
+import Cookies from "js-cookie";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
@@ -63,8 +64,8 @@ const Profile = () => {
 
   const handleConfirmDelete = () => {
     deleteUser();
-    localStorage.removeItem("auth-token");
-    localStorage.removeItem("user");
+    Cookies.remove("auth-token");
+    Cookies.remove("user");
     router.push("/auth/login");
   };
 
@@ -80,7 +81,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
+      Cookies.set("user", JSON.stringify(user));
     }
   }, [user]);
 

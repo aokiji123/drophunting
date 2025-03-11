@@ -27,7 +27,7 @@ const Login = () => {
     try {
       setServerError("");
       await login(data);
-      router.push("/profile");
+      router.push("/guides");
       setLoading(false);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {

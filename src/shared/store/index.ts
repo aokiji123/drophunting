@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axiosInstance from "../api/axios";
+import Cookies from "js-cookie";
 
 type Timezone = {
   value: string;
@@ -93,34 +94,22 @@ const useStore = create<StoreState>((set) => ({
     }
   },
 
-  updateUser: async (updateData: Partial<User>) => {
+  updateUser: async (data) => {
     try {
-      const response = await axiosInstance.put<User>(
-        "/api/user/update",
-        updateData
-      );
-      set({ user: response.data, error: null });
+      const response = await axiosInstance.put<User>("/api/user/update", data);
+      set({ user: response.data });
     } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "An error occurred",
-      });
+      console.error("Error updating user:", error);
     }
   },
 
   deleteUser: async () => {
     try {
-      await axiosInstance.post("/api/user/delete", {
-        Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
-      });
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("auth-token");
-        localStorage.removeItem("user");
-      }
-      set({ user: null, error: null });
+      await axiosInstance.post("/api/user/delete");
+      Cookies.remove("auth-token");
+      set({ user: null });
     } catch (error) {
-      set({
-        error: error instanceof Error ? error.message : "An error occurred",
-      });
+      console.error("Error deleting user:", error);
     }
   },
 
