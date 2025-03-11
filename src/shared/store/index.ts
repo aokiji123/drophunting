@@ -130,7 +130,11 @@ const useStore = create<StoreState>((set) => ({
         amount,
       });
 
-      set({ paymentRedirectUrl: response.data.redirect_url, error: null });
+      set({
+        paymentRedirectUrl: (response.data as { redirect_url: string })
+          .redirect_url,
+        error: null,
+      });
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "An error occurred",
@@ -147,7 +151,11 @@ const useStore = create<StoreState>((set) => ({
         }
       );
 
-      set({ paymentRedirectUrl: response.data.redirect_url, error: null });
+      set({
+        paymentRedirectUrl: (response.data as { redirect_url: string })
+          .redirect_url,
+        error: null,
+      });
     } catch (error) {
       set({
         error: error instanceof Error ? error.message : "An error occurred",

@@ -63,6 +63,8 @@ const Profile = () => {
 
   const handleConfirmDelete = () => {
     deleteUser();
+    localStorage.removeItem("auth-token");
+    localStorage.removeItem("user");
     router.push("/auth/login");
   };
 

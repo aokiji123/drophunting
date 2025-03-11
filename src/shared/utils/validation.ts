@@ -52,11 +52,11 @@ export function validateAmount(
   }
 
   // Apply currency-specific limits
-  if (currencyType === "Fiat" && numValue > 350000) {
+  if (currencyType === "Fiat" && numValue > 2000) {
     return {
       isValid: false,
       amount: null,
-      error: "Maximum amount for fiat is $350,000",
+      error: "Maximum amount for fiat is $2000",
     };
   }
 
@@ -64,7 +64,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Maximum amount for crypto is 2,000",
+      error: "Maximum amount for crypto is $2000",
     };
   }
 
