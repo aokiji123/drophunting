@@ -36,15 +36,14 @@ const languages = [
 const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
-  const { user: _user, loading } = useAuthContext();
-  const [user, setUser] = useState(_user);
+  const { user, loading } = useAuthContext();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
     useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [avatar, setAvatar] = useState(avatarImg);
+  const [avatar] = useState(avatarImg);
   const {
     timezones,
     selectedTimezone,
@@ -74,12 +73,6 @@ const Profile = () => {
   }, [fetchTimezones]);
 
   useEffect(() => {
-    if (_user) {
-      setUser(_user);
-    }
-  }, [_user]);
-
-  useEffect(() => {
     if (user) {
       Cookies.set("user", JSON.stringify(user));
     }
@@ -92,21 +85,21 @@ const Profile = () => {
     return pathname === href;
   };
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageUrl = reader.result as string;
-        setAvatar({ src: imageUrl, height: 83, width: 83 });
-        setUser((prevUser) => ({
-          ...prevUser,
-          avatar: { src: imageUrl, height: 83, width: 83 },
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       const imageUrl = reader.result as string;
+  //       setAvatar({ src: imageUrl, height: 83, width: 83 });
+  //       setUser((prevUser) => ({
+  //         ...prevUser,
+  //         avatar: { src: imageUrl, height: 83, width: 83 },
+  //       }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
   const handleImageClick = () => {
     if (fileInputRef.current) {
@@ -114,9 +107,9 @@ const Profile = () => {
     }
   };
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser((prevUser) => ({ ...prevUser, name: event.target.value }));
-  };
+  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setUser((prevUser) => ({ ...prevUser, name: event.target.value }));
+  // };
 
   const handleLanguageChange = (code: string) => {
     setSelectedLanguage(code);
@@ -188,7 +181,7 @@ const Profile = () => {
                   accept="image/*"
                   className="hidden"
                   ref={fileInputRef}
-                  onChange={handleImageChange}
+                  // onChange={handleImageChange}
                 />
                 <div
                   className="cursor-pointer absolute -bottom-1 -right-1 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full translate-x-1/4 translate-y-1/4"
@@ -212,14 +205,14 @@ const Profile = () => {
                 <p className="mb-1 md:mb-0 font-semibold">Name</p>
                 <input
                   value={user?.name ?? ""}
-                  onChange={handleNameChange}
+                  // onChange={handleNameChange}
                   className="max-w-[350px] sm:w-[350px] bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
                 />
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Wallet</p>
                 <p className="md:py-[12px] md:px-[16px] w-full md:w-[350px]">
-                  233ssjJSK...219D
+                  {user?.affiliate_id}
                 </p>
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">

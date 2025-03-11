@@ -28,6 +28,7 @@ const Login = () => {
       setServerError("");
       await login(data);
       router.push("/guides");
+      window.location.reload();
       setLoading(false);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {

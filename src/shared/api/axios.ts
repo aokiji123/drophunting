@@ -18,7 +18,7 @@ export const updateAxiosToken = (newToken: string | null) => {
     Cookies.set("auth-token", newToken, {
       expires: 7,
       secure: true,
-      path: "/",
+      path: "/guides",
     });
     axiosInstance.defaults.headers.common[
       "Authorization"

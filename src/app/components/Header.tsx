@@ -15,6 +15,7 @@ import NotificationsModal from "@/app/components/modals/NotificationsModal";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { PlansModal } from "./modals/PlansModal";
+import useAuthContext from "@/shared/hooks/useAuthContext";
 // import {
 //   FormControl,
 //   MenuItem,
@@ -29,6 +30,7 @@ const Header = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
+  const { user, loading } = useAuthContext();
   const isActive = (href: string) => {
     if (href === "/guides") {
       return pathname.startsWith("/guides");
@@ -65,6 +67,16 @@ const Header = () => {
   const toggleBalanceModal = () => toggleModal("balance");
   const toggleNotificationsModal = () => toggleModal("notifications");
   const togglePlansModal = () => toggleModal("plans");
+
+  if (loading) {
+    return (
+      <div className="bg-[#101114] text-white">
+        <div className="flex justify-center items-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <header className="relative flex items-center justify-between h-[72px] px-[12px] sm:px-8">
@@ -179,7 +191,7 @@ const Header = () => {
           className="hidden sm:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
           onClick={toggleBalanceModal}
         >
-          <p className="leading-[16px] font-semibold">$ 341.21</p>
+          <p className="leading-[16px] font-semibold">$ {user?.balance}</p>
           <MdOutlineArrowDropDown size={20} className="p-0" />
         </div>
         <div

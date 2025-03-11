@@ -18,12 +18,22 @@ type AuthProviderProps = {
 };
 
 type User = {
-  name?: string;
-  email?: string;
-  created_at?: string;
-  id?: string;
-  updated_at?: string;
-  email_verified_at?: string;
+  id: number;
+  name: string;
+  affiliate_id: string;
+  email: string;
+  role_id: number;
+  plan_id: number;
+  balance: string;
+  avatar: string;
+  notif_change: boolean;
+  notif_guides: boolean;
+  notif_articles: boolean;
+  notif_deadline: boolean;
+  notif_tg: boolean;
+  timezone: string | null;
+  ban: boolean;
+  ban_reason: string | null;
 };
 
 type Errors = {
