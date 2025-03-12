@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
@@ -17,11 +17,23 @@ import { tabs } from "@/shared/utils/tabs";
 import SmallChartPie from "@/shared/components/SmallChartPie";
 import { PlansModal } from "../components/modals/PlansModal";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
+import useStore from "@/shared/store";
+import { format } from "date-fns";
 
 const Subscriptions = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    subscriptions,
+    isLoadingSubscriptions,
+    subscriptionsError,
+    fetchSubscriptions,
+  } = useStore();
+
+  useEffect(() => {
+    fetchSubscriptions();
+  }, [fetchSubscriptions]);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -37,6 +49,15 @@ const Subscriptions = () => {
       autoHide: "never",
     },
   });
+
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), "dd.MM.yyyy");
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return dateString;
+    }
+  };
 
   return (
     <div className="bg-[#101114] text-white">
@@ -104,66 +125,104 @@ const Subscriptions = () => {
                   <p className="text-[16px] font-bold leading-[24px] -tracking-[3%]">
                     My subscriptions
                   </p>
-                  <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
-                    5
-                  </p>
+                  {!isLoadingSubscriptions && (
+                    <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
+                      {subscriptions.length}
+                    </p>
+                  )}
                 </div>
-                <TableContainer
-                  ref={tableRef}
-                  sx={{
-                    backgroundColor: "transparent",
-                    overflowX: "scroll",
-                  }}
-                >
-                  <Table
+
+                {subscriptionsError && (
+                  <div className="mt-4 p-3 bg-red-900/30 border border-red-500 rounded-[12px] text-red-400">
+                    {subscriptionsError}
+                  </div>
+                )}
+
+                {isLoadingSubscriptions ? (
+                  <div className="flex justify-center py-8">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
+                  </div>
+                ) : (
+                  <TableContainer
+                    ref={tableRef}
                     sx={{
-                      width: "100%",
-                      "& .MuiTableCell-head": {
-                        backgroundColor: "transparent",
-                        color: "#949392",
-                        fontWeight: "bold",
-                        fontSize: "13px",
-                        lineHeight: "16px",
-                        borderBottom: "1px solid #27292D",
-                        padding: "16px 8px",
-                        fontFamily: "IBM Plex Mono",
-                      },
-                      "& .MuiTableCell-body": {
-                        minWidth: 120,
-                        color: "#FFFFFF",
-                        fontSize: "14px",
-                        lineHeight: "20px",
-                        borderBottom: "1px solid #27292D",
-                        padding: "16px 8px",
-                        fontFamily: "IBM Plex Mono",
-                      },
+                      backgroundColor: "transparent",
+                      overflowX: "scroll",
                     }}
-                    aria-label="subscriptions table"
                   >
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Plan</TableCell>
-                        <TableCell align="left">Date start</TableCell>
-                        <TableCell align="left">Date end</TableCell>
-                        <TableCell align="left">Price</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "#27292D",
-                          },
-                        }}
-                      >
-                        <TableCell align="left">Quartal Plan</TableCell>
-                        <TableCell align="left">11.01.2024</TableCell>
-                        <TableCell align="left">11.04.2024</TableCell>
-                        <TableCell align="left">129$</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+                    <Table
+                      sx={{
+                        width: "100%",
+                        "& .MuiTableCell-head": {
+                          backgroundColor: "transparent",
+                          color: "#949392",
+                          fontWeight: "bold",
+                          fontSize: "13px",
+                          lineHeight: "16px",
+                          borderBottom: "1px solid #27292D",
+                          padding: "16px 8px",
+                          fontFamily: "IBM Plex Mono",
+                        },
+                        "& .MuiTableCell-body": {
+                          minWidth: 120,
+                          color: "#FFFFFF",
+                          fontSize: "14px",
+                          lineHeight: "20px",
+                          borderBottom: "1px solid #27292D",
+                          padding: "16px 8px",
+                          fontFamily: "IBM Plex Mono",
+                        },
+                      }}
+                      aria-label="subscriptions table"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Plan</TableCell>
+                          <TableCell align="left">Date start</TableCell>
+                          <TableCell align="left">Date end</TableCell>
+                          <TableCell align="left">Price</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {subscriptions.length > 0 ? (
+                          subscriptions.map((subscription, index) => (
+                            <TableRow
+                              key={index}
+                              sx={{
+                                "&:hover": {
+                                  backgroundColor: "#27292D",
+                                },
+                              }}
+                            >
+                              <TableCell align="left">
+                                {subscription.name}
+                              </TableCell>
+                              <TableCell align="left">
+                                {formatDate(subscription.date_start)}
+                              </TableCell>
+                              <TableCell align="left">
+                                {formatDate(subscription.date_end)}
+                              </TableCell>
+                              <TableCell align="left">
+                                ${subscription.price}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell
+                              colSpan={4}
+                              align="center"
+                              sx={{ color: "#8E8E8E" }}
+                            >
+                              You don&apos;t have any active subscriptions
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                )}
               </div>
             </div>
           </section>

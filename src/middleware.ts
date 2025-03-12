@@ -27,17 +27,14 @@ export function middleware(request: NextRequest) {
   ];
 
   const dynamicRoutePatterns = [
-    /^\/guides\/.+$/, // Matches /guides/:id
-    /^\/favorites\/.+$/, // Matches /favorites/:id
-    /^\/blog\/.+$/, // Matches /blog/:id
-    /^\/store\/.+$/, // Matches /store/:id
-    /^\/profile\/.+$/, // Matches /profile/:something
+    /^\/guides\/.+$/,
+    /^\/favorites\/.+$/,
+    /^\/blog\/.+$/,
+    /^\/store\/.+$/,
   ];
 
   if (!token) {
-    if (publicRoutes.has(pathname)) {
-      return NextResponse.next();
-    }
+    if (publicRoutes.has(pathname)) return NextResponse.next();
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 

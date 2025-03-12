@@ -20,12 +20,10 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
     setIsLoading(true);
 
     try {
-      // Validate old password
       if (!oldPassword) {
         throw new Error("Current password is required");
       }
 
-      // Validate new password
       if (!newPassword) {
         throw new Error("New password is required");
       }
@@ -34,7 +32,6 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
         throw new Error("New password must be at least 8 characters long");
       }
 
-      // Validate password confirmation
       if (!confirmPassword) {
         throw new Error("Please confirm your new password");
       }
@@ -43,7 +40,6 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
         throw new Error("Passwords do not match");
       }
 
-      // Validate that new password is different from old password
       if (oldPassword === newPassword) {
         throw new Error("New password must be different from current password");
       }
