@@ -72,7 +72,7 @@ const Guides = () => {
   } = useStore();
 
   useEffect(() => {
-    if (!sessionVerified || !user) {
+    if (sessionVerified && !user) {
       router.push("/auth/login");
     }
   }, [sessionVerified, user, router]);

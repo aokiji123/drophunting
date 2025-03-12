@@ -183,6 +183,57 @@ type BuyPlanResponse = {
   message: string;
 };
 
+type BlogCategory = {
+  id: number;
+  title: string;
+  sort: number;
+};
+
+type BlogArticleCategory = {
+  id: number;
+  title: string;
+};
+
+type BlogArticle = {
+  id: number;
+  category_id: number;
+  title: string;
+  slug: string;
+  img: string;
+  reading_time: number;
+  description: string;
+  read: number;
+  updated: string;
+  category: BlogArticleCategory;
+};
+
+type BlogArticlesResponse = {
+  current_page: number;
+  data: BlogArticle[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+};
+
+type BlogArticlesParams = {
+  page?: number;
+  category_id?: number;
+  search?: string;
+  sorting?: 1 | 2;
+};
+
 type StoreState = {
   timezones: Timezone[];
   selectedTimezone: string;
@@ -210,6 +261,12 @@ type StoreState = {
   guides: GuidesResponse | null;
   isLoadingGuides: boolean;
   guidesError: string | null;
+  blogCategories: BlogCategory[];
+  isLoadingBlogCategories: boolean;
+  blogCategoriesError: string | null;
+  blogArticles: BlogArticlesResponse | null;
+  isLoadingBlogArticles: boolean;
+  blogArticlesError: string | null;
   fetchTimezones: () => Promise<void>;
   updateUser: (updateData: Partial<User>) => Promise<void>;
   deleteUser: () => Promise<void>;
@@ -231,6 +288,9 @@ type StoreState = {
   fetchTags: () => Promise<void>;
   fetchGuides: (params?: GuidesParams) => Promise<void>;
   toggleFavorite: (guideId: number) => Promise<boolean>;
+  fetchBlogCategories: () => Promise<void>;
+  fetchBlogArticles: (params?: BlogArticlesParams) => Promise<void>;
+  toggleRead: (articleId: number) => Promise<boolean>;
 };
 
 const useStore = create<StoreState>()(
@@ -262,6 +322,12 @@ const useStore = create<StoreState>()(
       guides: null,
       isLoadingGuides: false,
       guidesError: null,
+      blogCategories: [],
+      isLoadingBlogCategories: false,
+      blogCategoriesError: null,
+      blogArticles: null,
+      isLoadingBlogArticles: false,
+      blogArticlesError: null,
 
       setSelectedTimezone: (timezone: string) => {
         if (typeof window !== "undefined") {
@@ -722,6 +788,134 @@ const useStore = create<StoreState>()(
               }),
             };
             set({ guides: revertedGuides });
+          }
+
+          return false;
+        }
+      },
+
+      fetchBlogCategories: async () => {
+        try {
+          set({ isLoadingBlogCategories: true, blogCategoriesError: null });
+
+          const response = await axiosInstance.get<BlogCategory[]>(
+            "/api/categories"
+          );
+
+          // Sort categories by their sort property
+          const sortedCategories = response.data.sort(
+            (a, b) => a.sort - b.sort
+          );
+
+          set({
+            blogCategories: sortedCategories,
+            isLoadingBlogCategories: false,
+            blogCategoriesError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching blog categories:", error);
+          let errorMessage = "Failed to load blog categories";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            blogCategoriesError: errorMessage,
+            isLoadingBlogCategories: false,
+          });
+        }
+      },
+
+      fetchBlogArticles: async (params?: BlogArticlesParams) => {
+        try {
+          set({ isLoadingBlogArticles: true, blogArticlesError: null });
+
+          const queryParams = new URLSearchParams();
+          if (params) {
+            if (params.page) queryParams.append("page", params.page.toString());
+            if (params.category_id)
+              queryParams.append("category_id", params.category_id.toString());
+            if (params.search) queryParams.append("search", params.search);
+            if (params.sorting)
+              queryParams.append("sorting", params.sorting.toString());
+          }
+
+          const queryString = queryParams.toString();
+          const url = `/api/articles${queryString ? `?${queryString}` : ""}`;
+
+          const response = await axiosInstance.get<BlogArticlesResponse>(url);
+
+          set({
+            blogArticles: response.data,
+            isLoadingBlogArticles: false,
+            blogArticlesError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching blog articles:", error);
+          let errorMessage = "Failed to load blog articles";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            blogArticlesError: errorMessage,
+            isLoadingBlogArticles: false,
+          });
+        }
+      },
+
+      toggleRead: async (articleId: number) => {
+        try {
+          const currentArticles = get().blogArticles;
+          if (currentArticles) {
+            const updatedArticles = {
+              ...currentArticles,
+              data: currentArticles.data.map((article) => {
+                if (article.id === articleId) {
+                  return {
+                    ...article,
+                    read: article.read > 0 ? 0 : 1,
+                  };
+                }
+                return article;
+              }),
+            };
+            set({ blogArticles: updatedArticles });
+          }
+
+          await axiosInstance.post(`/api/articles/read/${articleId}`);
+
+          return true;
+        } catch (error) {
+          console.error("Error toggling read status:", error);
+
+          const currentArticles = get().blogArticles;
+          if (currentArticles) {
+            const revertedArticles = {
+              ...currentArticles,
+              data: currentArticles.data.map((article) => {
+                if (article.id === articleId) {
+                  return {
+                    ...article,
+                    read: article.read > 0 ? 0 : 1,
+                  };
+                }
+                return article;
+              }),
+            };
+            set({ blogArticles: revertedArticles });
           }
 
           return false;
