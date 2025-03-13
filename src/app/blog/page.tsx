@@ -5,7 +5,7 @@ import { IoMdTime } from "react-icons/io";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdOutlineArrowDropDown, MdOutlineDone } from "react-icons/md";
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
@@ -79,12 +79,13 @@ const Blog = () => {
     setCurrentPage(1);
   };
 
-  const debouncedSearch = useCallback(
-    debounce((value: string) => {
-      setSearchQuery(value);
-      setCurrentPage(1);
-    }, 500),
-    []
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearchQuery(value);
+        setCurrentPage(1);
+      }, 500),
+    [setSearchQuery, setCurrentPage]
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

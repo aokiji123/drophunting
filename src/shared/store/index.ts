@@ -405,10 +405,10 @@ type UpdateUserParams = {
   lang?: string;
 };
 
-type UpdateUserResponse = {
-  type: string;
-  status: string;
-};
+// type UpdateUserResponse = {
+//   type: string;
+//   status: string;
+// };
 
 type StoreState = {
   timezones: Timezone[];
@@ -1230,10 +1230,9 @@ const useStore = create<StoreState>()(
               }
               return task;
             });
-
             const wasCompleting =
-              currentGuideDetails.tasks.find((task) => task.id === taskId)
-                ?.completed > 0;
+              currentGuideDetails.tasks?.find((task) => task.id === taskId)
+                ?.completed === 0;
 
             set({
               guideDetails: {

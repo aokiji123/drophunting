@@ -17,7 +17,6 @@ const BlogArticle = ({
   const router = useRouter();
   const { user, sessionVerified } = useAuthContext();
 
-  // Unwrap params using React.use()
   const unwrappedParams =
     params instanceof Promise ? React.use(params) : params;
   const { id } = unwrappedParams;

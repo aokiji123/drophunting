@@ -17,7 +17,7 @@ import Image from "next/image";
 import { Slider, sliderClasses, styled } from "@mui/material";
 import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 import useStore from "@/shared/store";
@@ -94,12 +94,13 @@ const Favorites = () => {
     setCurrentPage(1);
   };
 
-  const debouncedSearch = useCallback(
-    debounce((value: string) => {
-      setSearchQuery(value);
-      setCurrentPage(1);
-    }, 500),
-    []
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearchQuery(value);
+        setCurrentPage(1);
+      }, 500),
+    [setSearchQuery, setCurrentPage]
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
