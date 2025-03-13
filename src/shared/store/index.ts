@@ -689,7 +689,6 @@ const useStore = create<StoreState>()(
 
           const formData = new FormData();
 
-          // Add all update parameters to the form data
           if (updateData.name !== undefined) {
             formData.append("name", updateData.name);
           }
@@ -740,15 +739,9 @@ const useStore = create<StoreState>()(
 
           const response = await axiosInstance.post<User>(
             "/api/user/update",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
+            formData
           );
 
-          // Update the user in the store with the response data
           const currentUser = get().user;
           if (currentUser) {
             set({

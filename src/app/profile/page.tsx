@@ -5,7 +5,6 @@ import Image from "next/image";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { CustomSwitch } from "@/shared/components/CustomSwitch";
-
 import { BiLogoTelegram } from "react-icons/bi";
 import { RiKey2Line } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -35,7 +34,7 @@ const languages = [
 const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
-  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+  // const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
@@ -49,8 +48,16 @@ const Profile = () => {
     fetchTimezones,
     deleteUser,
     user,
+    updateUser,
   } = useStore();
   const router = useRouter();
+
+  // State for editable fields
+  const [editedName, setEditedName] = useState(user?.name ?? "");
+  const [editedLanguage, setEditedLanguage] = useState(
+    user?.lang ?? i18n.language
+  );
+  const [editedTimezone, setEditedTimezone] = useState(selectedTimezone);
 
   const scrollRef = useCustomScrollbar();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -74,8 +81,11 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       Cookies.set("user", JSON.stringify(user));
+      setEditedName(user.name ?? "");
+      setEditedLanguage(user.lang ?? i18n.language);
+      setEditedTimezone(selectedTimezone); // Sync with store's selectedTimezone
     }
-  }, [user]);
+  }, [user, i18n.language, selectedTimezone]);
 
   const isActive = (href: string) => {
     if (href === "/profile") {
@@ -84,41 +94,55 @@ const Profile = () => {
     return pathname === href;
   };
 
-  // const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       const imageUrl = reader.result as string;
-  //       setAvatar({ src: imageUrl, height: 83, width: 83 });
-  //       setUser((prevUser) => ({
-  //         ...prevUser,
-  //         avatar: { src: imageUrl, height: 83, width: 83 },
-  //       }));
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
-
   const handleImageClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  // const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setUser((prevUser) => ({ ...prevUser, name: event.target.value }));
-  // };
+  // Handle changes
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedName(event.target.value);
+  };
 
   const handleLanguageChange = (code: string) => {
-    setSelectedLanguage(code);
-    i18n.changeLanguage(code);
+    setEditedLanguage(code);
+    i18n.changeLanguage(code); // Update i18n immediately for UI
     setIsLanguageDropdownOpen(false);
   };
 
   const handleTimeChange = (value: string) => {
-    setSelectedTimezone(value);
+    setEditedTimezone(value);
+    setSelectedTimezone(value); // Update store immediately for UI
     setIsTimeDropdownOpen(false);
+  };
+
+  // Check if there are changes to save
+  const hasChanges = () => {
+    return (
+      (user?.name !== editedName && editedName !== "") ||
+      (user?.lang !== editedLanguage && editedLanguage !== "") ||
+      (selectedTimezone !== editedTimezone && editedTimezone !== "")
+    );
+  };
+
+  // Handle saving all changes
+  const handleSaveChanges = async () => {
+    if (!user || !hasChanges()) return;
+
+    const updateData: { name?: string; lang?: string; timezone?: string } = {};
+    if (editedName !== user.name) updateData.name = editedName;
+    if (editedLanguage !== user.lang) updateData.lang = editedLanguage;
+    if (editedTimezone !== selectedTimezone)
+      updateData.timezone = editedTimezone;
+
+    const success = await updateUser(updateData);
+
+    if (success) {
+      window.location.reload(); // Reload to reflect changes
+    } else {
+      console.error("Failed to update profile");
+    }
   };
 
   const handleTelegramSwitchChange = (
@@ -126,16 +150,6 @@ const Profile = () => {
   ) => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };
-
-  // if (loading) {
-  //   return (
-  //     <div className="bg-[#101114] text-white">
-  //       <div className="flex justify-center items-center h-screen">
-  //         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="bg-[#101114] text-white">
@@ -180,7 +194,6 @@ const Profile = () => {
                   accept="image/*"
                   className="hidden"
                   ref={fileInputRef}
-                  // onChange={handleImageChange}
                 />
                 <div
                   className="cursor-pointer absolute -bottom-1 -right-1 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full translate-x-1/4 translate-y-1/4"
@@ -203,8 +216,8 @@ const Profile = () => {
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Name</p>
                 <input
-                  value={user?.name ?? ""}
-                  // onChange={handleNameChange}
+                  value={editedName}
+                  onChange={handleNameChange}
                   className="max-w-[350px] sm:w-[350px] bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
                 />
               </div>
@@ -226,18 +239,16 @@ const Profile = () => {
                     <div className="flex items-center gap-[12px]">
                       <Image
                         src={
-                          languages.find(
-                            (lang) => lang.code === selectedLanguage
-                          )?.flag || en
+                          languages.find((lang) => lang.code === editedLanguage)
+                            ?.flag || en
                         }
-                        alt={selectedLanguage}
+                        alt={editedLanguage}
                         className="h-[20px] w-[20px] object-cover rounded-full"
                       />
                       <p className="text-[15px] leading-[24px] font-normal">
                         {
-                          languages.find(
-                            (lang) => lang.code === selectedLanguage
-                          )?.name
+                          languages.find((lang) => lang.code === editedLanguage)
+                            ?.name
                         }
                       </p>
                     </div>
@@ -253,7 +264,7 @@ const Profile = () => {
                         <div
                           key={lang.code}
                           className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
-                            selectedLanguage === lang.code && `bg-[#181C20]`
+                            editedLanguage === lang.code && `bg-[#181C20]`
                           }`}
                           onClick={() => handleLanguageChange(lang.code)}
                         >
@@ -267,7 +278,7 @@ const Profile = () => {
                               {lang.name}
                             </p>
                           </div>
-                          {selectedLanguage === lang.code && (
+                          {editedLanguage === lang.code && (
                             <FaCheck size={16} className="text-[#CBFF51]" />
                           )}
                         </div>
@@ -284,8 +295,8 @@ const Profile = () => {
                     onClick={() => setIsTimeDropdownOpen(!isTimeDropdownOpen)}
                   >
                     <p className="text-[15px] leading-[24px] font-normal">
-                      {timezones.find((tz) => tz.value === selectedTimezone)
-                        ?.label || selectedTimezone}
+                      {timezones.find((tz) => tz.value === editedTimezone)
+                        ?.label || editedTimezone}
                     </p>
                     {isTimeDropdownOpen ? (
                       <FaAngleUp size={16} className="text-[#8E8E8E]" />
@@ -308,7 +319,7 @@ const Profile = () => {
                           <div
                             key={timezone.value}
                             className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
-                              selectedTimezone === timezone.value &&
+                              editedTimezone === timezone.value &&
                               `bg-[#181C20]`
                             }`}
                             onClick={() => handleTimeChange(timezone.value)}
@@ -316,7 +327,7 @@ const Profile = () => {
                             <p className="text-[15px] leading-[24px] font-normal">
                               {timezone.label}
                             </p>
-                            {selectedTimezone === timezone.value && (
+                            {editedTimezone === timezone.value && (
                               <FaCheck size={16} className="text-[#CBFF51]" />
                             )}
                           </div>
@@ -435,19 +446,29 @@ const Profile = () => {
 
               <hr className="mb-[45px] mt-[60px] border-0 h-px bg-[#27292D]" />
 
-              <button
-                className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
-                onClick={handleDeleteAccount}
-              >
-                <div>
-                  <Image
-                    src={cancel}
-                    alt="Cancel icon"
-                    className="w-[16px] h-[16px]"
-                  />
-                </div>
-                <div>Delete account</div>
-              </button>
+              <div className="flex justify-between items-center">
+                <button
+                  className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                  onClick={handleDeleteAccount}
+                >
+                  <div>
+                    <Image
+                      src={cancel}
+                      alt="Cancel icon"
+                      className="w-[16px] h-[16px]"
+                    />
+                  </div>
+                  <div>Delete account</div>
+                </button>
+                {hasChanges() && (
+                  <button
+                    className="bg-[#CBFF51] text-black py-[8px] px-[16px] rounded-[10px] font-chakra font-semibold"
+                    onClick={handleSaveChanges}
+                  >
+                    Save Changes
+                  </button>
+                )}
+              </div>
             </div>
           </section>
         </div>
