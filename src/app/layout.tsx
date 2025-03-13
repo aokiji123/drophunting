@@ -3,7 +3,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { I18nextProvider } from "react-i18next";
 
-import { AuthProvider } from "@/shared/context/AuthContext";
+import AuthProvider from "@/shared/context/AuthContext";
 import i18n from "@/shared/i18n";
 
 import "./globals.css";

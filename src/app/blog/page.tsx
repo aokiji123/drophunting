@@ -9,7 +9,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
-import useAuthContext from "@/shared/hooks/useAuthContext";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const Blog = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -19,8 +19,9 @@ const Blog = () => {
   const [sorting, setSorting] = useState<1 | 2>(2);
 
   const router = useRouter();
-  const { user, sessionVerified } = useAuthContext();
   const {
+    user,
+    sessionVerified,
     blogCategories,
     isLoadingBlogCategories,
     blogCategoriesError,
@@ -97,6 +98,12 @@ const Blog = () => {
     return path.startsWith("http") ? path : `${backendUrl}${path}`;
   };
 
+  const scrollRef = useCustomScrollbar({
+    scrollbars: {
+      autoHide: "never",
+    },
+  });
+
   return (
     <div className="bg-[#101114] text-white">
       <Header />
@@ -107,34 +114,36 @@ const Blog = () => {
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
-          {isLoadingBlogCategories ? (
-            <div className="flex items-center justify-center py-4">
-              <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#CBFF51]"></div>
-            </div>
-          ) : blogCategoriesError ? (
-            <div className="text-red-500 p-2">{blogCategoriesError}</div>
-          ) : (
-            <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
-              {blogCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() =>
-                    handleCategoryClick(
-                      category.title,
-                      category.id === 0 ? null : category.id
-                    )
-                  }
-                  className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
-                    activeFilter === category.title
-                      ? "bg-[#11CA00]"
-                      : "bg-[#1D1E23]"
-                  }`}
-                >
-                  {category.title}
-                </button>
-              ))}
-            </div>
-          )}
+          <div className="w-full overflow-x-auto" ref={scrollRef}>
+            {isLoadingBlogCategories ? (
+              <div className="flex items-center justify-center py-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#CBFF51]"></div>
+              </div>
+            ) : blogCategoriesError ? (
+              <div className="text-red-500 p-2">{blogCategoriesError}</div>
+            ) : (
+              <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
+                {blogCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() =>
+                      handleCategoryClick(
+                        category.title,
+                        category.id === 0 ? null : category.id
+                      )
+                    }
+                    className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                      activeFilter === category.title
+                        ? "bg-[#11CA00]"
+                        : "bg-[#1D1E23]"
+                    }`}
+                  >
+                    {category.title}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="relative text-[#848487]">
             <IoSearchOutline
               className="absolute top-3 left-3 cursor-pointer"

@@ -20,7 +20,6 @@ import HalfChartPie from "@/shared/components/HalfChartPie";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
 
@@ -58,8 +57,9 @@ const Guides = () => {
   const [sorting, setSorting] = useState<1 | 2>(2);
 
   const router = useRouter();
-  const { user, sessionVerified } = useAuthContext();
   const {
+    user,
+    sessionVerified,
     tags,
     isLoadingTags,
     tagsError,
@@ -166,7 +166,7 @@ const Guides = () => {
           Celebrate your web3 journey. Complete quests and earn drops!
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
-          <div ref={scrollRef}>
+          <div className="w-full overflow-x-auto" ref={scrollRef}>
             {isLoadingTags ? (
               <div className="flex items-center justify-center py-4">
                 <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#CBFF51]"></div>

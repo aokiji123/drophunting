@@ -23,7 +23,6 @@ import HalfChartPie from "@/shared/components/HalfChartPie";
 import { PlansModal } from "@/app/components/modals/PlansModal";
 import Link from "next/link";
 import useStore from "@/shared/store";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 
 const CustomSlider = styled(Slider)({
   height: 6,
@@ -55,12 +54,13 @@ const Guide = () => {
   const [activeTask, setActiveTask] = useState<number | null>(null);
   const [showPlansModal, setShowPlansModal] = useState(false);
   const [activeModal, setActiveModal] = useState<number | null>(null);
-  const { user, sessionVerified } = useAuthContext();
 
   const params = useParams();
   const id = params.id as string;
 
   const {
+    user,
+    sessionVerified,
     guideDetails,
     isLoadingGuideDetails,
     guideDetailsError,

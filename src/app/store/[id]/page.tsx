@@ -37,13 +37,11 @@ const ProductDetail = () => {
       fetchProductDetails(productId);
     }
 
-    // Reset order state when component mounts
     resetOrderState();
   }, [productId, fetchProductDetails, resetOrderState]);
 
   const toggleModal = () => {
     if (isModalOpen) {
-      // Reset form and order state when closing the modal
       resetOrderState();
       setFormSubmitted(false);
     }
@@ -69,7 +67,6 @@ const ProductDetail = () => {
 
     if (success) {
       setFormSubmitted(true);
-      // Reset form fields but keep the modal open to show success message
       setTelegramHandle("");
       setMessage("");
     }

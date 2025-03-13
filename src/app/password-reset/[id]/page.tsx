@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Header from "@/app/auth/components/Header";
 import { RiKey2Line } from "react-icons/ri";
 import Footer from "@/app/auth/components/Footer";
-import useAuthContext from "@/shared/hooks/useAuthContext";
+import useStore from "@/shared/store";
 
 const PasswordResetHandler = () => {
   const searchParams = useSearchParams();
@@ -16,10 +16,9 @@ const PasswordResetHandler = () => {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const router = useRouter();
-  const { newPassword: newPasswordCreation } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { newPassword: newPasswordCreation } = useStore();
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };

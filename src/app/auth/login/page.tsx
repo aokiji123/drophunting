@@ -5,9 +5,9 @@ import Footer from "@/app/auth/components/Footer";
 import Image from "next/image";
 import loginIcon from "../../../../public/assets/icons/login.png";
 import { useForm } from "react-hook-form";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import useStore from "@/shared/store";
 
 type LoginFormData = {
   email: string;
@@ -20,8 +20,7 @@ const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
-  const { login } = useAuthContext();
-
+  const { login } = useStore();
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
     try {

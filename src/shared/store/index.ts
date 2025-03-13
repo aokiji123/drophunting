@@ -1,7 +1,31 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import axiosInstance from "../api/axios";
+import axiosInstance, { updateAxiosToken } from "../api/axios";
 import Cookies from "js-cookie";
+
+type AuthErrors = {
+  name?: string[];
+  email?: string[];
+  password?: string[];
+};
+
+type LoginParams = {
+  email: string;
+  password: string;
+};
+
+type RegisterParams = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+type NewPasswordParams = {
+  email: string;
+  token: string | undefined;
+  password: string;
+  password_confirmation: string;
+};
 
 type Timezone = {
   value: string;
@@ -405,11 +429,6 @@ type UpdateUserParams = {
   lang?: string;
 };
 
-// type UpdateUserResponse = {
-//   type: string;
-//   status: string;
-// };
-
 type StoreState = {
   timezones: Timezone[];
   selectedTimezone: string;
@@ -505,6 +524,19 @@ type StoreState = {
   resetOrderState: () => void;
   fetchSubaccounts: (page?: number) => Promise<void>;
   resetUpdateUserState: () => void;
+  authErrors: AuthErrors;
+  authLoading: boolean;
+  authStatus: string | null;
+  sessionVerified: boolean;
+  login: (data: LoginParams) => Promise<{ token: string }>;
+  register: (data: RegisterParams) => Promise<{ token: string }>;
+  logout: () => Promise<void>;
+  sendPasswordResetLink: (data: {
+    email: string;
+  }) => Promise<{ status: string }>;
+  newPassword: (data: NewPasswordParams) => Promise<{ status: string }>;
+  sendEmailVerificationLink: () => Promise<{ status: string }>;
+  setAuthStatus: (status: string | null) => void;
 };
 
 const useStore = create<StoreState>()(
@@ -569,6 +601,10 @@ const useStore = create<StoreState>()(
       isUpdatingUser: false,
       updateUserSuccess: null,
       updateUserError: null,
+      authErrors: {},
+      authLoading: false,
+      authStatus: null,
+      sessionVerified: false,
 
       setSelectedTimezone: (timezone: string) => {
         if (typeof window !== "undefined") {
@@ -615,6 +651,25 @@ const useStore = create<StoreState>()(
             }
           } else {
             set({ timezones: timezoneData, error: null });
+          }
+
+          // Check for existing auth token and get user info
+          const token = Cookies.get("auth-token");
+          if (token) {
+            try {
+              const { data } = await axiosInstance.get<User>("/api/user", {
+                headers: { Authorization: `Bearer ${token}` },
+              });
+              set({ user: data, sessionVerified: true });
+              updateAxiosToken(token);
+            } catch (e) {
+              console.warn("Error fetching user:", e);
+              set({ sessionVerified: false, user: null });
+              updateAxiosToken(null);
+              Cookies.remove("auth-token");
+            }
+          } else {
+            set({ sessionVerified: false, user: null });
           }
         } catch (error) {
           console.error("Error fetching timezones:", error);
@@ -1669,12 +1724,172 @@ const useStore = create<StoreState>()(
           });
         }
       },
+
+      setAuthStatus: (status: string | null) => {
+        set({ authStatus: status });
+      },
+
+      login: async (data: LoginParams) => {
+        set({ authErrors: {}, authLoading: true });
+        try {
+          const response = await axiosInstance.post<{ token: string }>(
+            "/api/login",
+            data
+          );
+          const token = response.data?.token;
+          if (token) {
+            Cookies.set("auth-token", token, {
+              expires: 7,
+              secure: true,
+              sameSite: "Strict",
+            });
+            updateAxiosToken(token);
+          }
+
+          // Get user info after login
+          try {
+            const { data: userData } = await axiosInstance.get<User>(
+              "/api/user",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            set({ user: userData, sessionVerified: true });
+          } catch (userError) {
+            console.warn("Error fetching user after login:", userError);
+            set({ sessionVerified: false, user: null });
+            updateAxiosToken(null);
+            Cookies.remove("auth-token");
+          }
+
+          set({ authLoading: false });
+          return response.data;
+        } catch (e) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const err = e as { response?: { data?: { errors?: AuthErrors } } };
+          set({
+            authErrors: err.response?.data?.errors || {},
+            authLoading: false,
+          });
+          throw e;
+        }
+      },
+
+      register: async (data: RegisterParams) => {
+        set({ authErrors: {}, authLoading: true });
+        try {
+          const response = await axiosInstance.post<{ token: string }>(
+            "/api/register",
+            data
+          );
+          const token = response.data?.token;
+          if (token) {
+            Cookies.set("auth-token", token, {
+              expires: 7,
+              secure: true,
+              sameSite: "Strict",
+            });
+            updateAxiosToken(token);
+          }
+
+          // Get user info after registration
+          try {
+            const { data: userData } = await axiosInstance.get<User>(
+              "/api/user",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            );
+            set({ user: userData, sessionVerified: true });
+          } catch (userError) {
+            console.warn("Error fetching user after registration:", userError);
+            set({ sessionVerified: false, user: null });
+          }
+
+          set({ authLoading: false });
+          return response.data;
+        } catch (e) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const err = e as { response?: { data?: { errors?: AuthErrors } } };
+          set({
+            authErrors: err.response?.data?.errors || {},
+            authLoading: false,
+          });
+          throw e;
+        }
+      },
+
+      logout: async () => {
+        set({ authLoading: true });
+        try {
+          await axiosInstance.post("/api/logout");
+          updateAxiosToken(null);
+          Cookies.remove("auth-token");
+          Cookies.remove("user");
+          set({ user: null, sessionVerified: false, authLoading: false });
+        } catch (e) {
+          console.error("Logout error:", e);
+          set({ authLoading: false });
+          throw e;
+        }
+      },
+
+      sendPasswordResetLink: async (data: { email: string }) => {
+        set({ authErrors: {}, authLoading: true, authStatus: null });
+        try {
+          const response = await axiosInstance.post<{ status: string }>(
+            "/api/forgot-password",
+            data
+          );
+          set({ authStatus: response.data?.status, authLoading: false });
+          return response.data;
+        } catch (e) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const err = e as { response?: { data?: { errors?: AuthErrors } } };
+          set({
+            authErrors: err.response?.data?.errors || {},
+            authLoading: false,
+          });
+          throw e;
+        }
+      },
+
+      newPassword: async (data: NewPasswordParams) => {
+        set({ authErrors: {}, authLoading: true, authStatus: null });
+        try {
+          const response = await axiosInstance.post<{ status: string }>(
+            "/api/reset-password",
+            data
+          );
+          set({ authStatus: response.data?.status, authLoading: false });
+          return response.data;
+        } catch (e) {
+          set({ authLoading: false });
+          throw e;
+        }
+      },
+
+      sendEmailVerificationLink: async () => {
+        set({ authErrors: {}, authLoading: true, authStatus: null });
+        try {
+          const response = await axiosInstance.post<{ status: string }>(
+            "/api/email/verification-notification"
+          );
+          set({ authStatus: response.data?.status, authLoading: false });
+          return response.data;
+        } catch (e) {
+          set({ authLoading: false });
+          throw e;
+        }
+      },
     }),
     {
       name: "drophunting-store",
       partialize: (state) => ({
         selectedTimezone: state.selectedTimezone,
         coupon: state.coupon,
+        user: state.user,
+        sessionVerified: state.sessionVerified,
       }),
     }
   )

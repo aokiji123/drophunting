@@ -7,16 +7,16 @@ import Image from "next/image";
 import { MdOutlineDone } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
 import useStore from "@/shared/store";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 
 const BlogArticle = () => {
   const router = useRouter();
-  const { user, sessionVerified } = useAuthContext();
 
   const params = useParams();
   const id = params.id as string;
 
   const {
+    user,
+    sessionVerified,
     blogArticleDetails,
     isLoadingBlogArticleDetails,
     blogArticleDetailsError,

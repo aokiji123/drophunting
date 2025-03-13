@@ -8,13 +8,14 @@ import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import useStore from "@/shared/store";
 import Image from "next/image";
+import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 
 const Store = () => {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [sorting, setSorting] = useState<1 | 2>(2); // Default to newest first
+  const [sorting, setSorting] = useState<1 | 2>(2);
 
   const {
     productCategories,
@@ -23,6 +24,7 @@ const Store = () => {
     isLoadingProducts,
     fetchProductCategories,
     fetchProducts,
+    productCategoriesError,
   } = useStore();
 
   useEffect(() => {
@@ -69,6 +71,17 @@ const Store = () => {
     return path.startsWith("http") ? path : `${backendUrl}${path}`;
   };
 
+  const scrollRef = useCustomScrollbar({
+    scrollbars: {
+      autoHide: "never",
+    },
+  });
+
+  const allCategoriesWithAll = [
+    { id: 0, title: "All", sort: 0 },
+    ...productCategories,
+  ];
+
   return (
     <div className="bg-[#101114] text-white min-h-screen flex flex-col">
       <Header />
@@ -79,29 +92,30 @@ const Store = () => {
           Buy new products from Drophunting and earn with us
         </p>
         <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
-            <button
-              onClick={() => handleCategoryChange(null)}
-              className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
-                activeFilter === null ? "bg-[#11CA00]" : "bg-[#1D1E23]"
-              }`}
-            >
-              All
-            </button>
-            {!isLoadingProductCategories &&
-              productCategories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => handleCategoryChange(category.id)}
-                  className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
-                    activeFilter === category.id
-                      ? "bg-[#11CA00]"
-                      : "bg-[#1D1E23]"
-                  }`}
-                >
-                  {category.title}
-                </button>
-              ))}
+          <div className="w-full overflow-x-auto" ref={scrollRef}>
+            <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
+              {isLoadingProductCategories ? (
+                <div className="flex items-center justify-center py-4">
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#CBFF51]"></div>
+                </div>
+              ) : productCategoriesError ? (
+                <div className="text-red-500 p-2">{productCategoriesError}</div>
+              ) : (
+                allCategoriesWithAll.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => handleCategoryChange(category.id)}
+                    className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                      activeFilter === category.id
+                        ? "bg-[#11CA00]"
+                        : "bg-[#1D1E23]"
+                    }`}
+                  >
+                    {category.title}
+                  </button>
+                ))
+              )}
+            </div>
           </div>
           <form
             onSubmit={handleSearch}

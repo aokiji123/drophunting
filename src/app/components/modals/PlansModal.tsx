@@ -5,7 +5,6 @@ import { IoMdClose } from "react-icons/io";
 import { MdOutlineDone, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { validateAmount, formatAmount } from "@/shared/utils/validation";
 import useStore from "@/shared/store";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 
 type PlansModalType = {
   togglePlansModal: () => void;
@@ -28,6 +27,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPurchaseSuccessful, setIsPurchaseSuccessful] = useState(false);
   const {
+    user,
     plans,
     isLoadingPlans,
     plansFetchError,
@@ -46,7 +46,6 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
     buyPlanSuccess,
     resetBuyPlanState,
   } = useStore();
-  const { user } = useAuthContext();
 
   const scrollRef = useCustomScrollbar();
 

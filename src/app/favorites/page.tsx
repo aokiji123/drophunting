@@ -19,7 +19,6 @@ import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
 
@@ -55,9 +54,15 @@ const Favorites = () => {
   const [sorting, setSorting] = useState<1 | 2>(2);
 
   const router = useRouter();
-  const { user, sessionVerified } = useAuthContext();
-  const { guides, isLoadingGuides, guidesError, fetchGuides, toggleFavorite } =
-    useStore();
+  const {
+    user,
+    sessionVerified,
+    guides,
+    isLoadingGuides,
+    guidesError,
+    fetchGuides,
+    toggleFavorite,
+  } = useStore();
 
   useEffect(() => {
     if (sessionVerified && !user) {
@@ -202,7 +207,7 @@ const Favorites = () => {
                                 className="w-[12px] h-[12px]"
                               />
                             )}
-                            <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] font-semibold text-[#A0A8AE]">
+                            <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] font-semibold text-[#A0A8AE] max-w-[100px] truncate">
                               {marker.title}
                             </p>
                           </div>
@@ -241,11 +246,11 @@ const Favorites = () => {
                       </div>
                       <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-3">
-                          <p className="text-[18px] font-bold leading-[22px]">
+                          <p className="text-[18px] font-bold leading-[22px] max-w-[200px] truncate">
                             {guide.title}
                           </p>
                         </div>
-                        <p className="text-[13px] text-[#8E8E8E]">
+                        <p className="text-[13px] text-[#8E8E8E] max-w-[200px] truncate">
                           {guide.description}
                         </p>
                       </div>
@@ -256,7 +261,7 @@ const Favorites = () => {
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
                           Invest.
                         </p>
-                        <p className="text-[16px] leading-[18px] font-bold">
+                        <p className="text-[16px] leading-[18px] font-bold max-w-[100px] truncate">
                           {guide.investments}
                         </p>
                       </div>
@@ -264,7 +269,7 @@ const Favorites = () => {
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
                           TVL
                         </p>
-                        <p className="text-[16px] leading-[18px] font-bold">
+                        <p className="text-[16px] leading-[18px] font-bold max-w-[100px] truncate">
                           ${guide.tvl}
                         </p>
                       </div>
@@ -294,7 +299,7 @@ const Favorites = () => {
             </div>
           )}
 
-          {/* {guides && guides.last_page > 1 && (
+          {guides && guides.last_page > 1 && (
             <div className="flex items-center justify-center gap-[8px] mt-[56px]">
               {Array.from({ length: guides.last_page }, (_, i) => i + 1).map(
                 (page) => (
@@ -310,7 +315,7 @@ const Favorites = () => {
                 )
               )}
             </div>
-          )} */}
+          )}
         </div>
       </main>
 

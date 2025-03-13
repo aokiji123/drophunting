@@ -14,7 +14,6 @@ import authenticator from "../../../public/assets/icons/authenticator.png";
 import cancel from "../../../public/assets/icons/cancel.png";
 import { CustomCheckbox } from "@/shared/components/CustomCheckbox";
 import Link from "next/link";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import { tabs } from "@/shared/utils/tabs";
 import ru from "../../../public/assets/icons/ru.png";
 import en from "../../../public/assets/icons/en.png";
@@ -36,7 +35,6 @@ const languages = [
 const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
-  const { user, loading } = useAuthContext();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
@@ -50,6 +48,7 @@ const Profile = () => {
     setSelectedTimezone,
     fetchTimezones,
     deleteUser,
+    user,
   } = useStore();
   const router = useRouter();
 
@@ -128,15 +127,15 @@ const Profile = () => {
     setIsTelegramNotificationsEnabled(event.target.checked);
   };
 
-  if (loading) {
-    return (
-      <div className="bg-[#101114] text-white">
-        <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-        </div>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="bg-[#101114] text-white">
+  //       <div className="flex justify-center items-center h-screen">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="bg-[#101114] text-white">

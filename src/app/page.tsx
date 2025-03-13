@@ -2,10 +2,10 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Guides from "./guides/page";
-import useAuthContext from "@/shared/hooks/useAuthContext";
+import useStore from "@/shared/store";
 
 export default function Home() {
-  const { user, sessionVerified } = useAuthContext();
+  const { user, sessionVerified } = useStore();
   const router = useRouter();
 
   useEffect(() => {

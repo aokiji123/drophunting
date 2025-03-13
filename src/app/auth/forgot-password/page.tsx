@@ -4,15 +4,14 @@ import Header from "@/app/auth/components/Header";
 import { RiKey2Line } from "react-icons/ri";
 import Footer from "@/app/auth/components/Footer";
 import { useRouter } from "next/navigation";
-import useAuthContext from "@/shared/hooks/useAuthContext";
+import useStore from "@/shared/store";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const router = useRouter();
-  const { sendPasswordResetLink } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const { sendPasswordResetLink } = useStore();
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };

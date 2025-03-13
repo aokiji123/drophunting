@@ -11,13 +11,13 @@ import {
 import { FiUsers } from "react-icons/fi";
 import { LuPercent } from "react-icons/lu";
 import { GrBook } from "react-icons/gr";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import { useRouter } from "next/navigation";
 import avatar from "../../../../public/assets/avatar.png";
 import ru from "../../../../public/assets/icons/ru.png";
 import en from "../../../../public/assets/icons/en.png";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import useStore from "@/shared/store";
 
 type ProfileModalType = {
   toggleProfileModal: () => void;
@@ -53,7 +53,7 @@ const languages = [
 
 const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
   const { i18n } = useTranslation();
-  const { logout, user } = useAuthContext();
+  const { logout, user } = useStore();
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);

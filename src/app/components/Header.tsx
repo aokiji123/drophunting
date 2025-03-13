@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import logoRectangle from "../../../public/assets/rectangle.png";
 import { Badge } from "antd";
@@ -15,22 +15,21 @@ import NotificationsModal from "@/app/components/modals/NotificationsModal";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { PlansModal } from "./modals/PlansModal";
-import useAuthContext from "@/shared/hooks/useAuthContext";
-// import {
-//   FormControl,
-//   MenuItem,
-//   Select,
-//   SelectChangeEvent,
-// } from "@mui/material";
-// import en from "../../../public/assets/icons/en.png";
-// import ru from "../../../public/assets/icons/ru.png";
-// import { GrLanguage } from "react-icons/gr";
+import useAuth from "@/shared/hooks/useAuth";
 
 const Header = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
-  const { user, loading } = useAuthContext();
+  const { user, loading } = useAuth();
+  const [balance, setBalance] = useState<string>("0");
+
+  useEffect(() => {
+    if (user && user.balance) {
+      setBalance(user.balance);
+    }
+  }, [user]);
+
   const isActive = (href: string) => {
     if (href === "/guides") {
       return pathname.startsWith("/guides");
@@ -58,10 +57,6 @@ const Header = () => {
   const toggleModal = (modalName: string) => {
     setOpenModal((prev) => (prev === modalName ? null : modalName));
   };
-
-  // const handleChange = (e: SelectChangeEvent) => {
-  //   setLanguage(e.target.value);
-  // };
 
   const toggleProfileModal = () => toggleModal("profile");
   const toggleBalanceModal = () => toggleModal("balance");
@@ -117,57 +112,6 @@ const Header = () => {
         >
           <IoMdNotificationsOutline size={20} className="text-[#9EA0A6]" />
         </Badge>
-        {/*<FormControl*/}
-        {/*  fullWidth*/}
-        {/*  sx={{*/}
-        {/*    bgcolor: "transparent",*/}
-        {/*    ".MuiOutlinedInput-notchedOutline": { border: "none" },*/}
-        {/*    ".MuiSelect-select": {*/}
-        {/*      color: "white",*/}
-        {/*      fontSize: "16px",*/}
-        {/*      fontWeight: 600,*/}
-        {/*      padding: 0,*/}
-        {/*    },*/}
-        {/*    ".MuiSelect-icon": { color: "white", padding: 0 },*/}
-        {/*    "& .MuiPaper-root": {*/}
-        {/*      bgcolor: "#1C1E22",*/}
-        {/*      color: "white",*/}
-        {/*      borderRadius: "8px",*/}
-        {/*      padding: 0,*/}
-        {/*    },*/}
-        {/*    "& .MuiMenuItem-root": {*/}
-        {/*      bgcolor: "#1C1E22",*/}
-        {/*      padding: 0,*/}
-        {/*      "&:hover": {*/}
-        {/*        bgcolor: "transparent",*/}
-        {/*      },*/}
-        {/*    },*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <Select*/}
-        {/*    value={language}*/}
-        {/*    onChange={handleChange}*/}
-        {/*    inputProps={{*/}
-        {/*      "aria-label": "Language select",*/}
-        {/*    }}*/}
-        {/*    sx={{*/}
-        {/*      height: "40px",*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <MenuItem value="en">*/}
-        {/*      <div className="flex items-center gap-1 py-[8px]">*/}
-        {/*        <GrLanguage />*/}
-        {/*        <p className="text-[16px] font-semibold leading-[20px]">En</p>*/}
-        {/*      </div>*/}
-        {/*    </MenuItem>*/}
-        {/*    <MenuItem value="ru">*/}
-        {/*      <div className="flex items-center gap-1 py-[8px]">*/}
-        {/*        <GrLanguage />*/}
-        {/*        <p className="text-[16px] font-semibold leading-[20px]">Ru</p>*/}
-        {/*      </div>*/}
-        {/*    </MenuItem>*/}
-        {/*  </Select>*/}
-        {/*</FormControl>*/}
         <div>
           <MdFavoriteBorder
             onClick={() => router.push("/favorites")}
@@ -175,9 +119,6 @@ const Header = () => {
             className="text-[#9EA0A6] cursor-pointer"
           />
         </div>
-        {/*<button className="px-[6px] py-[4px] sm:p-[12px] rounded-[12px] bg-[#11CA00] h-[40px] flex items-center justify-center">*/}
-        {/*  Login*/}
-        {/*</button>*/}
         <button
           className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]"
           onClick={togglePlansModal}
@@ -187,13 +128,15 @@ const Header = () => {
             {t("upgrade")}
           </p>
         </button>
-        <div
-          className="hidden sm:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
-          onClick={toggleBalanceModal}
-        >
-          <p className="leading-[16px] font-semibold">$ {user?.balance}</p>
-          <MdOutlineArrowDropDown size={20} className="p-0" />
-        </div>
+        {user && (
+          <div
+            className="hidden sm:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
+            onClick={toggleBalanceModal}
+          >
+            <p className="leading-[16px] font-semibold">$ {balance}</p>
+            <MdOutlineArrowDropDown size={20} className="p-0" />
+          </div>
+        )}
         <div
           onClick={toggleProfileModal}
           className="flex items-center cursor-pointer"
@@ -222,17 +165,6 @@ const Header = () => {
           />
         </div>
       )}
-
-      {/* New notification */}
-      {/*<div className="absolute w-[350px] top-[75px] right-1/2 transform translate-x-1/2 sm:transform-none sm:right-[50px] sm:w-[450px] bg-[#1C1E22] rounded-[12px] py-[12px] pr-[8px] pl-[12px] flex items-center gap-[20px]">*/}
-      {/*  <div className="w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">*/}
-      {/*    <LuBell size={16} className="text-[#9EA0A6]" />*/}
-      {/*  </div>*/}
-      {/*  <p className="font-semibold leading-[18px]">*/}
-      {/*    The $200 deposit was successfully funded*/}
-      {/*  </p>*/}
-      {/*  <IoMdClose size={20} className="hover:text-[#9EA0A6] cursor-pointer " />*/}
-      {/*</div>*/}
 
       {openModal === "balance" && (
         <div className="absolute top-0 lg:right-0 right-1/2 translate-x-1/2 z-50 sm:block hidden">

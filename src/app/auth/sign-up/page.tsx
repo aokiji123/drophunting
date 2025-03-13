@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import { FiUser } from "react-icons/fi";
-import useAuthContext from "@/shared/hooks/useAuthContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import useStore from "@/shared/store";
 
 type SignUpFormData = {
   name: string;
@@ -17,9 +17,9 @@ type SignUpFormData = {
 const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
-  const { register: registerUser } = useAuthContext();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { register: registerUser } = useStore();
 
   const onSubmit = async (data: SignUpFormData) => {
     setLoading(true);
