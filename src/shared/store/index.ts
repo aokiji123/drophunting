@@ -111,6 +111,38 @@ type Marker = {
   icon: Icon | null;
 };
 
+type Task = {
+  id: number;
+  project_id: number;
+  title: string;
+  time: number;
+  completed: number;
+};
+
+type GuideDetails = {
+  id: number;
+  tag_id: number;
+  title: string;
+  slug: string;
+  time: number;
+  description: string;
+  evaluation: number;
+  tvl: string;
+  investments: string;
+  logo: string;
+  created_at: string;
+  tasks_count: number;
+  competed_tasks_count: number;
+  favorite: number;
+  created: string;
+  markers: Marker[];
+  tasks: Task[];
+};
+
+type TaskDetails = {
+  content: string;
+};
+
 type Guide = {
   id: number;
   tag_id: number | null;
@@ -234,6 +266,97 @@ type BlogArticlesParams = {
   sorting?: 1 | 2;
 };
 
+type BlogArticleDetails = {
+  id: number;
+  category_id: number;
+  title: string;
+  slug: string;
+  description: string;
+  img: string;
+  reading_time: number;
+  updated_at: string;
+  read: number;
+  updated: string;
+  category: BlogArticleCategory;
+};
+
+type ProductCategory = {
+  id: number;
+  title: string;
+  sort: number;
+};
+
+type ProductCategoryResponse = ProductCategory[];
+
+type Product = {
+  id: number;
+  product_category_id: number;
+  title: string;
+  slug: string;
+  img: string;
+  price: number;
+  description: string;
+  updated: string;
+  product_category: {
+    id: number;
+    title: string;
+  };
+};
+
+type ProductsResponse = {
+  current_page: number;
+  data: Product[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: {
+    url: string | null;
+    label: string;
+    active: boolean;
+  }[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number;
+  total: number;
+};
+
+type ProductsParams = {
+  page?: number;
+  product_category_id?: number;
+  search?: string;
+  sorting?: 1 | 2;
+};
+
+type ProductDetails = {
+  id: number;
+  product_category_id: number;
+  title: string;
+  slug: string;
+  description: string;
+  img: string;
+  price: number;
+  updated_at: string;
+  updated: string;
+  product_category: {
+    id: number;
+    title: string;
+  };
+};
+
+type OrderCreateParams = {
+  telegram: string;
+  message: string;
+  product_id: number;
+};
+
+type OrderCreateResponse = {
+  type: string;
+  status: string;
+};
+
 type StoreState = {
   timezones: Timezone[];
   selectedTimezone: string;
@@ -261,12 +384,33 @@ type StoreState = {
   guides: GuidesResponse | null;
   isLoadingGuides: boolean;
   guidesError: string | null;
+  guideDetails: GuideDetails | null;
+  isLoadingGuideDetails: boolean;
+  guideDetailsError: string | null;
+  taskDetails: TaskDetails | null;
+  isLoadingTaskDetails: boolean;
+  taskDetailsError: string | null;
   blogCategories: BlogCategory[];
   isLoadingBlogCategories: boolean;
   blogCategoriesError: string | null;
   blogArticles: BlogArticlesResponse | null;
   isLoadingBlogArticles: boolean;
   blogArticlesError: string | null;
+  blogArticleDetails: BlogArticleDetails | null;
+  isLoadingBlogArticleDetails: boolean;
+  blogArticleDetailsError: string | null;
+  productCategories: ProductCategory[];
+  isLoadingProductCategories: boolean;
+  productCategoriesError: string | null;
+  products: ProductsResponse | null;
+  isLoadingProducts: boolean;
+  productsError: string | null;
+  productDetails: ProductDetails | null;
+  isLoadingProductDetails: boolean;
+  productDetailsError: string | null;
+  isCreatingOrder: boolean;
+  orderCreateSuccess: string | null;
+  orderCreateError: string | null;
   fetchTimezones: () => Promise<void>;
   updateUser: (updateData: Partial<User>) => Promise<void>;
   deleteUser: () => Promise<void>;
@@ -287,10 +431,19 @@ type StoreState = {
   fetchReferrals: () => Promise<void>;
   fetchTags: () => Promise<void>;
   fetchGuides: (params?: GuidesParams) => Promise<void>;
+  fetchGuideDetails: (idOrSlug: string | number) => Promise<void>;
+  fetchTaskDetails: (taskId: number) => Promise<void>;
   toggleFavorite: (guideId: number) => Promise<boolean>;
+  toggleTaskComplete: (taskId: number) => Promise<boolean>;
   fetchBlogCategories: () => Promise<void>;
   fetchBlogArticles: (params?: BlogArticlesParams) => Promise<void>;
+  fetchBlogArticleDetails: (idOrSlug: string | number) => Promise<void>;
   toggleRead: (articleId: number) => Promise<boolean>;
+  fetchProductCategories: () => Promise<void>;
+  fetchProducts: (params?: ProductsParams) => Promise<void>;
+  fetchProductDetails: (idOrSlug: string | number) => Promise<void>;
+  createOrder: (params: OrderCreateParams) => Promise<boolean>;
+  resetOrderState: () => void;
 };
 
 const useStore = create<StoreState>()(
@@ -322,12 +475,33 @@ const useStore = create<StoreState>()(
       guides: null,
       isLoadingGuides: false,
       guidesError: null,
+      guideDetails: null,
+      isLoadingGuideDetails: false,
+      guideDetailsError: null,
+      taskDetails: null,
+      isLoadingTaskDetails: false,
+      taskDetailsError: null,
       blogCategories: [],
       isLoadingBlogCategories: false,
       blogCategoriesError: null,
       blogArticles: null,
       isLoadingBlogArticles: false,
       blogArticlesError: null,
+      blogArticleDetails: null,
+      isLoadingBlogArticleDetails: false,
+      blogArticleDetailsError: null,
+      productCategories: [],
+      isLoadingProductCategories: false,
+      productCategoriesError: null,
+      products: null,
+      isLoadingProducts: false,
+      productsError: null,
+      productDetails: null,
+      isLoadingProductDetails: false,
+      productDetailsError: null,
+      isCreatingOrder: false,
+      orderCreateSuccess: null,
+      orderCreateError: null,
 
       setSelectedTimezone: (timezone: string) => {
         if (typeof window !== "undefined") {
@@ -748,6 +922,42 @@ const useStore = create<StoreState>()(
         }
       },
 
+      fetchGuideDetails: async (idOrSlug: string | number) => {
+        set({ isLoadingGuideDetails: true, guideDetailsError: null });
+        try {
+          const response = await axiosInstance.get<GuideDetails>(
+            `/api/projects/show/${idOrSlug}`,
+            {
+              withCredentials: true,
+            }
+          );
+          set({ guideDetails: response.data, isLoadingGuideDetails: false });
+        } catch (error) {
+          set({
+            guideDetailsError: error as string,
+            isLoadingGuideDetails: false,
+          });
+        }
+      },
+
+      fetchTaskDetails: async (taskId: number) => {
+        set({ isLoadingTaskDetails: true, taskDetailsError: null });
+        try {
+          const response = await axiosInstance.get<TaskDetails>(
+            `/api/tasks/show/${taskId}`,
+            {
+              withCredentials: true,
+            }
+          );
+          set({ taskDetails: response.data, isLoadingTaskDetails: false });
+        } catch (error) {
+          set({
+            taskDetailsError: error as string,
+            isLoadingTaskDetails: false,
+          });
+        }
+      },
+
       toggleFavorite: async (guideId: number) => {
         try {
           const currentGuides = get().guides;
@@ -794,6 +1004,79 @@ const useStore = create<StoreState>()(
         }
       },
 
+      toggleTaskComplete: async (taskId: number) => {
+        try {
+          const currentGuideDetails = get().guideDetails;
+
+          if (currentGuideDetails) {
+            const updatedTasks = currentGuideDetails.tasks.map((task) => {
+              if (task.id === taskId) {
+                return {
+                  ...task,
+                  completed: task.completed > 0 ? 0 : 1,
+                };
+              }
+              return task;
+            });
+
+            const isCompleting =
+              currentGuideDetails.tasks.find((task) => task.id === taskId)
+                ?.completed === 0;
+
+            set({
+              guideDetails: {
+                ...currentGuideDetails,
+                tasks: updatedTasks,
+                competed_tasks_count: isCompleting
+                  ? currentGuideDetails.competed_tasks_count + 1
+                  : currentGuideDetails.competed_tasks_count - 1,
+              },
+            });
+          }
+
+          await axiosInstance.post(
+            `/api/tasks/complete/${taskId}`,
+            {},
+            {
+              withCredentials: true,
+            }
+          );
+
+          return true;
+        } catch (error) {
+          console.error("Error toggling task complete:", error);
+          const currentGuideDetails = get().guideDetails;
+
+          if (currentGuideDetails) {
+            const revertedTasks = currentGuideDetails.tasks.map((task) => {
+              if (task.id === taskId) {
+                return {
+                  ...task,
+                  completed: task.completed > 0 ? 0 : 1,
+                };
+              }
+              return task;
+            });
+
+            const wasCompleting =
+              currentGuideDetails.tasks.find((task) => task.id === taskId)
+                ?.completed > 0;
+
+            set({
+              guideDetails: {
+                ...currentGuideDetails,
+                tasks: revertedTasks,
+                competed_tasks_count: wasCompleting
+                  ? currentGuideDetails.competed_tasks_count + 1
+                  : currentGuideDetails.competed_tasks_count - 1,
+              },
+            });
+          }
+
+          return false;
+        }
+      },
+
       fetchBlogCategories: async () => {
         try {
           set({ isLoadingBlogCategories: true, blogCategoriesError: null });
@@ -802,7 +1085,6 @@ const useStore = create<StoreState>()(
             "/api/categories"
           );
 
-          // Sort categories by their sort property
           const sortedCategories = response.data.sort(
             (a, b) => a.sort - b.sort
           );
@@ -876,8 +1158,48 @@ const useStore = create<StoreState>()(
         }
       },
 
+      fetchBlogArticleDetails: async (idOrSlug: string | number) => {
+        try {
+          set({
+            isLoadingBlogArticleDetails: true,
+            blogArticleDetailsError: null,
+          });
+
+          const response = await axiosInstance.get<BlogArticleDetails>(
+            `/api/articles/show/${idOrSlug}`,
+            {
+              withCredentials: true,
+            }
+          );
+
+          set({
+            blogArticleDetails: response.data,
+            isLoadingBlogArticleDetails: false,
+            blogArticleDetailsError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching blog article details:", error);
+          let errorMessage = "Failed to load article details";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            blogArticleDetailsError: errorMessage,
+            isLoadingBlogArticleDetails: false,
+          });
+        }
+      },
+
       toggleRead: async (articleId: number) => {
         try {
+          // Update blogArticles state (list view)
           const currentArticles = get().blogArticles;
           if (currentArticles) {
             const updatedArticles = {
@@ -895,12 +1217,24 @@ const useStore = create<StoreState>()(
             set({ blogArticles: updatedArticles });
           }
 
+          // Update blogArticleDetails state (detail view)
+          const currentArticleDetails = get().blogArticleDetails;
+          if (currentArticleDetails && currentArticleDetails.id === articleId) {
+            set({
+              blogArticleDetails: {
+                ...currentArticleDetails,
+                read: currentArticleDetails.read > 0 ? 0 : 1,
+              },
+            });
+          }
+
           await axiosInstance.post(`/api/articles/read/${articleId}`);
 
           return true;
         } catch (error) {
           console.error("Error toggling read status:", error);
 
+          // Revert blogArticles state if error
           const currentArticles = get().blogArticles;
           if (currentArticles) {
             const revertedArticles = {
@@ -918,8 +1252,212 @@ const useStore = create<StoreState>()(
             set({ blogArticles: revertedArticles });
           }
 
+          // Revert blogArticleDetails state if error
+          const currentArticleDetails = get().blogArticleDetails;
+          if (currentArticleDetails && currentArticleDetails.id === articleId) {
+            set({
+              blogArticleDetails: {
+                ...currentArticleDetails,
+                read: currentArticleDetails.read > 0 ? 0 : 1,
+              },
+            });
+          }
+
           return false;
         }
+      },
+
+      fetchProductCategories: async () => {
+        try {
+          set({
+            isLoadingProductCategories: true,
+            productCategoriesError: null,
+          });
+
+          const response = await axiosInstance.get<ProductCategoryResponse>(
+            "/api/product-categories"
+          );
+
+          const sortedCategories = response.data.sort(
+            (a, b) => a.sort - b.sort
+          );
+
+          set({
+            productCategories: sortedCategories,
+            isLoadingProductCategories: false,
+            productCategoriesError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching product categories:", error);
+          let errorMessage = "Failed to load product categories";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            productCategoriesError: errorMessage,
+            isLoadingProductCategories: false,
+          });
+        }
+      },
+
+      fetchProducts: async (params?: ProductsParams) => {
+        try {
+          set({ isLoadingProducts: true, productsError: null });
+
+          const queryParams = new URLSearchParams();
+          if (params) {
+            if (params.page) queryParams.append("page", params.page.toString());
+            if (params.product_category_id)
+              queryParams.append(
+                "product_category_id",
+                params.product_category_id.toString()
+              );
+            if (params.search) queryParams.append("search", params.search);
+            if (params.sorting)
+              queryParams.append("sorting", params.sorting.toString());
+          }
+
+          const queryString = queryParams.toString();
+          const url = `/api/products${queryString ? `?${queryString}` : ""}`;
+
+          const response = await axiosInstance.get<ProductsResponse>(url);
+
+          set({
+            products: response.data,
+            isLoadingProducts: false,
+            productsError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching products:", error);
+          let errorMessage = "Failed to load products";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            productsError: errorMessage,
+            isLoadingProducts: false,
+          });
+        }
+      },
+
+      fetchProductDetails: async (idOrSlug: string | number) => {
+        try {
+          set({ isLoadingProductDetails: true, productDetailsError: null });
+
+          const response = await axiosInstance.get<ProductDetails>(
+            `/api/products/show/${idOrSlug}`,
+            {
+              withCredentials: true,
+            }
+          );
+
+          set({
+            productDetails: response.data,
+            isLoadingProductDetails: false,
+            productDetailsError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching product details:", error);
+          let errorMessage = "Failed to load product details";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.status === 404) {
+              errorMessage = "Product not found";
+            } else if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            productDetailsError: errorMessage,
+            isLoadingProductDetails: false,
+          });
+        }
+      },
+
+      createOrder: async (params: OrderCreateParams) => {
+        try {
+          set({
+            isCreatingOrder: true,
+            orderCreateSuccess: null,
+            orderCreateError: null,
+          });
+
+          const response = await axiosInstance.post<OrderCreateResponse>(
+            "/api/orders/store",
+            params,
+            {
+              withCredentials: true,
+            }
+          );
+
+          if (response.data.type === "success") {
+            set({
+              isCreatingOrder: false,
+              orderCreateSuccess: response.data.status,
+              orderCreateError: null,
+            });
+            return true;
+          }
+
+          set({
+            isCreatingOrder: false,
+            orderCreateSuccess: null,
+            orderCreateError: "An unexpected error occurred",
+          });
+          return false;
+        } catch (error) {
+          console.error("Error creating order:", error);
+          let errorMessage = "Failed to create order";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.status === 422) {
+              if (errorResponse.data?.message) {
+                errorMessage = errorResponse.data.message;
+              } else if (errorResponse.data?.errors) {
+                const errors = Object.values(errorResponse.data.errors).flat();
+                errorMessage = errors.join(", ");
+              }
+            } else if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            isCreatingOrder: false,
+            orderCreateSuccess: null,
+            orderCreateError: errorMessage,
+          });
+          return false;
+        }
+      },
+
+      resetOrderState: () => {
+        set({
+          isCreatingOrder: false,
+          orderCreateSuccess: null,
+          orderCreateError: null,
+        });
       },
     }),
     {

@@ -1,19 +1,53 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import Image from "next/image";
+import { IoIosArrowBack, IoMdClose } from "react-icons/io";
+import { FiCheck } from "react-icons/fi";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { IoIosArrowBack, IoMdClose } from "react-icons/io";
-import Image from "next/image";
-import storePhoto from "../../../../public/assets/store-photo.png";
-import { useRouter } from "next/navigation";
+import useStore from "@/shared/store";
 
-const Guide = () => {
+const ProductDetail = () => {
   const router = useRouter();
+  const params = useParams();
+  const productId = params.id as string;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [telegramHandle, setTelegramHandle] = useState("");
+  const [message, setMessage] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const {
+    productDetails,
+    isLoadingProductDetails,
+    productDetailsError,
+    fetchProductDetails,
+    createOrder,
+    isCreatingOrder,
+    orderCreateSuccess,
+    orderCreateError,
+    resetOrderState,
+  } = useStore();
+
+  useEffect(() => {
+    if (productId) {
+      fetchProductDetails(productId);
+    }
+
+    // Reset order state when component mounts
+    resetOrderState();
+  }, [productId, fetchProductDetails, resetOrderState]);
 
   const toggleModal = () => {
+    if (isModalOpen) {
+      // Reset form and order state when closing the modal
+      resetOrderState();
+      setFormSubmitted(false);
+    }
+
     setIsModalOpen(!isModalOpen);
     if (!isModalOpen) {
       document.body.classList.add("no-scroll");
@@ -21,6 +55,67 @@ const Guide = () => {
       document.body.classList.remove("no-scroll");
     }
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!productDetails) return;
+
+    const success = await createOrder({
+      telegram: telegramHandle,
+      message,
+      product_id: productDetails.id,
+    });
+
+    if (success) {
+      setFormSubmitted(true);
+      // Reset form fields but keep the modal open to show success message
+      setTelegramHandle("");
+      setMessage("");
+    }
+  };
+
+  const getImageUrl = (path: string) => {
+    if (!path) return "";
+    const backendUrl = "https://app.esdev.tech";
+    return path.startsWith("http") ? path : `${backendUrl}${path}`;
+  };
+
+  if (isLoadingProductDetails) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen">
+        <Header />
+        <main className="flex justify-center items-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#11CA00]"></div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  console.log(productDetails);
+
+  if (productDetailsError || !productDetails) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen">
+        <Header />
+        <main className="flex flex-col items-center justify-center py-20">
+          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <p className="text-[#B0B0B0] mb-8">
+            {productDetailsError || "The requested product could not be found."}
+          </p>
+          <button
+            onClick={() => router.push("/store")}
+            className="flex items-center px-4 py-2 rounded-[32px] bg-[#1C1D21] text-white hover:bg-[#2A2C32]"
+          >
+            <IoIosArrowBack size={20} className="mr-2" />
+            Back to Store
+          </button>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#101114] text-white">
@@ -40,33 +135,34 @@ const Guide = () => {
           <div className="w-[447px] lg:w-[618px]">
             <div className="flex items-center mb-[16px]">
               <p className="rounded-[6px] px-[8px] py-[6px] bg-[#211E12] text-[13px] leading-[16px] font-semibold text-[#C6A975]">
-                Project
+                {productDetails.product_category.title}
               </p>
             </div>
             <p className="text-[22px] leading-[26px] sm:text-[24px] sm:leading-[30px] lg:text-[32px] lg:leading-[40px] font-bold tracking-[-2%]">
-              Premium. 5 Airdrops with winning
+              {productDetails.title}
             </p>
 
             <div
-              className={`block md:hidden w-[335px] h-[360px] md:w-[308px] md:h-[420px] lg:w-[366px] lg:h-[481px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}
+              className={`block md:hidden w-[335px] h-auto md:w-[308px] md:h-auto lg:w-[366px] lg:h-auto border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}
             >
-              <Image
-                src={storePhoto}
-                alt="Store"
-                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px] object-cover"
-              />
+              <div className="h-[200px] overflow-hidden">
+                <Image
+                  src={getImageUrl(productDetails.img)}
+                  alt={productDetails.title}
+                  width={335}
+                  height={200}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="p-[16px] lg:p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
                 <div className="flex flex-col gap-[12px] lg:gap-[20px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[20px] font-bold">
-                    Premium. 5 Airdrops with winning
-                  </p>
-                  <p className="text-[13px] lg:text-[14px] leading-[20px] text-[#B0B0B0]">
-                    DropHunting provides turnkey project spinning service.
+                    {productDetails.title}
                   </p>
                 </div>
                 <div className="flex items-center gap-[12px] my-[12px] md:my-[28px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-semibold">
-                    From 150$
+                    From ${productDetails.price}
                   </p>
                   <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
                     per project
@@ -81,78 +177,33 @@ const Guide = () => {
               </div>
             </div>
 
-            <div className="flex flex-col gap-[32px] mt-[32px]">
-              <div className="flex flex-col gap-[16px]">
-                <p className="text-[18px] leading-[28px] font-bold">
-                  Description
-                </p>
-
-                <p className="text-[15px] leading-[22px] text-[#CACBCE]">
-                  An airdrop is announced with the allocation of a significant
-                  pool of rewards. Conditions of participation and requirements
-                  are clear. The number of participants is still small but
-                  growing. Early participation provides an advantage in the form
-                  of an increased number of points, which will later be
-                  converted into rewards.
-                </p>
-                <p className="text-[15px] leading-[22px] text-[#CACBCE] font-bold">
-                  Our project activities include:
-                </p>
-                <ul className="text-[15px] leading-[22px] text-[#CACBCE] list-disc pl-[15px]">
-                  <li>Collecting initial rewards and points.</li>
-                  <li>Daily fulfillment of activity on the platform.</li>
-                  <li>
-                    Daily onchain transactions within a set range of activities,
-                    taking into account the optimal balance between efficiency
-                    and security in the context of defense against sybil
-                    attacks.
-                  </li>
-                </ul>
-                <p className="text-[15px] leading-[22px] text-[#CACBCE]">
-                  An airdrop is announced with the allocation of a significant
-                  pool of rewards. Conditions of participation and requirements
-                  are clear. The number of participants is still small but
-                  growing. Early participation provides an advantage in the form
-                  of an increased number of points, which will later be
-                  converted into rewards.
-                </p>
-              </div>
-              <div className="flex flex-col gap-[16px]">
-                <p className="text-[18px] leading-[28px] font-bold">
-                  ProjectCost of the service:
-                </p>
-                <ul className="text-[15px] leading-[22px] text-[#CACBCE] list-disc pl-[15px]">
-                  <li>For orders of 50 wallets or more: $15 per unit.</li>
-                  <li>For orders of 100 wallets or more: $12 per unit.</li>
-                </ul>
-                <p className="text-[15px] leading-[22px] text-[#CACBCE]">
-                  You can learn more details and familiarize yourself with the
-                  cases of DG team in the official channel{" "}
-                </p>
-              </div>
-            </div>
+            <div
+              className="mt-[32px]"
+              dangerouslySetInnerHTML={{ __html: productDetails.description }}
+            />
           </div>
           <div>
             <div
-              className={`hidden md:block w-[335px] h-[360px] md:w-[310px] md:h-[420px] lg:w-[366px] lg:h-[481px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden`}
+              className={`hidden md:block w-[335px] h-auto md:w-[310px] md:h-auto lg:w-[366px] lg:h-auto border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden`}
             >
-              <Image
-                src={storePhoto}
-                alt="Store"
-                className="w-full h-[140px] md:w-[308px] md:h-[164px] lg:w-[366px] lg:h-[201px] object-cover"
-              />
+              <div className="h-[200px] overflow-hidden">
+                <Image
+                  src={getImageUrl(productDetails.img)}
+                  alt={productDetails.title}
+                  width={366}
+                  height={200}
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="p-[16px] lg:p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col justify-between">
                 <div className="flex flex-col gap-[12px] lg:gap-[20px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
-                    Premium. 5 Airdrops with winning
-                  </p>
-                  <p className="text-[13px] lg:text-[14px] leading-[20px] text-[#B0B0B0]">
-                    DropHunting provides turnkey project spinning service.
+                    {productDetails.title}
                   </p>
                 </div>
                 <div className="flex items-center gap-[12px] my-[12px] md:my-[28px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-semibold">
-                    From 150$
+                    From ${productDetails.price}
                   </p>
                   <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
                     per project
@@ -170,54 +221,107 @@ const Guide = () => {
         </div>
         {isModalOpen && (
           <>
-            <div className="fixed inset-0 bg-black bg-opacity-40 z-55"></div>
+            <div className="fixed inset-0 bg-black bg-opacity-40 z-50"></div>
 
-            <div className="absolute top-[150px] md:top-[60px] left-1/2 -translate-x-1/2 w-[357px] sm:w-[381px] h-[474px] lg:h-[494px] rounded-[12px] z-60 bg-[#1C1E22] p-6">
-              <button className="absolute top-5 right-5" onClick={toggleModal}>
+            <div className="fixed top-[150px] md:top-[60px] left-1/2 -translate-x-1/2 w-[357px] sm:w-[381px] h-[474px] lg:h-[494px] rounded-[12px] z-50 bg-[#1C1E22] p-6">
+              <button
+                className="absolute top-5 right-5"
+                onClick={toggleModal}
+                disabled={isCreatingOrder}
+              >
                 <IoMdClose
                   size={24}
                   className="text-[#9EA0A6] cursor-pointer"
                 />
               </button>
-              <div>
-                <p className="text-[20px] lg:text-[24px] font-bold leading-[20px]">
-                  Order Product
-                </p>
-                <p className="text-[14px] leading-[16px] font-chakra text-[#8E8E8E] mt-[12px] mb-[16px] lg:mb-[28px]">
-                  Leave your contacts and the drophunting team will be sure to
-                  get back to you
-                </p>
-                <div className="flex flex-col gap-2 mb-[16px]">
-                  <p className="font-semibold text-[13px] lg:text-[14px]">
-                    Telegram
+
+              {formSubmitted && orderCreateSuccess ? (
+                <div className="flex flex-col items-center justify-center h-full">
+                  <div className="bg-[#11CA00] rounded-full p-4 mb-6">
+                    <FiCheck size={32} className="text-white" />
+                  </div>
+                  <h2 className="text-[24px] font-bold mb-4 text-center">
+                    Order Submitted
+                  </h2>
+                  <p className="text-[16px] text-[#B0B0B0] text-center mb-8">
+                    Thank you! Our team will contact you shortly via Telegram.
                   </p>
-                  <input
-                    className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] outline-none border-[1px] border-transparent focus:border-blue-500"
-                    placeholder="@nickname"
-                  />
-                </div>
-                <div className="flex flex-col gap-2 mb-[24px]">
-                  <p className="font-semibold text-[13px] lg:text-[14px]">
-                    Your message
-                  </p>
-                  <div
-                    className={`p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px] ${
-                      isFocused ? "outline outline-blue-500" : ""
-                    }`}
-                    data-focused={isFocused}
+                  <button
+                    onClick={toggleModal}
+                    className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#1D1E23] text-[16px] lg:text-[17px] leading-[20px] font-semibold"
                   >
-                    <textarea
-                      className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none overflow-auto focus:outline-none"
-                      placeholder="Describe your idea"
-                      onFocus={() => setIsFocused(true)}
-                      onBlur={() => setIsFocused(false)}
+                    Close
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit}>
+                  <p className="text-[20px] lg:text-[24px] font-bold leading-[20px]">
+                    Order Product
+                  </p>
+                  <p className="text-[14px] leading-[16px] font-chakra text-[#8E8E8E] mt-[12px] mb-[16px] lg:mb-[28px]">
+                    Leave your contacts and the drophunting team will be sure to
+                    get back to you
+                  </p>
+
+                  {orderCreateError && (
+                    <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 mb-4">
+                      <p className="text-red-500 text-sm">{orderCreateError}</p>
+                    </div>
+                  )}
+
+                  <div className="flex flex-col gap-2 mb-[16px]">
+                    <p className="font-semibold text-[13px] lg:text-[14px]">
+                      Telegram
+                    </p>
+                    <input
+                      className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] outline-none border-[1px] border-transparent focus:border-blue-500"
+                      placeholder="@nickname"
+                      value={telegramHandle}
+                      onChange={(e) => setTelegramHandle(e.target.value)}
+                      required
+                      disabled={isCreatingOrder}
                     />
                   </div>
-                </div>
-                <button className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
-                  Send
-                </button>
-              </div>
+                  <div className="flex flex-col gap-2 mb-[24px]">
+                    <p className="font-semibold text-[13px] lg:text-[14px]">
+                      Your message
+                    </p>
+                    <div
+                      className={`p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px] ${
+                        isFocused ? "outline outline-blue-500" : ""
+                      }`}
+                      data-focused={isFocused}
+                    >
+                      <textarea
+                        className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none overflow-auto focus:outline-none"
+                        placeholder="Describe your idea"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                        required
+                        disabled={isCreatingOrder}
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    className={`h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] ${
+                      isCreatingOrder ? "bg-[#11CA00]/50" : "bg-[#11CA00]"
+                    } text-[16px] lg:text-[17px] leading-[20px] font-semibold flex items-center justify-center`}
+                    disabled={isCreatingOrder}
+                  >
+                    {isCreatingOrder ? (
+                      <>
+                        <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
+                        Sending...
+                      </>
+                    ) : (
+                      "Send"
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </>
         )}
@@ -228,4 +332,4 @@ const Guide = () => {
   );
 };
 
-export default Guide;
+export default ProductDetail;

@@ -1,21 +1,88 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoIosArrowBack, IoMdTime } from "react-icons/io";
 import Image from "next/image";
-import blog from "../../../../public/assets/blog.png";
-import blogPhoto from "../../../../public/assets/blog-photo.png";
 import { MdOutlineDone } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import useStore from "@/shared/store";
+import useAuthContext from "@/shared/hooks/useAuthContext";
 
-const Guide = () => {
+const BlogArticle = ({
+  params,
+}: {
+  params: Promise<{ id: string }> | { id: string };
+}) => {
   const router = useRouter();
-  const [isRead, setIsRead] = useState(false);
+  const { user, sessionVerified } = useAuthContext();
 
-  const toggleReadState = () => {
-    setIsRead((prevState) => !prevState);
+  // Unwrap params using React.use()
+  const unwrappedParams =
+    params instanceof Promise ? React.use(params) : params;
+  const { id } = unwrappedParams;
+
+  const {
+    blogArticleDetails,
+    isLoadingBlogArticleDetails,
+    blogArticleDetailsError,
+    fetchBlogArticleDetails,
+    toggleRead,
+  } = useStore();
+
+  useEffect(() => {
+    if (sessionVerified && !user) {
+      router.push("/auth/login");
+    }
+  }, [sessionVerified, user, router]);
+
+  useEffect(() => {
+    if (id) {
+      fetchBlogArticleDetails(id);
+    }
+  }, [fetchBlogArticleDetails, id]);
+
+  const handleToggleRead = async () => {
+    if (blogArticleDetails) {
+      await toggleRead(blogArticleDetails.id);
+    }
   };
+
+  const getImageUrl = (path: string) => {
+    const backendUrl = "https://app.esdev.tech";
+    return path.startsWith("http") ? path : `${backendUrl}${path}`;
+  };
+
+  if (isLoadingBlogArticleDetails) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#CBFF51]"></div>
+      </div>
+    );
+  }
+
+  if (blogArticleDetailsError) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen flex flex-col items-center justify-center p-4">
+        <p className="text-red-500 text-xl mb-4">Error loading article</p>
+        <p className="text-gray-400 mb-6">{blogArticleDetailsError}</p>
+        <button
+          onClick={() => router.push("/blog")}
+          className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]"
+        >
+          Back to Blog
+        </button>
+      </div>
+    );
+  }
+
+  if (!blogArticleDetails) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
+        <p className="text-gray-400">Article not found</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#101114] text-white">
@@ -32,175 +99,102 @@ const Guide = () => {
           </button>
         </div>
         <div className="pb-[120px] px-[30px] sm:px-[56px] md:px-[106px] lg:px-[206px] xl:px-[306px]">
-          <Image src={blog} alt="Blog image" className="w-full" />
+          <div className="w-full h-[300px] relative">
+            <Image
+              src={getImageUrl(blogArticleDetails.img)}
+              alt={blogArticleDetails.title}
+              fill
+              className="object-cover rounded-lg"
+            />
+          </div>
           <div className="my-[32px]">
             <div className="flex items-center gap-[8px]">
               <div className="text-[#A0A8AE] flex items-center bg-[#212125] px-[8px] py-[6px] rounded-[6px] gap-1">
                 <IoMdTime size={12} />
                 <p className="text-[13px] leading-[16px] font-semibold">
-                  10 min
+                  {blogArticleDetails.reading_time} min
                 </p>
               </div>
               <p className="rounded-[6px] px-[8px] py-[6px] bg-[#212125] text-[13px] leading-[16px] font-semibold text-[#A0A8AE]">
-                December 13
+                {blogArticleDetails.updated}
               </p>
               <p className="rounded-[6px] px-[8px] py-[6px] bg-[#211E12] text-[13px] leading-[16px] font-semibold text-[#C6A975]">
-                Newbie
+                {blogArticleDetails.category.title}
               </p>
             </div>
           </div>
           <p className="font-bold text-[32px] lg:text-[35px] xl:text-[42px] leading-[38px] lg:leading-[50px]">
-            Bitcoin, Green Mining, and the Possibility for a More Sustainable
-            Future
+            {blogArticleDetails.title}
           </p>
           <div
-            onClick={toggleReadState}
+            onClick={handleToggleRead}
             className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-[184px] h-[56px] ${
-              isRead ? "bg-[#1D2A19]" : "bg-[#070709]"
+              blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
             }`}
           >
             <div className="flex items-center gap-4">
               <div
                 className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                  isRead
+                  blogArticleDetails.read > 0
                     ? "border-[#47572D75] bg-[#151B15]"
                     : "border-[#32353D] bg-[#101114]"
                 }`}
               >
                 <div
                   className={`${
-                    isRead &&
+                    blogArticleDetails.read > 0 &&
                     `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
                   }`}
                 >
-                  {isRead && <MdOutlineDone size={16} />}
+                  {blogArticleDetails.read > 0 && <MdOutlineDone size={16} />}
                 </div>
               </div>
               <p
                 className={`font-chakra font-bold text-[18px] leading-[15px] ${
-                  isRead ? "text-[#A0A8AECC]" : "text-[#A0A8AE]"
+                  blogArticleDetails.read > 0
+                    ? "text-[#A0A8AECC]"
+                    : "text-[#A0A8AE]"
                 }`}
               >
                 I have read
               </p>
             </div>
           </div>
-          <p className="text-[18px] leading-[22px] font-chakra  text-[#CACBCE] mt-[32px]">
-            PayPal’s Blockchain Research Group, in a strategic collaboration
-            with Energy Web and DMG Blockchain Solutions Inc. (“DMG”), presents
-            an opportunity to accelerate the clean energy transition for Bitcoin
-            mining. Just like so many other mechanisms throughout web3
-          </p>
-          <div className="flex flex-col font-chakra mt-[32px]">
-            <div className="flex flex-col gap-[24px] mb-[60px]">
-              <p className="text-[34px] leading-[41px] font-bold">
-                Incentivizing desired activity with cryptoeconomics
-              </p>
-              <p className="text-[18px] leading-[28px] text-[#CACBCE]">
-                One of the most pervasive conversations surrounding blockchain
-                technology is sustainability. Blockchain networks — specifically
-                proof-of-work (PoW) networks like Bitcoin — can consume large
-                amounts of energy. Recent estimates suggest that Bitcoin mining
-                is currently responsible annually for an estimated 85 million
-                metric tons of carbon dioxide equivalent (as of April 02, 2024).
-                Even with new blockchain consensus mechanisms proliferating
-                rapidly, Bitcoin’s PoW architecture is likely to persist.
-              </p>
-            </div>
-            <div className="flex flex-col gap-[24px] mb-[30px]">
-              <p className="text-[28px] leading-[35px] font-bold">
-                PayPal’s Blockchain Research Group&#39;s partner
-              </p>
-              <p className="text-[18px] leading-[28px] text-[#CACBCE]">
-                EnergyWeb has developed a clean energy validation platform to
-                permit Bitcoin miners to obtain low-carbon accreditation for
-                their mining operations. These green miners are associated with
-                public keys (which we refer to as green keys), to which rewards
-                can be distributed. On-chain transactions are preferentially
-                routed to green miners by being broadcasted with low transaction
-                fees, but with some BTC reward “locked” in a multisig payout
-                address. Green miners will be incentivized to mine these
-                transactions, since they will be the only ones eligible for the
-                additional “locked” BTC reward.
-              </p>
-            </div>
-            <div className="flex flex-col gap-[24px]">
-              <p className="text-[22px] leading-[28px] font-bold">
-                Incentivizing desired activity with cryptoeconomics
-              </p>
-              <p className="text-[18px] leading-[28px] text-[#CACBCE]">
-                PayPal’s Blockchain Research Group hopes that this paper
-                influences preferred behaviors by proposing ways in which
-                fundamental cryptoeconomic incentives can be reapplied to
-                improve and optimize existing, proven, strong networks.
-                Sustainability is a significant topic of conversation for nearly
-                every emerging and established industry in the world, and we aim
-                to support the role of crypto in a sustainable future.
-              </p>
-            </div>
-          </div>
-          <Image src={blogPhoto} alt="Blog photo" className="my-[30px]" />
-          <ul className="font-chakra list-none flex flex-col gap-[24px] mb-[63px]">
-            <li className="relative pl-6">
-              <span className="absolute left-0 top-2.5 h-[7px] w-[7px] bg-[#ABE91A]"></span>
-              <p className="text-[20px] leading-[28px] font-bold">
-                Use InVision’s Jira integration
-              </p>
-              <p className="text-[18px] leading-[24px] text-[#CACBCE]">
-                Use InVision’s Jira integration to easily get stakeholders
-                involved in project planning and start your build with total
-                team alignment.
-              </p>
-            </li>
-            <li className="relative pl-6">
-              <span className="absolute left-0 top-2.5 h-[7px] w-[7px] bg-[#ABE91A]"></span>
-              <p className="text-[20px] leading-[28px] font-bold">
-                Plan and prioritize
-              </p>
-              <p className="text-[18px] leading-[24px] text-[#CACBCE]">
-                Plan, prioritize, and manage project tasks with the new Project
-                Task Prioritization template by Jira
-              </p>
-            </li>
-            <li className="relative pl-6">
-              <span className="absolute left-0 top-2.5 h-[7px] w-[7px] bg-[#ABE91A]"></span>
-              <p className="text-[20px] leading-[28px] font-bold">
-                Align objects
-              </p>
-              <p className="text-[18px] leading-[24px] text-[#CACBCE]">
-                Easily align objects, text and images with new snapping
-                guidelines to give your Freehand canvas a high quality finish,
-                in a snap.
-              </p>
-            </li>
-          </ul>
-          <div className="flex items-center justify-center">
+
+          <div
+            className="article-content mt-[32px] text-[#CACBCE]"
+            dangerouslySetInnerHTML={{ __html: blogArticleDetails.description }}
+          />
+
+          <div className="flex items-center justify-center mt-[60px]">
             <div
-              onClick={toggleReadState}
+              onClick={handleToggleRead}
               className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 w-[180px] max-h-[56px] ${
-                isRead ? "bg-[#1D2A19]" : "bg-[#070709]"
+                blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
               }`}
             >
               <div className="flex items-center gap-4">
                 <div
                   className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                    isRead
+                    blogArticleDetails.read > 0
                       ? "border-[#47572D75] bg-[#151B15]"
                       : "border-[#32353D]"
                   }`}
                 >
                   <div
                     className={`${
-                      isRead &&
+                      blogArticleDetails.read > 0 &&
                       `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
                     }`}
                   >
-                    {isRead && <MdOutlineDone size={16} />}
+                    {blogArticleDetails.read > 0 && <MdOutlineDone size={16} />}
                   </div>
                 </div>
                 <p
                   className={`font-chakra font-bold text-[18px] leading-[15px] ${
-                    isRead ? "text-[#A0A8AECC]" : "text-[#A0A8AE]"
+                    blogArticleDetails.read > 0
+                      ? "text-[#A0A8AECC]"
+                      : "text-[#A0A8AE]"
                   }`}
                 >
                   I have read
@@ -216,4 +210,4 @@ const Guide = () => {
   );
 };
 
-export default Guide;
+export default BlogArticle;

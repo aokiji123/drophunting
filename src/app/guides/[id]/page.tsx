@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import {
@@ -10,9 +10,6 @@ import {
 } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 import Image from "next/image";
-import zenchain from "../../../../public/assets/zenchain.png";
-import blogDesc from "../../../../public/assets/blog-desc.png";
-import instructions from "../../../../public/assets/document.png";
 import { IoCalendarClear } from "react-icons/io5";
 import { MdFavorite, MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
 import { PiXLogo } from "react-icons/pi";
@@ -25,14 +22,8 @@ import SmallChartPie from "@/shared/components/SmallChartPie";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 import { PlansModal } from "@/app/components/modals/PlansModal";
 import Link from "next/link";
-
-const tasks = [
-  { name: "Follow Discord", minutes: "1 min" },
-  { name: "Create first account", minutes: "1 min" },
-  { name: "Invite 5 friends", minutes: "2 min" },
-  { name: "Play ZenGame and win 200 xp", minutes: "15 min" },
-  { name: "Read all articles on Zenchain blog", minutes: "30 min" },
-];
+import useStore from "@/shared/store";
+import useAuthContext from "@/shared/hooks/useAuthContext";
 
 const CustomSlider = styled(Slider)({
   height: 6,
@@ -59,53 +50,121 @@ const marks = Array.from({ length: 6 }, (_, i) => ({
   visible: i !== 0 && i !== 5,
 }));
 
-const Guide = () => {
+const Guide = ({
+  params,
+}: {
+  params: Promise<{ id: string }> | { id: string };
+}) => {
   const router = useRouter();
-  const [selectedTasks, setSelectedTasks] = useState<string[]>([]);
-  const [activeTask, setActiveTask] = useState<string | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [activeTask, setActiveTask] = useState<number | null>(null);
   const [showPlansModal, setShowPlansModal] = useState(false);
-  const [percentage, setPercentage] = useState(0);
-  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [activeModal, setActiveModal] = useState<number | null>(null);
+  const { user, sessionVerified } = useAuthContext();
 
-  const toggleTask = (taskName: string) => {
-    setSelectedTasks((prevSelected) => {
-      const isSelected = prevSelected.includes(taskName);
-      const updatedSelected = isSelected
-        ? prevSelected.filter((name) => name !== taskName)
-        : [...prevSelected, taskName];
+  // Unwrap params using React.use()
+  const unwrappedParams =
+    params instanceof Promise ? React.use(params) : params;
+  const { id } = unwrappedParams;
 
-      const newPercentage = (updatedSelected.length / tasks.length) * 100;
-      setPercentage(newPercentage);
+  const {
+    guideDetails,
+    isLoadingGuideDetails,
+    guideDetailsError,
+    fetchGuideDetails,
+    taskDetails,
+    isLoadingTaskDetails,
+    fetchTaskDetails,
+    toggleTaskComplete,
+    toggleFavorite,
+  } = useStore();
 
-      return updatedSelected;
-    });
-  };
+  useEffect(() => {
+    if (sessionVerified && !user) {
+      router.push("/auth/login");
+    }
+  }, [sessionVerified, user, router]);
 
-  const toggleTaskFromEvent = (
-    e: React.MouseEvent<HTMLLIElement> | React.MouseEvent<HTMLDivElement>,
-    taskName: string
+  useEffect(() => {
+    if (id) {
+      fetchGuideDetails(id);
+    }
+  }, [fetchGuideDetails, id]);
+
+  useEffect(() => {
+    if (activeTask !== null) {
+      fetchTaskDetails(activeTask);
+    }
+  }, [activeTask, fetchTaskDetails]);
+
+  const handleToggleTaskComplete = async (
+    e: React.MouseEvent,
+    taskId: number
   ) => {
     e.stopPropagation();
-    toggleTask(taskName);
+    await toggleTaskComplete(taskId);
   };
 
-  const toggleAccordion = (taskName: string) => {
-    setActiveTask((prev) => (prev === taskName ? null : taskName));
+  const handleToggleFavorite = async () => {
+    if (guideDetails) {
+      await toggleFavorite(guideDetails.id);
+    }
   };
 
-  const toggleIsFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const toggleAccordion = (taskId: number) => {
+    setActiveTask((prev) => (prev === taskId ? null : taskId));
   };
 
   const togglePlansModal = () => {
     setShowPlansModal(!showPlansModal);
   };
 
-  const handleCopyLink = (taskName: string) => {
-    setActiveModal(taskName);
+  const handleCopyLink = (taskId: number) => {
+    setActiveModal(taskId);
     setTimeout(() => setActiveModal(null), 2000);
   };
+
+  const getImageUrl = (path: string) => {
+    const backendUrl = "https://app.esdev.tech";
+    return path.startsWith("http") ? path : `${backendUrl}${path}`;
+  };
+
+  const getCompletionPercentage = () => {
+    if (!guideDetails) return 0;
+    return guideDetails.tasks_count > 0
+      ? (guideDetails.competed_tasks_count / guideDetails.tasks_count) * 100
+      : 0;
+  };
+
+  if (isLoadingGuideDetails) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#CBFF51]"></div>
+      </div>
+    );
+  }
+
+  if (guideDetailsError) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen flex flex-col items-center justify-center p-4">
+        <p className="text-red-500 text-xl mb-4">Error loading guide details</p>
+        <p className="text-gray-400 mb-6">{guideDetailsError}</p>
+        <button
+          onClick={() => router.push("/guides")}
+          className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]"
+        >
+          Back to Guides
+        </button>
+      </div>
+    );
+  }
+
+  if (!guideDetails) {
+    return (
+      <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
+        <p className="text-gray-400">Guide not found</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#101114] text-white">
@@ -122,13 +181,18 @@ const Guide = () => {
         <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[24px] xl:gap-[120px]">
           <section className="w-full xl:w-[34%] flex flex-col gap-[24px]">
             <div className="flex items-center gap-[24px]">
-              <Image
-                src={zenchain}
-                alt="Zenchain"
-                className="h-[80x] w-[80px] rounded-[20px]"
-              />
+              <div className="h-[80px] w-[80px] rounded-[20px] relative overflow-hidden">
+                <Image
+                  src={getImageUrl(guideDetails.logo)}
+                  alt={guideDetails.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
               <div className="flex flex-col gap-[8px]">
-                <p className="text-[30px] leading-[36px] font-bold">Zenchain</p>
+                <p className="text-[30px] leading-[36px] font-bold">
+                  {guideDetails.title}
+                </p>
                 <div className="flex items-center gap-[8px]">
                   <div className="flex items-center gap-[6px]">
                     <div>
@@ -142,7 +206,7 @@ const Guide = () => {
                     <GoDotFill size={8} className="text-[#5D5E60]" />
                   </div>
                   <p className="text-[#8E8E8E] text-[14px] leading-[16px] font-semibold">
-                    12 oct 2024
+                    {guideDetails.created}
                   </p>
                 </div>
               </div>
@@ -152,25 +216,46 @@ const Guide = () => {
                 <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
                   <IoMdTime size={16} />
                   <p className="text-[14px] leading-[16px] font-semibold">
-                    12 min
+                    {guideDetails.time} min
                   </p>
                 </div>
-                <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold">
-                  Free
-                </div>
-                <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] py-[8px] px-[10px] rounded-lg h-[32px] flex items-center justify-center">
-                  <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-                    Guaranteed drop
-                  </p>
-                </div>
+                {guideDetails.markers.map((marker) => (
+                  <div
+                    key={marker.id}
+                    className={`flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold ${
+                      marker.highlighted
+                        ? "bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C]"
+                        : "bg-[#202124]"
+                    }`}
+                  >
+                    {marker.icon && (
+                      <Image
+                        src={getImageUrl(marker.icon.path)}
+                        alt={marker.title}
+                        width={16}
+                        height={16}
+                        className="mr-1"
+                      />
+                    )}
+                    <span
+                      className={
+                        marker.highlighted
+                          ? "bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text"
+                          : ""
+                      }
+                    >
+                      {marker.title}
+                    </span>
+                  </div>
+                ))}
               </div>
               <div className="flex items-center gap-[7px]">
                 <button className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
                   <IoCalendarClear size={20} />
                   <p>Remind on Telegram</p>
                 </button>
-                <div onClick={toggleIsFavorite} className="cursor-pointer">
-                  {isFavorite ? (
+                <div onClick={handleToggleFavorite} className="cursor-pointer">
+                  {guideDetails.favorite > 0 ? (
                     <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px] text-[#CBFF51]">
                       <MdFavorite size={20} />
                     </div>
@@ -192,25 +277,22 @@ const Guide = () => {
                   Investment
                 </p>
                 <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold">
-                  $2.2 bln
+                  {guideDetails.investments}
                 </p>
               </div>
               <div className="flex flex-col items-center gap-2">
                 <p className="text-[14px] leading-[16px] text-[#50535D]">TVL</p>
                 <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold">
-                  $12k
+                  {guideDetails.tvl}
                 </p>
               </div>
             </div>
             <div>
               <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
-                Cytonic is a multi-EVM Layer 1 blockchain with multiple virtual
-                machines that aims to integrate networks such as Bitcoin,
-                Ethereum and Solana into a single Layer 1 solution.
+                {guideDetails.description}
               </p>
               <div className="mt-[20px] ">
                 <p className="xl:flex xl:flex-col xl:gap-0 text-[#9A9A9A] text-[14px] leading-[20px]">
-                  It focuses on enabling communication...{" "}
                   <Link
                     href="#"
                     className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0"
@@ -245,19 +327,22 @@ const Guide = () => {
                 <div className="flex items-center gap-3">
                   <p className="text-[#707273]">Completed:</p>
                   <p className="text-white">
-                    {selectedTasks.length}/{tasks.length}
+                    {guideDetails.competed_tasks_count}/
+                    {guideDetails.tasks_count}
                   </p>
                 </div>
-                <p>{percentage}%</p>
+                <p>{getCompletionPercentage().toFixed(0)}%</p>
               </div>
               <CustomSlider
                 marks={marks
                   .filter((mark) => mark.visible)
                   .map((mark) => ({ value: mark.value }))}
-                value={selectedTasks.length}
+                value={guideDetails.competed_tasks_count}
                 step={1}
                 min={0}
-                max={tasks.length}
+                max={
+                  guideDetails.tasks_count > 0 ? guideDetails.tasks_count : 1
+                }
               />
             </div>
             <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
@@ -276,28 +361,28 @@ const Guide = () => {
               </button>
             </div>
             <ul className="flex flex-col gap-3">
-              {tasks.map((task) => (
+              {guideDetails.tasks.map((task) => (
                 <li
-                  key={task.name}
+                  key={task.id}
                   className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
                 >
                   <div
                     className="flex items-center justify-between"
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleAccordion(task.name);
+                      toggleAccordion(task.id);
                     }}
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        onClick={(e) => toggleTaskFromEvent(e, task.name)}
+                        onClick={(e) => handleToggleTaskComplete(e, task.id)}
                         className={`w-[24px] h-[24px] min-w-[24px] min-h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 ${
-                          selectedTasks.includes(task.name)
+                          task.completed > 0
                             ? "border-[1px] border-[#73A304] bg-[#528E09]"
                             : "border-gray-700"
                         }`}
                       >
-                        {selectedTasks.includes(task.name) && (
+                        {task.completed > 0 && (
                           <div>
                             <MdOutlineDone size={20} />
                           </div>
@@ -306,15 +391,14 @@ const Guide = () => {
                       <div className="flex flex-col">
                         <p
                           className={`font-bold mr-[5px] ${
-                            selectedTasks.includes(task.name) &&
-                            "text-[#747677]"
+                            task.completed > 0 && "text-[#747677]"
                           }`}
                         >
-                          {task.name}
+                          {task.title}
                         </p>
                         <div className="text-[#747677] flex items-center gap-1.5">
                           <IoMdTime size={12} />
-                          <p>{task.minutes}</p>
+                          <p>{task.time} min</p>
                         </div>
                       </div>
                     </div>
@@ -323,18 +407,18 @@ const Guide = () => {
                         className="h-[32px] w-[32px] bg-[#1E1F23] rounded-full flex items-center justify-center"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleCopyLink(task.name);
+                          handleCopyLink(task.id);
                         }}
                       >
                         <AiOutlineLink size={20} />
                       </div>
-                      {activeModal === task.name && (
+                      {activeModal === task.id && (
                         <p className="absolute top-9 right-4 bg-black text-white rounded-[9px] px-[10px] py-[7px] shadow-lg w-[125px] flex items-center justify-center">
                           Link copied
                         </p>
                       )}
                       <div className="text-[#8E8E8E] cursor-pointer">
-                        {activeTask === task.name ? (
+                        {activeTask === task.id ? (
                           <IoIosArrowUp size={20} />
                         ) : (
                           <IoIosArrowDown size={20} />
@@ -343,79 +427,53 @@ const Guide = () => {
                     </div>
                   </div>
                   <div>
-                    {activeTask === task.name && (
-                      <div
-                        className="mt-3 px-[16px] flex flex-col gap-[16px]"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleAccordion(task.name);
-                        }}
-                      >
-                        <p className="text-[14px] leading-[16px] text-[#9A9A9A] font-semibold">
-                          1 attachment
-                        </p>
-                        <p className="text-[15px] leading-[21px]">Step 1.</p>
-                        <p className="text-[15px] leading-[21px]">
-                          Cytonic is a multi-EVM Layer 1 blockchain with
-                          multiple virtual machines that aims to integrate
-                          networks such as{" "}
-                          <span className="text-[#CBFF51]">Bitcoin</span>,
-                          Ethereum and Solana into a single Layer 1 solution.{" "}
-                        </p>
-                        <Image
-                          src={blogDesc}
-                          alt="Blog Description"
-                          className="px-[0] sm:px-[50px] my-[20px]"
-                        />
-                        <p className="text-[15px] leading-[21px]">Step 2.</p>
-                        <p className="text-[15px] leading-[21px]">
-                          Cytonic is a multi-EVM Layer 1 blockchain with
-                          multiple virtual machines that aims to integrate
-                          networks such as{" "}
-                          <span className="text-[#CBFF51]">Bitcoin</span>,
-                          Ethereum and Solana into a single Layer 1 solution.{" "}
-                        </p>
-                        <p className="text-[#CBFF51] text-[15px] leading-[21px]">
-                          Registration here
-                        </p>
-                        <div className="flex items-center gap-2 bg-[#202124] pr-[16px] pl-[10px] py-[8px] rounded-[100px] w-[180px] h-[32px]">
-                          <Image
-                            src={instructions}
-                            className="w-[16px] h-[16px]"
-                            alt="Instructions"
+                    {activeTask === task.id && (
+                      <div className="mt-3 px-[16px] flex flex-col gap-[16px]">
+                        {isLoadingTaskDetails ? (
+                          <div className="flex justify-center py-4">
+                            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-[#CBFF51]"></div>
+                          </div>
+                        ) : taskDetails ? (
+                          <div
+                            className="task-content"
+                            dangerouslySetInnerHTML={{
+                              __html: taskDetails.content,
+                            }}
                           />
-                          <p>Instructions.pdf</p>
-                        </div>
+                        ) : (
+                          <p className="text-gray-400">
+                            No task details available
+                          </p>
+                        )}
+
                         <div
-                          onClick={(e) => toggleTaskFromEvent(e, task.name)}
+                          onClick={(e) => handleToggleTaskComplete(e, task.id)}
                           className={`cursor-pointer py-[12px] pl-[16px] pr-[28px] rounded-[12px] flex items-center transition-all duration-300 mb-[20px] w-[230px] ${
-                            selectedTasks.includes(task.name)
-                              ? "bg-[#1D2A19]"
-                              : "bg-[#070709]"
+                            task.completed > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
                           }`}
                         >
                           <div className="flex items-center gap-4">
                             <div
                               className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                                selectedTasks.includes(task.name)
+                                task.completed > 0
                                   ? "border-[#47572D75] bg-[#151B15]"
                                   : "border-[#32353D]"
                               }`}
                             >
                               <div
                                 className={`${
-                                  selectedTasks.includes(task.name) &&
+                                  task.completed > 0 &&
                                   `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
                                 }`}
                               >
-                                {selectedTasks.includes(task.name) && (
+                                {task.completed > 0 && (
                                   <MdOutlineDone size={16} />
                                 )}
                               </div>
                             </div>
                             <p
                               className={`font-semibold text-[16px] leading-[15px] ${
-                                selectedTasks.includes(task.name)
+                                task.completed > 0
                                   ? "text-[#A0A8AECC]"
                                   : "text-[#A0A8AE]"
                               }`}

@@ -149,7 +149,7 @@ const Blog = () => {
         <div>
           <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
-              {blogArticles?.total || 0} articles
+              {blogArticles?.total} articles
             </p>
             <div className="flex items-center gap-[5px] text-[#676A70]">
               <IoFilterOutline size={20} />
@@ -188,7 +188,7 @@ const Blog = () => {
 
                   <div
                     className="relative w-[334px] sm:w-[336px] h-[414px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`blog/${article.slug}`)}
+                    onClick={() => router.push(`blog/${article.id}`)}
                   >
                     <div className="h-[200px] relative">
                       <Image
