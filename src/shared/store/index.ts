@@ -8,17 +8,26 @@ type Timezone = {
   label: string;
 };
 
-type User = {
+export type User = {
   id: number;
   name: string;
   email: string;
-  avatar?: {
-    src: string;
-    height: number;
-    width: number;
-  };
+  avatar?:
+    | {
+        src: string;
+        height: number;
+        width: number;
+      }
+    | string;
   timezone?: string;
   balance?: string;
+  notif_tg?: boolean;
+  notif_deadline?: boolean;
+  notif_articles?: boolean;
+  notif_guides?: boolean;
+  notif_change?: boolean;
+  lang?: string;
+  affiliate_id?: string;
 };
 
 type Plan = {
@@ -357,6 +366,50 @@ type OrderCreateResponse = {
   status: string;
 };
 
+type Subaccount = {
+  id: number;
+  email: string;
+  avatar: string;
+  name: string;
+  created_at: string;
+};
+
+type SubaccountsData = {
+  current_page: number;
+  data: Subaccount[];
+  first_page_url: string;
+  from: number;
+  next_page_url: string | null;
+  path: string;
+  per_page: string;
+  prev_page_url: string | null;
+  to: number;
+};
+
+type SubaccountsResponse = {
+  limit_referals: number;
+  referrals_count: number;
+  referal_link: string;
+  referrals: SubaccountsData;
+};
+
+type UpdateUserParams = {
+  name?: string;
+  timezone?: string;
+  notif_tg?: boolean;
+  notif_deadline?: boolean;
+  notif_articles?: boolean;
+  notif_guides?: boolean;
+  notif_change?: boolean;
+  avatar?: File;
+  lang?: string;
+};
+
+type UpdateUserResponse = {
+  type: string;
+  status: string;
+};
+
 type StoreState = {
   timezones: Timezone[];
   selectedTimezone: string;
@@ -411,8 +464,14 @@ type StoreState = {
   isCreatingOrder: boolean;
   orderCreateSuccess: string | null;
   orderCreateError: string | null;
+  subaccounts: SubaccountsResponse | null;
+  isLoadingSubaccounts: boolean;
+  subaccountsError: string | null;
+  isUpdatingUser: boolean;
+  updateUserSuccess: string | null;
+  updateUserError: string | null;
   fetchTimezones: () => Promise<void>;
-  updateUser: (updateData: Partial<User>) => Promise<void>;
+  updateUser: (updateData: UpdateUserParams) => Promise<boolean>;
   deleteUser: () => Promise<void>;
   payWithYookassa: (amount: number) => Promise<void>;
   payWithNowPayments: (amount: number) => Promise<void>;
@@ -444,6 +503,8 @@ type StoreState = {
   fetchProductDetails: (idOrSlug: string | number) => Promise<void>;
   createOrder: (params: OrderCreateParams) => Promise<boolean>;
   resetOrderState: () => void;
+  fetchSubaccounts: (page?: number) => Promise<void>;
+  resetUpdateUserState: () => void;
 };
 
 const useStore = create<StoreState>()(
@@ -502,6 +563,12 @@ const useStore = create<StoreState>()(
       isCreatingOrder: false,
       orderCreateSuccess: null,
       orderCreateError: null,
+      subaccounts: null,
+      isLoadingSubaccounts: false,
+      subaccountsError: null,
+      isUpdatingUser: false,
+      updateUserSuccess: null,
+      updateUserError: null,
 
       setSelectedTimezone: (timezone: string) => {
         if (typeof window !== "undefined") {
@@ -557,16 +624,122 @@ const useStore = create<StoreState>()(
         }
       },
 
-      updateUser: async (data) => {
+      updateUser: async (updateData: UpdateUserParams) => {
         try {
-          const response = await axiosInstance.put<User>(
+          set({
+            isUpdatingUser: true,
+            updateUserSuccess: null,
+            updateUserError: null,
+          });
+
+          const formData = new FormData();
+
+          // Add all update parameters to the form data
+          if (updateData.name !== undefined) {
+            formData.append("name", updateData.name);
+          }
+
+          if (updateData.timezone !== undefined) {
+            formData.append("timezone", updateData.timezone);
+          }
+
+          if (updateData.notif_tg !== undefined) {
+            formData.append("notif_tg", updateData.notif_tg ? "1" : "0");
+          }
+
+          if (updateData.notif_deadline !== undefined) {
+            formData.append(
+              "notif_deadline",
+              updateData.notif_deadline ? "1" : "0"
+            );
+          }
+
+          if (updateData.notif_articles !== undefined) {
+            formData.append(
+              "notif_articles",
+              updateData.notif_articles ? "1" : "0"
+            );
+          }
+
+          if (updateData.notif_guides !== undefined) {
+            formData.append(
+              "notif_guides",
+              updateData.notif_guides ? "1" : "0"
+            );
+          }
+
+          if (updateData.notif_change !== undefined) {
+            formData.append(
+              "notif_change",
+              updateData.notif_change ? "1" : "0"
+            );
+          }
+
+          if (updateData.avatar) {
+            formData.append("avatar", updateData.avatar);
+          }
+
+          if (updateData.lang !== undefined) {
+            formData.append("lang", updateData.lang);
+          }
+
+          const response = await axiosInstance.post<User>(
             "/api/user/update",
-            data
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
           );
-          set({ user: response.data });
+
+          // Update the user in the store with the response data
+          const currentUser = get().user;
+          if (currentUser) {
+            set({
+              user: { ...currentUser, ...response.data },
+              isUpdatingUser: false,
+              updateUserSuccess: "Profile updated successfully",
+              updateUserError: null,
+            });
+          }
+
+          return true;
         } catch (error) {
           console.error("Error updating user:", error);
+          let errorMessage = "Failed to update profile";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.status === 422) {
+              if (errorResponse.data?.message) {
+                errorMessage = errorResponse.data.message;
+              } else if (errorResponse.data?.errors) {
+                const errors = Object.values(errorResponse.data.errors).flat();
+                errorMessage = errors.join(", ");
+              }
+            } else if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            isUpdatingUser: false,
+            updateUserSuccess: null,
+            updateUserError: errorMessage,
+          });
+          return false;
         }
+      },
+
+      resetUpdateUserState: () => {
+        set({
+          isUpdatingUser: false,
+          updateUserSuccess: null,
+          updateUserError: null,
+        });
       },
 
       deleteUser: async () => {
@@ -1458,6 +1631,45 @@ const useStore = create<StoreState>()(
           orderCreateSuccess: null,
           orderCreateError: null,
         });
+      },
+
+      fetchSubaccounts: async (page?: number) => {
+        try {
+          set({ isLoadingSubaccounts: true, subaccountsError: null });
+
+          const queryParams = new URLSearchParams();
+          if (page) queryParams.append("page", page.toString());
+
+          const queryString = queryParams.toString();
+          const url = `/api/user/subaccounts${
+            queryString ? `?${queryString}` : ""
+          }`;
+
+          const response = await axiosInstance.get<SubaccountsResponse>(url);
+
+          set({
+            subaccounts: response.data,
+            isLoadingSubaccounts: false,
+            subaccountsError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching subaccounts:", error);
+          let errorMessage = "Failed to load subaccounts";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            subaccountsError: errorMessage,
+            isLoadingSubaccounts: false,
+          });
+        }
       },
     }),
     {
