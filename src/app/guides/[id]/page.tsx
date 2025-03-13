@@ -238,7 +238,9 @@ const Guide = () => {
                           : ""
                       }
                     >
-                      {marker.title}
+                      <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
+                        {marker.title}
+                      </p>
                     </span>
                   </div>
                 ))}

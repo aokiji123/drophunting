@@ -187,7 +187,9 @@ const Guides = () => {
                         : "bg-[#1D1E23]"
                     }`}
                   >
-                    {tag.name.en}
+                    <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
+                      {tag.name.en}
+                    </p>
                   </button>
                 ))}
               </div>
@@ -267,7 +269,7 @@ const Guides = () => {
                                 className="w-[12px] h-[12px]"
                               />
                             )}
-                            <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] font-semibold text-[#A0A8AE]">
+                            <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] font-semibold text-[#A0A8AE] truncate max-w-[100px]">
                               {marker.title}
                             </p>
                           </div>
