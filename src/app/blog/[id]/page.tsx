@@ -5,21 +5,16 @@ import Footer from "@/app/components/Footer";
 import { IoIosArrowBack, IoMdTime } from "react-icons/io";
 import Image from "next/image";
 import { MdOutlineDone } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import useStore from "@/shared/store";
 import useAuthContext from "@/shared/hooks/useAuthContext";
 
-const BlogArticle = ({
-  params,
-}: {
-  params: Promise<{ id: string }> | { id: string };
-}) => {
+const BlogArticle = () => {
   const router = useRouter();
   const { user, sessionVerified } = useAuthContext();
 
-  const unwrappedParams =
-    params instanceof Promise ? React.use(params) : params;
-  const { id } = unwrappedParams;
+  const params = useParams();
+  const id = params.id as string;
 
   const {
     blogArticleDetails,

@@ -17,7 +17,7 @@ import { GrLanguage } from "react-icons/gr";
 import { FaTelegramPlane } from "react-icons/fa";
 import { Slider, styled } from "@mui/material";
 import { AiOutlineLink } from "react-icons/ai";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import SmallChartPie from "@/shared/components/SmallChartPie";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 import { PlansModal } from "@/app/components/modals/PlansModal";
@@ -50,21 +50,15 @@ const marks = Array.from({ length: 6 }, (_, i) => ({
   visible: i !== 0 && i !== 5,
 }));
 
-const Guide = ({
-  params,
-}: {
-  params: Promise<{ id: string }> | { id: string };
-}) => {
+const Guide = () => {
   const router = useRouter();
   const [activeTask, setActiveTask] = useState<number | null>(null);
   const [showPlansModal, setShowPlansModal] = useState(false);
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const { user, sessionVerified } = useAuthContext();
 
-  // Unwrap params using React.use()
-  const unwrappedParams =
-    params instanceof Promise ? React.use(params) : params;
-  const { id } = unwrappedParams;
+  const params = useParams();
+  const id = params.id as string;
 
   const {
     guideDetails,
