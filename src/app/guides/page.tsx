@@ -306,11 +306,11 @@ const Guides = () => {
                       </div>
                       <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-3">
-                          <p className="text-[18px] font-bold leading-[22pxs]">
+                          <p className="text-[18px] font-bold leading-[22px] truncate max-w-[240px]">
                             {guide.title}
                           </p>
                         </div>
-                        <p className="text-[13px] text-[#8E8E8E]">
+                        <p className="text-[13px] text-[#8E8E8E] overflow-hidden truncate max-w-[240px]">
                           {guide.description}
                         </p>
                       </div>
@@ -321,7 +321,7 @@ const Guides = () => {
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
                           Invest.
                         </p>
-                        <p className="text-[16px] leading-[18px] font-bold">
+                        <p className="text-[16px] leading-[18px] font-bold truncate max-w-[100px]">
                           {guide.investments}
                         </p>
                       </div>
@@ -329,7 +329,7 @@ const Guides = () => {
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
                           TVL
                         </p>
-                        <p className="text-[16px] leading-[18px] font-bold">
+                        <p className="text-[16px] leading-[18px] font-bold truncate">
                           ${guide.tvl}
                         </p>
                       </div>
@@ -347,11 +347,14 @@ const Guides = () => {
                       </p>
                     </div>
                     <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
-                      <p className="text-[13px] leading-[16px] font-semibold">
+                      <p className="text-[13px] leading-[16px] font-semibold truncate max-w-full">
                         Last updates: {guide.updated}
                       </p>
-                      <MdOutlineKeyboardArrowRight size={20} />
-                      <GoDotFill className="text-red-500" />
+                      <MdOutlineKeyboardArrowRight
+                        size={20}
+                        className="flex-shrink-0"
+                      />
+                      <GoDotFill className="text-red-500 flex-shrink-0" />
                     </div>
                   </div>
                 </div>

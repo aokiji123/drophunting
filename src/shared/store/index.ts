@@ -800,7 +800,6 @@ const useStore = create<StoreState>()(
         passwordConfirmation: string
       ) => {
         try {
-          console.log(oldPassword, newPassword, passwordConfirmation);
           await axiosInstance.post("/api/user/change-password", {
             old_password: oldPassword,
             password: newPassword,

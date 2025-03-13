@@ -93,8 +93,6 @@ const ProductDetail = () => {
     );
   }
 
-  console.log(productDetails);
-
   if (productDetailsError || !productDetails) {
     return (
       <div className="bg-[#101114] text-white min-h-screen">

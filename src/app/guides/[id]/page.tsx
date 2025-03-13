@@ -184,7 +184,7 @@ const Guide = () => {
                 />
               </div>
               <div className="flex flex-col gap-[8px]">
-                <p className="text-[30px] leading-[36px] font-bold">
+                <p className="text-[30px] leading-[36px] font-bold truncate max-w-[220px]">
                   {guideDetails.title}
                 </p>
                 <div className="flex items-center gap-[8px]">
@@ -270,7 +270,7 @@ const Guide = () => {
                 <p className="text-[14px] leading-[16px] text-[#50535D]">
                   Investment
                 </p>
-                <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold">
+                <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold truncate max-w-[100px]">
                   {guideDetails.investments}
                 </p>
               </div>
@@ -282,7 +282,7 @@ const Guide = () => {
               </div>
             </div>
             <div>
-              <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
+              <p className="text-[#9A9A9A] text-[14px] leading-[20px] truncate max-w-[280px]">
                 {guideDetails.description}
               </p>
               <div className="mt-[20px] ">
