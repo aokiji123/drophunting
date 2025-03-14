@@ -607,9 +607,6 @@ const useStore = create<StoreState>()(
       sessionVerified: false,
 
       setSelectedTimezone: (timezone: string) => {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("selectedTimezone", timezone);
-        }
         set({ selectedTimezone: timezone });
       },
 
@@ -653,7 +650,6 @@ const useStore = create<StoreState>()(
             set({ timezones: timezoneData, error: null });
           }
 
-          // Check for existing auth token and get user info
           const token = Cookies.get("auth-token");
           if (token) {
             try {

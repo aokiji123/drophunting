@@ -34,11 +34,8 @@ const languages = [
 const Profile = () => {
   const { i18n } = useTranslation();
   const pathname = usePathname();
-  // const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
-  const [isTelegramNotificationsEnabled, setIsTelegramNotificationsEnabled] =
-    useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatar] = useState(avatarImg);
   const {
@@ -52,12 +49,41 @@ const Profile = () => {
   } = useStore();
   const router = useRouter();
 
-  // State for editable fields
+  console.log(user);
+
   const [editedName, setEditedName] = useState(user?.name ?? "");
   const [editedLanguage, setEditedLanguage] = useState(
     user?.lang ?? i18n.language
   );
   const [editedTimezone, setEditedTimezone] = useState(selectedTimezone);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const toBool = (value: boolean | undefined): boolean => {
+    if (typeof value === "string") {
+      return value === "1" || value === "true";
+    }
+    return Boolean(value);
+  };
+
+  const [notifChange, setNotifChange] = useState(toBool(user?.notif_change));
+  const [notifGuides, setNotifGuides] = useState(toBool(user?.notif_guides));
+  const [notifArticles, setNotifArticles] = useState(
+    toBool(user?.notif_articles)
+  );
+  const [notifDeadline, setNotifDeadline] = useState(
+    toBool(user?.notif_deadline)
+  );
+  const [notifTg, setNotifTg] = useState(toBool(user?.notif_tg));
+
+  useEffect(() => {
+    if (user?.lang && user.lang !== i18n.language) {
+      i18n.changeLanguage(user.lang);
+      setEditedLanguage(user.lang);
+    }
+  }, [i18n, user?.lang]);
+
+  const languageManuallyChanged = useRef(false);
+  const timezoneManuallyChanged = useRef(false);
 
   const scrollRef = useCustomScrollbar();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -82,10 +108,22 @@ const Profile = () => {
     if (user) {
       Cookies.set("user", JSON.stringify(user));
       setEditedName(user.name ?? "");
-      setEditedLanguage(user.lang ?? i18n.language);
-      setEditedTimezone(selectedTimezone); // Sync with store's selectedTimezone
+
+      if (!languageManuallyChanged.current) {
+        setEditedLanguage(user.lang ?? i18n.language);
+      }
+
+      if (!timezoneManuallyChanged.current) {
+        setEditedTimezone(user?.timezone ?? selectedTimezone);
+      }
+
+      setNotifChange(toBool(user.notif_change));
+      setNotifGuides(toBool(user.notif_guides));
+      setNotifArticles(toBool(user.notif_articles));
+      setNotifDeadline(toBool(user.notif_deadline));
+      setNotifTg(toBool(user.notif_tg));
     }
-  }, [user, i18n.language, selectedTimezone]);
+  }, [user, selectedTimezone, i18n.language]);
 
   const isActive = (href: string) => {
     if (href === "/profile") {
@@ -106,14 +144,30 @@ const Profile = () => {
   };
 
   const handleLanguageChange = (code: string) => {
+    // Mark that language has been manually changed
+    languageManuallyChanged.current = true;
+
+    // Update the edited language state
     setEditedLanguage(code);
-    i18n.changeLanguage(code); // Update i18n immediately for UI
+
+    // Update i18n language (without triggering the useEffect)
+    i18n.changeLanguage(code);
+
+    // Close the dropdown
     setIsLanguageDropdownOpen(false);
   };
 
   const handleTimeChange = (value: string) => {
+    // Mark that timezone has been manually changed
+    timezoneManuallyChanged.current = true;
+
+    // Update the edited timezone state
     setEditedTimezone(value);
-    setSelectedTimezone(value); // Update store immediately for UI
+
+    // Update store timezone
+    setSelectedTimezone(value);
+
+    // Close the dropdown
     setIsTimeDropdownOpen(false);
   };
 
@@ -122,33 +176,86 @@ const Profile = () => {
     return (
       (user?.name !== editedName && editedName !== "") ||
       (user?.lang !== editedLanguage && editedLanguage !== "") ||
-      (selectedTimezone !== editedTimezone && editedTimezone !== "")
+      (user?.timezone !== editedTimezone && editedTimezone !== "") ||
+      toBool(user?.notif_change) !== notifChange ||
+      toBool(user?.notif_guides) !== notifGuides ||
+      toBool(user?.notif_articles) !== notifArticles ||
+      toBool(user?.notif_deadline) !== notifDeadline ||
+      toBool(user?.notif_tg) !== notifTg
     );
   };
 
   // Handle saving all changes
   const handleSaveChanges = async () => {
-    if (!user || !hasChanges()) return;
+    if (!user || !hasChanges() || isSaving) return;
 
-    const updateData: { name?: string; lang?: string; timezone?: string } = {};
+    setIsSaving(true);
+
+    const updateData: {
+      name?: string;
+      lang?: string;
+      timezone?: string;
+      notif_change?: boolean;
+      notif_guides?: boolean;
+      notif_articles?: boolean;
+      notif_deadline?: boolean;
+      notif_tg?: boolean;
+    } = {};
+
     if (editedName !== user.name) updateData.name = editedName;
     if (editedLanguage !== user.lang) updateData.lang = editedLanguage;
-    if (editedTimezone !== selectedTimezone)
-      updateData.timezone = editedTimezone;
+    if (editedTimezone !== user.timezone) updateData.timezone = editedTimezone;
+    if (notifChange !== toBool(user.notif_change))
+      updateData.notif_change = notifChange;
+    if (notifGuides !== toBool(user.notif_guides))
+      updateData.notif_guides = notifGuides;
+    if (notifArticles !== toBool(user.notif_articles))
+      updateData.notif_articles = notifArticles;
+    if (notifDeadline !== toBool(user.notif_deadline))
+      updateData.notif_deadline = notifDeadline;
+    if (notifTg !== toBool(user.notif_tg)) updateData.notif_tg = notifTg;
 
-    const success = await updateUser(updateData);
+    try {
+      const success = await updateUser(updateData);
 
-    if (success) {
-      window.location.reload(); // Reload to reflect changes
-    } else {
-      console.error("Failed to update profile");
+      if (success) {
+        // If language was changed, ensure i18n has the right language before reload
+        if (editedLanguage !== user.lang) {
+          i18n.changeLanguage(editedLanguage);
+        }
+
+        window.location.reload(); // Reload to reflect changes
+      } else {
+        console.error("Failed to update profile");
+        setIsSaving(false);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setIsSaving(false);
     }
+  };
+
+  // Handlers for notification preferences
+  const handleNotifChangeToggle = (checked: boolean) => {
+    setNotifChange(checked);
+  };
+
+  const handleNotifGuidesToggle = (checked: boolean) => {
+    setNotifGuides(checked);
+  };
+
+  const handleNotifArticlesToggle = (checked: boolean) => {
+    setNotifArticles(checked);
+  };
+
+  const handleNotifDeadlineToggle = (checked: boolean) => {
+    setNotifDeadline(checked);
   };
 
   const handleTelegramSwitchChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setIsTelegramNotificationsEnabled(event.target.checked);
+    setNotifTg(event.target.checked);
   };
 
   return (
@@ -345,12 +452,25 @@ const Profile = () => {
               <p className="text-[20px] font-bold leading-[16px] mb-6">
                 Notifications
               </p>
-              <div className="flex gap-1 mb-4 flex-col justify-start">
-                <CustomCheckbox checked={true} label="Change in favorites" />
-                <CustomCheckbox checked={true} label="New guides" />
-                <CustomCheckbox checked={false} label="New articles" />
+              <div className="flex gap-[13px] mb-4 flex-col justify-start">
                 <CustomCheckbox
-                  checked={false}
+                  checked={notifChange}
+                  onChange={handleNotifChangeToggle}
+                  label="Change in favorites"
+                />
+                <CustomCheckbox
+                  checked={notifGuides}
+                  onChange={handleNotifGuidesToggle}
+                  label="New guides"
+                />
+                <CustomCheckbox
+                  checked={notifArticles}
+                  onChange={handleNotifArticlesToggle}
+                  label="New articles"
+                />
+                <CustomCheckbox
+                  checked={notifDeadline}
+                  onChange={handleNotifDeadlineToggle}
                   label="Deadlines in favorites"
                 />
               </div>
@@ -368,7 +488,7 @@ const Profile = () => {
                 </p>
               </div>
               <CustomSwitch
-                checked={isTelegramNotificationsEnabled}
+                checked={notifTg}
                 onChange={handleTelegramSwitchChange}
               />
             </div>
@@ -450,6 +570,7 @@ const Profile = () => {
                 <button
                   className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
                   onClick={handleDeleteAccount}
+                  disabled={isSaving}
                 >
                   <div>
                     <Image
@@ -462,10 +583,39 @@ const Profile = () => {
                 </button>
                 {hasChanges() && (
                   <button
-                    className="bg-[#CBFF51] text-black py-[8px] px-[16px] rounded-[10px] font-chakra font-semibold"
+                    className={`${
+                      isSaving ? "bg-[#a8d641]" : "bg-[#CBFF51]"
+                    } text-black py-[8px] px-[16px] rounded-[10px] font-chakra font-semibold flex items-center gap-2`}
                     onClick={handleSaveChanges}
+                    disabled={isSaving}
                   >
-                    Save Changes
+                    {isSaving ? (
+                      <>
+                        <svg
+                          className="animate-spin -ml-1 mr-2 h-4 w-4 text-black"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Saving...
+                      </>
+                    ) : (
+                      "Save Changes"
+                    )}
                   </button>
                 )}
               </div>
