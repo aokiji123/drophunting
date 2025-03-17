@@ -1,10 +1,10 @@
-import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CiCircleInfo } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineDone, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { validateAmount, formatAmount } from "@/shared/utils/validation";
 import useStore from "@/shared/store";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 type PlansModalType = {
   togglePlansModal: () => void;
@@ -46,8 +46,6 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
     buyPlanSuccess,
     resetBuyPlanState,
   } = useStore();
-
-  const scrollRef = useCustomScrollbar();
 
   useEffect(() => {
     fetchPlans();
@@ -115,7 +113,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
     }
 
     if (paymentRedirectUrl) {
-      window.location.href = paymentRedirectUrl;
+      window.open(paymentRedirectUrl, "_blank");
     }
   };
 
@@ -139,13 +137,19 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
   const handlePurchasePlan = async () => {
     if (!selectedPlan) return;
 
-    const success = await buyPlan(
-      selectedPlan,
-      isCouponApplied && couponCode ? couponCode : undefined
-    );
+    try {
+      resetBuyPlanState();
 
-    if (success) {
-      setIsPurchaseSuccessful(true);
+      const success = await buyPlan(
+        selectedPlan,
+        isCouponApplied && couponCode ? couponCode : undefined
+      );
+
+      if (success) {
+        setIsPurchaseSuccessful(true);
+      }
+    } catch (err) {
+      console.error("Error purchasing plan:", err);
     }
   };
 
@@ -163,15 +167,21 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
 
   useEffect(() => {
     if (paymentRedirectUrl) {
-      window.location.href = paymentRedirectUrl;
+      window.open(paymentRedirectUrl, "_blank");
     }
   }, [paymentRedirectUrl]);
 
   useEffect(() => {
-    return () => document.body.classList.remove("no-scroll");
-  }, []);
+    return () => {
+      resetBuyPlanState();
+      clearCoupon();
+      document.body.classList.remove("no-scroll");
+    };
+  }, [resetBuyPlanState, clearCoupon]);
 
-  if (isPurchaseSuccessful || buyPlanSuccess) {
+  const isSuccessState = isPurchaseSuccessful || buyPlanSuccess;
+
+  if (isSuccessState) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-40 z-40 overflow-y-auto flex justify-center items-center">
         <div className="relative w-[95%] max-w-[500px] bg-[#1C1E22] p-6 rounded-[16px] flex flex-col shadow-lg">
@@ -200,21 +210,29 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-40 overflow-y-auto flex justify-center items-center">
-      <div className="relative w-[95%] xl:w-[1040px] h-[90%] lg:h-auto bg-[#1C1E22] p-2 rounded-[16px] flex flex-col shadow-lg overflow-y-auto">
+      <div className="relative w-[95%] xl:w-[1040px] h-[90% lg:h-auto bg-[#1C1E22] p-2 rounded-[16px] flex flex-col shadow-lg overflow-y-auto">
         <button className="absolute top-5 right-5" onClick={togglePlansModal}>
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
         <p className="text-[#CBFF51] leading-[20px] mb-[10px] p-4 pb-0">
           Plans
         </p>
-        <div
-          ref={scrollRef}
+        <OverlayScrollbarsComponent
           className="overflow-y-auto flex-1 p-4 pt-0"
           style={{ maxHeight: "calc(100vh - 120px)" }}
+          options={{
+            scrollbars: {
+              autoHide: "scroll",
+            },
+          }}
         >
           {buyPlanError && (
-            <div className="mb-4 p-3 bg-red-900/30 border border-red-500 rounded-[12px] text-red-400">
-              {buyPlanError}
+            <div className="mb-3 p-3 bg-red-900/30 border border-red-500 rounded-[12px] text-red-400">
+              {buyPlanError.includes("already has active subscription") ||
+              buyPlanError.includes("active plan") ||
+              buyPlanError.includes("subscription")
+                ? "You already have an active subscription"
+                : buyPlanError}
             </div>
           )}
 
@@ -371,7 +389,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
 
           <hr className="my-[16px] md:my-[32px] border-0 h-px bg-[#27292D]" />
 
-          <div className="bg-[#1C1E22] sticky -bottom-0 left-0 w-full pt-4 lg:pt-0 h-[190px] lg:h-auto">
+          <div className="bg-[#1C1E22] sticky -bottom-[30px] h-[150px] left-0 w-full pt-4 lg:pt-0">
             <div className="flex items-center justify-between h-[46px] md:h-[58px]">
               <div className="flex flex-col gap-[2px]">
                 <p className="leading-[20px]">Amount due</p>
@@ -429,7 +447,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               </p>
             )}
 
-            <div className="flex text-[#D7B5FF] bg-[#B030BE0A] gap-2 mt-4 rounded-[12px] p-[10px]">
+            <div className="flex text-[#D7B5FF] bg-[#B030BE0A] gap-2 mt-4 rounded-[12px] p-[10px] items-center">
               <CiCircleInfo size={24} />
               <p className="text-[13px] leading-[18px]">
                 Tip: if you get blocked at the time of payment -{" "}
@@ -518,7 +536,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               </div>
             </>
           )}
-        </div>
+        </OverlayScrollbarsComponent>
       </div>
     </div>
   );

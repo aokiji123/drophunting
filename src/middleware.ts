@@ -12,6 +12,7 @@ export function middleware(request: NextRequest) {
     "/auth/email-confirmation",
     "/auth/password-reset-confirmation",
     "/password-reset",
+    "/landing",
   ]);
 
   const privateRoutes = [

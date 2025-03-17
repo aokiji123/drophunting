@@ -59,13 +59,13 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
     }
 
     if (paymentRedirectUrl) {
-      window.location.href = paymentRedirectUrl;
+      window.open(paymentRedirectUrl, "_blank");
     }
   };
 
   useEffect(() => {
     if (paymentRedirectUrl) {
-      window.location.href = paymentRedirectUrl;
+      window.open(paymentRedirectUrl, "_blank");
     }
   }, [paymentRedirectUrl]);
 

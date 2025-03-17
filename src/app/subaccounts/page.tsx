@@ -47,8 +47,8 @@ const Subaccounts = () => {
   };
 
   const handleCopy = () => {
-    if (subaccounts?.referal_link) {
-      navigator.clipboard.writeText(subaccounts.referal_link);
+    if (subaccounts?.subaccounts_link) {
+      navigator.clipboard.writeText(subaccounts.subaccounts_link);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
@@ -129,7 +129,7 @@ const Subaccounts = () => {
                     <SmallChartPie />
                     <p className="leading-[16px] font-semibold">
                       {subaccounts
-                        ? `${subaccounts.referrals_count}/${subaccounts.limit_referals}`
+                        ? `${subaccounts.subaccounts_count}/${subaccounts.limit_subaccounts}`
                         : "0/0"}
                     </p>
                   </div>
@@ -140,7 +140,7 @@ const Subaccounts = () => {
                     </p>
                     <div className="relative flex items-center justify-between md:w-[465px] gap-[10px] mt-3">
                       <input
-                        value={subaccounts?.referal_link || ""}
+                        value={subaccounts?.subaccounts_link || ""}
                         readOnly
                         className="bg-[#24262B] p-[12px] rounded-[12px] w-full truncate leading-[20px]"
                       />
@@ -164,7 +164,7 @@ const Subaccounts = () => {
                       My subaccounts
                     </p>
                     <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
-                      {subaccounts?.referrals_count || 0}
+                      {subaccounts?.subaccounts_count || 0}
                     </p>
                   </div>
                   {isLoadingSubaccounts && subaccounts ? (
@@ -212,9 +212,9 @@ const Subaccounts = () => {
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            {subaccounts?.referrals.data &&
-                            subaccounts.referrals.data.length > 0 ? (
-                              subaccounts.referrals.data.map((subaccount) => (
+                            {subaccounts?.subaccounts.data &&
+                            subaccounts.subaccounts.data.length > 0 ? (
+                              subaccounts.subaccounts.data.map((subaccount) => (
                                 <TableRow
                                   key={subaccount.id}
                                   sx={{
@@ -260,14 +260,14 @@ const Subaccounts = () => {
                         </Table>
                       </TableContainer>
 
-                      {subaccounts?.referrals.data &&
-                        subaccounts.referrals.data.length > 0 && (
+                      {subaccounts?.subaccounts.data &&
+                        subaccounts.subaccounts.data.length > 0 && (
                           <div className="flex justify-center mt-6">
                             <Pagination
                               count={Math.ceil(
-                                (subaccounts?.referrals_count || 0) /
+                                (subaccounts?.subaccounts_count || 0) /
                                   parseInt(
-                                    subaccounts?.referrals.per_page || "10"
+                                    subaccounts?.subaccounts.per_page || "10"
                                   )
                               )}
                               page={currentPage}

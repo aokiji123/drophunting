@@ -6,9 +6,13 @@ import { useEffect, useState } from "react";
 
 export type HalfChartPieProps = {
   size?: "small" | "medium" | "big";
+  defaultValue?: number;
 };
 
-export default function HalfChartPie({ size = "small" }: HalfChartPieProps) {
+export default function HalfChartPie({
+  size = "small",
+  defaultValue,
+}: HalfChartPieProps) {
   const [responsiveSize, setResponsiveSize] = useState(size);
 
   useEffect(() => {
@@ -34,13 +38,13 @@ export default function HalfChartPie({ size = "small" }: HalfChartPieProps) {
   return (
     <div className="relative">
       <div>
-        <HalfChartPieMUI size={responsiveSize} />
+        <HalfChartPieMUI defaultValue={defaultValue} size={responsiveSize} />
         {responsiveSize === "big" && (
           <Gauge
             className="!absolute top-0 z-[1]"
             width={140}
             height={140}
-            value={0}
+            value={Math.round(defaultValue ? defaultValue / 10 : 0)}
             startAngle={-90}
             endAngle={90}
             cornerRadius={"50%"}
@@ -62,7 +66,7 @@ export default function HalfChartPie({ size = "small" }: HalfChartPieProps) {
             className="!absolute top-0 z-[1]"
             width={120}
             height={120}
-            value={0}
+            value={defaultValue}
             startAngle={-90}
             endAngle={90}
             cornerRadius={"50%"}
@@ -83,11 +87,11 @@ export default function HalfChartPie({ size = "small" }: HalfChartPieProps) {
       <div
         className={`absolute ${
           responsiveSize === "big"
-            ? "bottom-[25px] left-[52px]"
+            ? "bottom-[25px] w-[140px]"
             : responsiveSize === "medium"
-            ? "bottom-[20px] left-[42px]"
-            : "bottom-[20px] left-[25px]"
-        }`}
+            ? "bottom-[20px] w-[120px]"
+            : "bottom-[20px] w-[80px]"
+        } text-center left-0 right-0 mx-auto`}
       >
         <div
           className={`${
@@ -98,7 +102,7 @@ export default function HalfChartPie({ size = "small" }: HalfChartPieProps) {
               : "text-[16px] leading-[18px]"
           } font-bold z-5`}
         >
-          460
+          {defaultValue}
         </div>
         {responsiveSize !== "small" && (
           <p className="font-sf font-medium text-[14px] leading-[15px] text-[#FFA025] relative top-1">

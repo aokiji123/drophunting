@@ -25,6 +25,7 @@ const Subscriptions = () => {
   const isActive = (href: string) => pathname === href;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const {
+    user,
     subscriptions,
     isLoadingSubscriptions,
     subscriptionsError,
@@ -104,18 +105,22 @@ const Subscriptions = () => {
                 </p>
               </div>
               <div className="mt-7">
-                <div className="flex items-center gap-[10px]">
-                  <p className="text-[15px] leading-[16px] font-semibold">
-                    Free Views
-                  </p>
-                  <SmallChartPie half />
-                  <p className="text-[15px] leading-[16px] font-semibold">
-                    1/2
-                  </p>
-                </div>
+                {subscriptions.length <= 0 && (
+                  <div className="flex items-center gap-[10px]">
+                    <p className="text-[15px] leading-[16px] font-semibold">
+                      Free Views
+                    </p>
+                    <SmallChartPie half />
+                    <p className="text-[15px] leading-[16px] font-semibold">
+                      {user?.count_views} / {user?.free_views}
+                    </p>
+                  </div>
+                )}
                 <button
                   onClick={toggleModal}
-                  className="h-[44px] bg-[--green] px-[14px] py-[20px] font-sans font-bold leading-[16px] tracking-[-1%] rounded-[12px] flex items-center justify-center mt-[40px] my-[60px]"
+                  className={`h-[44px] bg-[--green] px-[14px] py-[20px] font-sans font-bold leading-[16px] tracking-[-1%] rounded-[12px] flex items-center justify-center mt-[40px] my-[60px] ${
+                    subscriptions.length > 0 && "mt-0"
+                  }`}
                 >
                   See plans
                 </button>

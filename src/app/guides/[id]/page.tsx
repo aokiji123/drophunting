@@ -54,17 +54,21 @@ const Guide = () => {
   const [activeTask, setActiveTask] = useState<number | null>(null);
   const [showPlansModal, setShowPlansModal] = useState(false);
   const [activeModal, setActiveModal] = useState<number | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
 
   const params = useParams();
   const id = params.id as string;
 
   const {
     user,
+    subscriptions,
     sessionVerified,
     guideDetails,
     isLoadingGuideDetails,
     guideDetailsError,
     fetchGuideDetails,
+    fetchSubscriptions,
     taskDetails,
     isLoadingTaskDetails,
     fetchTaskDetails,
@@ -85,6 +89,16 @@ const Guide = () => {
   }, [fetchGuideDetails, id]);
 
   useEffect(() => {
+    fetchSubscriptions();
+  }, [fetchSubscriptions]);
+
+  useEffect(() => {
+    if (guideDetails) {
+      setIsFavorite(guideDetails.favorite > 0);
+    }
+  }, [guideDetails]);
+
+  useEffect(() => {
     if (activeTask !== null) {
       fetchTaskDetails(activeTask);
     }
@@ -100,7 +114,13 @@ const Guide = () => {
 
   const handleToggleFavorite = async () => {
     if (guideDetails) {
-      await toggleFavorite(guideDetails.id);
+      setIsFavorite((prevState) => !prevState);
+
+      try {
+        await toggleFavorite(guideDetails.id);
+      } catch (error) {
+        console.error("Error toggling favorite:", error);
+      }
     }
   };
 
@@ -251,7 +271,7 @@ const Guide = () => {
                   <p>Remind on Telegram</p>
                 </button>
                 <div onClick={handleToggleFavorite} className="cursor-pointer">
-                  {guideDetails.favorite > 0 ? (
+                  {isFavorite ? (
                     <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px] text-[#CBFF51]">
                       <MdFavorite size={20} />
                     </div>
@@ -267,7 +287,7 @@ const Guide = () => {
             <hr className="border-0 h-px bg-[#27292D]" />
 
             <div className="flex items-center gap-8 xl:gap-0 xl:justify-between -mt-[30px]">
-              <HalfChartPie size="big" />
+              <HalfChartPie defaultValue={guideDetails.evaluation} size="big" />
               <div className="flex flex-col items-center gap-2">
                 <p className="text-[14px] leading-[16px] text-[#50535D]">
                   Investment
@@ -284,17 +304,30 @@ const Guide = () => {
               </div>
             </div>
             <div>
-              <p className="text-[#9A9A9A] text-[14px] leading-[20px] truncate max-w-[280px]">
-                {guideDetails.description}
-              </p>
-              <div className="mt-[20px] ">
-                <p className="xl:flex xl:flex-col xl:gap-0 text-[#9A9A9A] text-[14px] leading-[20px]">
-                  <Link
-                    href="#"
-                    className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0"
-                  >
-                    More
-                  </Link>
+              {showFullDescription && guideDetails.description_full ? (
+                <div
+                  className="text-[#9A9A9A] text-[14px] leading-[20px]"
+                  dangerouslySetInnerHTML={{
+                    __html: guideDetails.description_full,
+                  }}
+                />
+              ) : (
+                <p className="text-[#9A9A9A] text-[14px] leading-[20px] max-w-[280px]">
+                  {guideDetails.description}
+                </p>
+              )}
+              <div className="mt-[20px]">
+                <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
+                  {guideDetails.description_full && (
+                    <button
+                      className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0"
+                      onClick={() =>
+                        setShowFullDescription(!showFullDescription)
+                      }
+                    >
+                      {showFullDescription ? "Less" : "More"}
+                    </button>
+                  )}
                 </p>
               </div>
             </div>
@@ -341,21 +374,25 @@ const Guide = () => {
                 }
               />
             </div>
-            <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
-              <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
-                <p>Free task previews on your plan</p>
-                <div className="flex items-center gap-[8px]">
-                  <SmallChartPie half />
-                  <p>1/3</p>
+            {subscriptions && subscriptions.length <= 0 && (
+              <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
+                <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
+                  <p>Free task previews on your plan</p>
+                  <div className="flex items-center gap-[8px]">
+                    <SmallChartPie half />
+                    <p>
+                      {user?.count_views} / {user?.free_views}
+                    </p>
+                  </div>
                 </div>
+                <button
+                  className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
+                  onClick={togglePlansModal}
+                >
+                  Upgrade plan
+                </button>
               </div>
-              <button
-                className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
-                onClick={togglePlansModal}
-              >
-                Upgrade plan
-              </button>
-            </div>
+            )}
             <ul className="flex flex-col gap-3">
               {guideDetails.tasks.map((task) => (
                 <li
@@ -366,7 +403,11 @@ const Guide = () => {
                     className="flex items-center justify-between"
                     onClick={(e) => {
                       e.stopPropagation();
-                      toggleAccordion(task.id);
+                      if (user?.count_views === user?.free_views) {
+                        togglePlansModal();
+                      } else {
+                        toggleAccordion(task.id);
+                      }
                     }}
                   >
                     <div className="flex items-center gap-4">

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Gauge, gaugeClasses, useGaugeState } from "@mui/x-charts/Gauge";
 import { HalfChartPieProps } from "./HalfChartPie";
 
-function GaugePointer({ size }: HalfChartPieProps) {
+function GaugePointer({ size, defaultValue }: HalfChartPieProps) {
   const { valueAngle, outerRadius, cx, cy, innerRadius } = useGaugeState();
 
   if (valueAngle === null) return null;
@@ -20,6 +20,10 @@ function GaugePointer({ size }: HalfChartPieProps) {
       cy - adjustedRadius * Math.cos(valueAngle) - shift * Math.sin(valueAngle),
   };
 
+  if (defaultValue && defaultValue < 100) {
+    return null;
+  }
+
   return (
     <g>
       <circle cx={target.x} cy={target.y} r={3} fill="white" />
@@ -27,11 +31,14 @@ function GaugePointer({ size }: HalfChartPieProps) {
   );
 }
 
-export default function HalfChartPieMUI({ size = "small" }: HalfChartPieProps) {
+export default function HalfChartPieMUI({
+  size = "small",
+  defaultValue,
+}: HalfChartPieProps) {
   const settings = {
     width: size === "small" ? 80 : size === "medium" ? 120 : 140,
     height: size === "small" ? 80 : size === "medium" ? 120 : 140,
-    value: 46,
+    value: Math.round(defaultValue ? defaultValue / 10 : 0),
     startAngle: -90,
     endAngle: 90,
     cornerRadius: "50%",
@@ -61,7 +68,7 @@ export default function HalfChartPieMUI({ size = "small" }: HalfChartPieProps) {
         </defs>
       </svg>
       {size === "big" || size === "medium" ? (
-        <GaugePointer size={size} />
+        <GaugePointer size={size} defaultValue={defaultValue} />
       ) : null}
     </Gauge>
   );

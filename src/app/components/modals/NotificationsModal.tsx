@@ -1,42 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GoDotFill } from "react-icons/go";
 import { LuBell } from "react-icons/lu";
-import { FiFlag } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
-import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
-
-const notifications = [
-  {
-    id: 1,
-    text: "The $200 deposit was successfully funded",
-    icon: <LuBell size={16} />,
-    new: true,
-  },
-  {
-    id: 2,
-    text: "The $200 deposit was successfully funded",
-    icon: <LuBell size={16} />,
-    new: false,
-  },
-  {
-    id: 3,
-    text: "A new article has been released on the blog!",
-    icon: <FiFlag size={16} />,
-    new: false,
-  },
-  {
-    id: 4,
-    text: "The $200 deposit was successfully funded",
-    icon: <LuBell size={16} />,
-    new: true,
-  },
-  {
-    id: 5,
-    text: "The $200 deposit was successfully funded",
-    icon: <LuBell size={16} />,
-    new: false,
-  },
-];
+import useStore from "@/shared/store";
+import Image from "next/image";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 type NotificationsModalType = {
   toggleNotificationsModal: () => void;
@@ -45,7 +13,12 @@ type NotificationsModalType = {
 const NotificationsModal = ({
   toggleNotificationsModal,
 }: NotificationsModalType) => {
-  const scrollRef = useCustomScrollbar();
+  const { notifications, isLoadingNotifications, fetchNotifications } =
+    useStore();
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
 
   return (
     <div className="flex flex-col h-full">
@@ -58,29 +31,56 @@ const NotificationsModal = ({
       <p className="text-[16px] leading-[16px] font-bold pl-[15px]">
         Notifications
       </p>
-      <div className="overflow-y-auto mt-2" ref={scrollRef}>
-        {notifications.map((n) => (
-          <div
-            key={n.id}
-            className="pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] cursor-pointer hover:text-[#9EA0A6] text-white overflow-y-auto"
-          >
-            <div className="relative w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
-              {n.new && (
-                <GoDotFill className="absolute right-[25px] md:right-[30px] text-red-500" />
-              )}
-              {n.icon}
-            </div>
-            <div>
-              <p className="font-semibold leading-[19px] mb-1 sm:mb-1">
-                {n.text}
-              </p>
-              <p className="text-[#8E8E8E] text-[13px] leading-[15px]">
-                Today 12:21
-              </p>
-            </div>
+      <OverlayScrollbarsComponent
+        className="overflow-y-auto mt-2"
+        options={{
+          scrollbars: {
+            autoHide: "scroll",
+          },
+        }}
+      >
+        {isLoadingNotifications ? (
+          <div className="flex justify-center items-center py-6">
+            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-500"></div>
           </div>
-        ))}
-      </div>
+        ) : notifications?.data && notifications.data.length > 0 ? (
+          notifications.data.map((notification) => (
+            <div
+              key={notification.id}
+              className="pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] cursor-pointer hover:text-[#9EA0A6] text-white overflow-y-auto"
+            >
+              <div className="relative w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
+                {notification.seen === 0 && (
+                  <GoDotFill className="absolute right-[25px] md:right-[30px] text-red-500" />
+                )}
+                {notification.icon ? (
+                  <div className="w-4 h-4 relative">
+                    <Image
+                      src={notification.icon.path}
+                      alt="Notification icon"
+                      fill
+                      sizes="16px"
+                      className="object-contain"
+                    />
+                  </div>
+                ) : (
+                  <LuBell size={16} />
+                )}
+              </div>
+              <div>
+                <p className="font-semibold leading-[19px] mb-1 sm:mb-1">
+                  {notification.text}
+                </p>
+                <p className="text-[#8E8E8E] text-[13px] leading-[15px]">
+                  Today 12:21
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center py-4 text-gray-400">No notifications</div>
+        )}
+      </OverlayScrollbarsComponent>
     </div>
   );
 };

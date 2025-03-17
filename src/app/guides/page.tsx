@@ -318,7 +318,7 @@ const Guides = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-[24px] my-[-5px]">
-                      <HalfChartPie />
+                      <HalfChartPie defaultValue={guide.evaluation} />
                       <div>
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
                           Invest.
@@ -338,14 +338,23 @@ const Guides = () => {
                     </div>
                     <div className="flex items-center gap-[12px]">
                       <CustomSlider
-                        defaultValue={guide.evaluation}
+                        defaultValue={
+                          guide.tasks_count > 0
+                            ? (guide.competed_tasks_count / guide.tasks_count) *
+                              100
+                            : 0
+                        }
                         step={1}
                         min={0}
                         max={100}
                         disabled
                       />
                       <p className="text-[16px] leading-[18px] font-bold">
-                        {guide.evaluation}%
+                        {guide.competed_tasks_count > 0
+                          ? (guide.competed_tasks_count / guide.tasks_count) *
+                            100
+                          : 0}
+                        %
                       </p>
                     </div>
                     <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">

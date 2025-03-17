@@ -37,7 +37,8 @@ const Profile = () => {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [avatar] = useState(avatarImg);
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const {
     timezones,
     selectedTimezone,
@@ -48,8 +49,6 @@ const Profile = () => {
     updateUser,
   } = useStore();
   const router = useRouter();
-
-  console.log(user);
 
   const [editedName, setEditedName] = useState(user?.name ?? "");
   const [editedLanguage, setEditedLanguage] = useState(
@@ -104,6 +103,15 @@ const Profile = () => {
     fetchTimezones();
   }, [fetchTimezones]);
 
+  // Cleanup the avatar preview URL when unmounting or when preview changes
+  useEffect(() => {
+    return () => {
+      if (avatarPreview) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+    };
+  }, [avatarPreview]);
+
   useEffect(() => {
     if (user) {
       Cookies.set("user", JSON.stringify(user));
@@ -138,40 +146,39 @@ const Profile = () => {
     }
   };
 
-  // Handle changes
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedAvatar(file);
+      const previewUrl = URL.createObjectURL(file);
+      setAvatarPreview(previewUrl);
+    }
+  };
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditedName(event.target.value);
   };
 
   const handleLanguageChange = (code: string) => {
-    // Mark that language has been manually changed
     languageManuallyChanged.current = true;
 
-    // Update the edited language state
     setEditedLanguage(code);
 
-    // Update i18n language (without triggering the useEffect)
     i18n.changeLanguage(code);
 
-    // Close the dropdown
     setIsLanguageDropdownOpen(false);
   };
 
   const handleTimeChange = (value: string) => {
-    // Mark that timezone has been manually changed
     timezoneManuallyChanged.current = true;
 
-    // Update the edited timezone state
     setEditedTimezone(value);
 
-    // Update store timezone
     setSelectedTimezone(value);
 
-    // Close the dropdown
     setIsTimeDropdownOpen(false);
   };
 
-  // Check if there are changes to save
   const hasChanges = () => {
     return (
       (user?.name !== editedName && editedName !== "") ||
@@ -181,11 +188,11 @@ const Profile = () => {
       toBool(user?.notif_guides) !== notifGuides ||
       toBool(user?.notif_articles) !== notifArticles ||
       toBool(user?.notif_deadline) !== notifDeadline ||
-      toBool(user?.notif_tg) !== notifTg
+      toBool(user?.notif_tg) !== notifTg ||
+      selectedAvatar !== null
     );
   };
 
-  // Handle saving all changes
   const handleSaveChanges = async () => {
     if (!user || !hasChanges() || isSaving) return;
 
@@ -200,6 +207,7 @@ const Profile = () => {
       notif_articles?: boolean;
       notif_deadline?: boolean;
       notif_tg?: boolean;
+      avatar?: File; // Change this to File instead of string
     } = {};
 
     if (editedName !== user.name) updateData.name = editedName;
@@ -214,17 +222,18 @@ const Profile = () => {
     if (notifDeadline !== toBool(user.notif_deadline))
       updateData.notif_deadline = notifDeadline;
     if (notifTg !== toBool(user.notif_tg)) updateData.notif_tg = notifTg;
+    if (selectedAvatar) updateData.avatar = selectedAvatar; // Pass the File object, not just the name
 
     try {
+      console.log("Sending update data:", updateData);
       const success = await updateUser(updateData);
+      console.log("Update success:", success, "User after update:", user);
 
       if (success) {
-        // If language was changed, ensure i18n has the right language before reload
         if (editedLanguage !== user.lang) {
           i18n.changeLanguage(editedLanguage);
         }
-
-        window.location.reload(); // Reload to reflect changes
+        setIsSaving(false); // Move this here to ensure it's set after success
       } else {
         console.error("Failed to update profile");
         setIsSaving(false);
@@ -290,17 +299,25 @@ const Profile = () => {
             <div className="flex-col flex sm:flex-row border-4 gap-[24px] border-transparent">
               <div className="relative w-[64px] h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] flex-shrink-0">
                 <Image
-                  src={avatar}
+                  src={
+                    avatarPreview || (user?.avatar ? user.avatar : avatarImg)
+                  }
                   alt="Avatar"
                   className="w-full h-full object-cover object-center rounded-[22px]"
                   width={83}
                   height={83}
+                  unoptimized
+                  onError={(e) => {
+                    // Fallback to default avatar if the user avatar URL fails to load
+                    e.currentTarget.src = avatarImg.src;
+                  }}
                 />
                 <input
                   type="file"
                   accept="image/*"
                   className="hidden"
                   ref={fileInputRef}
+                  onChange={handleFileChange}
                 />
                 <div
                   className="cursor-pointer absolute -bottom-1 -right-1 bg-[#2A2B30] p-[5px] border-[3px] border-[--dark-gray] rounded-full translate-x-1/4 translate-y-1/4"

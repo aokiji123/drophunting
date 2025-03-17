@@ -52,6 +52,8 @@ export type User = {
   notif_change?: boolean;
   lang?: string;
   affiliate_id?: string;
+  count_views?: number;
+  free_views?: number;
 };
 
 type Plan = {
@@ -159,6 +161,7 @@ type GuideDetails = {
   slug: string;
   time: number;
   description: string;
+  description_full?: string;
   evaluation: number;
   tvl: string;
   investments: string;
@@ -411,10 +414,10 @@ type SubaccountsData = {
 };
 
 type SubaccountsResponse = {
-  limit_referals: number;
-  referrals_count: number;
-  referal_link: string;
-  referrals: SubaccountsData;
+  limit_subaccounts: number;
+  subaccounts_count: number;
+  subaccounts_link: string;
+  subaccounts: SubaccountsData;
 };
 
 type UpdateUserParams = {
@@ -427,6 +430,30 @@ type UpdateUserParams = {
   notif_change?: boolean;
   avatar?: File;
   lang?: string;
+};
+
+type NotificationIcon = {
+  id: number;
+  path: string;
+};
+
+type Notification = {
+  id: number;
+  seen: number;
+  text: string;
+  icon: NotificationIcon | null;
+};
+
+type NotificationsResponse = {
+  current_page: number;
+  data: Notification[];
+  first_page_url: string;
+  from: number;
+  next_page_url: string | null;
+  path: string;
+  per_page: string;
+  prev_page_url: string | null;
+  to: number;
 };
 
 type StoreState = {
@@ -489,6 +516,9 @@ type StoreState = {
   isUpdatingUser: boolean;
   updateUserSuccess: string | null;
   updateUserError: string | null;
+  notifications: NotificationsResponse | null;
+  isLoadingNotifications: boolean;
+  notificationsError: string | null;
   fetchTimezones: () => Promise<void>;
   updateUser: (updateData: UpdateUserParams) => Promise<boolean>;
   deleteUser: () => Promise<void>;
@@ -537,6 +567,7 @@ type StoreState = {
   newPassword: (data: NewPasswordParams) => Promise<{ status: string }>;
   sendEmailVerificationLink: () => Promise<{ status: string }>;
   setAuthStatus: (status: string | null) => void;
+  fetchNotifications: (page?: number) => Promise<void>;
 };
 
 const useStore = create<StoreState>()(
@@ -601,6 +632,9 @@ const useStore = create<StoreState>()(
       isUpdatingUser: false,
       updateUserSuccess: null,
       updateUserError: null,
+      notifications: null,
+      isLoadingNotifications: false,
+      notificationsError: null,
       authErrors: {},
       authLoading: false,
       authStatus: null,
@@ -735,7 +769,12 @@ const useStore = create<StoreState>()(
 
           const response = await axiosInstance.post<User>(
             "/api/user/update",
-            formData
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
           );
 
           const currentUser = get().user;
@@ -1414,7 +1453,6 @@ const useStore = create<StoreState>()(
 
       toggleRead: async (articleId: number) => {
         try {
-          // Update blogArticles state (list view)
           const currentArticles = get().blogArticles;
           if (currentArticles) {
             const updatedArticles = {
@@ -1432,7 +1470,6 @@ const useStore = create<StoreState>()(
             set({ blogArticles: updatedArticles });
           }
 
-          // Update blogArticleDetails state (detail view)
           const currentArticleDetails = get().blogArticleDetails;
           if (currentArticleDetails && currentArticleDetails.id === articleId) {
             set({
@@ -1449,7 +1486,6 @@ const useStore = create<StoreState>()(
         } catch (error) {
           console.error("Error toggling read status:", error);
 
-          // Revert blogArticles state if error
           const currentArticles = get().blogArticles;
           if (currentArticles) {
             const revertedArticles = {
@@ -1467,7 +1503,6 @@ const useStore = create<StoreState>()(
             set({ blogArticles: revertedArticles });
           }
 
-          // Revert blogArticleDetails state if error
           const currentArticleDetails = get().blogArticleDetails;
           if (currentArticleDetails && currentArticleDetails.id === articleId) {
             set({
@@ -1735,7 +1770,6 @@ const useStore = create<StoreState>()(
             updateAxiosToken(token);
           }
 
-          // Get user info after login
           try {
             const { data: userData } = await axiosInstance.get<User>(
               "/api/user",
@@ -1781,7 +1815,6 @@ const useStore = create<StoreState>()(
             updateAxiosToken(token);
           }
 
-          // Get user info after registration
           try {
             const { data: userData } = await axiosInstance.get<User>(
               "/api/user",
@@ -1869,6 +1902,45 @@ const useStore = create<StoreState>()(
         } catch (e) {
           set({ authLoading: false });
           throw e;
+        }
+      },
+
+      fetchNotifications: async (page?: number) => {
+        try {
+          set({ isLoadingNotifications: true, notificationsError: null });
+
+          const queryParams = new URLSearchParams();
+          if (page) queryParams.append("page", page.toString());
+
+          const queryString = queryParams.toString();
+          const url = `/api/notifications${
+            queryString ? `?${queryString}` : ""
+          }`;
+
+          const response = await axiosInstance.get<NotificationsResponse>(url);
+
+          set({
+            notifications: response.data,
+            isLoadingNotifications: false,
+            notificationsError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching notifications:", error);
+          let errorMessage = "Failed to load notifications";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            notificationsError: errorMessage,
+            isLoadingNotifications: false,
+          });
         }
       },
     }),
