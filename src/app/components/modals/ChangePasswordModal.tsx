@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import useStore from "@/shared/store";
 
 type ChangePasswordModalType = {
@@ -57,51 +56,51 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-80 flex items-center justify-center">
-      <div className="bg-[#1C1E22] rounded-[16px] p-6 w-[95%] max-w-[400px] relative">
+      <div className="bg-[#17181B] rounded-[16px] py-[32px] px-[24px] w-[375px] absolute top-[70px]">
         <button className="absolute top-5 right-5" onClick={onClose}>
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
 
-        <h2 className="text-[24px] font-bold leading-[28px] mb-4">
-          Change Password
-        </h2>
+        <p className="text-[22px] font-bold leading-[20px] mb-[24px]">
+          Change your password
+        </p>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-[#949392]">
               Current Password
             </label>
             <input
               type="password"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
-              className="w-full bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
+              className="w-full bg-[#212226] placeholder:text-[#949392] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
               placeholder="Enter current password"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-[#949392]">
               New Password
             </label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
+              className="w-full bg-[#212226] placeholder:text-[#949392] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
               placeholder="Enter new password"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium mb-2 text-[#949392]">
               Confirm New Password
             </label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
+              className="w-full bg-[#212226] placeholder:text-[#949392] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
               placeholder="Confirm new password"
             />
           </div>
@@ -109,22 +108,13 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
           {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
 
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={onClose}
-            className="w-[40%] bg-[#2C2D31] py-[12px] px-[18px] rounded-[12px] font-semibold hover:bg-[#36383D] transition-colors"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={isLoading}
-            className="w-[60%] bg-[#11CA00] py-[12px] px-[18px] rounded-[12px] font-semibold hover:bg-[#0FB300] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? "Changing..." : "Change Password"}
-            <MdOutlineKeyboardArrowRight />
-          </button>
-        </div>
+        <button
+          onClick={handleSubmit}
+          disabled={isLoading}
+          className="w-full bg-[#11CA00] h-[56px] py-[12px] px-[18px] rounded-[16px] font-semibold hover:bg-[#0FB300] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-[17px] leading-[20px] font-sans mt-[40px]"
+        >
+          {isLoading ? "Saving..." : "Save"}
+        </button>
       </div>
     </div>
   );

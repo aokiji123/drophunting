@@ -51,7 +51,6 @@ export function validateAmount(
     };
   }
 
-  // Apply currency-specific limits
   if (currencyType === "Fiat" && numValue > 2000) {
     return {
       isValid: false,

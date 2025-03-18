@@ -16,6 +16,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { PlansModal } from "./modals/PlansModal";
 import useAuth from "@/shared/hooks/useAuth";
+import NavigationModal from "./modals/NavigationModal";
+// import { LuBell } from "react-icons/lu";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -62,6 +64,13 @@ const Header = () => {
   const toggleBalanceModal = () => toggleModal("balance");
   const toggleNotificationsModal = () => toggleModal("notifications");
   const togglePlansModal = () => toggleModal("plans");
+  const toggleNavigationModal = () => toggleModal("navigation");
+  const openBalanceModal = () => {
+    setOpenModal("balance");
+  };
+  const openPlansModal = () => {
+    setOpenModal("plans");
+  };
 
   if (loading) {
     return (
@@ -130,7 +139,7 @@ const Header = () => {
         </button>
         {user && (
           <div
-            className="hidden sm:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
+            className="hidden md:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
             onClick={toggleBalanceModal}
           >
             <p className="leading-[16px] font-semibold">$ {balance}</p>
@@ -154,9 +163,24 @@ const Header = () => {
           <MdOutlineArrowDropDown size={20} className="p-0" />
         </div>
         <div>
-          <GiHamburgerMenu className="block lg:hidden" size={24} />
+          <GiHamburgerMenu
+            className="block lg:hidden cursor-pointer"
+            size={24}
+            onClick={toggleNavigationModal}
+          />
         </div>
       </div>
+
+      {/* New notification */}
+      {/* <div className="absolute w-[350px] top-[75px] right-1/2 transform translate-x-1/2 sm:transform-none sm:right-[50px] sm:w-[450px] bg-[#1C1E22] rounded-[12px] py-[12px] pr-[8px] pl-[12px] flex items-center gap-[20px]">
+        <div className="w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
+          <LuBell size={16} className="text-[#9EA0A6]" />
+        </div>
+        <p className="font-semibold leading-[18px]">
+          The $200 deposit was successfully funded
+        </p>
+        <IoMdClose size={20} className="hover:text-[#9EA0A6] cursor-pointer " />
+      </div> */}
 
       {openModal === "notifications" && (
         <div className="modal absolute max-w-[359px] w-full mx-auto top-[70px] right-1/2 transform translate-x-1/2 md:transform-none md:right-[200px] h-[404px] md:h-[328px] md:max-w-[450px] md:w-[450px] bg-[#1C1E22] rounded-[12px] pl-[5px] pr-[5px] py-[20px] z-[30px] shadow-2xl overflow-y-auto">
@@ -167,7 +191,7 @@ const Header = () => {
       )}
 
       {openModal === "balance" && (
-        <div className="absolute top-0 lg:right-0 right-1/2 translate-x-1/2 z-50 sm:block hidden">
+        <div className="absolute top-0 lg:right-0 right-1/2 translate-x-1/2 z-50 block">
           <div className="absolute top-[70px] lg:right-[330px] right-1/2 translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6">
             <BalanceModal toggleBalanceModal={toggleBalanceModal} />
           </div>
@@ -184,10 +208,30 @@ const Header = () => {
             "h-screen bg-[#1C1E22] lg:absolute lg:top-[70px] lg:right-[50px] lg:bg-transparent lg:w-[300px] lg:h-auto lg:shadow-2xl"
           }`}
         >
-          <ProfileModal toggleProfileModal={toggleProfileModal} />
+          <ProfileModal
+            toggleProfileModal={toggleProfileModal}
+            openBalanceModal={openBalanceModal}
+          />
         </div>
       )}
       {openModal === "profile" && (
+        <div className="fixed lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
+      )}
+
+      {openModal === "navigation" && (
+        <div
+          className={`fixed top-0 right-0 z-50 ${
+            openModal === "navigation" &&
+            "h-screen bg-[#1C1E22] lg:absolute lg:top-[70px] lg:right-[50px] lg:bg-transparent lg:w-[300px] lg:h-auto lg:shadow-2xl"
+          }`}
+        >
+          <NavigationModal
+            toggleNavigationModal={toggleNavigationModal}
+            openPlansModal={openPlansModal}
+          />
+        </div>
+      )}
+      {openModal === "navigation" && (
         <div className="fixed lg:hidden top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
       )}
 

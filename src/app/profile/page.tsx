@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { CustomSwitch } from "@/shared/components/CustomSwitch";
 import { BiLogoTelegram } from "react-icons/bi";
 import { RiKey2Line } from "react-icons/ri";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -25,11 +24,20 @@ import { useRouter } from "next/navigation";
 import { DeleteAccountModal } from "@/app/components/modals/DeleteAccountModal";
 import { ChangePasswordModal } from "@/app/components/modals/ChangePasswordModal";
 import Cookies from "js-cookie";
+import { AuthenticatorModal } from "../components/modals/AuthenticatorModal";
+import { AuthenticatorVerificationModal } from "../components/modals/AuthenticatorVerificationModal";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
   { code: "en", name: "English", flag: en },
 ];
+
+const toBool = (value: boolean | undefined): boolean => {
+  if (typeof value === "string") {
+    return value === "1" || value === "true";
+  }
+  return Boolean(value);
+};
 
 const Profile = () => {
   const { i18n } = useTranslation();
@@ -49,21 +57,6 @@ const Profile = () => {
     updateUser,
   } = useStore();
   const router = useRouter();
-
-  const [editedName, setEditedName] = useState(user?.name ?? "");
-  const [editedLanguage, setEditedLanguage] = useState(
-    user?.lang ?? i18n.language
-  );
-  const [editedTimezone, setEditedTimezone] = useState(selectedTimezone);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const toBool = (value: boolean | undefined): boolean => {
-    if (typeof value === "string") {
-      return value === "1" || value === "true";
-    }
-    return Boolean(value);
-  };
-
   const [notifChange, setNotifChange] = useState(toBool(user?.notif_change));
   const [notifGuides, setNotifGuides] = useState(toBool(user?.notif_guides));
   const [notifArticles, setNotifArticles] = useState(
@@ -73,6 +66,12 @@ const Profile = () => {
     toBool(user?.notif_deadline)
   );
   const [notifTg, setNotifTg] = useState(toBool(user?.notif_tg));
+  const [editedName, setEditedName] = useState(user?.name ?? "");
+  const [editedLanguage, setEditedLanguage] = useState(
+    user?.lang ?? i18n.language
+  );
+  const [editedTimezone, setEditedTimezone] = useState(selectedTimezone);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     if (user?.lang && user.lang !== i18n.language) {
@@ -87,7 +86,11 @@ const Profile = () => {
   const scrollRef = useCustomScrollbar();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
-
+  const [showAuthenticatorModal, setShowAuthenticatorModal] = useState(false);
+  const [
+    showAuthenticatorVerificationModal,
+    setShowAuthenticatorVerificationModal,
+  ] = useState(false);
   const handleDeleteAccount = () => {
     setShowDeleteModal(true);
   };
@@ -103,7 +106,6 @@ const Profile = () => {
     fetchTimezones();
   }, [fetchTimezones]);
 
-  // Cleanup the avatar preview URL when unmounting or when preview changes
   useEffect(() => {
     return () => {
       if (avatarPreview) {
@@ -207,22 +209,34 @@ const Profile = () => {
       notif_articles?: boolean;
       notif_deadline?: boolean;
       notif_tg?: boolean;
-      avatar?: File; // Change this to File instead of string
+      avatar?: File;
     } = {};
 
-    if (editedName !== user.name) updateData.name = editedName;
-    if (editedLanguage !== user.lang) updateData.lang = editedLanguage;
-    if (editedTimezone !== user.timezone) updateData.timezone = editedTimezone;
-    if (notifChange !== toBool(user.notif_change))
-      updateData.notif_change = notifChange;
-    if (notifGuides !== toBool(user.notif_guides))
-      updateData.notif_guides = notifGuides;
-    if (notifArticles !== toBool(user.notif_articles))
-      updateData.notif_articles = notifArticles;
-    if (notifDeadline !== toBool(user.notif_deadline))
-      updateData.notif_deadline = notifDeadline;
-    if (notifTg !== toBool(user.notif_tg)) updateData.notif_tg = notifTg;
-    if (selectedAvatar) updateData.avatar = selectedAvatar; // Pass the File object, not just the name
+    const fieldsToUpdate = {
+      name: editedName !== user.name ? editedName : undefined,
+      lang: editedLanguage !== user.lang ? editedLanguage : undefined,
+      timezone: editedTimezone !== user.timezone ? editedTimezone : undefined,
+      notif_change:
+        notifChange !== toBool(user.notif_change) ? notifChange : undefined,
+      notif_guides:
+        notifGuides !== toBool(user.notif_guides) ? notifGuides : undefined,
+      notif_articles:
+        notifArticles !== toBool(user.notif_articles)
+          ? notifArticles
+          : undefined,
+      notif_deadline:
+        notifDeadline !== toBool(user.notif_deadline)
+          ? notifDeadline
+          : undefined,
+      notif_tg: notifTg !== toBool(user.notif_tg) ? notifTg : undefined,
+      avatar: selectedAvatar || undefined,
+    };
+
+    Object.entries(fieldsToUpdate).forEach(([key, value]) => {
+      if (value !== undefined) {
+        (updateData[key as keyof typeof updateData] as typeof value) = value;
+      }
+    });
 
     try {
       console.log("Sending update data:", updateData);
@@ -233,7 +247,7 @@ const Profile = () => {
         if (editedLanguage !== user.lang) {
           i18n.changeLanguage(editedLanguage);
         }
-        setIsSaving(false); // Move this here to ensure it's set after success
+        setIsSaving(false);
       } else {
         console.error("Failed to update profile");
         setIsSaving(false);
@@ -244,7 +258,6 @@ const Profile = () => {
     }
   };
 
-  // Handlers for notification preferences
   const handleNotifChangeToggle = (checked: boolean) => {
     setNotifChange(checked);
   };
@@ -261,11 +274,11 @@ const Profile = () => {
     setNotifDeadline(checked);
   };
 
-  const handleTelegramSwitchChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setNotifTg(event.target.checked);
-  };
+  // const handleTelegramSwitchChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setNotifTg(event.target.checked);
+  // };
 
   return (
     <div className="bg-[#101114] text-white">
@@ -308,7 +321,6 @@ const Profile = () => {
                   height={83}
                   unoptimized
                   onError={(e) => {
-                    // Fallback to default avatar if the user avatar URL fails to load
                     e.currentTarget.src = avatarImg.src;
                   }}
                 />
@@ -490,24 +502,30 @@ const Profile = () => {
                   onChange={handleNotifDeadlineToggle}
                   label="Deadlines in favorites"
                 />
+                <CustomCheckbox
+                  checked={true}
+                  // onChange={handleSubaccountTermToggle}
+                  label="Subaccount term"
+                />
               </div>
             </div>
 
             <div className="flex gap-4 font-chakra mt-[40px]">
               <BiLogoTelegram size={20} className="flex-shrink-0 text-white" />
-              <div>
-                <p className="text-[16px] font-semibold">
-                  Telegram notifications
-                </p>
-                <p className="max-w-[350px] sm:w-[350px] leading-[18px] text-[#949392]">
-                  Subscribe to our bot to receive notifications about changes to
-                  favorite guides, publication of new guides and articles.
-                </p>
+              <div className="flex flex-col gap-4">
+                <div>
+                  <p className="text-[16px] font-semibold">
+                    Telegram notifications
+                  </p>
+                  <p className="max-w-[350px] sm:w-[350px] leading-[18px] text-[#949392]">
+                    Subscribe to our bot to receive notifications about changes
+                    to favorite guides, publication of new guides and articles.
+                  </p>
+                </div>
+                <button className="w-fit bg-[#11CA00] py-[8px] px-[12px] rounded-[8px] h-[32px] font-sans font-semibold flex flex-shrink-0 items-center gap-2 text-[14px] leading-[16px]">
+                  Subscribe Telegram
+                </button>
               </div>
-              <CustomSwitch
-                checked={notifTg}
-                onChange={handleTelegramSwitchChange}
-              />
             </div>
 
             <hr className="my-[45px] border-0 h-px bg-[#27292D]" />
@@ -574,7 +592,10 @@ const Profile = () => {
                         <p className="text-[#C2C0BD] leading-[18px]">Off</p>
                       </div>
                     </button>
-                    <button className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]">
+                    <button
+                      className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]"
+                      onClick={() => setShowAuthenticatorModal(true)}
+                    >
                       Manage
                     </button>
                   </div>
@@ -653,6 +674,28 @@ const Profile = () => {
       {showChangePasswordModal && (
         <ChangePasswordModal
           onClose={() => setShowChangePasswordModal(false)}
+        />
+      )}
+
+      {showAuthenticatorModal && (
+        <AuthenticatorModal
+          onClose={() => setShowAuthenticatorModal(false)}
+          onNext={() => {
+            setShowAuthenticatorModal(false);
+            setShowAuthenticatorVerificationModal(true);
+          }}
+        />
+      )}
+
+      {showAuthenticatorVerificationModal && (
+        <AuthenticatorVerificationModal
+          onClose={() => {
+            setShowAuthenticatorVerificationModal(false);
+          }}
+          onBack={() => {
+            setShowAuthenticatorVerificationModal(false);
+            setShowAuthenticatorModal(true);
+          }}
         />
       )}
     </div>

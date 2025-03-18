@@ -183,7 +183,7 @@ const Favorites = () => {
                 <div key={guide.id}>
                   <div
                     className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126] hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`guides/${guide.slug}`)}
+                    onClick={() => router.push(`guides/${guide.id}`)}
                   >
                     <div className="flex justify-between">
                       <div className="flex items-center gap-1 flex-wrap">
@@ -256,7 +256,7 @@ const Favorites = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-[24px] my-[-5px]">
-                      <HalfChartPie />
+                      <HalfChartPie defaultValue={guide.evaluation} />
                       <div>
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
                           Invest.
@@ -276,14 +276,23 @@ const Favorites = () => {
                     </div>
                     <div className="flex items-center gap-[12px]">
                       <CustomSlider
-                        defaultValue={guide.evaluation}
+                        defaultValue={
+                          guide.tasks_count > 0
+                            ? (guide.competed_tasks_count / guide.tasks_count) *
+                              100
+                            : 0
+                        }
                         step={1}
                         min={0}
                         max={100}
                         disabled
                       />
                       <p className="text-[16px] leading-[18px] font-bold">
-                        {guide.evaluation}%
+                        {guide.competed_tasks_count > 0
+                          ? (guide.competed_tasks_count / guide.tasks_count) *
+                            100
+                          : 0}
+                        %
                       </p>
                     </div>
                     <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">

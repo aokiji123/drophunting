@@ -1788,7 +1788,6 @@ const useStore = create<StoreState>()(
           set({ authLoading: false });
           return response.data;
         } catch (e) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const err = e as { response?: { data?: { errors?: AuthErrors } } };
           set({
             authErrors: err.response?.data?.errors || {},
@@ -1831,7 +1830,6 @@ const useStore = create<StoreState>()(
           set({ authLoading: false });
           return response.data;
         } catch (e) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const err = e as { response?: { data?: { errors?: AuthErrors } } };
           set({
             authErrors: err.response?.data?.errors || {},
@@ -1866,7 +1864,6 @@ const useStore = create<StoreState>()(
           set({ authStatus: response.data?.status, authLoading: false });
           return response.data;
         } catch (e) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const err = e as { response?: { data?: { errors?: AuthErrors } } };
           set({
             authErrors: err.response?.data?.errors || {},

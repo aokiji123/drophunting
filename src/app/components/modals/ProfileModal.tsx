@@ -18,9 +18,11 @@ import en from "../../../../public/assets/icons/en.png";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
+import { MdOutlineArrowDropDown } from "react-icons/md";
 
 type ProfileModalType = {
   toggleProfileModal: () => void;
+  openBalanceModal: () => void;
 };
 
 const tabs = [
@@ -51,7 +53,10 @@ const languages = [
   { code: "en", name: "English", flag: en },
 ];
 
-const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
+const ProfileModal = ({
+  toggleProfileModal,
+  openBalanceModal,
+}: ProfileModalType) => {
   const { i18n } = useTranslation();
   const { logout, user } = useStore();
   const router = useRouter();
@@ -69,8 +74,13 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
     router.push("/auth/login");
   };
 
+  const handleBalanceClick = () => {
+    toggleProfileModal();
+    openBalanceModal();
+  };
+
   return (
-    <div className="h-full bg-[#1C1E22] lg:relative lg:h-[368px] lg:w-[299px] rounded-[12px]">
+    <div className="h-full bg-[#1C1E22] relative lg:w-[299px] rounded-[12px]">
       <button
         className="block lg:hidden absolute top-3 right-3 text-white"
         onClick={toggleProfileModal}
@@ -92,6 +102,15 @@ const ProfileModal = ({ toggleProfileModal }: ProfileModalType) => {
             <p className="text-gray-400 text-sm truncate">{user?.email}</p>
           </div>
         </div>
+        {user && (
+          <div
+            className="flex lg:hidden items-center justify-center h-[40px] bg-[#24262A] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer mt-[8px] mb-[16px]"
+            onClick={handleBalanceClick}
+          >
+            <p className="leading-[16px] font-semibold">$ {user.balance}</p>
+            <MdOutlineArrowDropDown size={20} className="p-0" />
+          </div>
+        )}
       </div>
       <hr className="border-0 h-px bg-[#27292D]" />
       <div className="p-[8px]">
