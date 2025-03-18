@@ -26,6 +26,7 @@ import { ChangePasswordModal } from "@/app/components/modals/ChangePasswordModal
 import Cookies from "js-cookie";
 import { AuthenticatorModal } from "../components/modals/AuthenticatorModal";
 import { AuthenticatorVerificationModal } from "../components/modals/AuthenticatorVerificationModal";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
@@ -72,6 +73,8 @@ const Profile = () => {
   );
   const [editedTimezone, setEditedTimezone] = useState(selectedTimezone);
   const [isSaving, setIsSaving] = useState(false);
+  const [isBottomSectionVisible, setIsBottomSectionVisible] = useState(false);
+  const bottomSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (user?.lang && user.lang !== i18n.language) {
@@ -134,6 +137,28 @@ const Profile = () => {
       setNotifTg(toBool(user.notif_tg));
     }
   }, [user, selectedTimezone, i18n.language]);
+
+  useEffect(() => {
+    if (!bottomSectionRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsBottomSectionVisible(entry.isIntersecting);
+      },
+      {
+        threshold: 0.5,
+        rootMargin: "0px",
+      }
+    );
+
+    observer.observe(bottomSectionRef.current);
+
+    return () => {
+      if (bottomSectionRef.current) {
+        observer.unobserve(bottomSectionRef.current);
+      }
+    };
+  }, [bottomSectionRef]);
 
   const isActive = (href: string) => {
     if (href === "/profile") {
@@ -287,28 +312,37 @@ const Profile = () => {
       <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px]">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
           <nav className="lg:w-[240px] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-auto w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
-              {tabs.map((tab) => (
-                <li
-                  key={tab.name}
-                  className={`p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
-                    isActive(tab.href)
-                      ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
-                      : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
-                  }`}
-                >
-                  <Link
-                    href={tab.href}
-                    className="flex items-center gap-3 text-[16px]"
+            <OverlayScrollbarsComponent
+              className="h-auto max-h-[300px] lg:max-h-none"
+              options={{
+                scrollbars: {
+                  autoHide: "never",
+                },
+              }}
+            >
+              <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
+                {tabs.map((tab) => (
+                  <li
+                    key={tab.name}
+                    className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
+                      isActive(tab.href)
+                        ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
+                        : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
+                    }`}
                   >
-                    <p className="hidden lg:block">{tab.icon}</p>
-                    {tab.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    <Link
+                      href={tab.href}
+                      className="flex items-center gap-3 text-[16px]"
+                    >
+                      <span className="hidden lg:block">{tab.icon}</span>
+                      {tab.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </OverlayScrollbarsComponent>
           </nav>
-          <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
+          <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px] relative">
             <div className="flex-col flex sm:flex-row border-4 gap-[24px] border-transparent">
               <div className="relative w-[64px] h-[64px] md:w-[73px] md:h-[73px] lg:w-[83px] lg:h-[83px] flex-shrink-0">
                 <Image
@@ -604,13 +638,16 @@ const Profile = () => {
 
               <hr className="mb-[45px] mt-[60px] border-0 h-px bg-[#27292D]" />
 
-              <div className="flex justify-between items-center">
+              <div
+                ref={bottomSectionRef}
+                className="flex justify-between items-center gap-4"
+              >
                 <button
-                  className="bg-[#2C2D31] py-[8px] pl-[12px] pr-[16px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                  className="bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
                   onClick={handleDeleteAccount}
                   disabled={isSaving}
                 >
-                  <div>
+                  <div className="flex-shrink-0">
                     <Image
                       src={cancel}
                       alt="Cancel icon"
@@ -621,9 +658,7 @@ const Profile = () => {
                 </button>
                 {hasChanges() && (
                   <button
-                    className={`${
-                      isSaving ? "bg-[#a8d641]" : "bg-[#CBFF51]"
-                    } text-black py-[8px] px-[16px] rounded-[10px] font-chakra font-semibold flex items-center gap-2`}
+                    className="bg-[#11CA00] h-[44px] py-[8px] px-[16px] rounded-[10px] text-[16px] leading-[20px] font-sans font-semibold flex items-center gap-2"
                     onClick={handleSaveChanges}
                     disabled={isSaving}
                   >
@@ -658,6 +693,44 @@ const Profile = () => {
                 )}
               </div>
             </div>
+
+            {hasChanges() && !isBottomSectionVisible && (
+              <div className="sticky bottom-0 bg-[--dark-gray] pt-4 pb-4 border-t border-[#27292D] mt-4 flex justify-end w-full left-0 z-10">
+                <button
+                  className="bg-[#11CA00] h-[44px] py-[8px] px-[16px] rounded-[10px] text-[16px] leading-[20px] font-sans font-semibold flex items-center gap-2"
+                  onClick={handleSaveChanges}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <>
+                      <svg
+                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-black"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </button>
+              </div>
+            )}
           </section>
         </div>
       </main>

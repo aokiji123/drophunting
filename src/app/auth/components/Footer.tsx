@@ -5,11 +5,16 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="my-5">
-      <div className="flex items-center justify-center text-center mb-4">
+    <footer className="w-full py-6 flex flex-col gap-4 mt-auto">
+      <div className="flex items-center justify-center text-center">
         <Image className="mr-2" src={logoRectangle} alt="Logo Rectangle" />
-        <p className="font-bold text-[18px] font-chakra">Drophunting</p>
+        <Link href="#" className="font-bold text-[18px] font-chakra">
+          Drophunting
+        </Link>
       </div>
+      <Link href="#" className="text-[14px] leading-[16px] text-center">
+        Support
+      </Link>
       <div className="flex items-center justify-center gap-5 text-[#707070] text-[12px] leading-[16px]">
         <Link href="#">Terms</Link>
         <Link href="#">Privacy</Link>

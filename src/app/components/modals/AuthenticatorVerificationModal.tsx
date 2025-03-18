@@ -44,7 +44,7 @@ export const AuthenticatorVerificationModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-80 flex items-center justify-center">
-      <div className="bg-[#1C1E22] rounded-[16px] p-6 w-[375px] h-[350px] absolute top-[120px]">
+      <div className="bg-[#1C1E22] rounded-[16px] p-6 max-w-[370px] w-full absolute top-[120px]">
         <button className="absolute top-5 right-5" onClick={onClose}>
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
