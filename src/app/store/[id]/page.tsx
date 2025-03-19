@@ -101,8 +101,7 @@ const ProductDetail = () => {
           </p>
           <button
             onClick={() => router.push("/store")}
-            className="flex items-center px-4 py-2 rounded-[32px] bg-[#1C1D21] text-white hover:bg-[#2A2C32]"
-          >
+            className="flex items-center px-4 py-2 rounded-[32px] bg-[#1C1D21] text-white hover:bg-[#2A2C32]">
             <IoIosArrowBack size={20} className="mr-2" />
             Back to Store
           </button>
@@ -120,8 +119,7 @@ const ProductDetail = () => {
         <div className="pl-[30px] xl:pl-[96px] mb-[30px]">
           <button
             onClick={() => router.push("/store")}
-            className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]"
-          >
+            className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
             <IoIosArrowBack size={20} />
             <p>Back</p>
           </button>
@@ -138,8 +136,7 @@ const ProductDetail = () => {
             </p>
 
             <div
-              className={`block md:hidden w-[335px] h-auto md:w-[308px] md:h-auto lg:w-[366px] lg:h-auto border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}
-            >
+              className={`block md:hidden w-[335px] h-auto md:w-[308px] md:h-auto lg:w-[366px] lg:h-auto border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden mt-[32px]`}>
               <div className="h-[200px] overflow-hidden">
                 <Image
                   src={getImageUrl(productDetails.img)}
@@ -165,8 +162,7 @@ const ProductDetail = () => {
                 </div>
                 <button
                   onClick={toggleModal}
-                  className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold"
-                >
+                  className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
                   Order product
                 </button>
               </div>
@@ -179,8 +175,7 @@ const ProductDetail = () => {
           </div>
           <div>
             <div
-              className={`hidden md:block w-[335px] h-auto md:w-[310px] md:h-auto lg:w-[366px] lg:h-auto border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden`}
-            >
+              className={`hidden md:block w-[335px] h-auto md:w-[310px] md:h-auto lg:w-[366px] lg:h-auto border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden`}>
               <div className="h-[200px] overflow-hidden">
                 <Image
                   src={getImageUrl(productDetails.img)}
@@ -206,8 +201,7 @@ const ProductDetail = () => {
                 </div>
                 <button
                   onClick={toggleModal}
-                  className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold"
-                >
+                  className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
                   Order product
                 </button>
               </div>
@@ -222,8 +216,7 @@ const ProductDetail = () => {
               <button
                 className="absolute top-5 right-5"
                 onClick={toggleModal}
-                disabled={isCreatingOrder}
-              >
+                disabled={isCreatingOrder}>
                 <IoMdClose
                   size={24}
                   className="text-[#9EA0A6] cursor-pointer"
@@ -243,8 +236,7 @@ const ProductDetail = () => {
                   </p>
                   <button
                     onClick={toggleModal}
-                    className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#1D1E23] text-[16px] lg:text-[17px] leading-[20px] font-semibold"
-                  >
+                    className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#1D1E23] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
                     Close
                   </button>
                 </div>
@@ -285,8 +277,7 @@ const ProductDetail = () => {
                       className={`p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px] ${
                         isFocused ? "outline outline-blue-500" : ""
                       }`}
-                      data-focused={isFocused}
-                    >
+                      data-focused={isFocused}>
                       <textarea
                         className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none overflow-auto focus:outline-none"
                         placeholder="Describe your idea"
@@ -304,8 +295,7 @@ const ProductDetail = () => {
                     className={`h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] ${
                       isCreatingOrder ? "bg-[#11CA00]/50" : "bg-[#11CA00]"
                     } text-[16px] lg:text-[17px] leading-[20px] font-semibold flex items-center justify-center`}
-                    disabled={isCreatingOrder}
-                  >
+                    disabled={isCreatingOrder}>
                     {isCreatingOrder ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback } from "react";
 
 export interface ICheckboxProps {
   checked: boolean;
@@ -22,9 +22,9 @@ export const CustomCheckbox: React.FC<ICheckboxProps> = ({
       <div
         onClick={handleClick}
         className={`w-[20px] h-[20px] rounded-[6px] flex items-center justify-center cursor-pointer ${
-          checked ? 'bg-[#CBFF51]' : 'bg-[#171719]'
+          checked ? "bg-[#CBFF51]" : "bg-[#171719]"
         } text-black border ${
-          checked ? 'border-[#CBFF51]' : 'border-[#27292D]'
+          checked ? "border-[#CBFF51]" : "border-[#27292D]"
         }`}>
         {checked && (
           <svg

@@ -47,7 +47,7 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
       onClose();
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to change password"
+        err instanceof Error ? err.message : "Failed to change password",
       );
     } finally {
       setIsLoading(false);
@@ -111,8 +111,7 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
         <button
           onClick={handleSubmit}
           disabled={isLoading}
-          className="w-full bg-[#11CA00] h-[56px] py-[12px] px-[18px] rounded-[16px] font-semibold hover:bg-[#0FB300] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-[17px] leading-[20px] font-sans mt-[40px]"
-        >
+          className="w-full bg-[#11CA00] h-[56px] py-[12px] px-[18px] rounded-[16px] font-semibold hover:bg-[#0FB300] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-[17px] leading-[20px] font-sans mt-[40px]">
           {isLoading ? "Saving..." : "Save"}
         </button>
       </div>

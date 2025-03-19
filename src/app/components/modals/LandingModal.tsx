@@ -14,8 +14,7 @@ const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
     <div className="flex flex-col h-full p-4 px-[12px] pt-[48px] pb-[34px]">
       <button
         className="block lg:hidden absolute top-3 right-3 text-white"
-        onClick={toggleLandingModal}
-      >
+        onClick={toggleLandingModal}>
         <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
       </button>
       <div className="flex flex-col gap-[38px]">
@@ -23,32 +22,28 @@ const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
           <li className="px-[12px] py-[8px]">
             <Link
               href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold"
-            >
+              className="text-white text-[16px] leading-[18px] font-semibold">
               О сервисе
             </Link>
           </li>
           <li className="px-[12px] py-[8px]">
             <Link
               href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold"
-            >
+              className="text-white text-[16px] leading-[18px] font-semibold">
               Результаты
             </Link>
           </li>
           <li className="px-[12px] py-[8px]">
             <Link
               href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold"
-            >
+              className="text-white text-[16px] leading-[18px] font-semibold">
               Как это работает
             </Link>
           </li>
           <li className="px-[12px] py-[8px]">
             <Link
               href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold"
-            >
+              className="text-white text-[16px] leading-[18px] font-semibold">
               Контакты
             </Link>
           </li>

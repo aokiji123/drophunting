@@ -63,7 +63,7 @@ const Blog = () => {
 
   const handleCategoryClick = (
     categoryName: string,
-    categoryId: number | null
+    categoryId: number | null,
   ) => {
     setActiveFilter(categoryName);
     setActiveCategoryId(categoryId);
@@ -86,7 +86,7 @@ const Blog = () => {
         setSearchQuery(value);
         setCurrentPage(1);
       }, 500),
-    [setSearchQuery, setCurrentPage]
+    [setSearchQuery, setCurrentPage],
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,15 +129,14 @@ const Blog = () => {
                     onClick={() =>
                       handleCategoryClick(
                         category.title,
-                        category.id === 0 ? null : category.id
+                        category.id === 0 ? null : category.id,
                       )
                     }
                     className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
                       activeFilter === category.title
                         ? "bg-[#11CA00]"
                         : "bg-[#1D1E23]"
-                    }`}
-                  >
+                    }`}>
                     {category.title}
                   </button>
                 ))}
@@ -167,8 +166,7 @@ const Blog = () => {
                 Sort by{" "}
                 <span
                   className="text-white cursor-pointer"
-                  onClick={handleSortingChange}
-                >
+                  onClick={handleSortingChange}>
                   {sorting === 1 ? "Old" : "New"}
                 </span>
               </p>
@@ -198,8 +196,7 @@ const Blog = () => {
 
                   <div
                     className="relative w-[334px] sm:w-[336px] h-[414px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`blog/${article.id}`)}
-                  >
+                    onClick={() => router.push(`blog/${article.id}`)}>
                     <div className="h-[200px] relative">
                       <Image
                         src={getImageUrl(article.img)}
@@ -239,14 +236,12 @@ const Blog = () => {
                             article.read > 0
                               ? "border-[1px] border-[#47572D75] bg-[#000] text-[#CBFF51]"
                               : "border-[#2A2D33] border-[1px]"
-                          }`}
-                        >
+                          }`}>
                           <div
                             className={`${
                               article.read > 0 &&
                               `bg-[#CBFF512E] rounded-full p-[6px]`
-                            }`}
-                          >
+                            }`}>
                             {article.read > 0 && (
                               <div>
                                 <MdOutlineDone size={20} />
@@ -266,15 +261,14 @@ const Blog = () => {
             <div className="flex items-center justify-center gap-[8px] mt-[56px]">
               {Array.from(
                 { length: blogArticles.last_page },
-                (_, i) => i + 1
+                (_, i) => i + 1,
               ).map((page) => (
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
                   className={`py-[6px] px-[10px] rounded-[8px] h-[40px] w-[40px] ${
                     currentPage === page ? "bg-[#2A2C32]" : "bg-[#15171A]"
-                  } flex items-center justify-center cursor-pointer`}
-                >
+                  } flex items-center justify-center cursor-pointer`}>
                   {page}
                 </button>
               ))}

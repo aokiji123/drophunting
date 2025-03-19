@@ -14,8 +14,8 @@ const Footer = () => {
       </div>
       <Link
         href="https://www.google.com"
-        className="text-[14px] leading-[16px] text-center"
-      >
+        target="_blank"
+        className="text-[14px] leading-[16px] text-center">
         Support
       </Link>
       <div className="flex items-center justify-center gap-5 text-[#707070] text-[12px] leading-[16px]">

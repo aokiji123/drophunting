@@ -1,6 +1,6 @@
 export function validateAmount(
   value: string,
-  currencyType: "Fiat" | "Crypto" = "Fiat"
+  currencyType: "Fiat" | "Crypto" = "Fiat",
 ): {
   isValid: boolean;
   amount: number | null;

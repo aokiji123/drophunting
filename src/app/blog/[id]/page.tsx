@@ -62,8 +62,7 @@ const BlogArticle = () => {
         <p className="text-gray-400 mb-6">{blogArticleDetailsError}</p>
         <button
           onClick={() => router.push("/blog")}
-          className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]"
-        >
+          className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]">
           Back to Blog
         </button>
       </div>
@@ -86,8 +85,7 @@ const BlogArticle = () => {
         <div className="pl-[30px] md:pl-[96px] mb-[30px]">
           <button
             onClick={() => router.push("/blog")}
-            className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]"
-          >
+            className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
             <IoIosArrowBack size={20} />
             <p>Back</p>
           </button>
@@ -124,22 +122,19 @@ const BlogArticle = () => {
             onClick={handleToggleRead}
             className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-[184px] h-[56px] ${
               blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
-            }`}
-          >
+            }`}>
             <div className="flex items-center gap-4">
               <div
                 className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                   blogArticleDetails.read > 0
                     ? "border-[#47572D75] bg-[#151B15]"
                     : "border-[#32353D] bg-[#101114]"
-                }`}
-              >
+                }`}>
                 <div
                   className={`${
                     blogArticleDetails.read > 0 &&
                     `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
-                  }`}
-                >
+                  }`}>
                   {blogArticleDetails.read > 0 && <MdOutlineDone size={16} />}
                 </div>
               </div>
@@ -148,8 +143,7 @@ const BlogArticle = () => {
                   blogArticleDetails.read > 0
                     ? "text-[#A0A8AECC]"
                     : "text-[#A0A8AE]"
-                }`}
-              >
+                }`}>
                 I have read
               </p>
             </div>
@@ -165,22 +159,19 @@ const BlogArticle = () => {
               onClick={handleToggleRead}
               className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 w-[180px] max-h-[56px] ${
                 blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
-              }`}
-            >
+              }`}>
               <div className="flex items-center gap-4">
                 <div
                   className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                     blogArticleDetails.read > 0
                       ? "border-[#47572D75] bg-[#151B15]"
                       : "border-[#32353D]"
-                  }`}
-                >
+                  }`}>
                   <div
                     className={`${
                       blogArticleDetails.read > 0 &&
                       `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
-                    }`}
-                  >
+                    }`}>
                     {blogArticleDetails.read > 0 && <MdOutlineDone size={16} />}
                   </div>
                 </div>
@@ -189,8 +180,7 @@ const BlogArticle = () => {
                     blogArticleDetails.read > 0
                       ? "text-[#A0A8AECC]"
                       : "text-[#A0A8AE]"
-                  }`}
-                >
+                  }`}>
                   I have read
                 </p>
               </div>

@@ -60,8 +60,7 @@ const Landing = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
-          }}
-        >
+          }}>
           <header className="flex justify-between items-center h-[70px] px-[24px]">
             <Image className="w-[170px]" src={landingLogo} alt="Landing Logo" />
             <ul className="hidden lg:flex gap-[16px]">
@@ -104,8 +103,7 @@ const Landing = () => {
                 if (e.target === e.currentTarget) {
                   toggleLandingModal();
                 }
-              }}
-            >
+              }}>
               <LandingModal toggleLandingModal={toggleLandingModal} />
             </div>
 
@@ -122,8 +120,7 @@ const Landing = () => {
                   </p>
                   <p
                     className="text-[56px] leading-[56px] md:text-[86px] md:leading-[80px] lg:text-[94px] lg:leading-[86px] uppercase font-bold font-druk"
-                    style={{ letterSpacing: 0 }}
-                  >
+                    style={{ letterSpacing: 0 }}>
                     Получайте лучшие{" "}
                     <span className="text-[#89FF45]">AirDrop</span> первыми
                   </p>
@@ -315,8 +312,7 @@ const Landing = () => {
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((el) => (
             <div
               key={el}
-              className="w-[159px] h-[171px] md:w-[334px] md:h-[158px] lg:w-[356px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] md:p-[20px] lg:p-[25px] z-10 relative"
-            >
+              className="w-[159px] h-[171px] md:w-[334px] md:h-[158px] lg:w-[356px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] md:p-[20px] lg:p-[25px] z-10 relative">
               <div className="flex flex-col md:flex-row md:items-center gap-[20px] md:gap-[24px] mb-[20px] lg:mb-[24px]">
                 <div>
                   <Image
@@ -420,8 +416,7 @@ const Landing = () => {
           ].map((item) => (
             <div
               key={item.number}
-              className="pl-[20px] md:pl-[40px] xl:pl-[96px] flex flex-col lg:flex-row lg:justify-between md:items-center gap-[16px] md:gap-[32px] relative overflow-hidden lg:overflow-visible"
-            >
+              className="pl-[20px] md:pl-[40px] xl:pl-[96px] flex flex-col lg:flex-row lg:justify-between md:items-center gap-[16px] md:gap-[32px] relative overflow-hidden lg:overflow-visible">
               <div className="flex items gap-[24px] md:gap-[55px]">
                 <div className="relative flex items-center justify-center h-[36px] w-[36px] md:h-[55px] md:w-[55px] bg-white text-black rounded-full">
                   <p className="text-[18px] leading-[18px] md:text-[28px] md:leading-[28px] font-bold font-druk">
@@ -464,8 +459,7 @@ const Landing = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-        }}
-      >
+        }}>
         <div className="flex flex-col gap-[64px] items-center relative px-[40px]">
           <div className="w-[335px] sm:w-[505px] md:w-[705px] lg:w-[923px] flex flex-col gap-[20px] text-center relative">
             <p className="text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[75px] font-bold font-druk uppercase">

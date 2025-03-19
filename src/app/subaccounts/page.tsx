@@ -41,7 +41,7 @@ const Subaccounts = () => {
 
   const handlePageChange = (
     _event: React.ChangeEvent<unknown>,
-    page: number
+    page: number,
   ) => {
     setCurrentPage(page);
     fetchSubaccounts(page);
@@ -83,8 +83,7 @@ const Subaccounts = () => {
                 scrollbars: {
                   autoHide: "never",
                 },
-              }}
-            >
+              }}>
               <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
                 {tabs.map((tab) => (
                   <li
@@ -93,12 +92,10 @@ const Subaccounts = () => {
                       isActive(tab.href)
                         ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
                         : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
-                    }`}
-                  >
+                    }`}>
                     <Link
                       href={tab.href}
-                      className="flex items-center gap-3 text-[16px]"
-                    >
+                      className="flex items-center gap-3 text-[16px]">
                       <span className="hidden lg:block">{tab.icon}</span>
                       {tab.name}
                     </Link>
@@ -136,7 +133,10 @@ const Subaccounts = () => {
                     <p className="leading-[16px] font-semibold">
                       Subaccounts is used
                     </p>
-                    <SmallChartPie max={subaccounts?.limit_subaccounts || 0} current={subaccounts?.subaccounts_count || 0} />
+                    <SmallChartPie
+                      max={subaccounts?.limit_subaccounts || 0}
+                      current={subaccounts?.subaccounts_count || 0}
+                    />
                     <p className="leading-[16px] font-semibold">
                       {subaccounts
                         ? `${subaccounts.subaccounts_count}/${subaccounts.limit_subaccounts}`
@@ -156,8 +156,7 @@ const Subaccounts = () => {
                       />
                       <button
                         onClick={handleCopy}
-                        className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500"
-                      >
+                        className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
                         Copy
                         {copied && (
                           <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
@@ -188,8 +187,7 @@ const Subaccounts = () => {
                         sx={{
                           backgroundColor: "transparent",
                           overflowX: "scroll",
-                        }}
-                      >
+                        }}>
                         <Table
                           sx={{
                             width: "100%",
@@ -212,8 +210,7 @@ const Subaccounts = () => {
                               fontFamily: "IBM Plex Mono",
                             },
                           }}
-                          aria-label="subaccounts table"
-                        >
+                          aria-label="subaccounts table">
                           <TableHead>
                             <TableRow>
                               <TableCell align="left">Name</TableCell>
@@ -231,12 +228,10 @@ const Subaccounts = () => {
                                     "&:hover": {
                                       backgroundColor: "#27292D",
                                     },
-                                  }}
-                                >
+                                  }}>
                                   <TableCell
                                     align="left"
-                                    className="min-w-[220px]"
-                                  >
+                                    className="min-w-[220px]">
                                     <div className="flex items-center gap-2">
                                       <Image
                                         src={subaccount.avatar}
@@ -250,8 +245,7 @@ const Subaccounts = () => {
                                   </TableCell>
                                   <TableCell
                                     align="left"
-                                    className="min-w-[220px]"
-                                  >
+                                    className="min-w-[220px]">
                                     {subaccount.email}
                                   </TableCell>
                                   <TableCell align="left">
@@ -277,8 +271,8 @@ const Subaccounts = () => {
                               count={Math.ceil(
                                 (subaccounts?.subaccounts_count || 0) /
                                   parseInt(
-                                    subaccounts?.subaccounts.per_page || "10"
-                                  )
+                                    subaccounts?.subaccounts.per_page || "10",
+                                  ),
                               )}
                               page={currentPage}
                               onChange={handlePageChange}

@@ -12,32 +12,31 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import UserProvider from "@/shared/providers/UserProvider";
 
 const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	const bodyRef = useCustomScrollbar();
+  const bodyRef = useCustomScrollbar();
 
-	return (
-		<html lang="en" style={{ overflow: "auto" }}>
-			<body
-				ref={bodyRef}
-				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#101114]`}
-			>
-				<I18nextProvider i18n={i18n}>
-					<UserProvider>{children}</UserProvider>
-				</I18nextProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" style={{ overflow: "auto" }}>
+      <body
+        ref={bodyRef}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#101114]`}>
+        <I18nextProvider i18n={i18n}>
+          <UserProvider>{children}</UserProvider>
+        </I18nextProvider>
+      </body>
+    </html>
+  );
 }

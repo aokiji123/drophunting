@@ -20,9 +20,8 @@ export const updateAxiosToken = (newToken: string | null) => {
       secure: true,
       path: "/guides",
     });
-    axiosInstance.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer ${newToken}`;
+    axiosInstance.defaults.headers.common["Authorization"] =
+      `Bearer ${newToken}`;
   } else {
     Cookies.remove("auth-token");
     delete axiosInstance.defaults.headers.common["Authorization"];

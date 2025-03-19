@@ -12,7 +12,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-Bold.eot");
-  src: local("Druk Cyr Bold"), local("DrukCyr-Bold"),
+  src:
+    local("Druk Cyr Bold"),
+    local("DrukCyr-Bold"),
     url("../../public/fonts/DrukCyr-Bold.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-Bold.woff2") format("woff2"),
@@ -25,7 +27,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-Heavy.eot");
-  src: local("Druk Cyr Heavy"), local("DrukCyr-Heavy"),
+  src:
+    local("Druk Cyr Heavy"),
+    local("DrukCyr-Heavy"),
     url("../../public/fonts/DrukCyr-Heavy.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-Heavy.woff2") format("woff2"),
@@ -38,7 +42,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-HeavyItalic.eot");
-  src: local("Druk Cyr Heavy Italic"), local("DrukCyr-HeavyItalic"),
+  src:
+    local("Druk Cyr Heavy Italic"),
+    local("DrukCyr-HeavyItalic"),
     url("../../public/fonts/DrukCyr-HeavyItalic.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-HeavyItalic.woff2") format("woff2"),
@@ -51,7 +57,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-MediumItalic.eot");
-  src: local("Druk Cyr Medium Italic"), local("DrukCyr-MediumItalic"),
+  src:
+    local("Druk Cyr Medium Italic"),
+    local("DrukCyr-MediumItalic"),
     url("../../public/fonts/DrukCyr-MediumItalic.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-MediumItalic.woff2") format("woff2"),
@@ -64,7 +72,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-SuperItalic.eot");
-  src: local("Druk Cyr Super Italic"), local("DrukCyr-SuperItalic"),
+  src:
+    local("Druk Cyr Super Italic"),
+    local("DrukCyr-SuperItalic"),
     url("../../public/fonts/DrukCyr-SuperItalic.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-SuperItalic.woff2") format("woff2"),
@@ -77,7 +87,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-Super.eot");
-  src: local("Druk Cyr Super"), local("DrukCyr-Super"),
+  src:
+    local("Druk Cyr Super"),
+    local("DrukCyr-Super"),
     url("../../public/fonts/DrukCyr-Super.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-Super.woff2") format("woff2"),
@@ -90,7 +102,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-Medium.eot");
-  src: local("Druk Cyr Medium"), local("DrukCyr-Medium"),
+  src:
+    local("Druk Cyr Medium"),
+    local("DrukCyr-Medium"),
     url("../../public/fonts/DrukCyr-Medium.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-Medium.woff2") format("woff2"),
@@ -103,7 +117,9 @@
 @font-face {
   font-family: "Druk Cyr";
   src: url("../../public/fonts/DrukCyr-BoldItalic.eot");
-  src: local("Druk Cyr Bold Italic"), local("DrukCyr-BoldItalic"),
+  src:
+    local("Druk Cyr Bold Italic"),
+    local("DrukCyr-BoldItalic"),
     url("../../public/fonts/DrukCyr-BoldItalic.eot?#iefix")
       format("embedded-opentype"),
     url("../../public/fonts/DrukCyr-BoldItalic.woff2") format("woff2"),

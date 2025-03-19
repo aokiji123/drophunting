@@ -24,8 +24,7 @@ const NotificationsModal = ({
     <div className="flex flex-col h-full">
       <button
         className="block md:hidden absolute top-4 right-3 text-[#8E8E8E]"
-        onClick={toggleNotificationsModal}
-      >
+        onClick={toggleNotificationsModal}>
         <IoMdClose size={24} className="cursor-pointer" />
       </button>
       <p className="text-[16px] leading-[16px] font-bold pl-[15px]">
@@ -37,8 +36,7 @@ const NotificationsModal = ({
           scrollbars: {
             autoHide: "scroll",
           },
-        }}
-      >
+        }}>
         {isLoadingNotifications ? (
           <div className="flex justify-center items-center py-6">
             <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-500"></div>
@@ -47,8 +45,7 @@ const NotificationsModal = ({
           notifications.data.map((notification) => (
             <div
               key={notification.id}
-              className="pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] cursor-pointer hover:text-[#9EA0A6] text-white overflow-y-auto"
-            >
+              className="pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] cursor-pointer hover:text-[#9EA0A6] text-white overflow-y-auto">
               <div className="relative w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
                 {notification.seen === 0 && (
                   <GoDotFill className="absolute right-[25px] md:right-[30px] text-red-500" />

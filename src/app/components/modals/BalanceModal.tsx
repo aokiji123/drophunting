@@ -73,8 +73,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
     <div>
       <button
         className="top-10 absolute sm:top-5 right-5"
-        onClick={toggleBalanceModal}
-      >
+        onClick={toggleBalanceModal}>
         <IoMdClose
           size={24}
           className="block lg:hidden hover:text-[#9EA0A6] cursor-pointer"
@@ -91,8 +90,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
                   ? "bg-[#36383D] text-white"
                   : "bg-transparent text-gray-400"
               }`}
-              onClick={() => handleSwitch("Fiat")}
-            >
+              onClick={() => handleSwitch("Fiat")}>
               Fiat
             </button>
             <button
@@ -101,8 +99,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
                   ? "bg-[#36383D] text-white"
                   : "bg-transparent text-gray-400"
               }`}
-              onClick={() => handleSwitch("Crypto")}
-            >
+              onClick={() => handleSwitch("Crypto")}>
               Crypto
             </button>
           </div>
@@ -131,8 +128,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
             error || amount <= 0
               ? "bg-gray-500 cursor-not-allowed"
               : "bg-[#11CA00] hover:bg-blue-500"
-          } font-semibold leading-[20px] text-[17px]`}
-        >
+          } font-semibold leading-[20px] text-[17px]`}>
           Go to payment
           <MdOutlineKeyboardArrowRight />
         </button>

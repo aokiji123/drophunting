@@ -102,8 +102,7 @@ const PasswordResetHandler = () => {
               />
               <button
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
-                type="submit"
-              >
+                type="submit">
                 {loading ? "Loading..." : "Reset password"}
               </button>
             </form>

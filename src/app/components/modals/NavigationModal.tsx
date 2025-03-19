@@ -40,8 +40,7 @@ const NavigationModal = ({
     <div className="h-full bg-[#1C1E22] relative lg:w-[299px] rounded-[12px] px-[12px] pt-[32px]">
       <button
         className="block lg:hidden absolute top-3 right-3 text-white"
-        onClick={toggleNavigationModal}
-      >
+        onClick={toggleNavigationModal}>
         <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
       </button>
       <div className="w-[275px] flex flex-col gap-[23px]">
@@ -58,8 +57,7 @@ const NavigationModal = ({
         </ul>
         <button
           className="flex w-full items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px] justify-center"
-          onClick={handlePlansClick}
-        >
+          onClick={handlePlansClick}>
           <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
           <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
             {t("upgrade")}

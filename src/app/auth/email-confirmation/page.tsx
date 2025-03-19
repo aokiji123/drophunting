@@ -28,8 +28,7 @@ const EmailConfirmation = () => {
           </div>
           <button
             className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
-            onClick={() => router.push("/auth/login")}
-          >
+            onClick={() => router.push("/auth/login")}>
             Log In
           </button>
         </div>

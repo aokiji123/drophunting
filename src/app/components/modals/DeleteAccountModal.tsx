@@ -36,14 +36,12 @@ export const DeleteAccountModal = ({
         <div className="flex gap-4 w-full">
           <button
             onClick={onClose}
-            className="w-[50%] h-[44px] flex items-center justify-center text-[16px] leading-[20px] bg-[#2C2D31] py-[12px] px-[18px] rounded-[12px] font-semibold font-sans hover:bg-[#36383D]"
-          >
+            className="w-[50%] h-[44px] flex items-center justify-center text-[16px] leading-[20px] bg-[#2C2D31] py-[12px] px-[18px] rounded-[12px] font-semibold font-sans hover:bg-[#36383D]">
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="w-[50%] h-[44px] flex items-center justify-center text-[16px] leading-[20px] bg-[#CA3D00] py-[12px] px-[18px] rounded-[12px] font-semibold font-sans hover:bg-[#ca3d00bd]"
-          >
+            className="w-[50%] h-[44px] flex items-center justify-center text-[16px] leading-[20px] bg-[#CA3D00] py-[12px] px-[18px] rounded-[12px] font-semibold font-sans hover:bg-[#ca3d00bd]">
             Delete
           </button>
         </div>

@@ -142,7 +142,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
 
       const success = await buyPlan(
         selectedPlan,
-        isCouponApplied && couponCode ? couponCode : undefined
+        isCouponApplied && couponCode ? couponCode : undefined,
       );
 
       if (success) {
@@ -198,8 +198,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
             </p>
             <button
               onClick={togglePlansModal}
-              className="px-6 py-3 bg-[#11CA00] hover:bg-blue-500 rounded-[12px] font-semibold"
-            >
+              className="px-6 py-3 bg-[#11CA00] hover:bg-blue-500 rounded-[12px] font-semibold">
               Close
             </button>
           </div>
@@ -224,8 +223,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
             scrollbars: {
               autoHide: "scroll",
             },
-          }}
-        >
+          }}>
           {buyPlanError && (
             <div className="mb-3 p-3 bg-red-900/30 border border-red-500 rounded-[12px] text-red-400">
               {buyPlanError.includes("already has active subscription") ||
@@ -290,16 +288,14 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                         selectedPlan === plan.id
                           ? "border-[#436237] border-[1px] bg-[#1D2A19]"
                           : "border-gray-700 hover:border-gray-500"
-                      }`}
-                    >
+                      }`}>
                       <div className="flex items-center gap-4">
                         <div
                           className={`w-[24px] h-[24px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                             selectedPlan === plan.id
                               ? "border-[1px] border-[#73A304] bg-[#528E09]"
                               : "border-gray-700"
-                          }`}
-                        >
+                          }`}>
                           {selectedPlan === plan.id && (
                             <MdOutlineDone size={20} />
                           )}
@@ -309,8 +305,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                             plan.sort === 2 || plan.sort === 3
                               ? `sm:w-[170px]`
                               : `sm:w-[162px]`
-                          }`}
-                        >
+                          }`}>
                           <p className="font-bold">{plan.name}</p>
                           <p className="text-[#8E8E8E]">
                             {plan.count_days} days
@@ -355,12 +350,11 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                       couponCode && !isCouponApplied && !isCouponLoading
                         ? "bg-[#11CA00] hover:bg-blue-500"
                         : isCouponApplied
-                        ? "bg-green-600 cursor-default"
-                        : "bg-[#333333] text-[#A4A4A4] cursor-not-allowed"
+                          ? "bg-green-600 cursor-default"
+                          : "bg-[#333333] text-[#A4A4A4] cursor-not-allowed"
                     }`}
                     disabled={!couponCode || isCouponApplied || isCouponLoading}
-                    onClick={handleApplyCoupon}
-                  >
+                    onClick={handleApplyCoupon}>
                     {isCouponLoading ? (
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
                     ) : isCouponApplied ? (
@@ -413,8 +407,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                       : "bg-[#11CA00] hover:bg-blue-500"
                   } font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]`}
                   onClick={handlePurchasePlan}
-                  disabled={isBuyingPlan}
-                >
+                  disabled={isBuyingPlan}>
                   {isBuyingPlan ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   ) : (
@@ -427,8 +420,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               ) : (
                 <button
                   className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] hover:bg-blue-500 font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
-                  onClick={toggleInnerModal}
-                >
+                  onClick={toggleInnerModal}>
                   Top up balance
                   <MdOutlineKeyboardArrowRight />
                 </button>
@@ -463,8 +455,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               <div className="modal absolute top-[30px] left-1/2 -translate-x-1/2 shadow-2xl w-[351px] md:w-[381px] md:h-[326px] rounded-[12px] bg-[#1C1E22] p-6">
                 <button
                   className="top-10 absolute sm:top-5 right-5"
-                  onClick={toggleInnerModal}
-                >
+                  onClick={toggleInnerModal}>
                   <IoMdClose
                     size={24}
                     className="text-[#8E8E8E] cursor-pointer"
@@ -485,8 +476,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                             ? "bg-[#36383D] text-white"
                             : "bg-transparent text-gray-400"
                         }`}
-                        onClick={() => handleSwitch(CurrencyType.Fiat)}
-                      >
+                        onClick={() => handleSwitch(CurrencyType.Fiat)}>
                         Fiat
                       </button>
                       <button
@@ -495,8 +485,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                             ? "bg-[#36383D] text-white"
                             : "bg-transparent text-gray-400"
                         }`}
-                        onClick={() => handleSwitch(CurrencyType.Crypto)}
-                      >
+                        onClick={() => handleSwitch(CurrencyType.Crypto)}>
                         Crypto
                       </button>
                     </div>
@@ -527,8 +516,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                       error || amount <= 0
                         ? "bg-gray-500 cursor-not-allowed"
                         : "bg-[#11CA00] hover:bg-blue-500"
-                    } font-semibold leading-[20px] text-[17px]`}
-                  >
+                    } font-semibold leading-[20px] text-[17px]`}>
                     Go to payment
                     <MdOutlineKeyboardArrowRight />
                   </button>

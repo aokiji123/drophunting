@@ -89,8 +89,7 @@ const ForgotPassword = () => {
               <button
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-sans mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
                 type="submit"
-                disabled={loading}
-              >
+                disabled={loading}>
                 {loading ? "Loading..." : "Email password reset link"}
               </button>
             </form>

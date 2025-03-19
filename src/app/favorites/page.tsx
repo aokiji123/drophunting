@@ -105,7 +105,7 @@ const Favorites = () => {
         setSearchQuery(value);
         setCurrentPage(1);
       }, 500),
-    [setSearchQuery, setCurrentPage]
+    [setSearchQuery, setCurrentPage],
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -156,8 +156,7 @@ const Favorites = () => {
                 Sort by{" "}
                 <span
                   className="text-white cursor-pointer"
-                  onClick={handleSortingChange}
-                >
+                  onClick={handleSortingChange}>
                   {sorting === 1 ? "Old" : "New"}
                 </span>
               </p>
@@ -183,8 +182,7 @@ const Favorites = () => {
                 <div key={guide.id}>
                   <div
                     className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126] hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`guides/${guide.id}`)}
-                  >
+                    onClick={() => router.push(`guides/${guide.id}`)}>
                     <div className="flex justify-between">
                       <div className="flex items-center gap-1 flex-wrap">
                         <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -196,8 +194,7 @@ const Favorites = () => {
                         {guide.markers.map((marker) => (
                           <div
                             key={marker.id}
-                            className="flex items-center gap-[2px] px-[6px] py-[5px] rounded-[8px] bg-[#212125] text-[#A0A8AE]"
-                          >
+                            className="flex items-center gap-[2px] px-[6px] py-[5px] rounded-[8px] bg-[#212125] text-[#A0A8AE]">
                             {marker.icon && (
                               <Image
                                 src={getImageUrl(marker.icon.path)}
@@ -222,8 +219,7 @@ const Favorites = () => {
                         </div>
                         <div
                           className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
-                          onClick={(e) => handleToggleFavorite(e, guide.id)}
-                        >
+                          onClick={(e) => handleToggleFavorite(e, guide.id)}>
                           {guide.favorite > 0 ? (
                             <MdFavorite className="text-[#CBFF51]" size={20} />
                           ) : (
@@ -317,11 +313,10 @@ const Favorites = () => {
                     onClick={() => setCurrentPage(page)}
                     className={`py-[6px] px-[10px] rounded-[8px] h-[40px] w-[40px] ${
                       currentPage === page ? "bg-[#2A2C32]" : "bg-[#15171A]"
-                    } flex items-center justify-center cursor-pointer`}
-                  >
+                    } flex items-center justify-center cursor-pointer`}>
                     {page}
                   </button>
-                )
+                ),
               )}
             </div>
           )}

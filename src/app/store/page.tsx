@@ -109,8 +109,7 @@ const Store = () => {
                       activeFilter === category.id
                         ? "bg-[#11CA00]"
                         : "bg-[#1D1E23]"
-                    }`}
-                  >
+                    }`}>
                     {category.title}
                   </button>
                 ))
@@ -119,8 +118,7 @@ const Store = () => {
           </div>
           <form
             onSubmit={handleSearch}
-            className="relative text-[#848487] h-[40px]"
-          >
+            className="relative text-[#848487] h-[40px]">
             <IoSearchOutline
               className="absolute top-3 left-3 cursor-pointer"
               size={16}
@@ -140,8 +138,7 @@ const Store = () => {
             </p>
             <div
               className="flex items-center gap-[5px] text-[#676A70] cursor-pointer"
-              onClick={handleSortingChange}
-            >
+              onClick={handleSortingChange}>
               <IoFilterOutline size={20} />
               <p>
                 Sort by{" "}
@@ -164,8 +161,7 @@ const Store = () => {
                   <div
                     key={product.id}
                     className="relative w-[335px] sm:w-[336px] h-[482px] lg:w-[394px] lg:h-[483px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] hover:border-[#CBFF51] cursor-pointer overflow-hidden"
-                    onClick={() => router.push(`store/${product.id}`)}
-                  >
+                    onClick={() => router.push(`store/${product.id}`)}>
                     <div className="h-[200px] overflow-hidden">
                       <Image
                         src={getImageUrl(product.img)}
@@ -216,7 +212,7 @@ const Store = () => {
                 .filter(
                   (link) =>
                     !link.label.includes("&laquo;") &&
-                    !link.label.includes("&raquo;")
+                    !link.label.includes("&raquo;"),
                 )
                 .map((link, index) => (
                   <button
@@ -225,8 +221,7 @@ const Store = () => {
                     className={`py-[6px] px-[10px] rounded-[8px] h-[40px] w-[40px] ${
                       link.active ? "bg-[#2A2C32]" : "bg-[#15171A]"
                     } flex items-center justify-center cursor-pointer`}
-                    disabled={link.active}
-                  >
+                    disabled={link.active}>
                     {link.label}
                   </button>
                 ))}

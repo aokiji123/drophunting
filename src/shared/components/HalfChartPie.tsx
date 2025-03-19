@@ -89,19 +89,17 @@ export default function HalfChartPie({
           responsiveSize === "big"
             ? "bottom-[25px] w-[140px]"
             : responsiveSize === "medium"
-            ? "bottom-[20px] w-[120px]"
-            : "bottom-[20px] w-[80px]"
-        } text-center left-0 right-0 mx-auto`}
-      >
+              ? "bottom-[20px] w-[120px]"
+              : "bottom-[20px] w-[80px]"
+        } text-center left-0 right-0 mx-auto`}>
         <div
           className={`${
             responsiveSize === "big"
               ? "text-[20px] leading-[24px] pb-0.5"
               : responsiveSize === "medium"
-              ? "text-[18px] leading-[20px]"
-              : "text-[16px] leading-[18px]"
-          } font-bold z-5`}
-        >
+                ? "text-[18px] leading-[20px]"
+                : "text-[16px] leading-[18px]"
+          } font-bold z-5`}>
           {defaultValue}
         </div>
         {responsiveSize !== "small" && (

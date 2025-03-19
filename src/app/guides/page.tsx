@@ -178,7 +178,7 @@ const Guides = () => {
         setSearchQuery(value);
         setCurrentPage(1);
       }, 500),
-    [setSearchQuery, setCurrentPage]
+    [setSearchQuery, setCurrentPage],
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -230,8 +230,7 @@ const Guides = () => {
                       activeFilter === tag.name.en
                         ? "bg-[#11CA00]"
                         : "bg-[#1D1E23]"
-                    }`}
-                  >
+                    }`}>
                     <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
                       {tag.name.en}
                     </p>
@@ -259,13 +258,11 @@ const Guides = () => {
             </p>
             <div
               className="flex items-center gap-[10px] text-[#676A70] relative"
-              ref={sortDropdownRef}
-            >
+              ref={sortDropdownRef}>
               <IoFilterOutline size={20} />
               <div
                 className="flex items-center cursor-pointer"
-                onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-              >
+                onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}>
                 <p className="text-white mr-[5px] ">
                   Sort <span className="text-white">{sortingOption.name}</span>
                 </p>
@@ -293,8 +290,7 @@ const Guides = () => {
                       </p>
                       <button
                         className="flex items-center justify-center"
-                        onClick={() => setIsSortDropdownOpen(false)}
-                      >
+                        onClick={() => setIsSortDropdownOpen(false)}>
                         <IoMdClose size={24} />
                       </button>
                     </div>
@@ -303,8 +299,7 @@ const Guides = () => {
                         <div
                           key={option.id}
                           className="flex items-center justify-between p-[12px] cursor-pointer hover:bg-[#181C20] border-b-[1px] border-[#212327] last:border-b-0 font-sans"
-                          onClick={() => handleSortingChange(option)}
-                        >
+                          onClick={() => handleSortingChange(option)}>
                           <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px] font-sans">
                             {option.icon}
                             {option.name}
@@ -318,8 +313,7 @@ const Guides = () => {
                     <div className="mt-[24px] xs:hidden">
                       <button
                         className="h-[45px] w-full bg-[#11CA00] hover:bg-blue-500 hover:rounded-[8px] rounded-[12px] text-[14px] leading-[16px] font-semibold p-[12px] mb-[12px]"
-                        onClick={() => setIsSortDropdownOpen(false)}
-                      >
+                        onClick={() => setIsSortDropdownOpen(false)}>
                         Apply
                       </button>
                     </div>
@@ -347,8 +341,7 @@ const Guides = () => {
                 <div key={guide.id}>
                   <div
                     className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126] hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`guides/${guide.id}`)}
-                  >
+                    onClick={() => router.push(`guides/${guide.id}`)}>
                     <div className="flex justify-between">
                       <div className="flex items-center gap-1 flex-wrap">
                         <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
@@ -360,8 +353,7 @@ const Guides = () => {
                         {guide.markers.map((marker) => (
                           <div
                             key={marker.id}
-                            className="flex items-center gap-[2px] px-[6px] py-[5px] rounded-[8px] bg-[#212125] text-[#A0A8AE]"
-                          >
+                            className="flex items-center gap-[2px] px-[6px] py-[5px] rounded-[8px] bg-[#212125] text-[#A0A8AE]">
                             {marker.icon && (
                               <Image
                                 src={getImageUrl(marker.icon.path)}
@@ -386,8 +378,7 @@ const Guides = () => {
                         </div>
                         <div
                           className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
-                          onClick={(e) => handleToggleFavorite(e, guide.id)}
-                        >
+                          onClick={(e) => handleToggleFavorite(e, guide.id)}>
                           {guide.favorite > 0 ? (
                             <MdFavorite className="text-[#CBFF51]" size={20} />
                           ) : (
@@ -484,11 +475,10 @@ const Guides = () => {
                     onClick={() => setCurrentPage(page)}
                     className={`py-[6px] px-[10px] rounded-[8px] h-[40px] w-[40px] ${
                       currentPage === page ? "bg-[#2A2C32]" : "bg-[#15171A]"
-                    } flex items-center justify-center cursor-pointer`}
-                  >
+                    } flex items-center justify-center cursor-pointer`}>
                     {page}
                   </button>
-                )
+                ),
               )}
             </div>
           )}

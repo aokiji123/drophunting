@@ -1,22 +1,22 @@
 .os-scrollbar {
-	--os-size: 12px;
-	--os-track-bg: transparent;
-	--os-handle-bg: #36323c;
-	--os-handle-bg-hover: #4a4552;
-	--os-handle-bg-active: #4a4552;
+  --os-size: 12px;
+  --os-track-bg: transparent;
+  --os-handle-bg: #36323c;
+  --os-handle-bg-hover: #4a4552;
+  --os-handle-bg-active: #4a4552;
 }
 
 /* Для Webkit-браузеров (Chrome, Safari, Opera, Яндекс.Браузер) */
 ::-webkit-scrollbar {
-	display: none;
+  display: none;
 }
 
 /* Для Firefox */
 html {
-	scrollbar-width: none;
+  scrollbar-width: none;
 }
 
 /* Для Internet Explorer, Edge */
 body {
-	-ms-overflow-style: none;
+  -ms-overflow-style: none;
 }

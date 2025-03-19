@@ -7,8 +7,7 @@ export default function NotFound() {
       <p className="text-2xl text-white">Page not found</p>
       <Link
         href="/guides"
-        className="text-blue-500 mt-4 hover:text-blue-600 hover:underline"
-      >
+        className="text-blue-500 mt-4 hover:text-blue-600 hover:underline">
         Go back to home
       </Link>
     </div>

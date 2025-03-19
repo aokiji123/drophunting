@@ -5,7 +5,7 @@ import {
 import { useEffect, useRef } from "react";
 
 export default function useCustomScrollbar(
-  options: OverlayScrollbarsComponentProps["options"] = {}
+  options: OverlayScrollbarsComponentProps["options"] = {},
 ) {
   const targetRef = useRef(null);
 
