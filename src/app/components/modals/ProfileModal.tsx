@@ -83,19 +83,26 @@ const ProfileModal = ({
     <div className="h-full bg-[#1C1E22] relative lg:w-[299px] rounded-[12px]">
       <button
         className="block lg:hidden absolute top-3 right-3 text-white"
-        onClick={toggleProfileModal}
-      >
+        onClick={toggleProfileModal}>
         <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
       </button>
       <div className="p-[8px]">
         <div
           className="flex items-center gap-3 p-[12px] pt-[8px] cursor-pointer"
-          onClick={() => router.push("/profile")}
-        >
+          onClick={() => router.push("/profile")}>
           <Image
-            src={avatar}
+            quality={100}
+            src={
+              typeof user?.avatar === "string"
+                ? user.avatar.startsWith("https")
+                  ? user.avatar
+                  : `https://app.esdev.tech${user.avatar}`
+                : avatar
+            }
+            width={40}
+            height={40}
             alt="User Avatar"
-            className="w-[40px] h-[40px] rounded-full"
+            className="w-10 h-10 rounded-full object-cover object-center"
           />
           <div className="w-[207px] pr-[15px] lg:p-0">
             <p className="font-bold truncate">{user?.name}</p>
@@ -105,8 +112,7 @@ const ProfileModal = ({
         {user && (
           <div
             className="flex lg:hidden items-center justify-center h-[40px] bg-[#24262A] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer mt-[8px] mb-[16px]"
-            onClick={handleBalanceClick}
-          >
+            onClick={handleBalanceClick}>
             <p className="leading-[16px] font-semibold">$ {user.balance}</p>
             <MdOutlineArrowDropDown size={20} className="p-0" />
           </div>
@@ -118,13 +124,11 @@ const ProfileModal = ({
           {tabs.map((tab) => (
             <li
               key={tab.name}
-              className="hover:bg-[#24262A] rounded-[12px] cursor-pointer flex items-center p-[12px] lg:px-[12px] lg:py-[8px] h-[40px]"
-            >
+              className="hover:bg-[#24262A] rounded-[12px] cursor-pointer flex items-center p-[12px] lg:px-[12px] lg:py-[8px] h-[40px]">
               {tab.icon}
               <Link
                 href={tab.href}
-                className="text-[14px] font-semibold leading-[20px]"
-              >
+                className="text-[14px] font-semibold leading-[20px]">
                 {tab.name}
               </Link>
             </li>
@@ -136,8 +140,7 @@ const ProfileModal = ({
         <div className="relative">
           <button
             className="w-full h-[40px] bg-transparent hover:bg-[#24262A] flex items-center justify-between p-[12px] rounded-[12px]"
-            onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
-          >
+            onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}>
             <div className="flex items-center gap-[12px]">
               <Image
                 src={
@@ -165,8 +168,7 @@ const ProfileModal = ({
                   className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
                     selectedLanguage === lang.code && `bg-[#181C20]`
                   }`}
-                  onClick={() => handleLanguageChange(lang.code)}
-                >
+                  onClick={() => handleLanguageChange(lang.code)}>
                   <div className="flex items-center gap-[12px]">
                     <Image
                       src={lang.flag}
@@ -185,8 +187,7 @@ const ProfileModal = ({
         </div>
         <li
           className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-[12px] p-[12px] pb-[16px] lg:px-[12px] lg:py-[8px] h-[40px]"
-          onClick={handleLogout}
-        >
+          onClick={handleLogout}>
           <FaPowerOff size={24} />
           <p className="text-[14px] font-semibold leading-[20px]">Logout</p>
         </li>

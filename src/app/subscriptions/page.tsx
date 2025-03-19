@@ -73,8 +73,7 @@ const Subscriptions = () => {
                 scrollbars: {
                   autoHide: "never",
                 },
-              }}
-            >
+              }}>
               <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
                 {tabs.map((tab) => (
                   <li
@@ -83,12 +82,10 @@ const Subscriptions = () => {
                       isActive(tab.href)
                         ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
                         : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
-                    }`}
-                  >
+                    }`}>
                     <Link
                       href={tab.href}
-                      className="flex items-center gap-3 text-[16px]"
-                    >
+                      className="flex items-center gap-3 text-[16px]">
                       <span className="hidden lg:block">{tab.icon}</span>
                       {tab.name}
                     </Link>
@@ -119,7 +116,10 @@ const Subscriptions = () => {
                     <p className="text-[15px] leading-[16px] font-semibold">
                       Free Views
                     </p>
-                    <SmallChartPie half />
+                    <SmallChartPie
+                      max={user?.free_views || 0}
+                      current={user?.count_views || 0}
+                    />
                     <p className="text-[15px] leading-[16px] font-semibold">
                       {user?.count_views} / {user?.free_views}
                     </p>
@@ -129,8 +129,7 @@ const Subscriptions = () => {
                   onClick={toggleModal}
                   className={`h-[44px] bg-[--green] px-[14px] py-[20px] font-sans font-bold leading-[16px] tracking-[-1%] rounded-[12px] flex items-center justify-center mt-[40px] my-[60px] ${
                     subscriptions.length > 0 && "mt-0"
-                  }`}
-                >
+                  }`}>
                   See plans
                 </button>
               </div>
@@ -162,8 +161,7 @@ const Subscriptions = () => {
                     sx={{
                       backgroundColor: "transparent",
                       overflowX: "scroll",
-                    }}
-                  >
+                    }}>
                     <Table
                       sx={{
                         width: "100%",
@@ -187,8 +185,7 @@ const Subscriptions = () => {
                           fontFamily: "IBM Plex Mono",
                         },
                       }}
-                      aria-label="subscriptions table"
-                    >
+                      aria-label="subscriptions table">
                       <TableHead>
                         <TableRow>
                           <TableCell>Plan</TableCell>
@@ -206,8 +203,7 @@ const Subscriptions = () => {
                                 "&:hover": {
                                   backgroundColor: "#27292D",
                                 },
-                              }}
-                            >
+                              }}>
                               <TableCell align="left">
                                 {subscription.name}
                               </TableCell>
@@ -227,8 +223,7 @@ const Subscriptions = () => {
                             <TableCell
                               colSpan={4}
                               align="center"
-                              sx={{ color: "#8E8E8E" }}
-                            >
+                              sx={{ color: "#8E8E8E" }}>
                               You don&apos;t have any active subscriptions
                             </TableCell>
                           </TableRow>
