@@ -21,6 +21,7 @@ import avatar from "../../../public/assets/avatar.png";
 import { tabs } from "@/shared/utils/tabs";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -85,26 +86,35 @@ const Referal = () => {
       <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px]">
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
           <nav className="lg:w-[240px] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
-            <ul className="no-scrollbar overflow-auto w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex lg:flex-col mb-5">
-              {tabs.map((tab) => (
-                <li
-                  key={tab.name}
-                  className={`p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
-                    isActive(tab.href)
-                      ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
-                      : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
-                  }`}
-                >
-                  <Link
-                    href={tab.href}
-                    className="flex items-center gap-3 text-[16px]"
+            <OverlayScrollbarsComponent
+              className="h-auto max-h-[300px] lg:max-h-none"
+              options={{
+                scrollbars: {
+                  autoHide: "never",
+                },
+              }}
+            >
+              <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
+                {tabs.map((tab) => (
+                  <li
+                    key={tab.name}
+                    className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
+                      isActive(tab.href)
+                        ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
+                        : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
+                    }`}
                   >
-                    <p className="hidden lg:block">{tab.icon}</p>
-                    {tab.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    <Link
+                      href={tab.href}
+                      className="flex items-center gap-3 text-[16px]"
+                    >
+                      <span className="hidden lg:block">{tab.icon}</span>
+                      {tab.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </OverlayScrollbarsComponent>
           </nav>
           <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
             {isLoadingReferrals ? (

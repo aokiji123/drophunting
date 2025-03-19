@@ -17,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { PlansModal } from "./modals/PlansModal";
 import useAuth from "@/shared/hooks/useAuth";
 import NavigationModal from "./modals/NavigationModal";
-// import { LuBell } from "react-icons/lu";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -139,7 +138,7 @@ const Header = () => {
         </button>
         {user && (
           <div
-            className="hidden md:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
+            className="hidden lg:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
             onClick={toggleBalanceModal}
           >
             <p className="leading-[16px] font-semibold">$ {balance}</p>
@@ -171,14 +170,28 @@ const Header = () => {
         </div>
       </div>
 
-      {/* New notification */}
-      {/* <div className="absolute w-[350px] top-[75px] right-1/2 transform translate-x-1/2 sm:transform-none sm:right-[50px] sm:w-[450px] bg-[#1C1E22] rounded-[12px] py-[12px] pr-[8px] pl-[12px] flex items-center gap-[20px]">
-        <div className="w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
-          <LuBell size={16} className="text-[#9EA0A6]" />
+      {/* TODO: показывать эти уведомления, когда пользователь пополнил баланс / подключил 2FA / возможно произошло какое то другое изменение уведомлений */}
+      {/* <div className="absolute w-[350px] top-[75px] right-1/2 transform translate-x-1/2 sm:transform-none sm:right-[50px] sm:w-[450px] bg-[#1C1E22] rounded-[12px] py-[12px] px-[12px] flex items-center gap-[20px] z-10 justify-between">
+        <div className="flex items-center gap-[20px]">
+          <div className="w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
+            <LuBell size={16} className="text-[#9EA0A6]" />
+          </div>
+          <p className="font-semibold leading-[18px]">
+            The $200 deposit was successfully funded
+          </p>
         </div>
-        <p className="font-semibold leading-[18px]">
-          The $200 deposit was successfully funded
-        </p>
+        <IoMdClose size={20} className="hover:text-[#9EA0A6] cursor-pointer " />
+      </div> */}
+
+      {/* <div className="absolute w-[350px] top-[75px] right-1/2 transform translate-x-1/2 sm:transform-none sm:right-[50px] sm:w-[450px] bg-[#1C1E22] rounded-[12px] py-[12px] px-[12px] flex items-center gap-[20px] z-10 justify-between">
+        <div className="flex items-center gap-[20px]">
+          <div className="w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
+            <LuBell size={16} className="text-[#9EA0A6]" />
+          </div>
+          <p className="font-semibold leading-[18px]">
+            Вы успешно подключили 2FA
+          </p>
+        </div>
         <IoMdClose size={20} className="hover:text-[#9EA0A6] cursor-pointer " />
       </div> */}
 

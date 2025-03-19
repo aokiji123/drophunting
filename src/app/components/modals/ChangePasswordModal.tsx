@@ -56,7 +56,7 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-80 flex items-center justify-center">
-      <div className="bg-[#17181B] rounded-[16px] py-[32px] px-[24px] w-[375px] absolute top-[70px]">
+      <div className="bg-[#17181B] rounded-[16px] py-[32px] px-[24px] max-w-[370px] w-full absolute top-[70px]">
         <button className="absolute top-5 right-5" onClick={onClose}>
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
