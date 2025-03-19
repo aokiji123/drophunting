@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 import { PlansModal } from "./modals/PlansModal";
 import useAuth from "@/shared/hooks/useAuth";
 import NavigationModal from "./modals/NavigationModal";
+import { RiTelegram2Fill } from "react-icons/ri";
+import { PiXLogo } from "react-icons/pi";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -111,6 +113,18 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-5">
+        <div className="flex gap-2">
+          <Link href="https://www.google.com" target="_blank">
+            <div className="cursor-pointer">
+              <RiTelegram2Fill size={20} />
+            </div>
+          </Link>
+          <Link href="https://www.google.com" target="_blank">
+            <div className="cursor-pointer">
+              <PiXLogo size={20} />
+            </div>
+          </Link>
+        </div>
         <Badge
           dot
           onClick={toggleNotificationsModal}

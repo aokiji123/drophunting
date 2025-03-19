@@ -27,6 +27,7 @@ import Cookies from "js-cookie";
 import { AuthenticatorModal } from "../components/modals/AuthenticatorModal";
 import { AuthenticatorVerificationModal } from "../components/modals/AuthenticatorVerificationModal";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { Progress } from "@/shared/icons/Progress";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
@@ -333,7 +334,20 @@ const Profile = () => {
                     <Link
                       href={tab.href}
                       className="flex items-center gap-3 text-[16px]">
-                      <span className="hidden lg:block">{tab.icon}</span>
+                      <span className="hidden lg:block">
+                        {tab.name === "Progress" ? (
+                          <div className="group-hover:text-white">
+                            <Progress
+                              size={24}
+                              color={
+                                isActive(tab.href) ? "white" : "currentColor"
+                              }
+                            />
+                          </div>
+                        ) : (
+                          tab.icon
+                        )}
+                      </span>
                       {tab.name}
                     </Link>
                   </li>

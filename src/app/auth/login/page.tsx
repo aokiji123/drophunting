@@ -20,6 +20,7 @@ const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const { login } = useStore();
 
   const handleGoogleLogin = async () => {
@@ -35,18 +36,29 @@ const Login = () => {
     }
   };
 
-  const handleRecaptchaVerify = (value: string | null) => {
-    console.log("Recaptcha verified:", value);
+  const handleRecaptchaVerify = (token: string | null) => {
+    setRecaptchaToken(token);
   };
 
   const onSubmit = async (data: LoginFormData) => {
+    if (!recaptchaToken) {
+      setServerError("Please verify you are not a robot");
+      return;
+    }
+
     setLoading(true);
     try {
       setServerError("");
-      await login(data);
+
+      // Add recaptcha token to the request
+      const loginData = {
+        ...data,
+        "g-recaptcha-response": recaptchaToken,
+      };
+
+      await login(loginData);
       router.push("/guides");
       setLoading(false);
-      window.location.reload();
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       setServerError(
@@ -110,19 +122,24 @@ const Login = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
-                disabled={loading}>
-                {loading ? "Logging in..." : "Log In"}
-              </button>
-
               <div className="my-4 flex justify-center">
                 <ReCAPTCHA
                   sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"
                   onChange={handleRecaptchaVerify}
+                  hl="en"
                 />
               </div>
+
+              <button
+                type="submit"
+                className={`p-3 px-4 w-full rounded-[14px] font-sans font-bold transition-all duration-200 ${
+                  !recaptchaToken
+                    ? "bg-gray-600 cursor-not-allowed"
+                    : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
+                }`}
+                disabled={loading || !recaptchaToken}>
+                {loading ? "Logging in..." : "Log In"}
+              </button>
 
               <div className="flex items-center my-6">
                 <div className="flex-grow border-t border-[#27292D]"></div>
@@ -187,14 +204,9 @@ const Login = () => {
       <Footer />
 
       <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          function handleRecaptchaVerify() {
-            window.dispatchEvent(new Event('recaptchaVerified'));
-          }
-        `,
-        }}
-      />
+        src="https://www.google.com/recaptcha/api.js?hl=en"
+        async
+        defer></script>
     </div>
   );
 };

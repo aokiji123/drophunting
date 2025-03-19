@@ -20,6 +20,7 @@ const SignUp = () => {
   const [serverError, setServerError] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const { register: registerUser } = useStore();
 
   const handleGoogleSignUp = async () => {
@@ -35,20 +36,34 @@ const SignUp = () => {
     }
   };
 
-  const handleRecaptchaVerify = (value: string | null) => {
-    console.log("Recaptcha verified:", value);
+  const handleRecaptchaVerify = (token: string | null) => {
+    setRecaptchaToken(token);
   };
 
   const onSubmit = async (data: SignUpFormData) => {
+    if (!recaptchaToken) {
+      setServerError("Please verify you are not a robot");
+      return;
+    }
+
     setLoading(true);
     try {
       setServerError("");
-      await registerUser(data);
-      router.push("/profile");
+
+      const signUpData = {
+        ...data,
+        "g-recaptcha-response": recaptchaToken,
+      };
+
+      console.log(signUpData);
+
+      await registerUser(signUpData);
+      router.push("/guides");
       setLoading(false);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-      setServerError("Sign-up failed, please try again");
+      setServerError(
+        "This email already exists, please try again or login " + e,
+      );
       setLoading(false);
     }
   };
@@ -59,14 +74,14 @@ const SignUp = () => {
       <main className="flex flex-col items-center text-center flex-grow">
         <div className="flex flex-col items-center min-h-[70vh] mt-[38px]">
           <div className="flex items-center justify-center w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] rounded-[14px] bg-gradient-to-b from-[#030304] to-[#2e2f34] border-[1px] border-[#323339]">
-            <FiUser size={28} className="text-[#EDEDED]" />
+            <FiUser className="w-[28px] h-[28px]" />
           </div>
-          <div className="flex flex-col items-center justify-center w-[335px] mt-[35px] sm:w-[375px]">
+          <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px] mt-[35px]">
             <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
-              Welcome to DropHunting
+              Sign Up
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
-              Get access to hundreds of airdrops and earn money with DropHunting
+              Create an account to track your investments and progress
             </p>
 
             <form
@@ -120,19 +135,24 @@ const SignUp = () => {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-bold font-sans hover:bg-blue-500 hover:rounded-[10px]"
-                disabled={loading}>
-                {loading ? "Signing up..." : "Sign Up"}
-              </button>
-
               <div className="my-4 flex justify-center">
                 <ReCAPTCHA
                   sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"
                   onChange={handleRecaptchaVerify}
+                  hl="en"
                 />
               </div>
+
+              <button
+                type="submit"
+                className={`p-3 px-4 w-full rounded-[14px] font-bold font-sans transition-all duration-200 ${
+                  !recaptchaToken
+                    ? "bg-gray-600 cursor-not-allowed"
+                    : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
+                }`}
+                disabled={loading || !recaptchaToken}>
+                {loading ? "Signing up..." : "Sign Up"}
+              </button>
 
               <div className="flex items-center my-6">
                 <div className="flex-grow border-t border-[#27292D]"></div>
@@ -191,14 +211,9 @@ const SignUp = () => {
       <Footer />
 
       <script
-        dangerouslySetInnerHTML={{
-          __html: `
-          function handleRecaptchaVerify() {
-            window.dispatchEvent(new Event('recaptchaVerified'));
-          }
-        `,
-        }}
-      />
+        src="https://www.google.com/recaptcha/api.js?hl=en"
+        async
+        defer></script>
     </div>
   );
 };
