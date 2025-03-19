@@ -169,9 +169,11 @@ const Header = () => {
 							<Image
 								quality={100}
 								src={
-									user?.avatar
-										? `https://app.esdev.tech${user.avatar}`
-										: avatar
+									(typeof user?.avatar === "string"
+										? user.avatar.startsWith("https")
+											? user.avatar
+											: `https://app.esdev.tech${user.avatar}`
+										: avatar)
 								}
 								width={44}
 								height={44}

@@ -568,6 +568,7 @@ type StoreState = {
 	sendEmailVerificationLink: () => Promise<{ status: string }>;
 	setAuthStatus: (status: string | null) => void;
 	fetchNotifications: (page?: number) => Promise<void>;
+	refreshUser: () => Promise<boolean>;
 };
 
 const useStore = create<StoreState>()(
@@ -2166,6 +2167,62 @@ const useStore = create<StoreState>()(
 						notificationsError: errorMessage,
 						isLoadingNotifications: false,
 					});
+				}
+			},
+
+			refreshUser: async () => {
+				try {
+					set({
+						isUpdatingUser: true,
+						updateUserSuccess: null,
+						updateUserError: null,
+					});
+
+					const currentUser = get().user;
+					if (currentUser) {
+						const { data: userData } =
+							await axiosInstance.get<User>("/api/user");
+						set({
+							user: { ...currentUser, ...userData },
+							isUpdatingUser: false,
+							updateUserSuccess: "User refreshed successfully",
+							updateUserError: null,
+						});
+					}
+
+					return true;
+				} catch (error) {
+					console.error("Error refreshing user:", error);
+					let errorMessage = "Failed to refresh profile";
+
+					if (
+						error &&
+						typeof error === "object" &&
+						"response" in error
+					) {
+						const errorResponse = error.response as ErrorResponse;
+						if (errorResponse?.status === 422) {
+							if (errorResponse.data?.message) {
+								errorMessage = errorResponse.data.message;
+							} else if (errorResponse.data?.errors) {
+								const errors = Object.values(
+									errorResponse.data.errors
+								).flat();
+								errorMessage = errors.join(", ");
+							}
+						} else if (errorResponse?.data?.message) {
+							errorMessage = errorResponse.data.message;
+						}
+					} else if (error instanceof Error) {
+						errorMessage = error.message;
+					}
+
+					set({
+						isUpdatingUser: false,
+						updateUserSuccess: null,
+						updateUserError: errorMessage,
+					});
+					return false;
 				}
 			},
 		}),

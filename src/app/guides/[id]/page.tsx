@@ -104,6 +104,22 @@ const Guide = () => {
 		}
 	}, [activeTask, fetchTaskDetails]);
 
+	useEffect(() => {
+		if (window.location.hash && (guideDetails?.tasks || []).length > 0) {
+			const hash = window.location.hash;
+
+			const elementId = hash.replace("#", "");
+
+			const element = document.getElementById(elementId);
+
+			if (element) {
+				element.scrollIntoView({ behavior: "smooth" });
+
+				handleOpenTaskById(+elementId.split("-")[1]);
+			}
+		}
+	}, [guideDetails]);
+
 	const handleToggleTaskComplete = async (
 		e: React.MouseEvent,
 		taskId: number
@@ -128,11 +144,24 @@ const Guide = () => {
 		setActiveTask((prev) => (prev === taskId ? null : taskId));
 	};
 
+	const handleOpenTaskById = (taskId: number) => {
+		if ((user?.count_views || 0) > 0) {
+			toggleAccordion(taskId);
+		} else {
+			togglePlansModal();
+		}
+	};
+
 	const togglePlansModal = () => {
 		setShowPlansModal(!showPlansModal);
 	};
 
 	const handleCopyLink = (taskId: number) => {
+		navigator.clipboard.writeText(
+			`${
+				window.location.origin + window.location.pathname
+			}#task-${taskId}`
+		);
 		setActiveModal(taskId);
 		setTimeout(() => setActiveModal(null), 2000);
 	};
@@ -431,6 +460,7 @@ const Guide = () => {
 						<ul className="flex flex-col gap-3">
 							{guideDetails.tasks.map((task) => (
 								<li
+									id={`task-${task.id}`}
 									key={task.id}
 									className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
 								>
@@ -438,11 +468,7 @@ const Guide = () => {
 										className="flex items-center justify-between"
 										onClick={(e) => {
 											e.stopPropagation();
-											if ((user?.count_views || 0) > 0) {
-												toggleAccordion(task.id);
-											} else {
-												togglePlansModal();
-											}
+											handleOpenTaskById(task.id);
 										}}
 									>
 										<div className="flex items-center gap-4">

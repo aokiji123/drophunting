@@ -359,7 +359,11 @@ const Profile = () => {
 								<Image
 									src={
 										avatarPreview ||
-										(user?.avatar ? `https://app.esdev.tech${user.avatar}` : avatarImg)
+										(typeof user?.avatar === "string"
+											? user.avatar.startsWith("https")
+												? user.avatar
+												: `https://app.esdev.tech${user.avatar}`
+											: avatarImg)
 									}
 									alt="Avatar"
 									className="w-full h-full object-cover object-center rounded-[22px]"
