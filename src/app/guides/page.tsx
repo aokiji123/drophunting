@@ -284,11 +284,11 @@ const Guides = () => {
                   />
 
                   <div className="fixed xs:absolute inset-x-0 xs:inset-auto bottom-0 xs:bottom-auto xs:right-0 xs:top-[30px] mt-0 xs:mt-[2px] w-screen xs:w-[340px] text-white bg-[#141518] p-[16px] sm:p-[4px] rounded-t-[16px] xs:rounded-[12px] shadow-lg z-50 flex flex-col h-auto xs:h-auto">
-                    <div className="flex xs:hidden justify-between font-sans mb-[24px]">
-                      <button className="text-[14px] leading-[24px] font-semibold">
+                    <div className="flex xs:hidden justify-between mb-[24px]">
+                      <button className="text-[14px] leading-[24px] font-semibold font-sans">
                         Clear
                       </button>
-                      <p className="text-[20px] leading-[13px] font-bold">
+                      <p className="text-[20px] leading-[13px] font-bold font-sans">
                         Sort by
                       </p>
                       <button
@@ -305,7 +305,7 @@ const Guides = () => {
                           className="flex items-center justify-between p-[12px] cursor-pointer hover:bg-[#181C20] border-b-[1px] border-[#212327] last:border-b-0 font-sans"
                           onClick={() => handleSortingChange(option)}
                         >
-                          <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px]">
+                          <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px] font-sans">
                             {option.icon}
                             {option.name}
                           </p>
