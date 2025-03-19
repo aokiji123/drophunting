@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { IoMdTime } from "react-icons/io";
+import { IoMdClose, IoMdTime } from "react-icons/io";
 import {
   IoCalendarClear,
   IoFilterOutline,
@@ -10,18 +10,18 @@ import {
 import {
   MdFavorite,
   MdFavoriteBorder,
-  MdOutlineArrowDropDown,
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import Image from "next/image";
 import { Slider, sliderClasses, styled } from "@mui/material";
-import { GoDotFill } from "react-icons/go";
+import { GoArrowDown, GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
+import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -49,12 +49,28 @@ const CustomSlider = styled(Slider)({
   },
 });
 
+const sortingOptions = [
+  { id: 1, name: "By default", icon: <IoFilterOutline size={16} /> },
+  { id: 2, name: "By newest", icon: <GoArrowDown size={16} /> },
+  { id: 3, name: "By investment", icon: <GoArrowDown size={16} /> },
+  { id: 4, name: "By BS", icon: <GoArrowDown size={16} /> },
+  { id: 5, name: "By priority", icon: <GoArrowDown size={16} /> },
+  { id: 6, name: "By Score", icon: <GoArrowDown size={16} /> },
+  { id: 7, name: "By network", icon: <GoArrowDown size={16} /> },
+];
+
 const Guides = () => {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [activeTagId, setActiveTagId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sorting, setSorting] = useState<1 | 2>(2);
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [sortingOption, setSortingOption] = useState({
+    id: 1,
+    name: "By newest",
+  });
+
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
   const {
@@ -97,7 +113,7 @@ const Guides = () => {
       sorting?: 1 | 2;
     } = {
       page: currentPage,
-      sorting: sorting,
+      sorting: sortingOption.id <= 2 ? (sortingOption.id as 1 | 2) : 2,
     };
 
     if (activeTagId !== null) {
@@ -109,7 +125,24 @@ const Guides = () => {
     }
 
     fetchGuides(params);
-  }, [fetchGuides, currentPage, activeTagId, searchQuery, sorting]);
+  }, [fetchGuides, currentPage, activeTagId, searchQuery, sortingOption]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sortDropdownRef.current &&
+        !sortDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsSortDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleTagClick = (tagName: string, tagId: number | null) => {
     setActiveFilter(tagName);
@@ -122,8 +155,20 @@ const Guides = () => {
     await toggleFavorite(guideId);
   };
 
-  const handleSortingChange = () => {
-    setSorting(sorting === 1 ? 2 : 1);
+  const handleSortingChange = (option: (typeof sortingOptions)[number]) => {
+    if (option.id <= 2) {
+      setSortingOption({
+        id: option.id as 1 | 2,
+        name: option.name,
+      });
+    } else {
+      // For now, fallback to newest (id: 2) for options that are not yet implemented in the API
+      setSortingOption({
+        id: 2,
+        name: option.name,
+      });
+    }
+    setIsSortDropdownOpen(false);
     setCurrentPage(1);
   };
 
@@ -212,18 +257,75 @@ const Guides = () => {
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
               {guides?.total || 0} airdrops
             </p>
-            <div className="flex items-center gap-[5px] text-[#676A70]">
+            <div
+              className="flex items-center gap-[10px] text-[#676A70] relative"
+              ref={sortDropdownRef}
+            >
               <IoFilterOutline size={20} />
-              <p>
-                Sort by{" "}
-                <span
-                  className="text-white cursor-pointer"
-                  onClick={handleSortingChange}
-                >
-                  {sorting === 1 ? "Old" : "New"}
-                </span>
-              </p>
-              <MdOutlineArrowDropDown className="text-white" size={20} />
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+              >
+                <p className="text-white mr-[5px] ">
+                  Sort <span className="text-white">{sortingOption.name}</span>
+                </p>
+                {isSortDropdownOpen ? (
+                  <FaAngleUp size={16} className="text-[#8E8E8E] ml-1" />
+                ) : (
+                  <FaAngleDown size={16} className="text-[#8E8E8E] ml-1" />
+                )}
+              </div>
+
+              {isSortDropdownOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40 xs:hidden"
+                    onClick={() => setIsSortDropdownOpen(false)}
+                  />
+
+                  <div className="fixed xs:absolute inset-x-0 xs:inset-auto bottom-0 xs:bottom-auto xs:right-0 xs:top-[30px] mt-0 xs:mt-[2px] w-screen xs:w-[340px] text-white bg-[#141518] p-[16px] sm:p-[4px] rounded-t-[16px] xs:rounded-[12px] shadow-lg z-50 flex flex-col h-auto xs:h-auto">
+                    <div className="flex xs:hidden justify-between mb-[24px]">
+                      <button className="text-[14px] leading-[24px] font-semibold font-sans">
+                        Clear
+                      </button>
+                      <p className="text-[20px] leading-[13px] font-bold font-sans">
+                        Sort by
+                      </p>
+                      <button
+                        className="flex items-center justify-center"
+                        onClick={() => setIsSortDropdownOpen(false)}
+                      >
+                        <IoMdClose size={24} />
+                      </button>
+                    </div>
+                    <div className="mb-[2px] flex-grow">
+                      {sortingOptions.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center justify-between p-[12px] cursor-pointer hover:bg-[#181C20] border-b-[1px] border-[#212327] last:border-b-0 font-sans"
+                          onClick={() => handleSortingChange(option)}
+                        >
+                          <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px] font-sans">
+                            {option.icon}
+                            {option.name}
+                          </p>
+                          {sortingOption.id === option.id && (
+                            <FaCheck size={16} className="text-[#CBFF51]" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-[24px] xs:hidden">
+                      <button
+                        className="h-[45px] w-full bg-[#11CA00] hover:bg-blue-500 hover:rounded-[8px] rounded-[12px] text-[14px] leading-[16px] font-semibold p-[12px] mb-[12px]"
+                        onClick={() => setIsSortDropdownOpen(false)}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 

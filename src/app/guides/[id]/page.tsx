@@ -187,111 +187,122 @@ const Guide = () => {
 		<div className="bg-[#101114] text-white">
 			<Header />
 
-      <main className="my-[8px] px-[16px] sm:mb-[64px] sm:px-[32px] lg:mb-[80px] lg:px-[96px]">
-        <button
-          onClick={() => router.push("/guides")}
-          className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]"
-        >
-          <IoIosArrowBack size={20} />
-          <p>Back</p>
-        </button>
-        <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[24px] xl:gap-[120px]">
-          <section className="w-full xl:w-[34%] flex flex-col gap-[24px]">
-            <div className="flex items-center gap-[24px]">
-              <div className="h-[80px] w-[80px] rounded-[20px] relative overflow-hidden">
-                <Image
-                  src={getImageUrl(guideDetails.logo)}
-                  alt={guideDetails.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col gap-[8px]">
-                <p className="text-[30px] leading-[36px] font-bold truncate max-w-[220px]">
-                  {guideDetails.title}
-                </p>
-                <div className="flex items-center gap-[8px]">
-                  <div className="flex items-center gap-[6px]">
-                    <div>
-                      <GoDotFill size={16} className="text-[#C9FF4A]" />
-                    </div>
-                    <p className="text-[14px] leading-[16px] font-bold">
-                      Actual
-                    </p>
-                  </div>
-                  <div>
-                    <GoDotFill size={8} className="text-[#5D5E60]" />
-                  </div>
-                  <p className="text-[#8E8E8E] text-[14px] leading-[16px] font-semibold">
-                    {guideDetails.created}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row md:items-center justify-between xl:items-start xl:flex-col gap-[24px]">
-              <div className="flex items-center gap-[6px]">
-                <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
-                  <IoMdTime size={16} />
-                  <p className="text-[14px] leading-[16px] font-semibold">
-                    {guideDetails.time} min
-                  </p>
-                </div>
-                {guideDetails.markers.map((marker) => (
-                  <div
-                    key={marker.id}
-                    className={`flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold ${
-                      marker.highlighted
-                        ? "bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C]"
-                        : "bg-[#202124]"
-                    }`}
-                  >
-                    {marker.icon && (
-                      <Image
-                        src={getImageUrl(marker.icon.path)}
-                        alt={marker.title}
-                        width={16}
-                        height={16}
-                        className="mr-1"
-                      />
-                    )}
-                    <span
-                      className={
-                        marker.highlighted
-                          ? "bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text"
-                          : ""
-                      }
-                    >
-                      <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
-                        {marker.title}
-                      </p>
-                    </span>
-                  </div>
-                ))}
-                {/* TODO: использовать в маркерах если есть цена */}
-                <div className="flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold bg-gradient-to-b from-[#FF934A29] to-[#FFE47850]">
-                  <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px] text-[#FFD387]">
-                    150$
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-[7px]">
-                <button className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
-                  <IoCalendarClear size={20} />
-                  <p>Remind on Telegram</p>
-                </button>
-                <div onClick={handleToggleFavorite} className="cursor-pointer">
-                  {isFavorite ? (
-                    <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px] text-[#CBFF51]">
-                      <MdFavorite size={20} />
-                    </div>
-                  ) : (
-                    <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
-                      <MdFavoriteBorder size={20} />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
+			<main className="my-[8px] px-[16px] sm:mb-[64px] sm:px-[32px] lg:mb-[80px] lg:px-[96px]">
+				<button
+					onClick={() => router.push("/guides")}
+					className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]"
+				>
+					<IoIosArrowBack size={20} />
+					<p>Back</p>
+				</button>
+				<div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[24px] xl:gap-[120px]">
+					<section className="w-full xl:w-[34%] flex flex-col gap-[24px]">
+						<div className="flex items-center gap-[24px]">
+							<div className="h-[80px] w-[80px] rounded-[20px] relative overflow-hidden">
+								<Image
+									src={getImageUrl(guideDetails.logo)}
+									alt={guideDetails.title}
+									fill
+									className="object-cover"
+								/>
+							</div>
+							<div className="flex flex-col gap-[8px]">
+								<p className="text-[30px] leading-[36px] font-bold truncate max-w-[220px]">
+									{guideDetails.title}
+								</p>
+								<div className="flex items-center gap-[8px]">
+									<div className="flex items-center gap-[6px]">
+										<div>
+											<GoDotFill
+												size={16}
+												className="text-[#C9FF4A]"
+											/>
+										</div>
+										<p className="text-[14px] leading-[16px] font-bold">
+											Actual
+										</p>
+									</div>
+									<div>
+										<GoDotFill
+											size={8}
+											className="text-[#5D5E60]"
+										/>
+									</div>
+									<p className="text-[#8E8E8E] text-[14px] leading-[16px] font-semibold">
+										{guideDetails.created}
+									</p>
+								</div>
+							</div>
+						</div>
+						<div className="flex flex-col md:flex-row md:items-center justify-between xl:items-start xl:flex-col gap-[24px]">
+							<div className="flex items-center gap-[6px]">
+								<div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
+									<IoMdTime size={16} />
+									<p className="text-[14px] leading-[16px] font-semibold">
+										{guideDetails.time} min
+									</p>
+								</div>
+								{guideDetails.markers.map((marker) => (
+									<div
+										key={marker.id}
+										className={`flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold ${
+											marker.highlighted
+												? "bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C]"
+												: "bg-[#202124]"
+										}`}
+									>
+										{marker.icon && (
+											<Image
+												src={getImageUrl(
+													marker.icon.path
+												)}
+												alt={marker.title}
+												width={16}
+												height={16}
+												className="mr-1"
+											/>
+										)}
+										<span
+											className={
+												marker.highlighted
+													? "bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text"
+													: ""
+											}
+										>
+											<p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
+												{marker.title}
+											</p>
+										</span>
+									</div>
+								))}
+								{/* TODO: использовать в маркерах если есть цена */}
+								<div className="flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold bg-gradient-to-b from-[#FF934A29] to-[#FFE47850]">
+									<p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px] text-[#FFD387]">
+										150$
+									</p>
+								</div>
+							</div>
+							<div className="flex items-center gap-[7px]">
+								<button className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
+									<IoCalendarClear size={20} />
+									<p>Remind on Telegram</p>
+								</button>
+								<div
+									onClick={handleToggleFavorite}
+									className="cursor-pointer"
+								>
+									{isFavorite ? (
+										<div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px] text-[#CBFF51]">
+											<MdFavorite size={20} />
+										</div>
+									) : (
+										<div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px]">
+											<MdFavoriteBorder size={20} />
+										</div>
+									)}
+								</div>
+							</div>
+						</div>
 
 						<hr className="border-0 h-px bg-[#27292D]" />
 
