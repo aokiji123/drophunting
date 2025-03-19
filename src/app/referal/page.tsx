@@ -92,8 +92,7 @@ const Referal = () => {
                 scrollbars: {
                   autoHide: "never",
                 },
-              }}
-            >
+              }}>
               <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
                 {tabs.map((tab) => (
                   <li
@@ -102,12 +101,10 @@ const Referal = () => {
                       isActive(tab.href)
                         ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
                         : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
-                    }`}
-                  >
+                    }`}>
                     <Link
                       href={tab.href}
-                      className="flex items-center gap-3 text-[16px]"
-                    >
+                      className="flex items-center gap-3 text-[16px]">
                       <span className="hidden lg:block">{tab.icon}</span>
                       {tab.name}
                     </Link>
@@ -138,14 +135,14 @@ const Referal = () => {
                     Invite friends and get {referrals?.profit || "20"}% rewards
                   </p>
                 </div>
-                <div className="flex gap-[24px] flex-row items-center sm:gap-[36px]">
-                  <div className="flex flex-col gap-[16px] min-w-[96px]">
+                <div className="flex gap-[24px] flex-row items-start sm:gap-[36px]">
+                  <div className="flex flex-col gap-2 min-w-[96px]">
                     <p className="font-semibold leading-[20px]">Your profit</p>
                     <p className="text-[25px] leading-[28px] font-semibold">
                       {referrals?.profit || "0"}%
                     </p>
                   </div>
-                  <div className="flex flex-col gap-[8px] mt-[3px] flex-grow">
+                  <div className="flex flex-col gap-[8px] flex-grow">
                     <p className="font-semibold leading-[20px]">
                       Referals invited
                     </p>
@@ -155,8 +152,7 @@ const Referal = () => {
                       </p>
                       <div
                         className="bg-[#232427BA] rounded-[100px] p-[4px] flex items-center justify-center"
-                        style={{ maxWidth: "441px", width: "100%" }}
-                      >
+                        style={{ maxWidth: "441px", width: "100%" }}>
                         <CustomSlider
                           defaultValue={referrals?.referrals_count || 0}
                           step={1}
@@ -186,8 +182,7 @@ const Referal = () => {
                         />
                         <button
                           onClick={handleCopy}
-                          className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500"
-                        >
+                          className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
                           Copy
                           {copied && (
                             <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
@@ -226,8 +221,7 @@ const Referal = () => {
                     sx={{
                       backgroundColor: "transparent",
                       overflowX: "visible",
-                    }}
-                  >
+                    }}>
                     <Table
                       sx={{
                         width: "100%",
@@ -250,8 +244,7 @@ const Referal = () => {
                           fontFamily: "IBM Plex Mono",
                         },
                       }}
-                      aria-label="referrals table"
-                    >
+                      aria-label="referrals table">
                       <TableHead>
                         <TableRow>
                           <TableCell align="left">Name</TableCell>
@@ -269,12 +262,10 @@ const Referal = () => {
                                 "&:hover": {
                                   backgroundColor: "#27292D",
                                 },
-                              }}
-                            >
+                              }}>
                               <TableCell
                                 align="left"
-                                className="min-w-[220px] text-white"
-                              >
+                                className="min-w-[220px] text-white">
                                 <div className="flex items-center gap-2">
                                   <Image
                                     src={transaction.referal.avatar || avatar}
@@ -288,14 +279,12 @@ const Referal = () => {
                               </TableCell>
                               <TableCell
                                 align="left"
-                                className="min-w-[220px] text-white"
-                              >
+                                className="min-w-[220px] text-white">
                                 {transaction.referal.email}
                               </TableCell>
                               <TableCell
                                 align="left"
-                                className="min-w-[50px] text-white"
-                              >
+                                className="min-w-[50px] text-white">
                                 ${transaction.sum}
                               </TableCell>
                               <TableCell align="left" className="text-white">
@@ -308,8 +297,7 @@ const Referal = () => {
                             <TableCell
                               colSpan={4}
                               align="center"
-                              sx={{ color: "#8E8E8E" }}
-                            >
+                              sx={{ color: "#8E8E8E" }}>
                               You don&apos;t have any referrals yet
                             </TableCell>
                           </TableRow>
