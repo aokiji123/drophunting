@@ -136,7 +136,7 @@ const Subaccounts = () => {
                     <p className="leading-[16px] font-semibold">
                       Subaccounts is used
                     </p>
-                    <SmallChartPie />
+                    <SmallChartPie max={subaccounts?.limit_subaccounts || 0} current={subaccounts?.subaccounts_count || 0} />
                     <p className="leading-[16px] font-semibold">
                       {subaccounts
                         ? `${subaccounts.subaccounts_count}/${subaccounts.limit_subaccounts}`
