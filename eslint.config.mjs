@@ -1,5 +1,4 @@
 import { dirname } from "path";
-f;
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 

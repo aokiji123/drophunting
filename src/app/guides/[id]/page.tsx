@@ -407,7 +407,10 @@ const Guide = () => {
                 <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
                   <p>Free task previews on your plan</p>
                   <div className="flex items-center gap-[8px]">
-                    <SmallChartPie half />
+                    <SmallChartPie
+                      max={user?.free_views || 0}
+                      current={user?.count_views || 0}
+                    />
                     <p>
                       {user?.count_views} / {user?.free_views}
                     </p>
