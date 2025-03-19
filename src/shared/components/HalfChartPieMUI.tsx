@@ -57,8 +57,7 @@ export default function HalfChartPieMUI({
           stroke: size === "big" || size === "medium" ? "#1D1F24" : undefined,
           strokeWidth: size === "big" || size === "medium" ? "2" : undefined,
         },
-      })}
-    >
+      })}>
       <svg width="0" height="0">
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="30%" y2="0%">
