@@ -135,14 +135,14 @@ const Referal = () => {
                     Invite friends and get {referrals?.profit || "20"}% rewards
                   </p>
                 </div>
-                <div className="flex gap-[24px] flex-row items-center sm:gap-[36px]">
-                  <div className="flex flex-col gap-[16px] min-w-[96px]">
+                <div className="flex gap-[24px] flex-row items-start sm:gap-[36px]">
+                  <div className="flex flex-col gap-2 min-w-[96px]">
                     <p className="font-semibold leading-[20px]">Your profit</p>
                     <p className="text-[25px] leading-[28px] font-semibold">
                       {referrals?.profit || "0"}%
                     </p>
                   </div>
-                  <div className="flex flex-col gap-[8px] mt-[3px] flex-grow">
+                  <div className="flex flex-col gap-[8px] flex-grow">
                     <p className="font-semibold leading-[20px]">
                       Referals invited
                     </p>

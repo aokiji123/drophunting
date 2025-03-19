@@ -173,6 +173,9 @@ type GuideDetails = {
   created: string;
   markers: Marker[];
   tasks: Task[];
+  link_site: string | null;
+  link_telegram: string | null;
+  link_x: string | null;
 };
 
 type TaskDetails = {

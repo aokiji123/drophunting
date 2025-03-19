@@ -360,21 +360,36 @@ const Guide = () => {
               </div>
             </div>
             <div className="flex items-center gap-[10px]">
-              <Link href="#">
-                <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
-                  <GrLanguage size={24} />
-                </div>
-              </Link>
-              <Link href="#">
-                <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
-                  <PiXLogo size={24} />
-                </div>
-              </Link>
-              <Link href="#">
-                <div className="bg-[#212226] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
-                  <FaTelegramPlane size={24} />
-                </div>
-              </Link>
+              {guideDetails.link_site && (
+                <Link
+                  className="group"
+                  href={guideDetails.link_site}
+                  target="_blank">
+                  <div className="bg-[#212226] group-hover:bg-[#26282c] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+                    <GrLanguage size={24} />
+                  </div>
+                </Link>
+              )}
+              {guideDetails.link_x && (
+                <Link
+                  className="group"
+                  href={guideDetails.link_x}
+                  target="_blank">
+                  <div className="bg-[#212226] group-hover:bg-[#26282c] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+                    <PiXLogo size={24} />
+                  </div>
+                </Link>
+              )}
+              {guideDetails.link_telegram && (
+                <Link
+                  className="group"
+                  href={guideDetails.link_telegram}
+                  target="_blank">
+                  <div className="bg-[#212226] group-hover:bg-[#26282c] p-[6px] rounded-[8px] h-[36px] w-[36px] text-[#949392] cursor-pointer">
+                    <FaTelegramPlane size={24} />
+                  </div>
+                </Link>
+              )}
             </div>
           </section>
           <section className="w-full xl:w-[70%] flex flex-col gap-[18px]">
