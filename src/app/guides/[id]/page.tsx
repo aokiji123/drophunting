@@ -267,7 +267,7 @@ const Guide = () => {
                 {/* TODO: использовать в маркерах если есть цена */}
                 <div className="flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold bg-gradient-to-b from-[#FF934A29] to-[#FFE47850]">
                   <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px] text-[#FFD387]">
-                    150$
+                    $150
                   </p>
                 </div>
               </div>
