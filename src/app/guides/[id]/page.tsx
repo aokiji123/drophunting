@@ -104,9 +104,25 @@ const Guide = () => {
     }
   }, [activeTask, fetchTaskDetails]);
 
+  useEffect(() => {
+    if (window.location.hash && (guideDetails?.tasks || []).length > 0) {
+      const hash = window.location.hash;
+
+      const elementId = hash.replace("#", "");
+
+      const element = document.getElementById(elementId);
+
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+
+        handleOpenTaskById(+elementId.split("-")[1]);
+      }
+    }
+  }, [guideDetails]);
+
   const handleToggleTaskComplete = async (
     e: React.MouseEvent,
-    taskId: number
+    taskId: number,
   ) => {
     e.stopPropagation();
     await toggleTaskComplete(taskId);
@@ -128,11 +144,22 @@ const Guide = () => {
     setActiveTask((prev) => (prev === taskId ? null : taskId));
   };
 
+  const handleOpenTaskById = (taskId: number) => {
+    if ((user?.count_views || 0) > 0) {
+      toggleAccordion(taskId);
+    } else {
+      togglePlansModal();
+    }
+  };
+
   const togglePlansModal = () => {
     setShowPlansModal(!showPlansModal);
   };
 
   const handleCopyLink = (taskId: number) => {
+    navigator.clipboard.writeText(
+      `${window.location.origin + window.location.pathname}#task-${taskId}`,
+    );
     setActiveModal(taskId);
     setTimeout(() => setActiveModal(null), 2000);
   };
@@ -164,8 +191,7 @@ const Guide = () => {
         <p className="text-gray-400 mb-6">{guideDetailsError}</p>
         <button
           onClick={() => router.push("/guides")}
-          className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]"
-        >
+          className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]">
           Back to Guides
         </button>
       </div>
@@ -187,8 +213,7 @@ const Guide = () => {
       <main className="my-[8px] px-[16px] sm:mb-[64px] sm:px-[32px] lg:mb-[80px] lg:px-[96px]">
         <button
           onClick={() => router.push("/guides")}
-          className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]"
-        >
+          className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]">
           <IoIosArrowBack size={20} />
           <p>Back</p>
         </button>
@@ -240,8 +265,7 @@ const Guide = () => {
                       marker.highlighted
                         ? "bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C]"
                         : "bg-[#202124]"
-                    }`}
-                  >
+                    }`}>
                     {marker.icon && (
                       <Image
                         src={getImageUrl(marker.icon.path)}
@@ -256,8 +280,7 @@ const Guide = () => {
                         marker.highlighted
                           ? "bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text"
                           : ""
-                      }
-                    >
+                      }>
                       <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
                         {marker.title}
                       </p>
@@ -329,8 +352,7 @@ const Guide = () => {
                       className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0"
                       onClick={() =>
                         setShowFullDescription(!showFullDescription)
-                      }
-                    >
+                      }>
                       {showFullDescription ? "Less" : "More"}
                     </button>
                   )}
@@ -393,8 +415,7 @@ const Guide = () => {
                 </div>
                 <button
                   className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
-                  onClick={togglePlansModal}
-                >
+                  onClick={togglePlansModal}>
                   Upgrade plan
                 </button>
               </div>
@@ -402,20 +423,15 @@ const Guide = () => {
             <ul className="flex flex-col gap-3">
               {guideDetails.tasks.map((task) => (
                 <li
+                  id={`task-${task.id}`}
                   key={task.id}
-                  className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]"
-                >
+                  className="cursor-pointer px-4 py-3 rounded-[12px] border-[1px] transition-all duration-300 border-gray-700 hover:border-gray-500 bg-[#16171A]">
                   <div
                     className="flex items-center justify-between"
                     onClick={(e) => {
                       e.stopPropagation();
-                      if (user?.count_views === user?.free_views) {
-                        togglePlansModal();
-                      } else {
-                        toggleAccordion(task.id);
-                      }
-                    }}
-                  >
+                      handleOpenTaskById(task.id);
+                    }}>
                     <div className="flex items-center gap-4">
                       <div
                         onClick={(e) => handleToggleTaskComplete(e, task.id)}
@@ -423,8 +439,7 @@ const Guide = () => {
                           task.completed > 0
                             ? "border-[1px] border-[#73A304] bg-[#528E09]"
                             : "border-gray-700"
-                        }`}
-                      >
+                        }`}>
                         {task.completed > 0 && (
                           <div>
                             <MdOutlineDone size={20} />
@@ -435,8 +450,7 @@ const Guide = () => {
                         <p
                           className={`font-bold mr-[5px] ${
                             task.completed > 0 && "text-[#747677]"
-                          }`}
-                        >
+                          }`}>
                           {task.title}
                         </p>
                         <div className="text-[#747677] flex items-center gap-1.5">
@@ -451,8 +465,7 @@ const Guide = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCopyLink(task.id);
-                        }}
-                      >
+                        }}>
                         <AiOutlineLink size={20} />
                       </div>
                       {activeModal === task.id && (
@@ -493,22 +506,19 @@ const Guide = () => {
                           onClick={(e) => handleToggleTaskComplete(e, task.id)}
                           className={`cursor-pointer py-[12px] pl-[16px] pr-[28px] rounded-[12px] flex items-center transition-all duration-300 mb-[20px] w-[230px] ${
                             task.completed > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
-                          }`}
-                        >
+                          }`}>
                           <div className="flex items-center gap-4">
                             <div
                               className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                                 task.completed > 0
                                   ? "border-[#47572D75] bg-[#151B15]"
                                   : "border-[#32353D]"
-                              }`}
-                            >
+                              }`}>
                               <div
                                 className={`${
                                   task.completed > 0 &&
                                   `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
-                                }`}
-                              >
+                                }`}>
                                 {task.completed > 0 && (
                                   <MdOutlineDone size={16} />
                                 )}
@@ -519,8 +529,7 @@ const Guide = () => {
                                 task.completed > 0
                                   ? "text-[#A0A8AECC]"
                                   : "text-[#A0A8AE]"
-                              }`}
-                            >
+                              }`}>
                               Task Completed
                             </p>
                           </div>
