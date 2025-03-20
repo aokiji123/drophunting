@@ -52,6 +52,7 @@ const SignUp = () => {
 
       const signUpData = {
         ...data,
+        password_confirmation: data.password,
         "g-recaptcha-response": recaptchaToken,
       };
 

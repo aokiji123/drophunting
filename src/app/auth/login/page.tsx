@@ -36,8 +36,15 @@ const Login = () => {
     }
   };
 
-  const handleRecaptchaVerify = (token: string | null) => {
-    setRecaptchaToken(token);
+  const handleRecaptchaVerify = () => {
+    const token = document.getElementById(
+      "g-recaptcha-response",
+    ) as HTMLInputElement;
+    // const hiddenToken = document.getElementById(
+    //   "recaptcha-token",
+    // ) as HTMLInputElement;
+    console.log("token", token.value);
+    setRecaptchaToken(token.value);
   };
 
   const onSubmit = async (data: LoginFormData) => {
@@ -49,6 +56,8 @@ const Login = () => {
     setLoading(true);
     try {
       setServerError("");
+
+      // const token = "03AFcWeA42Hm-vF6Mm8YIhIjC1fumD1PjU-NKN1kUgAr4KxU2LohcDl8FmLZRDdnvErT_iX5ftyqYW2FBM1tL94h_P8jMTFLeCcF-Z_bXUyNs5FhwdBJe9xwgDFUv3jusfa8JE3bejLIctX0jzQLXbExj6rhgTjfmp-tSOE-gwG5-yJzHJUbVUVS0RZt1pHmLX132wwojiE4A6VmmDmNYDnobaSViikTUkU_6XJBWFxe98e5ezH2ljiMap8jRUB5HSbrJlHKHg7nwS3vVFqAWoAzucM2d-kkfHRZQZ_m6COR1pI-x008mljyPYN2Q1D2MAD0fo3Xzs2RB-2AeBW702_vMcAaaIp8uFjFiDK_mVHf9QeftWtEUPkAVbLzlq61bfb-B26vfrwGOVioDKGX3EDgt1fjyq0hjQV8jrml8KreYh4BcsjZ3v7dIDAbU2VuOf5CtHqB2HgiadveCqiUuY4wG64fkokoGBmUTMKpYt7Tsuvp4AGWSdWY2b235Kf1J4btT3lB33fPgPDPkoSsLDDvZE8H3yhMgPrHHrivV9MqQ987xSsL4SDirOwpmbueAVnGYic8rhxhQ3i-5wVx1xvINxLPrNhodbKF9QZLUIpCc5PfH3E61bfy1Fp-dCoKuKqboLOKhLaMuC4JPIfq9Do6rfkeLA0PH6BY5fOT6g0YrnQoaBHFd4iAGIx3ZZLW9pVj1NkR2AmJWBVYXX5HmICOAuYOebLkZJlZ2uAhEDnn4qM7qsnmXpCw3wKNssemZn8HnRVHtzWVUm4IjghQEy9CB0RcxBs9L2PIVhH6Z49tSlAaaQJ5INMzlcQEf4hS0IWOlhspf0HIDNKAQoRrOG10NzgpFdr4MCAwokJcg_MLGMzQpBCuGAnNPdSYOrErQjXDw75ti-NFhvCCkYy5aVhAoKYB8a1Cz_rz9MVuLuGZ6kt7Seugw-oqT-QROFHz35jQLvyYn457sJOVgcYlE8QzQtT4tX3hlqxoK0bQBzy4ZuWAzWminJWeprY-Tht5mIA_LVNKmBqbnpan4iJwAygqYuXhLYd0Bw5K0nAZ7208L-Y1gso4_CZrdN-bb2hr9kxGU5pCqLYKS4Q0t9DKPFgeOYayLBqUxThxXJkvEBNv8Ksv73AM7AHLbO8tWTCsJ4dzhLjhvluDZyOiwqb3OS50HMUFG64hkNLyJ4EIv9uWsIO0AfQAc0pCHazkDLGqxYiLiR_HRKhPPFMmpyht_wM0zLKyjU8Xr70wSijmvOty2HtDkZX1sg-vxB5rRWpkk_dzZiqZ0tZYScWI05_DNCxiiP5y7b2IHzyeAfT3xsi8dUuRlAF8FYXz7tKWmd2SZQnwpWoQummtEbxdubvSqxg32R2xW-h7BIhdWYXDStuRMgQ_stARFw3iMM1UR7wAX7lgA59b2bspDvN0HRHNY70Ngw85bYunrBDDikDbm8D2eG6QNmRXbSfGrYQvatZKecrRYSJGbC-uIxD9BGpIGd0WOI4eYDaCBfyIm8BDbRN-zRh8q2YetY0Z9SqfEQpbdZmMFXUdmNAfR78uIOBXfl8WK32BpJtcqKiA"
 
       // Add recaptcha token to the request
       const loginData = {
