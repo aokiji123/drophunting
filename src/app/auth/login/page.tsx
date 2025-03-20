@@ -119,8 +119,11 @@ const Login = () => {
                 />
               </div>
 
-              {/* <div className="my-4 flex justify-center"> */}
-              <div className="g-recaptcha" data-sitekey={recaptchaToken}></div>
+              <div className="my-4 flex justify-center">
+                <div
+                  className="g-recaptcha"
+                  data-sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"></div>
+              </div>
 
               <button
                 type="submit"
