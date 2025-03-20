@@ -22,6 +22,7 @@ export function middleware(request: NextRequest) {
     "/subaccounts",
     "/subscriptions",
     "/referal",
+    "/progress",
     "/guides",
     "/favorites",
     "/blog",

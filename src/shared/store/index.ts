@@ -12,12 +12,15 @@ type AuthErrors = {
 type LoginParams = {
   email: string;
   password: string;
+  "g-recaptcha-response"?: string;
 };
 
 type RegisterParams = {
   name: string;
   email: string;
   password: string;
+  password_confirmation: string;
+  "g-recaptcha-response"?: string;
   refer?: string;
   main_account?: string;
   affiliate?: string;

@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import starIcon from "../../../../public/assets/icons/star.png";
+import { PiXLogo } from "react-icons/pi";
+import { RiTelegram2Fill } from "react-icons/ri";
 
 type ProfileModalType = {
   toggleNavigationModal: () => void;
@@ -63,6 +65,18 @@ const NavigationModal = ({
             {t("upgrade")}
           </p>
         </button>
+        <div className="flex gap-2">
+          <Link href="https://www.google.com" target="_blank">
+            <div className="cursor-pointer">
+              <RiTelegram2Fill size={28} />
+            </div>
+          </Link>
+          <Link href="https://www.google.com" target="_blank">
+            <div className="cursor-pointer">
+              <PiXLogo size={28} />
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );
