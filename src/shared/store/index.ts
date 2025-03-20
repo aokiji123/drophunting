@@ -460,6 +460,21 @@ type NotificationsResponse = {
   to: number;
 };
 
+type RecaptchaResponse = {
+  success: boolean;
+  captcha: string;
+};
+
+type SuggestGuideParams = {
+  name: string;
+  description: string;
+};
+
+type SuggestGuideResponse = {
+  type: string;
+  message: string;
+};
+
 type StoreState = {
   timezones: Timezone[];
   selectedTimezone: string;
@@ -574,6 +589,12 @@ type StoreState = {
   fetchNotifications: (page?: number) => Promise<void>;
   refreshUser: () => Promise<boolean>;
   claimReward: () => Promise<boolean>;
+  fetchRecaptchaToken: () => Promise<string>;
+  isSuggestingGuide: boolean;
+  suggestGuideSuccess: string | null;
+  suggestGuideError: string | null;
+  suggestGuide: (params: SuggestGuideParams) => Promise<boolean>;
+  resetSuggestGuideState: () => void;
 };
 
 const useStore = create<StoreState>()(
@@ -645,6 +666,16 @@ const useStore = create<StoreState>()(
       authLoading: false,
       authStatus: null,
       sessionVerified: false,
+      isSuggestingGuide: false,
+      suggestGuideSuccess: null,
+      suggestGuideError: null,
+
+      fetchRecaptchaToken: async () => {
+        const response =
+          await axiosInstance.get<RecaptchaResponse>("/api/recaptcha");
+
+        return response.data.captcha;
+      },
 
       setSelectedTimezone: (timezone: string) => {
         set({ selectedTimezone: timezone });
@@ -2054,6 +2085,74 @@ const useStore = create<StoreState>()(
         } finally {
           set({ isLoadingReferrals: false, referralsError: null });
         }
+      },
+
+      suggestGuide: async (params: SuggestGuideParams) => {
+        try {
+          set({
+            isSuggestingGuide: true,
+            suggestGuideSuccess: null,
+            suggestGuideError: null,
+          });
+
+          const response = await axiosInstance.post<SuggestGuideResponse>(
+            "/api/proposings/store",
+            params,
+            {
+              withCredentials: true,
+            },
+          );
+
+          if (response.data.type === "success") {
+            set({
+              isSuggestingGuide: false,
+              suggestGuideSuccess: response.data.message,
+              suggestGuideError: null,
+            });
+            return true;
+          }
+
+          set({
+            isSuggestingGuide: false,
+            suggestGuideSuccess: null,
+            suggestGuideError: "An unexpected error occurred",
+          });
+          return false;
+        } catch (error) {
+          console.error("Error suggesting guide:", error);
+          let errorMessage = "Failed to suggest guide";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.status === 422) {
+              if (errorResponse.data?.message) {
+                errorMessage = errorResponse.data.message;
+              } else if (errorResponse.data?.errors) {
+                const errors = Object.values(errorResponse.data.errors).flat();
+                errorMessage = errors.join(", ");
+              }
+            } else if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            isSuggestingGuide: false,
+            suggestGuideSuccess: null,
+            suggestGuideError: errorMessage,
+          });
+          return false;
+        }
+      },
+
+      resetSuggestGuideState: () => {
+        set({
+          isSuggestingGuide: false,
+          suggestGuideSuccess: null,
+          suggestGuideError: null,
+        });
       },
     }),
     {

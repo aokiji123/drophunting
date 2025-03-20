@@ -114,7 +114,7 @@ const Subaccounts = () => {
                 <p className="text-red-500">{subaccountsError}</p>
               </div>
             ) : (
-              <div className="flex-col flex">
+              <div className="flex-col flex w-full">
                 <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
                   <FiUsers size={24} />
                 </div>

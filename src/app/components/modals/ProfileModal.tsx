@@ -19,6 +19,7 @@ import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
 import { MdOutlineArrowDropDown } from "react-icons/md";
+import { Progress } from "@/shared/icons/Progress";
 
 type ProfileModalType = {
   toggleProfileModal: () => void;
@@ -37,13 +38,18 @@ const tabs = [
     icon: <FiUsers size={20} className="mr-2.5" />,
   },
   {
+    name: "Progress",
+    href: "/progress",
+    icon: <Progress size={20} className="mr-2.5" color="#fff" />,
+  },
+  {
     name: "Referal",
     href: "/referal",
     icon: <LuPercent size={20} className="mr-2.5" />,
   },
   {
     name: "Guides",
-    href: "/guides",
+    href: "/suggest-guide",
     icon: <GrBook size={20} className="mr-2.5" />,
   },
 ];
@@ -128,7 +134,7 @@ const ProfileModal = ({
               {tab.icon}
               <Link
                 href={tab.href}
-                className="text-[14px] font-semibold leading-[20px]">
+                className="text-[14px] font-semibold leading-[20px] w-full">
                 {tab.name}
               </Link>
             </li>
