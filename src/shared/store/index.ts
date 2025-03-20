@@ -90,19 +90,13 @@ type SubscriptionsResponse = {
   to: number;
 };
 
-type ReferralUser = {
-  id: number;
-  email: string;
-  avatar: string;
-  name: string;
-};
-
 type ReferralTransaction = {
   id: number;
-  sum: string;
-  referal_id: number;
+  amount: number | null;
+  avatar: string | null;
+  email: string;
   date: string;
-  referal: ReferralUser;
+  name: string;
 };
 
 type ReferralsResponse = {
@@ -111,7 +105,7 @@ type ReferralsResponse = {
   profit: string;
   rewards: number;
   referal_link: string;
-  transactions: {
+  referrals: {
     current_page: number;
     data: ReferralTransaction[];
     first_page_url: string;
@@ -579,6 +573,7 @@ type StoreState = {
   setAuthStatus: (status: string | null) => void;
   fetchNotifications: (page?: number) => Promise<void>;
   refreshUser: () => Promise<boolean>;
+  claimReward: () => Promise<boolean>;
 };
 
 const useStore = create<StoreState>()(
@@ -2044,6 +2039,20 @@ const useStore = create<StoreState>()(
             notificationsError: errorMessage,
             isLoadingNotifications: false,
           });
+        }
+      },
+
+      claimReward: async () => {
+        try {
+          set({ isLoadingReferrals: true, referralsError: null });
+
+          await axiosInstance.post("/api/user/rewards");
+          await get().fetchReferrals();
+          await get().refreshUser();
+
+          return true;
+        } finally {
+          set({ isLoadingReferrals: false, referralsError: null });
         }
       },
     }),

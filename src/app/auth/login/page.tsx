@@ -20,7 +20,7 @@ const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>("test");
   const { login } = useStore();
 
   const handleGoogleLogin = async () => {
