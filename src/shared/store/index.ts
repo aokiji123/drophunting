@@ -60,6 +60,9 @@ export type User = {
   affiliate_id?: string;
   count_views?: number;
   free_views?: number;
+  ban: boolean;
+  ban_reason: string | null;
+  notifications: number;
 };
 
 type Plan = {
@@ -448,6 +451,7 @@ type Notification = {
   icon: NotificationIcon | null;
   project_id: number | null;
   article_id: number | null;
+  date_time: string;
 };
 
 type NotificationsResponse = {
@@ -1225,8 +1229,6 @@ const useStore = create<StoreState>()(
           });
 
           const { data: userData } = await axiosInstance.get<User>("/api/user");
-
-          await get().fetchNotifications();
 
           set({
             user: { ...get().user, ...userData },
@@ -2017,6 +2019,8 @@ const useStore = create<StoreState>()(
           }`;
 
           const response = await axiosInstance.get<NotificationsResponse>(url);
+
+          await get().refreshUser();
 
           set({
             notifications: response.data,
