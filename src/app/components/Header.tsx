@@ -19,6 +19,7 @@ import useAuth from "@/shared/hooks/useAuth";
 import NavigationModal from "./modals/NavigationModal";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { PiXLogo } from "react-icons/pi";
+import useStore from "@/shared/store";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ const Header = () => {
   const pathname = usePathname();
   const { user, loading } = useAuth();
   const [balance, setBalance] = useState<string>("0");
+  const { notifications } = useStore();
 
   useEffect(() => {
     if (user && user.balance) {
@@ -66,6 +68,7 @@ const Header = () => {
   const toggleNotificationsModal = () => toggleModal("notifications");
   const togglePlansModal = () => toggleModal("plans");
   const toggleNavigationModal = () => toggleModal("navigation");
+
   const openBalanceModal = () => {
     setOpenModal("balance");
   };
@@ -73,7 +76,7 @@ const Header = () => {
     setOpenModal("plans");
   };
 
-  if (loading) {
+  if (loading || !notifications) {
     return (
       <div className="bg-[#101114] text-white">
         <div className="flex justify-center items-center h-screen">
@@ -125,12 +128,14 @@ const Header = () => {
             </div>
           </Link>
         </div>
+
         <Badge
           dot
           onClick={toggleNotificationsModal}
           className="cursor-pointer">
           <IoMdNotificationsOutline size={20} className="text-[#9EA0A6]" />
         </Badge>
+
         <div>
           <MdFavoriteBorder
             onClick={() => router.push("/favorites")}

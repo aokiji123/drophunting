@@ -145,7 +145,10 @@ const Guide = () => {
   };
 
   const handleOpenTaskById = (taskId: number) => {
-    if ((user?.count_views || 0) > 0) {
+    if (
+      (user?.count_views || 0) > 0 ||
+      (activeTask === taskId && (user?.count_views || 0) === 0)
+    ) {
       toggleAccordion(taskId);
     } else {
       togglePlansModal();

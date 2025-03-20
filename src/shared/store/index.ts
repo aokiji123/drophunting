@@ -446,6 +446,8 @@ type Notification = {
   seen: number;
   text: string;
   icon: NotificationIcon | null;
+  project_id: number | null;
+  article_id: number | null;
 };
 
 type NotificationsResponse = {
@@ -1222,17 +1224,16 @@ const useStore = create<StoreState>()(
             updateUserError: null,
           });
 
-          const currentUser = get().user;
-          if (currentUser) {
-            const { data: userData } =
-              await axiosInstance.get<User>("/api/user");
-            set({
-              user: { ...currentUser, ...userData },
-              isUpdatingUser: false,
-              updateUserSuccess: "User refreshed successfully",
-              updateUserError: null,
-            });
-          }
+          const { data: userData } = await axiosInstance.get<User>("/api/user");
+
+          await get().fetchNotifications();
+
+          set({
+            user: { ...get().user, ...userData },
+            isUpdatingUser: false,
+            updateUserSuccess: "User refreshed successfully",
+            updateUserError: null,
+          });
 
           return true;
         } catch (error) {
