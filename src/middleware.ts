@@ -4,6 +4,7 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth-token")?.value;
   const pathname = request.nextUrl.pathname;
+  const params = request.nextUrl.searchParams;
 
   const publicRoutes = new Set([
     "/auth/login",
@@ -37,6 +38,22 @@ export function middleware(request: NextRequest) {
 
   if (!token) {
     if (publicRoutes.has(pathname)) return NextResponse.next();
+
+    if (params.get("refer")) {
+      return NextResponse.redirect(
+        new URL(`/auth/sign-up?refer=${params.get("refer")}`, request.url),
+      );
+    }
+
+    if (params.get("mainaccount")) {
+      return NextResponse.redirect(
+        new URL(
+          `/auth/sign-up?mainaccount=${params.get("mainaccount")}`,
+          request.url,
+        ),
+      );
+    }
+
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 

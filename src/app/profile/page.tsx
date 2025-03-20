@@ -548,11 +548,6 @@ const Profile = () => {
                   onChange={handleNotifDeadlineToggle}
                   label="Deadlines in favorites"
                 />
-                <CustomCheckbox
-                  checked={true}
-                  // onChange={handleSubaccountTermToggle}
-                  label="Subaccount term"
-                />
               </div>
             </div>
 

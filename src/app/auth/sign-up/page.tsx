@@ -4,7 +4,7 @@ import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import { FiUser } from "react-icons/fi";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import useStore from "@/shared/store";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -13,6 +13,8 @@ type SignUpFormData = {
   name: string;
   email: string;
   password: string;
+  main_account?: string;
+  affiliate?: string;
 };
 
 const SignUp = () => {
@@ -20,8 +22,9 @@ const SignUp = () => {
   const [serverError, setServerError] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>("test");
   const { register: registerUser } = useStore();
+  const searchParams = useSearchParams();
 
   const handleGoogleSignUp = async () => {
     setLoading(true);
@@ -56,9 +59,18 @@ const SignUp = () => {
         "g-recaptcha-response": recaptchaToken,
       };
 
+      if (searchParams.get("refer")) {
+        signUpData.affiliate = String(searchParams.get("refer"));
+      }
+
+      if (searchParams.get("mainaccount")) {
+        signUpData.main_account = String(searchParams.get("mainaccount"));
+      }
+
       console.log(signUpData);
 
       await registerUser(signUpData);
+
       router.push("/guides");
       setLoading(false);
     } catch (e) {
@@ -103,7 +115,6 @@ const SignUp = () => {
                   autoComplete="off"
                 />
               </div>
-
               <div className="mb-2">
                 <input
                   type="text"
@@ -119,7 +130,6 @@ const SignUp = () => {
                   autoComplete="off"
                 />
               </div>
-
               <div className="mb-4">
                 <input
                   type="password"
@@ -135,15 +145,13 @@ const SignUp = () => {
                   autoComplete="off"
                 />
               </div>
-
               <div className="my-4 flex justify-center">
                 <ReCAPTCHA
-                  sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"
+                  sitekey="6LedcvkqAAAAAAVzUjhJ-0TKEbXRmDUng0RGWu32"
                   onChange={handleRecaptchaVerify}
                   hl="en"
                 />
               </div>
-
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-bold font-sans transition-all duration-200 ${
@@ -154,13 +162,11 @@ const SignUp = () => {
                 disabled={loading || !recaptchaToken}>
                 {loading ? "Signing up..." : "Sign Up"}
               </button>
-
               <div className="flex items-center my-6">
                 <div className="flex-grow border-t border-[#27292D]"></div>
                 <span className="flex-shrink mx-4 text-[#8E8E8E]">or</span>
                 <div className="flex-grow border-t border-[#27292D]"></div>
               </div>
-
               <button
                 type="button"
                 onClick={handleGoogleSignUp}
@@ -189,11 +195,9 @@ const SignUp = () => {
                 </div>
                 <span>Continue with Google</span>
               </button>
-
               {serverError && (
                 <p className="text-[--error] text-sm mt-4">{serverError}</p>
               )}
-
               <div className="flex items-center justify-center gap-[16px] mt-5">
                 <p className="text-[14px leading-[20px] text-[#B0B0B0]">
                   Already have an account?

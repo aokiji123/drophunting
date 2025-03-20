@@ -11,9 +11,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Slider,
-  sliderClasses,
-  styled,
 } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
@@ -23,43 +20,17 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
-const CustomSlider = styled(Slider)({
-  height: 8,
-  [`&.${sliderClasses.root}`]: {
-    padding: 0,
-    margin: 0,
-  },
-  [`& .${sliderClasses.track}`]: {
-    background: "linear-gradient(to right, #d2f21b, #5af86e)",
-    border: "none",
-    zIndex: 2,
-  },
-  [`& .${sliderClasses.thumb}`]: {
-    display: "none",
-  },
-  [`& .${sliderClasses.rail}`]: {
-    opacity: 0.3,
-    backgroundColor: "#282A2E",
-  },
-  [`& .${sliderClasses.mark}`]: {
-    height: 4,
-    width: 1,
-    backgroundColor: "#FFFFFF17",
-    zIndex: 1,
-  },
-});
-
-const marks = Array.from({ length: 21 }, (_, i) => ({
-  value: i,
-  visible: i !== 0 && i !== 20,
-}));
-
 const Referal = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [copied, setCopied] = useState(false);
-  const { referrals, isLoadingReferrals, referralsError, fetchReferrals } =
-    useStore();
+  const {
+    claimReward,
+    referrals,
+    isLoadingReferrals,
+    referralsError,
+    fetchReferrals,
+  } = useStore();
 
   useEffect(() => {
     fetchReferrals();
@@ -78,6 +49,10 @@ const Referal = () => {
       autoHide: "never",
     },
   });
+
+  const handleClaim = () => {
+    claimReward();
+  };
 
   return (
     <div className="bg-[#101114] text-white">
@@ -151,18 +126,22 @@ const Referal = () => {
                         {referrals?.referrals_count || "0"}
                       </p>
                       <div
-                        className="bg-[#232427BA] rounded-[100px] p-[4px] flex items-center justify-center"
+                        className="bg-[#232427BA] rounded-full p-[4px] flex items-center justify-center"
                         style={{ maxWidth: "441px", width: "100%" }}>
-                        <CustomSlider
-                          defaultValue={referrals?.referrals_count || 0}
-                          step={1}
-                          marks={marks
-                            .filter((mark) => mark.visible)
-                            .map((mark) => ({ value: mark.value }))}
-                          min={0}
-                          max={referrals?.limit_referals || 20}
-                          disabled
-                        />
+                        <div className="bg-[#282A2E] h-2 w-full relative rounded-full">
+                          <div
+                            className="rounded-full absolute h-full top-0 left-0"
+                            style={{
+                              minWidth:
+                                (referrals?.referrals_count || 0) > 0
+                                  ? "1%"
+                                  : undefined,
+                              background:
+                                "linear-gradient(270deg, #9DFF2F 0%, #9DAC2D 49.41%, #2F4101 100%)",
+                              width: `${((referrals?.referrals_count || 1) / (referrals?.limit_referals || 1)) * 100}%`,
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -200,7 +179,14 @@ const Referal = () => {
                         <p className="text-[25px] leading-[28px] font-semibold">
                           ${referrals?.rewards.toFixed(2) || "0.00"}
                         </p>
-                        <button className="flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
+                        <button
+                          disabled={+(referrals?.rewards || 0) === 0}
+                          onClick={handleClaim}
+                          className={`flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px]  font-bold leading-[20px]  ${
+                            +(referrals?.rewards || 0) === 0
+                              ? "bg-gray-600 cursor-not-allowed"
+                              : "bg-[#11CA00] hover:bg-blue-500"
+                          }`}>
                           Claim
                         </button>
                       </div>
@@ -254,10 +240,10 @@ const Referal = () => {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {referrals && referrals.transactions.data.length > 0 ? (
-                          referrals.transactions.data.map((transaction) => (
+                        {referrals && referrals.referrals.data.length > 0 ? (
+                          referrals.referrals.data.map((referral) => (
                             <TableRow
-                              key={transaction.id}
+                              key={referral.id}
                               sx={{
                                 "&:hover": {
                                   backgroundColor: "#27292D",
@@ -268,27 +254,27 @@ const Referal = () => {
                                 className="min-w-[220px] text-white">
                                 <div className="flex items-center gap-2">
                                   <Image
-                                    src={transaction.referal.avatar || avatar}
+                                    src={referral.avatar || avatar}
                                     alt="Avatar"
                                     width={28}
                                     height={28}
                                     className="w-[28px] h-[28px] rounded-full object-cover"
                                   />
-                                  <p>{transaction.referal.name}</p>
+                                  <p>{referral.name}</p>
                                 </div>
                               </TableCell>
                               <TableCell
                                 align="left"
                                 className="min-w-[220px] text-white">
-                                {transaction.referal.email}
+                                {referral.email}
                               </TableCell>
                               <TableCell
                                 align="left"
                                 className="min-w-[50px] text-white">
-                                ${transaction.sum}
+                                ${referral.amount || "0"}
                               </TableCell>
                               <TableCell align="left" className="text-white">
-                                {transaction.date}
+                                {referral.date}
                               </TableCell>
                             </TableRow>
                           ))

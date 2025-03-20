@@ -288,11 +288,15 @@ const Guide = () => {
                   </div>
                 ))}
                 {/* TODO: использовать в маркерах если есть цена */}
-                <div className="flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold bg-gradient-to-b from-[#FF934A29] to-[#FFE47850]">
-                  <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px] text-[#FFD387]">
-                    $150
-                  </p>
-                </div>
+                {guideDetails.spend && (
+                  <div className="flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold bg-gradient-to-b from-[#FF934A29] to-[#FFE47850]">
+                    <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px] text-[#FFD387]">
+                      {String(guideDetails.spend).includes("$")
+                        ? guideDetails.spend
+                        : `$${guideDetails.spend}`}
+                    </p>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-[7px]">
                 <button className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
