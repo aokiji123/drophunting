@@ -18,6 +18,9 @@ type RegisterParams = {
   name: string;
   email: string;
   password: string;
+  refer?: string;
+  main_account?: string;
+  affiliate?: string;
 };
 
 type NewPasswordParams = {
@@ -176,6 +179,7 @@ type GuideDetails = {
   link_site: string | null;
   link_telegram: string | null;
   link_x: string | null;
+  spend: string | number | null;
 };
 
 type TaskDetails = {

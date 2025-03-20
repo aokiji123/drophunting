@@ -4,7 +4,7 @@ import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import { FiUser } from "react-icons/fi";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import useStore from "@/shared/store";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -13,6 +13,8 @@ type SignUpFormData = {
   name: string;
   email: string;
   password: string;
+  main_account?: string;
+  affiliate?: string;
 };
 
 const SignUp = () => {
@@ -21,6 +23,7 @@ const SignUp = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const { register: registerUser } = useStore();
+  const searchParams = useSearchParams();
 
   const handleGoogleSignUp = async () => {
     setLoading(true);
@@ -43,8 +46,21 @@ const SignUp = () => {
     setLoading(true);
     try {
       setServerError("");
-      await registerUser(data);
+
+      const formattedData = data;
+
+      if (searchParams.get("refer")) {
+        formattedData.affiliate = String(searchParams.get("refer"));
+      }
+
+      if (searchParams.get("mainaccount")) {
+        formattedData.main_account = String(searchParams.get("mainaccount"));
+      }
+
+      await registerUser(formattedData);
+
       router.push("/profile");
+
       setLoading(false);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
