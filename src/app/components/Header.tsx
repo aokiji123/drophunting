@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import logoRectangle from "../../../public/assets/rectangle.png";
 import { Badge } from "antd";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { MdFavoriteBorder, MdOutlineArrowDropDown } from "react-icons/md";
@@ -19,6 +18,7 @@ import useAuth from "@/shared/hooks/useAuth";
 import NavigationModal from "./modals/NavigationModal";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { PiXLogo } from "react-icons/pi";
+import { MainLogo } from "@/shared/icons/MainLogo";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -90,8 +90,7 @@ const Header = () => {
         <div
           className="flex items-center text-center cursor-pointer"
           onClick={() => router.push("/guides")}>
-          <Image className="mr-2" src={logoRectangle} alt="Logo Rectangle" />
-          <p className="font-bold text-[20px] font-chakra">Drophunting</p>
+          <MainLogo width={170} height={40} color="#fff" />
         </div>
       </div>
 

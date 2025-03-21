@@ -9,7 +9,6 @@ import { BsTwitterX } from "react-icons/bs";
 import { FaDiscord, FaInstagram, FaPlay, FaCaretDown } from "react-icons/fa";
 import { RiTelegram2Fill } from "react-icons/ri";
 
-import landingLogo from "../../../public/assets/landing-logo.png";
 import landingHeaderBg from "../../../public/assets/landing-header-bg.jpg";
 import landingFooterBg from "../../../public/assets/landing-footer-bg.jpg";
 import video from "../../../public/assets/video.png";
@@ -34,6 +33,7 @@ import { GrLanguage } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import LandingModal from "../components/modals/LandingModal";
+import { MainLogo } from "@/shared/icons/MainLogo";
 
 const Landing = () => {
   const [isLandingModalOpen, setIsLandingModalOpen] = useState(false);
@@ -62,7 +62,7 @@ const Landing = () => {
             backgroundRepeat: "no-repeat",
           }}>
           <header className="flex justify-between items-center h-[70px] px-[24px]">
-            <Image className="w-[170px]" src={landingLogo} alt="Landing Logo" />
+            <MainLogo width={170} height={40} color="#fff" />
             <ul className="hidden lg:flex gap-[16px]">
               <li>
                 <Link href="/">О сервисе</Link>
