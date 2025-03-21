@@ -2108,8 +2108,6 @@ const useStore = create<StoreState>()(
           return true;
         } catch {
           throw new Error("Failed to add calendar notification");
-
-          return false;
         }
       },
 
@@ -2180,7 +2178,6 @@ const useStore = create<StoreState>()(
           suggestGuideError: null,
         });
       },
-
     }),
     {
       name: "drophunting-store",
