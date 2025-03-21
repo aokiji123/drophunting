@@ -444,6 +444,11 @@ type NotificationIcon = {
   path: string;
 };
 
+type AddCalendarNotificationData = {
+  project_id: number;
+  date: string[];
+};
+
 type Notification = {
   id: number;
   seen: number;
@@ -580,6 +585,9 @@ type StoreState = {
   fetchNotifications: (page?: number) => Promise<void>;
   refreshUser: () => Promise<boolean>;
   claimReward: () => Promise<boolean>;
+  addCalendarNotification: (
+    data: AddCalendarNotificationData,
+  ) => Promise<boolean>;
 };
 
 const useStore = create<StoreState>()(
@@ -2058,6 +2066,18 @@ const useStore = create<StoreState>()(
           return true;
         } finally {
           set({ isLoadingReferrals: false, referralsError: null });
+        }
+      },
+
+      addCalendarNotification: async (data: AddCalendarNotificationData) => {
+        try {
+          await axiosInstance.post("/api/notifications/telegram/store", data);
+
+          return true;
+        } catch {
+          throw new Error("Failed to add calendar notification");
+
+          return false;
         }
       },
     }),
