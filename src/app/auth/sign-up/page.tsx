@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import { FiUser } from "react-icons/fi";
@@ -21,25 +21,25 @@ const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>("test");
-  const { register: registerUser } = useStore();
+  const { register: registerUser, fetchRecaptchaToken } = useStore();
   const searchParams = useSearchParams();
+  const [recaptchaToken, setRecaptchaToken] = useState<string>("");
+  const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
+    null,
+  );
 
-  const handleGoogleSignUp = async () => {
-    setLoading(true);
-    try {
-      // Implement Google sign up functionality here
-      // For now, just showing an alert
-      alert("Google sign up integration to be implemented");
-      setLoading(false);
-    } catch {
-      setServerError("Google sign up failed");
-      setLoading(false);
-    }
+  const onChange = (value: string | null) => {
+    setGRecaptchaResponse(value);
   };
 
-  const handleRecaptchaVerify = (token: string | null) => {
-    setRecaptchaToken(token);
+  useEffect(() => {
+    fetchRecaptchaToken().then((token) => {
+      setRecaptchaToken(token);
+    });
+  }, [fetchRecaptchaToken]);
+
+  const handleGoogleSignUp = async () => {
+    window.location.href = "https://app.esdev.tech/api/google/redirect";
   };
 
   const onSubmit = async (data: SignUpFormData) => {
@@ -55,7 +55,7 @@ const SignUp = () => {
       const signUpData = {
         ...data,
         password_confirmation: data.password,
-        "g-recaptcha-response": recaptchaToken,
+        "g-recaptcha-response": gRecaptchaResponse || "",
       };
 
       if (searchParams.get("refer")) {
@@ -145,11 +145,9 @@ const SignUp = () => {
                 />
               </div>
               <div className="my-4 flex justify-center">
-                <ReCAPTCHA
-                  sitekey="6LedcvkqAAAAAAVzUjhJ-0TKEbXRmDUng0RGWu32"
-                  onChange={handleRecaptchaVerify}
-                  hl="en"
-                />
+                {recaptchaToken && (
+                  <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
+                )}
               </div>
               <button
                 type="submit"
@@ -213,11 +211,6 @@ const SignUp = () => {
       </main>
 
       <Footer />
-
-      <script
-        src="https://www.google.com/recaptcha/api.js?hl=en"
-        async
-        defer></script>
     </div>
   );
 };

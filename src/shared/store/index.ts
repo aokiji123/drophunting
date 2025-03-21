@@ -590,6 +590,7 @@ type StoreState = {
   authLoading: boolean;
   authStatus: string | null;
   sessionVerified: boolean;
+  googleLogin: (accessToken: string) => Promise<{ token: string }>;
   login: (data: LoginParams) => Promise<{ token: string }>;
   register: (data: RegisterParams) => Promise<{ token: string }>;
   logout: () => Promise<void>;
@@ -1881,7 +1882,39 @@ const useStore = create<StoreState>()(
       setAuthStatus: (status: string | null) => {
         set({ authStatus: status });
       },
+      googleLogin: async (accessToken: string) => {
+        try {
+          const token = accessToken;
 
+          if (token) {
+            Cookies.set("auth-token", token, {
+              expires: 7,
+              secure: true,
+              sameSite: "Strict",
+            });
+            updateAxiosToken(token);
+          }
+
+          try {
+            const { data: userData } = await axiosInstance.get<User>(
+              "/api/user",
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              },
+            );
+            set({ user: userData, sessionVerified: true });
+          } catch (userError) {
+            console.warn("Error fetching user after login:", userError);
+            set({ sessionVerified: false, user: null });
+            updateAxiosToken(null);
+            Cookies.remove("auth-token");
+          }
+
+          return { token: accessToken };
+        } catch {
+          throw new Error("Error logging in with Google");
+        }
+      },
       login: async (data: LoginParams) => {
         set({ authErrors: {}, authLoading: true });
         try {
