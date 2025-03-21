@@ -10,6 +10,7 @@ import "overlayscrollbars/overlayscrollbars.css";
 import "../shared/styles/scrollbar.css";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import UserProvider from "@/shared/providers/UserProvider";
+import LoadingProvider from "@/shared/providers/LoadingProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +35,9 @@ export default function RootLayout({
         ref={bodyRef}
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#101114]`}>
         <I18nextProvider i18n={i18n}>
-          <UserProvider>{children}</UserProvider>
+          <LoadingProvider>
+            <UserProvider>{children}</UserProvider>
+          </LoadingProvider>
         </I18nextProvider>
       </body>
     </html>

@@ -64,7 +64,7 @@ const ProfileModal = ({
   openBalanceModal,
 }: ProfileModalType) => {
   const { i18n } = useTranslation();
-  const { logout, user } = useStore();
+  const { logout, user, setIsLoading } = useStore();
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
@@ -76,8 +76,10 @@ const ProfileModal = ({
   };
 
   const handleLogout = async () => {
+    setIsLoading(true);
     await logout();
     router.push("/auth/login");
+    setIsLoading(false);
   };
 
   const handleBalanceClick = () => {
