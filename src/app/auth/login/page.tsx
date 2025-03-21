@@ -131,7 +131,7 @@ const Login = () => {
                 {/* <div
                   className="g-recaptcha"
                   data-sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"></div> */}
-                {gRecaptchaResponse && (
+                {recaptchaToken && (
                   <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
                 )}
               </div>
