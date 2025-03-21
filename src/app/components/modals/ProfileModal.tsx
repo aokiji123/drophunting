@@ -7,6 +7,7 @@ import {
   FaCheck,
   FaAngleDown,
   FaAngleUp,
+  FaSpinner,
 } from "react-icons/fa6";
 import { FiUsers } from "react-icons/fi";
 import { LuPercent } from "react-icons/lu";
@@ -72,15 +73,29 @@ const ProfileModal = ({
   openBalanceModal,
 }: ProfileModalType) => {
   const { i18n } = useTranslation();
-  const { logout, user, setIsLoading } = useStore();
+  const { logout, user, setIsLoading, updateUser } = useStore();
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [isUpdatingLanguage, setIsUpdatingLanguage] = useState(false);
 
-  const handleLanguageChange = (code: string) => {
+  const handleLanguageChange = async (code: string) => {
+    if (isUpdatingLanguage || code === selectedLanguage) return;
+
+    setIsUpdatingLanguage(true);
     setSelectedLanguage(code);
     i18n.changeLanguage(code);
+
+    if (user && code !== user.lang) {
+      try {
+        await updateUser({ lang: code });
+      } catch (error) {
+        console.error("Error updating language:", error);
+      }
+    }
+
     setIsLanguageDropdownOpen(false);
+    setIsUpdatingLanguage(false);
   };
 
   const handleLogout = async () => {
@@ -169,7 +184,8 @@ const ProfileModal = ({
         <div className="relative">
           <button
             className="w-full h-[40px] bg-transparent hover:bg-[#24262A] flex items-center justify-between p-[12px] rounded-[12px]"
-            onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}>
+            onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+            disabled={isUpdatingLanguage}>
             <div className="flex items-center gap-[12px]">
               <Image
                 src={
@@ -179,8 +195,9 @@ const ProfileModal = ({
                 alt={selectedLanguage}
                 className="h-[20px] w-[20px] object-cover rounded-full"
               />
-              <p className="text-[14px] font-semibold">
+              <p className="text-[14px] font-semibold flex items-center gap-[8px]">
                 {languages.find((lang) => lang.code === selectedLanguage)?.name}
+                {isUpdatingLanguage && <FaSpinner className="animate-spin" />}
               </p>
             </div>
             {isLanguageDropdownOpen ? (
