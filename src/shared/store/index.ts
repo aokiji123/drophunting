@@ -63,6 +63,7 @@ export type User = {
   ban: boolean;
   ban_reason: string | null;
   notifications: number;
+  subaccount: boolean;
 };
 
 type Plan = {

@@ -21,3 +21,12 @@ export const tabs = [
   { name: "Referal", href: "/referal", icon: <LuPercent size={24} /> },
   { name: "Guides", href: "/suggest-guide", icon: <GrBook size={24} /> },
 ];
+
+export const subaccountTabs = [
+  { name: "Profile", href: "/profile", icon: <FiUser size={24} /> },
+  {
+    name: "Guides",
+    href: "/suggest-guide",
+    icon: <GrBook size={24} />,
+  },
+];

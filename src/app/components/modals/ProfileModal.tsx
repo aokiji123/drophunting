@@ -59,6 +59,14 @@ const languages = [
   { code: "en", name: "English", flag: en },
 ];
 
+const subaccountTabs = [
+  {
+    name: "Guides",
+    href: "/suggest-guide",
+    icon: <GrBook size={20} className="mr-2.5" />,
+  },
+];
+
 const ProfileModal = ({
   toggleProfileModal,
   openBalanceModal,
@@ -129,18 +137,31 @@ const ProfileModal = ({
       <hr className="border-0 h-px bg-[#27292D]" />
       <div className="p-[8px]">
         <ul className="space-y-[2px]">
-          {tabs.map((tab) => (
-            <li
-              key={tab.name}
-              className="hover:bg-[#24262A] rounded-[12px] cursor-pointer flex items-center p-[12px] lg:px-[12px] lg:py-[8px] h-[40px]">
-              {tab.icon}
-              <Link
-                href={tab.href}
-                className="text-[14px] font-semibold leading-[20px] w-full">
-                {tab.name}
-              </Link>
-            </li>
-          ))}
+          {user?.subaccount
+            ? subaccountTabs.map((tab) => (
+                <li
+                  key={tab.name}
+                  className="hover:bg-[#24262A] rounded-[12px] cursor-pointer flex items-center p-[12px] lg:px-[12px] lg:py-[8px] h-[40px]">
+                  {tab.icon}
+                  <Link
+                    href={tab.href}
+                    className="text-[14px] font-semibold leading-[20px] w-full">
+                    {tab.name}
+                  </Link>
+                </li>
+              ))
+            : tabs.map((tab) => (
+                <li
+                  key={tab.name}
+                  className="hover:bg-[#24262A] rounded-[12px] cursor-pointer flex items-center p-[12px] lg:px-[12px] lg:py-[8px] h-[40px]">
+                  {tab.icon}
+                  <Link
+                    href={tab.href}
+                    className="text-[14px] font-semibold leading-[20px] w-full">
+                    {tab.name}
+                  </Link>
+                </li>
+              ))}
         </ul>
       </div>
       <hr className="border-0 h-px bg-[#27292D]" />

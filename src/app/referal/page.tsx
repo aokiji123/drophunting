@@ -15,10 +15,11 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import avatar from "../../../public/assets/avatar.png";
-import { tabs } from "@/shared/utils/tabs";
+import { subaccountTabs, tabs } from "@/shared/utils/tabs";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
+import { Progress } from "@/shared/icons/Progress";
 
 const Referal = () => {
   const pathname = usePathname();
@@ -30,6 +31,7 @@ const Referal = () => {
     isLoadingReferrals,
     referralsError,
     fetchReferrals,
+    user,
   } = useStore();
 
   useEffect(() => {
@@ -69,22 +71,69 @@ const Referal = () => {
                 },
               }}>
               <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
-                {tabs.map((tab) => (
-                  <li
-                    key={tab.name}
-                    className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
-                      isActive(tab.href)
-                        ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
-                        : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
-                    }`}>
-                    <Link
-                      href={tab.href}
-                      className="flex items-center gap-3 text-[16px]">
-                      <span className="hidden lg:block">{tab.icon}</span>
-                      {tab.name}
-                    </Link>
-                  </li>
-                ))}
+                {user?.subaccount
+                  ? subaccountTabs.map((tab) => (
+                      <li
+                        key={tab.name}
+                        className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
+                          isActive(tab.href)
+                            ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
+                            : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
+                        }`}>
+                        <Link
+                          href={tab.href}
+                          className="flex items-center gap-3 text-[16px]">
+                          <span className="hidden lg:block">
+                            {tab.name === "Progress" ? (
+                              <div className="group-hover:text-white">
+                                <Progress
+                                  size={24}
+                                  color={
+                                    isActive(tab.href)
+                                      ? "white"
+                                      : "currentColor"
+                                  }
+                                />
+                              </div>
+                            ) : (
+                              tab.icon
+                            )}
+                          </span>
+                          {tab.name}
+                        </Link>
+                      </li>
+                    ))
+                  : tabs.map((tab) => (
+                      <li
+                        key={tab.name}
+                        className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
+                          isActive(tab.href)
+                            ? "border-b-[1px] border-white lg:border-none lg:bg-[--dark-gray] text-white"
+                            : "hover:border-b-[1px] border-white lg:border-none lg:hover:bg-[--dark-gray] hover:text-white"
+                        }`}>
+                        <Link
+                          href={tab.href}
+                          className="flex items-center gap-3 text-[16px]">
+                          <span className="hidden lg:block">
+                            {tab.name === "Progress" ? (
+                              <div className="group-hover:text-white">
+                                <Progress
+                                  size={24}
+                                  color={
+                                    isActive(tab.href)
+                                      ? "white"
+                                      : "currentColor"
+                                  }
+                                />
+                              </div>
+                            ) : (
+                              tab.icon
+                            )}
+                          </span>
+                          {tab.name}
+                        </Link>
+                      </li>
+                    ))}
               </ul>
             </OverlayScrollbarsComponent>
           </nav>
