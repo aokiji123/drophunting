@@ -4,7 +4,7 @@ import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import { FiUser } from "react-icons/fi";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import useStore from "@/shared/store";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -20,7 +20,6 @@ type SignUpFormData = {
 const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>("test");
   const { register: registerUser } = useStore();
@@ -71,7 +70,7 @@ const SignUp = () => {
 
       await registerUser(signUpData);
 
-      router.push("/guides");
+      window.location.href = "/guides";
       setLoading(false);
     } catch (e) {
       setServerError(
