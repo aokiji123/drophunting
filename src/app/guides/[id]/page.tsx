@@ -23,6 +23,7 @@ import HalfChartPie from "@/shared/components/HalfChartPie";
 import { PlansModal } from "@/app/components/modals/PlansModal";
 import Link from "next/link";
 import useStore from "@/shared/store";
+import CalendarModal from "@/shared/components/CalendarModal";
 
 const CustomSlider = styled(Slider)({
   height: 6,
@@ -56,6 +57,7 @@ const Guide = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
 
   const params = useParams();
   const id = params.id as string;
@@ -145,7 +147,10 @@ const Guide = () => {
   };
 
   const handleOpenTaskById = (taskId: number) => {
-    if ((user?.count_views || 0) > 0) {
+    if (
+      (user?.count_views || 0) > 0 ||
+      (activeTask === taskId && (user?.count_views || 0) === 0)
+    ) {
       toggleAccordion(taskId);
     } else {
       togglePlansModal();
@@ -298,10 +303,22 @@ const Guide = () => {
                 )}
               </div>
               <div className="flex items-center gap-[7px]">
-                <button className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
+                <button
+                  onClick={() => setIsCalendarModalOpen(true)}
+                  className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
                   <IoCalendarClear size={20} />
+
                   <p>Remind on Telegram</p>
                 </button>
+
+                <CalendarModal
+                  metadata={{
+                    project_id: guideDetails.id,
+                  }}
+                  open={isCalendarModalOpen}
+                  onClose={() => setIsCalendarModalOpen(false)}
+                />
+
                 <div onClick={handleToggleFavorite} className="cursor-pointer">
                   {isFavorite ? (
                     <div className="bg-[#202328] w-[44px] h-[44px] items-center justify-center flex rounded-[14px] text-[#CBFF51]">

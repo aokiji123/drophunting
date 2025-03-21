@@ -22,6 +22,7 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
 import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
+import CalendarModal from "@/shared/components/CalendarModal";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -199,6 +200,9 @@ const Guides = () => {
     return path.startsWith("http") ? path : `${backendUrl}${path}`;
   };
 
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const [guideCalendarId, setGuideCalendarId] = useState<number>(0);
+
   return (
     <div className="bg-[#101114] text-white">
       <Header />
@@ -368,12 +372,19 @@ const Guides = () => {
                         ))}
                       </div>
                       <div className="flex items-center gap-[3px]">
-                        <div className="w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
+                        <div
+                          onClick={(e) => {
+                            setGuideCalendarId(guide.id);
+                            setIsCalendarModalOpen(true);
+                            e.stopPropagation();
+                          }}
+                          className="relative z-[3] w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
                           <IoCalendarClear
                             className="text-[#515459]"
                             size={20}
                           />
                         </div>
+
                         <div
                           className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
                           onClick={(e) => handleToggleFavorite(e, guide.id)}>
@@ -482,6 +493,14 @@ const Guides = () => {
           )}
         </div>
       </main>
+
+      <CalendarModal
+        metadata={{
+          project_id: guideCalendarId,
+        }}
+        open={isCalendarModalOpen}
+        onClose={() => setIsCalendarModalOpen(false)}
+      />
 
       <Footer />
     </div>

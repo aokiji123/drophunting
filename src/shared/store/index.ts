@@ -60,6 +60,9 @@ export type User = {
   affiliate_id?: string;
   count_views?: number;
   free_views?: number;
+  ban: boolean;
+  ban_reason: string | null;
+  notifications: number;
 };
 
 type Plan = {
@@ -441,11 +444,19 @@ type NotificationIcon = {
   path: string;
 };
 
+type AddCalendarNotificationData = {
+  project_id: number;
+  date: string[];
+};
+
 type Notification = {
   id: number;
   seen: number;
   text: string;
   icon: NotificationIcon | null;
+  project_id: number | null;
+  article_id: number | null;
+  date_time: string;
 };
 
 type NotificationsResponse = {
@@ -595,6 +606,9 @@ type StoreState = {
   suggestGuideError: string | null;
   suggestGuide: (params: SuggestGuideParams) => Promise<boolean>;
   resetSuggestGuideState: () => void;
+  addCalendarNotification: (
+    data: AddCalendarNotificationData,
+  ) => Promise<boolean>;
 };
 
 const useStore = create<StoreState>()(
@@ -1253,17 +1267,14 @@ const useStore = create<StoreState>()(
             updateUserError: null,
           });
 
-          const currentUser = get().user;
-          if (currentUser) {
-            const { data: userData } =
-              await axiosInstance.get<User>("/api/user");
-            set({
-              user: { ...currentUser, ...userData },
-              isUpdatingUser: false,
-              updateUserSuccess: "User refreshed successfully",
-              updateUserError: null,
-            });
-          }
+          const { data: userData } = await axiosInstance.get<User>("/api/user");
+
+          set({
+            user: { ...get().user, ...userData },
+            isUpdatingUser: false,
+            updateUserSuccess: "User refreshed successfully",
+            updateUserError: null,
+          });
 
           return true;
         } catch (error) {
@@ -2048,6 +2059,8 @@ const useStore = create<StoreState>()(
 
           const response = await axiosInstance.get<NotificationsResponse>(url);
 
+          await get().refreshUser();
+
           set({
             notifications: response.data,
             isLoadingNotifications: false,
@@ -2084,6 +2097,18 @@ const useStore = create<StoreState>()(
           return true;
         } finally {
           set({ isLoadingReferrals: false, referralsError: null });
+        }
+      },
+
+      addCalendarNotification: async (data: AddCalendarNotificationData) => {
+        try {
+          await axiosInstance.post("/api/notifications/telegram/store", data);
+
+          return true;
+        } catch {
+          throw new Error("Failed to add calendar notification");
+
+          return false;
         }
       },
 
@@ -2154,6 +2179,7 @@ const useStore = create<StoreState>()(
           suggestGuideError: null,
         });
       },
+
     }),
     {
       name: "drophunting-store",

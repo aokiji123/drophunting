@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { GoDotFill } from "react-icons/go";
 import { LuBell } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
@@ -16,8 +16,13 @@ const NotificationsModal = ({
   const { notifications, isLoadingNotifications, fetchNotifications } =
     useStore();
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    fetchNotifications();
+    if (!hasFetched.current) {
+      fetchNotifications();
+      hasFetched.current = true;
+    }
   }, [fetchNotifications]);
 
   return (
@@ -45,7 +50,12 @@ const NotificationsModal = ({
           notifications.data.map((notification) => (
             <div
               key={notification.id}
-              className="pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] cursor-pointer hover:text-[#9EA0A6] text-white overflow-y-auto">
+              onClick={() => {
+                window.location.href = `${notification.article_id ? "/blog" : "/guides"}/${
+                  notification.project_id || notification.article_id
+                }`;
+              }}
+              className={`pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] text-white overflow-y-auto ${(notification.article_id || notification.project_id) && "cursor-pointer hover:text-[#9EA0A6]"}`}>
               <div className="relative w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
                 {notification.seen === 0 && (
                   <GoDotFill className="absolute right-[25px] md:right-[30px] text-red-500" />
@@ -69,7 +79,7 @@ const NotificationsModal = ({
                   {notification.text}
                 </p>
                 <p className="text-[#8E8E8E] text-[13px] leading-[15px]">
-                  Today 12:21
+                  {notification.date_time}
                 </p>
               </div>
             </div>

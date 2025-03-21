@@ -66,6 +66,7 @@ const Header = () => {
   const toggleNotificationsModal = () => toggleModal("notifications");
   const togglePlansModal = () => toggleModal("plans");
   const toggleNavigationModal = () => toggleModal("navigation");
+
   const openBalanceModal = () => {
     setOpenModal("balance");
   };
@@ -125,12 +126,14 @@ const Header = () => {
             </div>
           </Link>
         </div>
+
         <Badge
-          dot
+          dot={(user?.notifications || 0) > 0}
           onClick={toggleNotificationsModal}
           className="cursor-pointer">
           <IoMdNotificationsOutline size={20} className="text-[#9EA0A6]" />
         </Badge>
+
         <div>
           <MdFavoriteBorder
             onClick={() => router.push("/favorites")}
