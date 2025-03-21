@@ -1937,6 +1937,7 @@ const useStore = create<StoreState>()(
 
       logout: async () => {
         set({ authLoading: true });
+
         try {
           await axiosInstance.post("/api/logout");
           updateAxiosToken(null);
