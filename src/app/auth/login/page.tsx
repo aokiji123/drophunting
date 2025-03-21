@@ -34,17 +34,8 @@ const Login = () => {
     });
   }, [fetchRecaptchaToken]);
 
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    try {
-      // Implement Google login functionality here
-      // For now, just showing an alert
-      alert("Google login integration to be implemented");
-      setLoading(false);
-    } catch {
-      setServerError("Google login failed");
-      setLoading(false);
-    }
+  const handleGoogleLogin = () => {
+    window.location.href = "https://app.esdev.tech/api/google/redirect";
   };
 
   const onSubmit = async (data: LoginFormData) => {
@@ -128,9 +119,6 @@ const Login = () => {
               </div>
 
               <div className="my-4 flex justify-center">
-                {/* <div
-                  className="g-recaptcha"
-                  data-sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"></div> */}
                 {recaptchaToken && (
                   <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
                 )}
@@ -208,11 +196,6 @@ const Login = () => {
       </main>
 
       <Footer />
-
-      {/* <script
-        src="https://www.google.com/recaptcha/api.js"
-        async
-        defer></script> */}
     </div>
   );
 };
