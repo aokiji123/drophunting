@@ -8,6 +8,7 @@ export function middleware(request: NextRequest) {
 
   const publicRoutes = new Set([
     "/auth/login",
+    "/google/callback",
     "/auth/sign-up",
     "/auth/forgot-password",
     "/auth/email-confirmation",
