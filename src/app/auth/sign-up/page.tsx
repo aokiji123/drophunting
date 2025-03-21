@@ -30,12 +30,15 @@ const SignUp = () => {
 
   const onChange = (value: string | null) => {
     setGRecaptchaResponse(value);
+    setServerError("");
   };
 
   useEffect(() => {
     fetchRecaptchaToken().then((token) => {
       setRecaptchaToken(token);
     });
+    // Reset reCAPTCHA state when component mounts
+    setGRecaptchaResponse(null);
   }, [fetchRecaptchaToken]);
 
   const handleGoogleSignUp = async () => {
@@ -43,7 +46,7 @@ const SignUp = () => {
   };
 
   const onSubmit = async (data: SignUpFormData) => {
-    if (!recaptchaToken) {
+    if (!gRecaptchaResponse) {
       setServerError("Please verify you are not a robot");
       return;
     }
@@ -55,7 +58,7 @@ const SignUp = () => {
       const signUpData = {
         ...data,
         password_confirmation: data.password,
-        "g-recaptcha-response": gRecaptchaResponse || "",
+        "g-recaptcha-response": gRecaptchaResponse,
       };
 
       if (searchParams.get("refer")) {
@@ -66,16 +69,13 @@ const SignUp = () => {
         signUpData.main_account = String(searchParams.get("mainaccount"));
       }
 
-      console.log(signUpData);
-
       await registerUser(signUpData);
-
       window.location.href = "/guides";
-      setLoading(false);
     } catch (e) {
       setServerError(
         "This email already exists, please try again or login " + e,
       );
+    } finally {
       setLoading(false);
     }
   };
@@ -152,11 +152,11 @@ const SignUp = () => {
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-bold font-sans transition-all duration-200 ${
-                  !recaptchaToken
+                  !gRecaptchaResponse || loading
                     ? "bg-gray-600 cursor-not-allowed"
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
-                disabled={loading || !recaptchaToken}>
+                disabled={loading || !gRecaptchaResponse}>
                 {loading ? "Signing up..." : "Sign Up"}
               </button>
               <div className="flex items-center my-6">

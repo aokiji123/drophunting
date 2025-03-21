@@ -26,12 +26,15 @@ const Login = () => {
 
   const onChange = (value: string | null) => {
     setGRecaptchaResponse(value);
+    setServerError("");
   };
 
   useEffect(() => {
     fetchRecaptchaToken().then((token) => {
       setRecaptchaToken(token);
     });
+    // Reset reCAPTCHA state when component mounts
+    setGRecaptchaResponse(null);
   }, [fetchRecaptchaToken]);
 
   const handleGoogleLogin = () => {
@@ -39,7 +42,7 @@ const Login = () => {
   };
 
   const onSubmit = async (data: LoginFormData) => {
-    if (!recaptchaToken) {
+    if (!gRecaptchaResponse) {
       setServerError("Please verify you are not a robot");
       return;
     }
@@ -49,17 +52,17 @@ const Login = () => {
       setServerError("");
       const loginData = {
         ...data,
-        "g-recaptcha-response": gRecaptchaResponse || "",
+        "g-recaptcha-response": gRecaptchaResponse,
       };
 
       await login(loginData);
       window.location.href = "/guides";
-      setLoading(false);
     } catch (e) {
       setServerError(
         "This login and password does not exist, please try again or register a new profile",
       );
       console.error("error", e);
+    } finally {
       setLoading(false);
     }
   };
@@ -127,11 +130,11 @@ const Login = () => {
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-sans font-bold transition-all duration-200 ${
-                  !recaptchaToken
+                  !gRecaptchaResponse || loading
                     ? "bg-gray-600 cursor-not-allowed"
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
-                disabled={loading || !recaptchaToken}>
+                disabled={loading || !gRecaptchaResponse}>
                 {loading ? "Logging in..." : "Log In"}
               </button>
 
