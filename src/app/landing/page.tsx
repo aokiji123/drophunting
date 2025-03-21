@@ -502,11 +502,7 @@ const Landing = () => {
       </div>
       <footer className="bg-black h-[751px] md:h-[617px] lg:h-[440px] px-[40px] lg:px-[100px] xl:px-[200px] pt-[56px] flex flex-col justify-between">
         <div>
-          <Image
-            src={landingLogo}
-            alt="DropHunting logo"
-            className="w-[170px] mb-[32px]"
-          />
+          <MainLogo width={170} height={40} color="#fff" />
           <div className="flex flex-col md:flex-row md:justify-between gap-[24px] md:gap-[48px]">
             <div className="flex flex-col gap-[24px]">
               <p className="text-[42px] leading-[42px] md:text-[51px] md:leading-[47px] font-bold font-druk uppercase">
