@@ -23,6 +23,7 @@ import { format } from "date-fns";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import trashIcon from "../../../public/assets/icons/trash-red.png";
 import { BuySubaccountsModal } from "../components/modals/BuySubaccountsModal";
+import { DeleteSubaccountModal } from "../components/modals/DeleteSubaccountModal";
 
 const Subaccounts = () => {
   const pathname = usePathname();
@@ -30,12 +31,16 @@ const Subaccounts = () => {
   const [copied, setCopied] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [showBuySubaccountsModal, setShowBuySubaccountsModal] = useState(false);
+  const [showDeleteSubaccountModal, setShowDeleteSubaccountModal] =
+    useState(false);
+  const [subaccountId, setSubaccountId] = useState<number | null>(null);
 
   const {
     subaccounts,
     isLoadingSubaccounts,
     subaccountsError,
     fetchSubaccounts,
+    deleteSubaccount,
   } = useStore();
 
   useEffect(() => {
@@ -48,6 +53,12 @@ const Subaccounts = () => {
   ) => {
     setCurrentPage(page);
     fetchSubaccounts(page);
+  };
+
+  const handleDeleteSubaccount = (id: number) => {
+    deleteSubaccount(id);
+    setShowDeleteSubaccountModal(false);
+    fetchSubaccounts();
   };
 
   const handleCopy = () => {
@@ -118,7 +129,7 @@ const Subaccounts = () => {
               </div>
             ) : (
               <div className="flex flex-col">
-                <div className="flex lg:flex-row flex-col items-end justify-between w-full">
+                <div className="flex flex-col">
                   <div>
                     <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
                       <FiUsers size={24} />
@@ -175,7 +186,7 @@ const Subaccounts = () => {
                   </div>
                   <button
                     onClick={() => setShowBuySubaccountsModal(true)}
-                    className="bg-[#11CA00] text-white px-[16px] py-[12px] rounded-[12px] my-6 text-[15px] font-bold leading-[20px]">
+                    className="bg-[#11CA00] text-white px-[16px] py-[12px] rounded-[12px] my-6 text-[15px] font-bold leading-[20px] w-fit">
                     Buy subaccounts
                   </button>
                 </div>
@@ -264,7 +275,12 @@ const Subaccounts = () => {
                                   {formatDate(subaccount.created_at)}
                                 </TableCell>
                                 <TableCell align="left">
-                                  <button className="text-[#FFA7A7] flex items-center gap-1">
+                                  <button
+                                    className="text-[#FFA7A7] flex items-center gap-1"
+                                    onClick={() => {
+                                      setShowDeleteSubaccountModal(true);
+                                      setSubaccountId(subaccount.id);
+                                    }}>
                                     <Image
                                       src={trashIcon}
                                       alt="trash"
@@ -280,7 +296,7 @@ const Subaccounts = () => {
                             ))
                           ) : (
                             <TableRow>
-                              <TableCell colSpan={3} align="center">
+                              <TableCell colSpan={4} align="center">
                                 No subaccounts found
                               </TableCell>
                             </TableRow>
@@ -329,6 +345,14 @@ const Subaccounts = () => {
       {showBuySubaccountsModal && (
         <BuySubaccountsModal
           onClose={() => setShowBuySubaccountsModal(false)}
+          subaccountPrice={subaccounts?.price || 0}
+        />
+      )}
+
+      {showDeleteSubaccountModal && (
+        <DeleteSubaccountModal
+          onClose={() => setShowDeleteSubaccountModal(false)}
+          onConfirm={() => handleDeleteSubaccount(subaccountId as number)}
         />
       )}
     </div>

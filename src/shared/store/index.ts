@@ -418,6 +418,7 @@ type SubaccountsData = {
   per_page: string;
   prev_page_url: string | null;
   to: number;
+  price: number;
 };
 
 type SubaccountsResponse = {
@@ -425,6 +426,7 @@ type SubaccountsResponse = {
   subaccounts_count: number;
   subaccounts_link: string;
   subaccounts: SubaccountsData;
+  price: number;
 };
 
 type UpdateUserParams = {
@@ -611,6 +613,8 @@ type StoreState = {
   addCalendarNotification: (
     data: AddCalendarNotificationData,
   ) => Promise<boolean>;
+  deleteSubaccount: (id: number) => Promise<boolean>;
+  buySubaccounts: (amount: number) => Promise<boolean>;
 };
 
 const useStore = create<StoreState>()(
@@ -2182,7 +2186,26 @@ const useStore = create<StoreState>()(
           suggestGuideError: null,
         });
       },
+
+      deleteSubaccount: async (id: number) => {
+        try {
+          await axiosInstance.post(`/api/user/subaccounts/delete/${id}`);
+          return true;
+        } catch {
+          throw new Error("Failed to delete subaccount");
+        }
+      },
+
+      buySubaccounts: async (amount: number) => {
+        try {
+          await axiosInstance.post("/api/user/subaccounts/buy", { amount });
+          return true;
+        } catch {
+          throw new Error("Failed to buy subaccounts");
+        }
+      },
     }),
+
     {
       name: "drophunting-store",
       partialize: (state) => ({
