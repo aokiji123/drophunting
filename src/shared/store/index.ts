@@ -446,7 +446,7 @@ type NotificationIcon = {
 
 type AddCalendarNotificationData = {
   project_id: number;
-  date: string[];
+  dates: string[];
 };
 
 type Notification = {
@@ -487,6 +487,8 @@ type SuggestGuideResponse = {
 };
 
 type StoreState = {
+  isLoading: boolean;
+  setIsLoading: (setIsLoading: boolean) => void;
   timezones: Timezone[];
   selectedTimezone: string;
   user: User | null;
@@ -614,6 +616,8 @@ type StoreState = {
 const useStore = create<StoreState>()(
   persist(
     (set, get) => ({
+      isLoading: false,
+      setIsLoading: (state) => set({ isLoading: state }),
       timezones: [],
       selectedTimezone: "Select your timezone",
       user: null,
@@ -1968,6 +1972,7 @@ const useStore = create<StoreState>()(
 
       logout: async () => {
         set({ authLoading: true });
+
         try {
           await axiosInstance.post("/api/logout");
           updateAxiosToken(null);

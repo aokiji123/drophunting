@@ -7,6 +7,7 @@ import loginIcon from "../../../../public/assets/icons/login.png";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import useStore from "@/shared/store";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type LoginFormData = {
   email: string;
@@ -19,6 +20,13 @@ const Login = () => {
   const [serverError, setServerError] = useState("");
   const { login, fetchRecaptchaToken } = useStore();
   const [recaptchaToken, setRecaptchaToken] = useState<string>("");
+  const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
+    null,
+  );
+
+  const onChange = (value: string | null) => {
+    setGRecaptchaResponse(value);
+  };
 
   useEffect(() => {
     fetchRecaptchaToken().then((token) => {
@@ -50,7 +58,7 @@ const Login = () => {
       setServerError("");
       const loginData = {
         ...data,
-        "g-recaptcha-response": recaptchaToken,
+        "g-recaptcha-response": gRecaptchaResponse || "",
       };
 
       await login(loginData);
@@ -120,9 +128,12 @@ const Login = () => {
               </div>
 
               <div className="my-4 flex justify-center">
-                <div
+                {/* <div
                   className="g-recaptcha"
-                  data-sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"></div>
+                  data-sitekey="6Leb5PgqAAAAAPAQU12-5hyBCDVGT_cYPjhZRi2I"></div> */}
+                {gRecaptchaResponse && (
+                  <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
+                )}
               </div>
 
               <button
@@ -198,10 +209,10 @@ const Login = () => {
 
       <Footer />
 
-      <script
-        src="https://www.google.com/recaptcha/api.js?hl=en"
+      {/* <script
+        src="https://www.google.com/recaptcha/api.js"
         async
-        defer></script>
+        defer></script> */}
     </div>
   );
 };

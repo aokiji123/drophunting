@@ -36,7 +36,7 @@ export default function CalendarModal({
 
     addCalendarNotification({
       project_id: metadata.project_id,
-      date: Array.from(selectedDays),
+      dates: Array.from(selectedDays),
     })
       .then(() => {
         setNotificationAdded("good");
