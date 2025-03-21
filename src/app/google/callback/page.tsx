@@ -11,7 +11,7 @@ export default function GoogleCallback() {
 
     if (typeof window !== "undefined") {
       const accessToken = new URLSearchParams(window.location.search).get(
-        "Access-Token",
+        "access_token",
       );
 
       if (accessToken) {
