@@ -114,7 +114,7 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-3 md:gap-5">
-        <div className="flex gap-2">
+        <div className="gap-2 hidden lg:flex">
           <Link href="https://www.google.com" target="_blank">
             <div className="cursor-pointer">
               <RiTelegram2Fill size={20} />

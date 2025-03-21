@@ -1,12 +1,15 @@
 export const Progress = ({
   size = 20,
   color = "#8E8E8E",
+  className,
 }: {
   size?: number;
   color?: string;
+  className?: string;
 }) => {
   return (
     <svg
+      className={className}
       width={size}
       height={size}
       viewBox="0 0 20 20"

@@ -28,6 +28,7 @@ import { AuthenticatorModal } from "../components/modals/AuthenticatorModal";
 import { AuthenticatorVerificationModal } from "../components/modals/AuthenticatorVerificationModal";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress } from "@/shared/icons/Progress";
+// import { MdOutlineDone } from "react-icons/md";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
@@ -626,12 +627,19 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="flex flex-row items-center gap-[24px]">
-                    <button>
+                    <div>
                       <div className="flex items-center gap-1 ml-[35px]">
                         <IoIosCloseCircle size={16} />
                         <p className="text-[#C2C0BD] leading-[18px]">Off</p>
                       </div>
-                    </button>
+                    </div>
+                    {/* if authenticator is enabled, show "On" */}
+                    {/* <div className="h-[18px] bg-[#162721] rounded-[20px] pr-[8px] pl-[4px] flex items-center gap-1">
+                      <MdOutlineDone size={16} className="text-[#0EB159]" />
+                      <p className="text-[#39FF6E] text-[14px] font-semibold font-chakra leading-[18px]">
+                        On
+                      </p>
+                    </div> */}
                     <button
                       className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]"
                       onClick={() => setShowAuthenticatorModal(true)}>

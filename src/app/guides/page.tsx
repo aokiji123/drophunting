@@ -128,7 +128,6 @@ const Guides = () => {
     fetchGuides(params);
   }, [fetchGuides, currentPage, activeTagId, searchQuery, sortingOption]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -163,7 +162,6 @@ const Guides = () => {
         name: option.name,
       });
     } else {
-      // For now, fallback to newest (id: 2) for options that are not yet implemented in the API
       setSortingOption({
         id: 2,
         name: option.name,

@@ -19,5 +19,5 @@ export const tabs = [
     icon: <Progress size={24} color="#8E8E8E" />,
   },
   { name: "Referal", href: "/referal", icon: <LuPercent size={24} /> },
-  { name: "Guides", href: "/guides", icon: <GrBook size={24} /> },
+  { name: "Guides", href: "/suggest-guide", icon: <GrBook size={24} /> },
 ];

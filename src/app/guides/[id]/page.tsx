@@ -292,7 +292,6 @@ const Guide = () => {
                     </span>
                   </div>
                 ))}
-                {/* TODO: использовать в маркерах если есть цена */}
                 {guideDetails.spend && (
                   <div className="flex items-center rounded-[8px] px-[10px] py-[8px] text-[14px] leading-[16px] font-semibold bg-gradient-to-b from-[#FF934A29] to-[#FFE47850]">
                     <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px] text-[#FFD387]">
@@ -354,23 +353,17 @@ const Guide = () => {
               </div>
             </div>
             <div>
-              {showFullDescription && guideDetails.description_full ? (
-                <div
-                  className="text-[#9A9A9A] text-[14px] leading-[20px]"
-                  dangerouslySetInnerHTML={{
-                    __html: guideDetails.description_full,
-                  }}
-                />
-              ) : (
-                <p className="text-[#9A9A9A] text-[14px] leading-[20px] max-w-[280px]">
-                  {guideDetails.description}
-                </p>
-              )}
+              <div
+                className={`text-[#9A9A9A] text-[14px] leading-[20px] ${showFullDescription ? "" : "line-clamp-5"}`}
+                dangerouslySetInnerHTML={{
+                  __html: guideDetails.description_full || "",
+                }}
+              />
               <div className="mt-[20px]">
                 <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
                   {guideDetails.description_full && (
                     <button
-                      className="text-[#CBFF51] text-[14px] leading-[20px] mt-[10px] xl:mt-0"
+                      className="text-[#CBFF51] text-[14px] leading-[20px] mt-[5px] xl:mt-0"
                       onClick={() =>
                         setShowFullDescription(!showFullDescription)
                       }>

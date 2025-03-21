@@ -24,6 +24,7 @@ export function middleware(request: NextRequest) {
     "/referal",
     "/progress",
     "/guides",
+    "/suggest-guide",
     "/favorites",
     "/blog",
     "/store",
