@@ -7,6 +7,9 @@ function GaugePointer({ size, defaultValue }: HalfChartPieProps) {
 
   if (valueAngle === null) return null;
 
+  const correctedAngle =
+    defaultValue === 0 ? valueAngle + (16 * Math.PI) / 180 : valueAngle;
+
   const adjustedRadius = (innerRadius + outerRadius) / 2;
   const shift = size === "medium" ? 5 : size === "big" ? 7 : null;
   if (!shift) {
@@ -15,9 +18,13 @@ function GaugePointer({ size, defaultValue }: HalfChartPieProps) {
 
   const target = {
     x:
-      cx + adjustedRadius * Math.sin(valueAngle) - shift * Math.cos(valueAngle),
+      cx +
+      adjustedRadius * Math.sin(correctedAngle) -
+      shift * Math.cos(correctedAngle),
     y:
-      cy - adjustedRadius * Math.cos(valueAngle) - shift * Math.sin(valueAngle),
+      cy -
+      adjustedRadius * Math.cos(correctedAngle) -
+      shift * Math.sin(correctedAngle),
   };
 
   if (defaultValue && defaultValue < 100) {

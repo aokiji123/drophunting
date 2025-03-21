@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import {
@@ -50,13 +50,49 @@ const marks = Array.from({ length: 6 }, (_, i) => ({
   visible: i !== 0 && i !== 5,
 }));
 
+const GuideDescription = ({ description }: { description: string }) => {
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isClamped, setIsClamped] = useState(false);
+  const descriptionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (descriptionRef.current) {
+      const element = descriptionRef.current;
+      setIsClamped(element.scrollHeight > element.clientHeight);
+    }
+  }, [description]);
+
+  return (
+    <div>
+      <div
+        ref={descriptionRef}
+        className={`text-[#9A9A9A] text-[14px] leading-[20px] ${showFullDescription ? "" : "line-clamp-5"}`}
+        dangerouslySetInnerHTML={{
+          __html: description || "",
+        }}
+      />
+      {isClamped && (
+        <div className="mt-[20px]">
+          <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
+            <button
+              className="text-[#CBFF51] text-[14px] leading-[20px] mt-[5px] xl:mt-0"
+              onClick={() => setShowFullDescription(!showFullDescription)}>
+              {showFullDescription ? "Less" : "More"}
+            </button>
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Guide = () => {
   const router = useRouter();
   const [activeTask, setActiveTask] = useState<number | null>(null);
   const [showPlansModal, setShowPlansModal] = useState(false);
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
+  // const [showFullDescription, setShowFullDescription] = useState(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
 
   const params = useParams();
@@ -119,6 +155,8 @@ const Guide = () => {
 
         handleOpenTaskById(+elementId.split("-")[1]);
       }
+
+      window.location.hash = "";
     }
   }, [guideDetails]);
 
@@ -352,7 +390,8 @@ const Guide = () => {
                 </p>
               </div>
             </div>
-            <div>
+
+            {/* <div>
               <div
                 className={`text-[#9A9A9A] text-[14px] leading-[20px] ${showFullDescription ? "" : "line-clamp-5"}`}
                 dangerouslySetInnerHTML={{
@@ -372,7 +411,11 @@ const Guide = () => {
                   )}
                 </p>
               </div>
-            </div>
+            </div> */}
+            <GuideDescription
+              description={guideDetails.description_full || ""}
+            />
+
             <div className="flex items-center gap-[10px]">
               {guideDetails.link_site && (
                 <Link
@@ -408,7 +451,7 @@ const Guide = () => {
           </section>
           <section className="w-full xl:w-[70%] flex flex-col gap-[18px]">
             <p className="text-[20px] leading-[24px] font-bold">Tasks</p>
-            <div className="flex flex-col">
+            <div className="relative flex flex-col">
               <div className="flex items-center justify-between text-[16px] leading-[18px] font-bold ">
                 <div className="flex items-center gap-3">
                   <p className="text-[#707273]">Completed:</p>
@@ -430,6 +473,7 @@ const Guide = () => {
                   guideDetails.tasks_count > 0 ? guideDetails.tasks_count : 1
                 }
               />
+              <div className="absolute bottom-[13px] h-1.5 outline-4 outline outline-[#101114] rounded-full left-1 right-1" />
             </div>
             {subscriptions && subscriptions.length <= 0 && (
               <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
