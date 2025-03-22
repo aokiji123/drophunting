@@ -284,12 +284,15 @@ const Landing = () => {
               обновлений в проектах
             </p>
             <div className="flex">
-              <button className="flex items-center justify-center gap-[10px] bg-[#159ADC] pl-[16px] pr-[31px] py-[10px] rounded-[12px]">
+              <a
+                target="_blank"
+                href="https://google.com"
+                className="hover:opacity-80 transition-opacity flex items-center justify-center gap-[10px] bg-[#159ADC] pl-[16px] pr-[31px] py-[10px] rounded-[12px]">
                 <div>
                   <RiTelegram2Fill size={32} />
                 </div>
                 <p className="text-[18px] leading-[16px]">Телеграм</p>
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -377,7 +380,7 @@ const Landing = () => {
           />
         </div>
         <div className="flex items-center justify-center">
-          <div className="flex items-center justify-center mt-[50px] bg-white py-[10px] px-[16px] rounded-[12px] w-[184px] h-[40px] sm:h-[48px] lg:h-[57px]">
+          <div className="opacity-0 flex items-center justify-center mt-[50px] bg-white py-[10px] px-[16px] rounded-[12px] w-[184px] h-[40px] sm:h-[48px] lg:h-[57px]">
             <div className="text-[14px] leading-[16px] text-black">
               Показать еще
             </div>
@@ -482,10 +485,26 @@ const Landing = () => {
             </a>
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-[40px]">
-                <BsTwitterX size={35} />
-                <FaDiscord size={40} />
-                <RiTelegram2Fill size={40} />
-                <FaInstagram size={40} />
+                <BsTwitterX
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={35}
+                />
+                <FaDiscord
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={40}
+                />
+                <RiTelegram2Fill
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={40}
+                />
+                <FaInstagram
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={40}
+                />
               </div>
             </div>
           </div>
@@ -519,10 +538,26 @@ const Landing = () => {
                 каналов
               </p>
               <div className="flex items-center gap-[10px] mb-[24px]">
-                <BsTwitterX size={23} />
-                <FaDiscord size={27} />
-                <RiTelegram2Fill size={27} />
-                <FaInstagram size={27} />
+                <BsTwitterX
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={23}
+                />
+                <FaDiscord
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={27}
+                />
+                <RiTelegram2Fill
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={27}
+                />
+                <FaInstagram
+                  onClick={() => window.open("https://google.com", "_blank")}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  size={27}
+                />
               </div>
               <ul className="hidden lg:hidden md:flex flex-col gap-[17px] w-[150px]">
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
@@ -560,9 +595,9 @@ const Landing = () => {
                   className="hover:bg-[#0D9E00] transition-colors bg-[#11CA00] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
                   Перейти в агрегатор
                 </a>
-                <button className="bg-[#21274C] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+                {/* <button className="bg-[#21274C] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
                   Подписаться на бот
-                </button>
+                </button> */}
               </div>
               <ul className="flex md:hidden flex-col gap-[17px] w-[150px]">
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">

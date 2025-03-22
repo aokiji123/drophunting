@@ -54,18 +54,34 @@ const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
             className="hover:bg-[#0D9E00] transition-colors w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#11CA00] flex items-center justify-center">
             Перейти в агрегатор
           </a>
-          <button className="w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#21274C] flex items-center justify-center">
+          {/* <button className="w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#21274C] flex items-center justify-center">
             Подписаться на бот
-          </button>
+          </button> */}
         </div>
       </div>
       <hr className="my-[26px] border-0 h-px bg-[#24262A]" />
       <div className="flex items-center mb-[26px]">
         <div className="flex items-center gap-[20px]">
-          <BsTwitterX size={24} />
-          <FaDiscord size={28} />
-          <RiTelegram2Fill size={28} />
-          <FaInstagram size={28} />
+          <BsTwitterX
+            onClick={() => window.open("https://google.com", "_blank")}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            size={24}
+          />
+          <FaDiscord
+            onClick={() => window.open("https://google.com", "_blank")}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            size={28}
+          />
+          <RiTelegram2Fill
+            onClick={() => window.open("https://google.com", "_blank")}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            size={28}
+          />
+          <FaInstagram
+            onClick={() => window.open("https://google.com", "_blank")}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            size={28}
+          />
         </div>
       </div>
       <div className="cursor-pointer">
