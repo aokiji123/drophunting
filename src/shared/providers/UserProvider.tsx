@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import useStore from "@/shared/store";
 
@@ -11,21 +11,37 @@ export default function UserProvider({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [isRefreshed, setIsRefreshed] = useState(false);
 
-  const { refreshUser } = useStore();
+  const { refreshUser, setIsLoading, logout } = useStore();
 
   useEffect(() => {
-    if (
-      !["auth"].some((p) => pathname.includes(p)) &&
-      !pathname.includes("landing")
-    ) {
-      refreshUser().finally(() => setIsRefreshed(true));
-    } else {
-      setIsRefreshed(true);
-    }
-  }, [pathname]);
+    const checkUserStatus = async () => {
+      if (
+        !["auth"].some((p) => pathname.includes(p)) &&
+        !pathname.includes("landing")
+      ) {
+        try {
+          await refreshUser();
+        } catch (error) {
+          if (error instanceof Error && error.message === "Forbidden") {
+            setIsLoading(true);
+            await logout();
+            router.push("/auth/login");
+          }
+        } finally {
+          setIsLoading(false);
+          setIsRefreshed(true);
+        }
+      } else {
+        setIsRefreshed(true);
+      }
+    };
+
+    checkUserStatus();
+  }, [pathname, refreshUser, logout, router, setIsLoading]);
 
   if (!isRefreshed)
     return (

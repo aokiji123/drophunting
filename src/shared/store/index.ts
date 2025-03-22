@@ -7,6 +7,7 @@ type AuthErrors = {
   name?: string[];
   email?: string[];
   password?: string[];
+  global?: string;
 };
 
 type LoginParams = {
@@ -594,7 +595,7 @@ type StoreState = {
   authStatus: string | null;
   sessionVerified: boolean;
   googleLogin: (accessToken: string) => Promise<{ token: string }>;
-  login: (data: LoginParams) => Promise<{ token: string }>;
+  login: (data: LoginParams) => Promise<{ token: string | null }>;
   register: (data: RegisterParams) => Promise<{ token: string }>;
   logout: () => Promise<void>;
   sendPasswordResetLink: (data: {
@@ -604,7 +605,7 @@ type StoreState = {
   sendEmailVerificationLink: () => Promise<{ status: string }>;
   setAuthStatus: (status: string | null) => void;
   fetchNotifications: (page?: number) => Promise<void>;
-  refreshUser: () => Promise<boolean>;
+  refreshUser: () => Promise<User | null>;
   claimReward: () => Promise<boolean>;
   fetchRecaptchaToken: () => Promise<string>;
   isSuggestingGuide: boolean;
@@ -1279,40 +1280,31 @@ const useStore = create<StoreState>()(
 
           const { data: userData } = await axiosInstance.get<User>("/api/user");
 
+          const updatedUser = { ...get().user, ...userData };
+
           set({
-            user: { ...get().user, ...userData },
+            user: updatedUser,
             isUpdatingUser: false,
             updateUserSuccess: "User refreshed successfully",
             updateUserError: null,
           });
 
-          return true;
-        } catch (error) {
-          console.error("Error refreshing user:", error);
-          let errorMessage = "Failed to refresh profile";
+          return updatedUser;
+        } catch (err) {
+          console.error("Error refreshing user:", err);
 
-          if (error && typeof error === "object" && "response" in error) {
-            const errorResponse = error.response as ErrorResponse;
-            if (errorResponse?.status === 422) {
-              if (errorResponse.data?.message) {
-                errorMessage = errorResponse.data.message;
-              } else if (errorResponse.data?.errors) {
-                const errors = Object.values(errorResponse.data.errors).flat();
-                errorMessage = errors.join(", ");
-              }
-            } else if (errorResponse?.data?.message) {
-              errorMessage = errorResponse.data.message;
-            }
-          } else if (error instanceof Error) {
-            errorMessage = error.message;
+          // @ts-expect-error: AxiosError is not working
+          if (error.response?.status === 403) {
+            throw new Error("Forbidden");
           }
 
           set({
             isUpdatingUser: false,
             updateUserSuccess: null,
-            updateUserError: errorMessage,
+            updateUserError: "Failed to refresh profile",
           });
-          return false;
+
+          return null;
         }
       },
 
@@ -1922,11 +1914,14 @@ const useStore = create<StoreState>()(
       },
       login: async (data: LoginParams) => {
         set({ authErrors: {}, authLoading: true });
+
+        let errorMessage = "Unknown error";
+
         try {
-          const response = await axiosInstance.post<{
-            token: string;
-          }>("/api/login", data);
-          const token = response.data?.token;
+          const {
+            data: { token },
+          } = await axiosInstance.post<{ token: string }>("/api/login", data);
+
           if (token) {
             Cookies.set("auth-token", token, {
               expires: 7,
@@ -1934,34 +1929,84 @@ const useStore = create<StoreState>()(
               sameSite: "Strict",
             });
             updateAxiosToken(token);
-          }
 
-          try {
-            const { data: userData } = await axiosInstance.get<User>(
-              "/api/user",
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              },
-            );
-            set({ user: userData, sessionVerified: true });
-          } catch (userError) {
-            console.warn("Error fetching user after login:", userError);
-            set({ sessionVerified: false, user: null });
-            updateAxiosToken(null);
-            Cookies.remove("auth-token");
+            try {
+              const { data: userData } = await axiosInstance.get<User>(
+                "/api/user",
+                { headers: { Authorization: `Bearer ${token}` } },
+              );
+              set({ user: userData, sessionVerified: true });
+            } catch (userError) {
+              const err = userError as {
+                response?: { status?: number; data?: { message?: string } };
+              };
+
+              if (
+                err.response?.status === 403 ||
+                err.response?.status === 422
+              ) {
+                errorMessage =
+                  err.response?.status === 403 &&
+                  typeof err?.response?.data === "string"
+                    ? err?.response?.data
+                    : (err?.response?.data?.message || "Unknown error") ===
+                        "Эти учетные данные не соответствуют нашим записям.."
+                      ? "This login and password does not exist, please try again or register a new profile"
+                      : "Unknown error";
+                set({
+                  authErrors: { global: errorMessage },
+                  sessionVerified: false,
+                  user: null,
+                });
+              } else {
+                set({ sessionVerified: false, user: null });
+              }
+
+              updateAxiosToken(null);
+              Cookies.remove("auth-token");
+
+              throw {
+                errorMessage:
+                  errorMessage ||
+                  "This login and password does not exist, please try again or register a new profile",
+              };
+            }
           }
 
           set({ authLoading: false });
-          return response.data;
-        } catch (e) {
-          const err = e as {
-            response?: { data?: { errors?: AuthErrors } };
+          return { token };
+        } catch (userError) {
+          const err = userError as {
+            response?: { status?: number; data?: { message?: string } };
           };
-          set({
-            authErrors: err.response?.data?.errors || {},
-            authLoading: false,
-          });
-          throw e;
+
+          if (err.response?.status === 403 || err.response?.status === 422) {
+            errorMessage =
+              err.response?.status === 403 &&
+              typeof err?.response?.data === "string"
+                ? err?.response?.data
+                : (err?.response?.data?.message || "Unknown error") ===
+                    "Эти учетные данные не соответствуют нашим записям.."
+                  ? "This login and password does not exist, please try again or register a new profile"
+                  : "Unknown error";
+
+            set({
+              authErrors: { global: errorMessage },
+              sessionVerified: false,
+              user: null,
+            });
+          } else {
+            set({ sessionVerified: false, user: null });
+          }
+
+          updateAxiosToken(null);
+          Cookies.remove("auth-token");
+
+          throw {
+            errorMessage:
+              errorMessage ||
+              "This login and password does not exist, please try again or register a new profile",
+          };
         }
       },
 

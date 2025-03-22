@@ -28,6 +28,4 @@ export const updateAxiosToken = (newToken: string | null) => {
   }
 };
 
-axiosInstance.interceptors.response.use((response) => response);
-
 export default axiosInstance;
