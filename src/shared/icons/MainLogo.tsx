@@ -18,26 +18,26 @@ export const MainLogo = ({
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M247.815 78.7767H202.031L189.243 151.55H237.986L251.208 140.387L259.594 93.0014L247.815 78.7767ZM229.998 135.153L234.349 131.454L240.25 98.2246L237.739 95.1747H217.591L210.501 135.153H229.998Z"
         fill={color}
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M313.97 119.722L320.184 114.408L324.121 91.8486L313.416 78.7767H268.492L255.704 151.55H274.113L278.651 125.679H296.567L299.396 129.601L295.578 151.55H313.979L318.51 125.913L313.97 119.722ZM303.125 107.518L300.607 109.668H281.491L284.058 94.9816H303.819L305.071 96.4929L303.125 107.518Z"
         fill={color}
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M344.123 78.7767L330.619 90.3361L322.236 137.707L333.623 151.55H370.747L383.969 140.387L392.452 92.518L381.057 78.7767H344.123ZM362.759 135.153L367.11 131.454L373.012 98.2246L370.5 95.1747H351.928L347.574 98.8758L341.581 132.106L344.09 135.153H362.759Z"
         fill={color}
       />
       <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M446.15 78.7767H401.226L388.438 151.55H406.845L410.9 128.575H439.698L452.239 117.888L456.858 91.852L446.15 78.7767ZM432.858 112.371L435.377 110.22L437.805 96.4925L436.553 94.9816H416.791L413.744 112.371H432.858Z"
         fill={color}
       />

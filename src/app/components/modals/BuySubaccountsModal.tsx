@@ -7,6 +7,14 @@ type BuySubaccountsModalType = {
   subaccountPrice: number;
 };
 
+type APIError = {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+};
+
 export const BuySubaccountsModal = ({
   onClose,
   subaccountPrice,
@@ -34,10 +42,17 @@ export const BuySubaccountsModal = ({
 
   const handleBuySubaccounts = async () => {
     try {
+      setError("");
       await buySubaccounts(amount);
       onClose();
       window.location.reload();
-    } catch (error) {
+    } catch (error: unknown) {
+      const apiError = error as APIError;
+      if (apiError?.response?.data?.message === "Insufficient balance") {
+        setError("Insufficient balance. Please top up your account.");
+      } else {
+        setError("Insufficient balance. Please top up your account.");
+      }
       console.error("Error buying subaccounts:", error);
     }
   };
@@ -81,7 +96,9 @@ export const BuySubaccountsModal = ({
             onChange={handleAmountChange}
             className="h-[48px] bg-[#24262B] rounded-[14px] py-[12px] px-[16px] text-[15px] leading-[24px]"
           />
-          {error && <p className="text-red-500 text-[12px]">{error}</p>}
+          {error && (
+            <p className="text-[--error] text-sm font-medium">{error}</p>
+          )}
           <div className="flex items-center justify-end gap-[12px]">
             <p className="text-[14px] leading-[16px] font-medium">Итого</p>
             <p className="text-[19px] leading-[16px] font-medium">

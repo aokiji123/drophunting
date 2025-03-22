@@ -17,9 +17,18 @@ type SignUpFormData = {
   affiliate?: string;
 };
 
+type ValidationErrors = {
+  name?: string;
+  email?: string;
+  password?: string;
+};
+
 const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {},
+  );
   const [loading, setLoading] = useState(false);
   const { register: registerUser, fetchRecaptchaToken } = useStore();
   const searchParams = useSearchParams();
@@ -45,7 +54,31 @@ const SignUp = () => {
     window.location.href = "https://app.esdev.tech/api/google/redirect";
   };
 
+  const validateForm = (data: SignUpFormData): boolean => {
+    const errors: ValidationErrors = {};
+
+    if (!data.name.trim()) {
+      errors.name = "Name is required";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (data.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const onSubmit = async (data: SignUpFormData) => {
+    if (!validateForm(data)) {
+      return;
+    }
+
     if (!gRecaptchaResponse) {
       setServerError("Please verify you are not a robot");
       return;
@@ -105,14 +138,19 @@ const SignUp = () => {
                   placeholder="Name"
                   {...register("name")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    serverError
+                    validationErrors.name
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!serverError}
+                  aria-invalid={!!validationErrors.name}
                   aria-describedby="name-error"
                   autoComplete="off"
                 />
+                {validationErrors.name && (
+                  <p className="text-[--error] text-sm mt-1 text-left">
+                    {validationErrors.name}
+                  </p>
+                )}
               </div>
               <div className="mb-2">
                 <input
@@ -120,14 +158,19 @@ const SignUp = () => {
                   placeholder="Email"
                   {...register("email")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    serverError
+                    validationErrors.email
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!serverError}
+                  aria-invalid={!!validationErrors.email}
                   aria-describedby="email-error"
                   autoComplete="off"
                 />
+                {validationErrors.email && (
+                  <p className="text-[--error] text-sm mt-1 text-left">
+                    {validationErrors.email}
+                  </p>
+                )}
               </div>
               <div className="mb-4">
                 <input
@@ -135,14 +178,19 @@ const SignUp = () => {
                   placeholder="Password"
                   {...register("password")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    serverError
+                    validationErrors.password
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!serverError}
+                  aria-invalid={!!validationErrors.password}
                   aria-describedby="password-error"
                   autoComplete="off"
                 />
+                {validationErrors.password && (
+                  <p className="text-[--error] text-sm mt-1 text-left">
+                    {validationErrors.password}
+                  </p>
+                )}
               </div>
               <div className="my-4 flex justify-center">
                 {recaptchaToken && (

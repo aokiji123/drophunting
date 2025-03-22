@@ -148,7 +148,7 @@ const Header = () => {
             {t("upgrade")}
           </p>
         </button>
-        {user && (
+        {!user?.subaccount && (
           <div
             className="hidden lg:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
             onClick={toggleBalanceModal}>

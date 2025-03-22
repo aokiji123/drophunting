@@ -343,7 +343,7 @@ const Guides = () => {
                 <div key={guide.id}>
                   <div
                     className="w-[339px] sm:w-[340px] lg:w-[394px] h-[280px] lg:h-[294px] bg-[#17181B] p-[16px] pt-[12px] lg:px-[20px] lg:py-[16px] rounded-[16px] border-[1px] border-[#1F2126] hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`guides/${guide.id}`)}>
+                    onClick={() => router.push(`guides/${guide.slug}`)}>
                     <div className="flex justify-between">
                       <div className="flex items-center gap-1 flex-wrap">
                         <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import Image from "next/image";
@@ -7,7 +7,6 @@ import loginIcon from "../../../../public/assets/icons/login.png";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import useStore from "@/shared/store";
-import ReCAPTCHA from "react-google-recaptcha";
 
 type LoginFormData = {
   email: string;
@@ -18,44 +17,17 @@ const Login = () => {
   const { register, handleSubmit } = useForm<LoginFormData>();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
-  const { login, fetchRecaptchaToken } = useStore();
-  const [recaptchaToken, setRecaptchaToken] = useState<string>("");
-  const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
-    null,
-  );
-
-  const onChange = (value: string | null) => {
-    setGRecaptchaResponse(value);
-    setServerError("");
-  };
-
-  useEffect(() => {
-    fetchRecaptchaToken().then((token) => {
-      setRecaptchaToken(token);
-    });
-    // Reset reCAPTCHA state when component mounts
-    setGRecaptchaResponse(null);
-  }, [fetchRecaptchaToken]);
+  const { login } = useStore();
 
   const handleGoogleLogin = () => {
     window.location.href = "https://app.esdev.tech/api/google/redirect";
   };
 
   const onSubmit = async (data: LoginFormData) => {
-    if (!gRecaptchaResponse) {
-      setServerError("Please verify you are not a robot");
-      return;
-    }
-
     setLoading(true);
     try {
       setServerError("");
-      const loginData = {
-        ...data,
-        "g-recaptcha-response": gRecaptchaResponse,
-      };
-
-      await login(loginData);
+      await login(data);
       window.location.href = "/guides";
     } catch (e) {
       setServerError(
@@ -121,20 +93,14 @@ const Login = () => {
                 />
               </div>
 
-              <div className="my-4 flex justify-center">
-                {recaptchaToken && (
-                  <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
-                )}
-              </div>
-
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-sans font-bold transition-all duration-200 ${
-                  !gRecaptchaResponse || loading
+                  loading
                     ? "bg-gray-600 cursor-not-allowed"
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
-                disabled={loading || !gRecaptchaResponse}>
+                disabled={loading}>
                 {loading ? "Logging in..." : "Log In"}
               </button>
 

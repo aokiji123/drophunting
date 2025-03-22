@@ -688,19 +688,23 @@ const Profile = () => {
               <div
                 ref={bottomSectionRef}
                 className="flex justify-between items-center gap-4">
-                <button
-                  className="bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
-                  onClick={handleDeleteAccount}
-                  disabled={isSaving}>
-                  <div className="flex-shrink-0">
-                    <Image
-                      src={cancel}
-                      alt="Cancel icon"
-                      className="w-[16px] h-[16px]"
-                    />
-                  </div>
-                  <div>Delete account</div>
-                </button>
+                {!user?.subaccount ? (
+                  <button
+                    className="bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                    onClick={handleDeleteAccount}
+                    disabled={isSaving}>
+                    <div className="flex-shrink-0">
+                      <Image
+                        src={cancel}
+                        alt="Cancel icon"
+                        className="w-[16px] h-[16px]"
+                      />
+                    </div>
+                    <div>Delete account</div>
+                  </button>
+                ) : (
+                  <div></div>
+                )}
                 {hasChanges() && (
                   <button
                     className="bg-[#11CA00] h-[44px] py-[8px] px-[16px] rounded-[10px] text-[16px] leading-[20px] font-sans font-semibold flex items-center gap-2"
