@@ -23,11 +23,11 @@ const Footer = () => {
         Support
       </Link>
       <div className="flex items-center justify-center gap-5 text-[#707070] text-[12px] leading-[16px]">
-        <Link href="#">Terms</Link>
-        <Link href="#">Privacy</Link>
+        <Link href="/terms-and-privacy">Terms</Link>
+        <Link href="/terms-and-privacy">Privacy</Link>
       </div>
       <div
-        className="absolute top-[20px] right-[50px] size-[57px] bg-[#17181B] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#1f2025] transition-colors"
+        className="absolute top-[70px] right-[20px]  xs:top-[20px] xs:right-[50px] size-[57px] bg-[#17181B] rounded-full flex items-center justify-center cursor-pointer hover:bg-[#1f2025] transition-colors"
         onClick={scrollToTop}
         aria-label="Scroll to top">
         <FaAngleUp size={24} className="text-[#7F7F7F]" />

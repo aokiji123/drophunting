@@ -15,8 +15,8 @@ const Footer = () => {
         Support
       </Link>
       <div className="flex items-center justify-center gap-5 text-[#707070] text-[12px] leading-[16px]">
-        <Link href="#">Terms</Link>
-        <Link href="#">Privacy</Link>
+        <Link href="/terms-and-privacy">Terms</Link>
+        <Link href="/terms-and-privacy">Privacy</Link>
       </div>
     </footer>
   );

@@ -17,7 +17,7 @@ const Header = () => {
         className="absolute top-0 left-[250px] -z-10 pointer-events-none"
       />
       <button
-        onClick={() => router.push("/profile")}
+        onClick={() => router.push("/guides")}
         className="flex items-center bg-[--dark-gray] font-chakra p-[8px] w-[32px] sm:w-[120px] sm:pr-[12px] rounded-xl text-gray-500 h-[32px] absolute">
         <IoIosArrowBack size={20} className="sm:mr-1" />
         <p className="hidden sm:block">Back to site</p>

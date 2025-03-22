@@ -58,9 +58,14 @@ const Subaccounts = () => {
   };
 
   const handleDeleteSubaccount = (id: number) => {
-    deleteSubaccount(id);
-    setShowDeleteSubaccountModal(false);
-    fetchSubaccounts();
+    deleteSubaccount(id)
+      .then(() => {
+        setShowDeleteSubaccountModal(false);
+        fetchSubaccounts(currentPage);
+      })
+      .catch((error) => {
+        console.error("Error deleting subaccount:", error);
+      });
   };
 
   const handleCopy = () => {
@@ -195,12 +200,24 @@ const Subaccounts = () => {
                     </div>
                     <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full lg:w-[630px]">
                       <div className="flex items-center gap-3">
+                        {/* {subaccounts?.subaccounts_count ===
+                          subaccounts?.limit_subaccounts && (
+                          <p className="leading-[16px] font-semibold text-[#FF6951]">
+                            Attention!
+                          </p>
+                        )} */}
                         <p className="leading-[16px] font-semibold">
                           Subaccounts is used
                         </p>
                         <SmallChartPie
                           max={subaccounts?.limit_subaccounts || 0}
                           current={subaccounts?.subaccounts_count || 0}
+                          // color={
+                          //   subaccounts?.subaccounts_count ===
+                          //   subaccounts?.limit_subaccounts
+                          //     ? "#FF6951"
+                          //     : "#393B41"
+                          // }
                         />
                         <p className="leading-[16px] font-semibold">
                           {subaccounts
@@ -208,29 +225,34 @@ const Subaccounts = () => {
                             : "0/0"}
                         </p>
                       </div>
-                      <hr className="mb-[25px] mt-[10px] border-0 h-px bg-[#27292D]" />
-                      <div className="flexitems-center justify-between">
-                        <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
-                          Send invitation link
-                        </p>
-                        <div className="relative flex items-center justify-between md:w-[465px] gap-[10px] mt-3">
-                          <input
-                            value={subaccounts?.subaccounts_link || ""}
-                            readOnly
-                            className="bg-[#24262B] p-[12px] rounded-[12px] w-full truncate leading-[20px]"
-                          />
-                          <button
-                            onClick={handleCopy}
-                            className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
-                            Copy
-                            {copied && (
-                              <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
-                                Link copied!
-                              </span>
-                            )}
-                          </button>
-                        </div>
-                      </div>
+                      {subaccounts?.subaccounts_count !==
+                        subaccounts?.limit_subaccounts && (
+                        <>
+                          <hr className="mb-[25px] mt-[10px] border-0 h-px bg-[#27292D]" />
+                          <div className="flexitems-center justify-between">
+                            <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
+                              Send invitation link
+                            </p>
+                            <div className="relative flex items-center justify-between md:w-[465px] gap-[10px] mt-3">
+                              <input
+                                value={subaccounts?.subaccounts_link || ""}
+                                readOnly
+                                className="bg-[#24262B] p-[12px] rounded-[12px] w-full truncate leading-[20px]"
+                              />
+                              <button
+                                onClick={handleCopy}
+                                className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
+                                Copy
+                                {copied && (
+                                  <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
+                                    Link copied!
+                                  </span>
+                                )}
+                              </button>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                   <button
