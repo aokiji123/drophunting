@@ -28,4 +28,16 @@ export const updateAxiosToken = (newToken: string | null) => {
   }
 };
 
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      Cookies.remove("auth-token");
+      Cookies.remove("user");
+      updateAxiosToken(null);
+    }
+    return Promise.reject(error);
+  },
+);
+
 export default axiosInstance;
