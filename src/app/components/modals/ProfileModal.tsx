@@ -144,7 +144,9 @@ const ProfileModal = ({
           <div
             className="flex lg:hidden items-center justify-center h-[40px] bg-[#24262A] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer mt-[8px] mb-[16px]"
             onClick={handleBalanceClick}>
-            <p className="leading-[16px] font-semibold">$ {user.balance}</p>
+            <p className="leading-[16px] font-semibold">
+              $ {user.balance || "0.00"}
+            </p>
             <MdOutlineArrowDropDown size={20} className="p-0" />
           </div>
         )}

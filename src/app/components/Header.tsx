@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Badge } from "antd";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -25,13 +25,6 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { user, loading } = useAuth();
-  const [balance, setBalance] = useState<string>("0");
-
-  useEffect(() => {
-    if (user && user.balance) {
-      setBalance(user.balance);
-    }
-  }, [user]);
 
   const isActive = (href: string) => {
     if (href === "/guides") {
@@ -152,7 +145,9 @@ const Header = () => {
           <div
             className="hidden lg:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
             onClick={toggleBalanceModal}>
-            <p className="leading-[16px] font-semibold">$ {balance}</p>
+            <p className="leading-[16px] font-semibold">
+              $ {user?.balance || "0.00"}
+            </p>
             <MdOutlineArrowDropDown size={20} className="p-0" />
           </div>
         )}
