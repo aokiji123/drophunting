@@ -121,7 +121,6 @@ const Header = () => {
 
         {user && (
           <>
-            (
             <Badge
               dot={(user?.notifications || 0) > 0}
               onClick={toggleNotificationsModal}
@@ -147,7 +146,6 @@ const Header = () => {
                 {t("upgrade")}
               </p>
             </button>
-            )
           </>
         )}
 
