@@ -29,11 +29,14 @@ const Login = () => {
       setServerError("");
       await login(data);
       window.location.href = "/guides";
-    } catch (e) {
+    } catch (error) {
+      console.log({ error });
+
       setServerError(
-        "This login and password does not exist, please try again or register a new profile",
+        // @ts-expect-error: ""
+        error?.errorMessage ||
+          "This login and password does not exist, please try again or register a new profile",
       );
-      console.error("error", e);
     } finally {
       setLoading(false);
     }
