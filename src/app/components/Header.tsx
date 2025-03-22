@@ -119,29 +119,39 @@ const Header = () => {
           </Link>
         </div>
 
-        <Badge
-          dot={(user?.notifications || 0) > 0}
-          onClick={toggleNotificationsModal}
-          className="cursor-pointer">
-          <IoMdNotificationsOutline size={20} className="text-[#9EA0A6]" />
-        </Badge>
+        {user && (
+          <>
+            (
+            <Badge
+              dot={(user?.notifications || 0) > 0}
+              onClick={toggleNotificationsModal}
+              className="cursor-pointer">
+              <IoMdNotificationsOutline size={20} className="text-[#9EA0A6]" />
+            </Badge>
+            <div>
+              <MdFavoriteBorder
+                onClick={() => router.push("/favorites")}
+                size={20}
+                className="text-[#9EA0A6] cursor-pointer"
+              />
+            </div>
+            <button
+              className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]"
+              onClick={togglePlansModal}>
+              <Image
+                src={starIcon}
+                alt="Star icon"
+                className="w-[16px] h-[16px]"
+              />
+              <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
+                {t("upgrade")}
+              </p>
+            </button>
+            )
+          </>
+        )}
 
-        <div>
-          <MdFavoriteBorder
-            onClick={() => router.push("/favorites")}
-            size={20}
-            className="text-[#9EA0A6] cursor-pointer"
-          />
-        </div>
-        <button
-          className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]"
-          onClick={togglePlansModal}>
-          <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
-          <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-            {t("upgrade")}
-          </p>
-        </button>
-        {!user?.subaccount && (
+        {user && !user?.subaccount && (
           <div
             className="hidden lg:flex items-center justify-center h-[40px] bg-[--dark-gray] py-[10px] pr-[17px] pl-[20px] rounded-[52px] cursor-pointer"
             onClick={toggleBalanceModal}>
@@ -151,30 +161,40 @@ const Header = () => {
             <MdOutlineArrowDropDown size={20} className="p-0" />
           </div>
         )}
-        <div
-          onClick={toggleProfileModal}
-          className="flex items-center cursor-pointer">
-          <div className="relative w-[28px] sm:w-[32px] lg:w-[48px] h-[28px] sm:h-[32px] lg:h-[48px] rounded-full p-[2px] bg-gradient-to-b from-[#139EA5] to-[#BFFB5E]">
-            <div className="w-full h-full rounded-full overflow-hidden bg-white">
-              <Image
-                quality={100}
-                src={
-                  typeof user?.avatar === "string"
-                    ? user.avatar.startsWith("https")
-                      ? user.avatar
-                      : `https://app.esdev.tech${user.avatar}`
-                    : avatar
-                }
-                width={44}
-                height={44}
-                alt="Avatar"
-                className="w-full h-full rounded-full border-[2px] object-cover border-[#101114]"
-              />
-            </div>
-          </div>
 
-          <MdOutlineArrowDropDown size={20} className="p-0" />
-        </div>
+        {user ? (
+          <div
+            onClick={toggleProfileModal}
+            className="flex items-center cursor-pointer">
+            <div className="relative w-[28px] sm:w-[32px] lg:w-[48px] h-[28px] sm:h-[32px] lg:h-[48px] rounded-full p-[2px] bg-gradient-to-b from-[#139EA5] to-[#BFFB5E]">
+              <div className="w-full h-full rounded-full overflow-hidden bg-white">
+                <Image
+                  quality={100}
+                  src={
+                    typeof user?.avatar === "string"
+                      ? user.avatar.startsWith("https")
+                        ? user.avatar
+                        : `https://app.esdev.tech${user.avatar}`
+                      : avatar
+                  }
+                  width={44}
+                  height={44}
+                  alt="Avatar"
+                  className="w-full h-full rounded-full border-[2px] object-cover border-[#101114]"
+                />
+              </div>
+            </div>
+
+            <MdOutlineArrowDropDown size={20} className="p-0" />
+          </div>
+        ) : (
+          <button
+            onClick={() => (window.location.href = "/auth/login")}
+            className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
+            Login
+          </button>
+        )}
+
         <div>
           <GiHamburgerMenu
             className="block lg:hidden cursor-pointer"

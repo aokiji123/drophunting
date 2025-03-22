@@ -75,11 +75,12 @@ const Favorites = () => {
       page?: number;
       tag_id?: number;
       search?: string;
-      favorites?: boolean;
+      favorites?: 0 | 1;
       sorting?: 1 | 2;
     } = {
       page: currentPage,
       sorting: sorting,
+      favorites: 1,
     };
 
     if (searchQuery) {

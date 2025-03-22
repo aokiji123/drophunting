@@ -20,8 +20,6 @@ const Blog = () => {
 
   const router = useRouter();
   const {
-    user,
-    sessionVerified,
     blogCategories,
     isLoadingBlogCategories,
     blogCategoriesError,
@@ -31,13 +29,8 @@ const Blog = () => {
     blogArticlesError,
     fetchBlogArticles,
     toggleRead,
+    user,
   } = useStore();
-
-  useEffect(() => {
-    if (sessionVerified && !user) {
-      router.push("/auth/login");
-    }
-  }, [sessionVerified, user, router]);
 
   useEffect(() => {
     fetchBlogCategories();
@@ -228,27 +221,29 @@ const Blog = () => {
                           </p>
                         </div>
 
-                        <div
-                          onClick={(event) =>
-                            handleToggleRead(event, article.id)
-                          }
-                          className={`w-[40px] h-[40px] min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 bg-[#101114] cursor-pointer z-20 relative ${
-                            article.read > 0
-                              ? "border-[1px] border-[#47572D75] bg-[#000] text-[#CBFF51]"
-                              : "border-[#2A2D33] border-[1px]"
-                          }`}>
+                        {user && (
                           <div
-                            className={`${
-                              article.read > 0 &&
-                              `bg-[#CBFF512E] rounded-full p-[6px]`
+                            onClick={(event) =>
+                              handleToggleRead(event, article.id)
+                            }
+                            className={`w-[40px] h-[40px] min-w-[40px] min-h-[40px] flex items-center justify-center rounded-full border-2 transition-all duration-300 shrink-0 bg-[#101114] cursor-pointer z-20 relative ${
+                              article.read > 0
+                                ? "border-[1px] border-[#47572D75] bg-[#000] text-[#CBFF51]"
+                                : "border-[#2A2D33] border-[1px]"
                             }`}>
-                            {article.read > 0 && (
-                              <div>
-                                <MdOutlineDone size={20} />
-                              </div>
-                            )}
+                            <div
+                              className={`${
+                                article.read > 0 &&
+                                `bg-[#CBFF512E] rounded-full p-[6px]`
+                              }`}>
+                              {article.read > 0 && (
+                                <div>
+                                  <MdOutlineDone size={20} />
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
                   </div>

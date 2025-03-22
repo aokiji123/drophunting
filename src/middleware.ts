@@ -3,8 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("auth-token")?.value;
-  const pathname = request.nextUrl.pathname;
-  const params = request.nextUrl.searchParams;
+  const { pathname, searchParams } = request.nextUrl;
 
   const publicRoutes = new Set([
     "/auth/login",
@@ -15,59 +14,54 @@ export function middleware(request: NextRequest) {
     "/auth/password-reset-confirmation",
     "/password-reset",
     "/landing",
+    "/blog",
+    "/guides",
   ]);
 
-  const privateRoutes = [
+  const privateRoutes = new Set([
     "/",
     "/profile",
     "/subaccounts",
     "/subscriptions",
     "/referal",
     "/progress",
-    "/guides",
     "/suggest-guide",
     "/favorites",
-    "/blog",
     "/store",
-  ];
+  ]);
 
-  const dynamicRoutePatterns = [
-    /^\/guides\/.+$/,
+  const dynamicPrivateRoutes = [
+    /^\/blog\/[a-zA-Z0-9_-]+$/,
+    /^\/guides\/[a-zA-Z0-9_-]+$/,
     /^\/favorites\/.+$/,
-    /^\/blog\/.+$/,
     /^\/store\/.+$/,
   ];
 
+  const isPublicRoute = publicRoutes.has(pathname);
+
+  const isPrivateRoute =
+    privateRoutes.has(pathname) ||
+    dynamicPrivateRoutes.some((pattern) => pattern.test(pathname));
+
   if (!token) {
-    if (publicRoutes.has(pathname)) return NextResponse.next();
-
-    if (params.get("refer")) {
+    const redirectParam =
+      searchParams.get("refer") || searchParams.get("mainaccount");
+    if (redirectParam) {
       return NextResponse.redirect(
-        new URL(`/auth/sign-up?refer=${params.get("refer")}`, request.url),
+        new URL(`/auth/sign-up?${redirectParam}`, request.url),
       );
     }
 
-    if (params.get("mainaccount")) {
-      return NextResponse.redirect(
-        new URL(
-          `/auth/sign-up?mainaccount=${params.get("mainaccount")}`,
-          request.url,
-        ),
-      );
+    if (!isPublicRoute) {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
     }
-
-    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  if (publicRoutes.has(pathname)) {
+  if (token && pathname.includes("auth")) {
     return NextResponse.redirect(new URL("/guides", request.url));
   }
 
-  const isKnownRoute =
-    privateRoutes.includes(pathname) ||
-    dynamicRoutePatterns.some((pattern) => pattern.test(pathname));
-
-  if (!isKnownRoute && pathname !== "/not-found") {
+  if (token && !isPublicRoute && !isPrivateRoute && pathname !== "/not-found") {
     return NextResponse.redirect(new URL("/not-found", request.url));
   }
 

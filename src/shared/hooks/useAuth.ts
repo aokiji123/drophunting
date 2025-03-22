@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axiosInstance, { updateAxiosToken } from "../api/axios";
 import useStore from "../store";
 import { User } from "../store";
 
 const useAuth = () => {
-  const router = useRouter();
   const [initializing, setInitializing] = useState(true);
   const {
     user,
@@ -73,16 +71,6 @@ const useAuth = () => {
     return !!user;
   };
 
-  const useRequireAuth = (redirectTo = "/auth/login") => {
-    useEffect(() => {
-      if (sessionVerified && !user) {
-        router.push(redirectTo);
-      }
-    }, [redirectTo]);
-
-    return !!user;
-  };
-
   return {
     user,
     isAuthenticated: isAuthenticated(),
@@ -97,7 +85,6 @@ const useAuth = () => {
     newPassword,
     sendEmailVerificationLink,
     setAuthStatus,
-    useRequireAuth,
   };
 };
 

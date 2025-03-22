@@ -75,8 +75,6 @@ const Guides = () => {
 
   const router = useRouter();
   const {
-    user,
-    sessionVerified,
     tags,
     isLoadingTags,
     tagsError,
@@ -86,13 +84,8 @@ const Guides = () => {
     guidesError,
     fetchGuides,
     toggleFavorite,
+    user,
   } = useStore();
-
-  useEffect(() => {
-    if (sessionVerified && !user) {
-      router.push("/auth/login");
-    }
-  }, [sessionVerified, user, router]);
 
   useEffect(() => {
     fetchTags();
@@ -110,7 +103,7 @@ const Guides = () => {
       page?: number;
       tag_id?: number;
       search?: string;
-      favorites?: boolean;
+      favorites?: 0 | 1;
       sorting?: 1 | 2;
     } = {
       page: currentPage,
@@ -371,33 +364,38 @@ const Guides = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="flex items-center gap-[3px]">
-                        <div
-                          onClick={(e) => {
-                            setGuideCalendarId(guide.id);
-                            setIsCalendarModalOpen(true);
-                            e.stopPropagation();
-                          }}
-                          className="relative z-[3] w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
-                          <IoCalendarClear
-                            className="text-[#515459]"
-                            size={20}
-                          />
-                        </div>
-
-                        <div
-                          className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
-                          onClick={(e) => handleToggleFavorite(e, guide.id)}>
-                          {guide.favorite > 0 ? (
-                            <MdFavorite className="text-[#CBFF51]" size={20} />
-                          ) : (
-                            <MdFavoriteBorder
+                      {user && (
+                        <div className="flex items-center gap-[3px]">
+                          <div
+                            onClick={(e) => {
+                              setGuideCalendarId(guide.id);
+                              setIsCalendarModalOpen(true);
+                              e.stopPropagation();
+                            }}
+                            className="relative z-[3] w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
+                            <IoCalendarClear
                               className="text-[#515459]"
                               size={20}
                             />
-                          )}
+                          </div>
+
+                          <div
+                            className="w-[36px] h-[36px] bg-[#1E2023] rounded-full flex items-center justify-center cursor-pointer"
+                            onClick={(e) => handleToggleFavorite(e, guide.id)}>
+                            {guide.favorite > 0 ? (
+                              <MdFavorite
+                                className="text-[#CBFF51]"
+                                size={20}
+                              />
+                            ) : (
+                              <MdFavoriteBorder
+                                className="text-[#515459]"
+                                size={20}
+                              />
+                            )}
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
                     <div className="mt-[12px] flex gap-[16px]">
                       <div className="w-[48px] h-[48px] rounded-[10px] relative overflow-hidden">
