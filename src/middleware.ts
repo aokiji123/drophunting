@@ -16,6 +16,7 @@ export function middleware(request: NextRequest) {
     "/landing",
     "/blog",
     "/guides",
+    "/terms-and-privacy",
   ]);
 
   const privateRoutes = new Set([
