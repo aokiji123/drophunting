@@ -434,7 +434,7 @@ const Guides = () => {
                           TVL
                         </p>
                         <p className="text-[16px] leading-[18px] font-bold truncate">
-                          ${guide.tvl}
+                          {guide.tvl}
                         </p>
                       </div>
                     </div>

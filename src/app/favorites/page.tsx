@@ -266,7 +266,7 @@ const Favorites = () => {
                           TVL
                         </p>
                         <p className="text-[16px] leading-[18px] font-bold max-w-[100px] truncate">
-                          ${guide.tvl}
+                          {guide.tvl}
                         </p>
                       </div>
                     </div>

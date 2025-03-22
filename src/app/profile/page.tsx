@@ -443,12 +443,12 @@ const Profile = () => {
                   className="max-w-[350px] sm:w-[350px] bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
                 />
               </div>
-              <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
+              {/* <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Wallet</p>
                 <p className="md:py-[12px] md:px-[16px] w-full md:w-[350px]">
                   {user?.affiliate_id}
                 </p>
-              </div>
+              </div> */}
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
                 <p className="mb-1 md:mb-0 font-semibold">Language</p>
                 <div className="relative max-w-[350px] sm:w-[350px]">
