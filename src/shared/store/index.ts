@@ -229,7 +229,7 @@ type GuidesParams = {
   page?: number;
   tag_id?: number;
   search?: string;
-  favorites?: boolean;
+  favorites?: 0 | 1;
   sorting?: 1 | 2;
 };
 

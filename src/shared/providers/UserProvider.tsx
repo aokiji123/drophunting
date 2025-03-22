@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import useStore from "@/shared/store";
 
@@ -9,13 +10,22 @@ export default function UserProvider({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   const [isRefreshed, setIsRefreshed] = useState(false);
 
   const { refreshUser } = useStore();
 
   useEffect(() => {
-    refreshUser().finally(() => setIsRefreshed(true));
-  }, []);
+    if (
+      !["auth"].some((p) => pathname.includes(p)) &&
+      !pathname.includes("landing")
+    ) {
+      refreshUser().finally(() => setIsRefreshed(true));
+    } else {
+      setIsRefreshed(true);
+    }
+  }, [pathname]);
 
   if (!isRefreshed)
     return (

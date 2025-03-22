@@ -85,9 +85,11 @@ const Landing = () => {
                   <FaCaretDown />
                 </div>
               </div>
-              <button className="hidden bg-[#11CA00] py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] md:flex items-center justify-center">
+              <a
+                href="https://app.drophunting.io"
+                className="hidden bg-[#11CA00] hover:bg-[#0D9E00] transition-colors py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] md:flex items-center justify-center">
                 Перейти в агрегатор
-              </button>
+              </a>
               <GiHamburgerMenu
                 className="block lg:hidden cursor-pointer"
                 size={24}
@@ -150,9 +152,11 @@ const Landing = () => {
                       </p>
                     </li>
                   </ul>
-                  <button className="w-full sm:w-[260px] md:h-[56px] lg:w-[318px] lg:h-[66px] bg-[#11CA00] py-[18px] md:py-[24px] px-[38px] lg:px-[56px] rounded-[8px] text-[15px] md:text-[16px] lg:text-[18px] leading-[18px] font-semibold flex items-center justify-center">
+                  <a
+                    href="https://app.drophunting.io"
+                    className="hover:bg-[#0D9E00] transition-colors w-full sm:w-[260px] md:h-[56px] lg:w-[318px] lg:h-[66px] bg-[#11CA00] py-[18px] md:py-[24px] px-[38px] lg:px-[56px] rounded-[8px] text-[15px] md:text-[16px] lg:text-[18px] leading-[18px] font-semibold flex items-center justify-center">
                     Перейти в агрегатор
-                  </button>
+                  </a>
                 </div>
               </div>
               <div className="max-w-[600px] xl:w-[45%] relative">
@@ -471,9 +475,11 @@ const Landing = () => {
             </p>
           </div>
           <div className="flex flex-col gap-[40px]">
-            <button className="w-[335px] md:w-[573px] bg-[#11CA00] h-[56px] md:h-[88px] py-[24px] px-[56px] rounded-[8px] text-[16px] leading-[18px] md:text-[22px] md:leading-[18px] font-bold flex items-center justify-center">
+            <a
+              href="https://app.drophunting.io"
+              className="hover:bg-[#0D9E00] transition-colors w-[335px] md:w-[573px] bg-[#11CA00] h-[56px] md:h-[88px] py-[24px] px-[56px] rounded-[8px] text-[16px] leading-[18px] md:text-[22px] md:leading-[18px] font-bold flex items-center justify-center">
               Перейти в агрегатор
-            </button>
+            </a>
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-[40px]">
                 <BsTwitterX size={35} />
@@ -549,9 +555,11 @@ const Landing = () => {
                 </li>
               </ul>
               <div className="flex flex-col gap-[12px]">
-                <button className="bg-[#11CA00] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+                <a
+                  href="https://app.drophunting.io"
+                  className="hover:bg-[#0D9E00] transition-colors bg-[#11CA00] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
                   Перейти в агрегатор
-                </button>
+                </a>
                 <button className="bg-[#21274C] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
                   Подписаться на бот
                 </button>

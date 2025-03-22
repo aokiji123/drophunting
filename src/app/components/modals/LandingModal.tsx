@@ -49,9 +49,11 @@ const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
           </li>
         </ul>
         <div className="flex flex-col gap-[8px]">
-          <button className="w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#11CA00] flex items-center justify-center">
+          <a
+            href="https://app.drophunting.io"
+            className="hover:bg-[#0D9E00] transition-colors w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#11CA00] flex items-center justify-center">
             Перейти в агрегатор
-          </button>
+          </a>
           <button className="w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#21274C] flex items-center justify-center">
             Подписаться на бот
           </button>

@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import starIcon from "../../../../public/assets/icons/star.png";
 import { PiXLogo } from "react-icons/pi";
 import { RiTelegram2Fill } from "react-icons/ri";
+import useStore from "@/shared/store";
 
 type ProfileModalType = {
   toggleNavigationModal: () => void;
@@ -33,6 +34,8 @@ const NavigationModal = ({
 }: ProfileModalType) => {
   const { t } = useTranslation();
 
+  const { user } = useStore();
+
   const handlePlansClick = () => {
     toggleNavigationModal();
     openPlansModal();
@@ -57,14 +60,26 @@ const NavigationModal = ({
             </Link>
           ))}
         </ul>
-        <button
-          className="flex w-full items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px] justify-center"
-          onClick={handlePlansClick}>
-          <Image src={starIcon} alt="Star icon" className="w-[16px] h-[16px]" />
-          <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-            {t("upgrade")}
-          </p>
-        </button>
+        {user ? (
+          <button
+            className="flex w-full items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px] justify-center"
+            onClick={handlePlansClick}>
+            <Image
+              src={starIcon}
+              alt="Star icon"
+              className="w-[16px] h-[16px]"
+            />
+            <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
+              {t("upgrade")}
+            </p>
+          </button>
+        ) : (
+          <button
+            onClick={() => (window.location.href = "/auth/login")}
+            className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
+            Login
+          </button>
+        )}
         <div className="flex gap-2">
           <Link href="https://www.google.com" target="_blank">
             <div className="cursor-pointer">
