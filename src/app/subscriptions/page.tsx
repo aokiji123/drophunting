@@ -147,19 +147,26 @@ const Subscriptions = () => {
               <div className="mt-7">
                 {subscriptions.length <= 0 && (
                   <div className="flex items-center gap-[10px]">
-                    {/* {user?.count_views === 0 && (
+                    {user?.count_views === 0 && (
                       <p className="leading-[16px] font-semibold text-[#FF6951]">
                         Attention!
                       </p>
-                    )} */}
+                    )}
                     <p className="text-[15px] leading-[16px] font-semibold">
                       Free Views
                     </p>
-                    <SmallChartPie
-                      max={user?.free_views || 0}
-                      current={user?.count_views || 0}
-                      // color={user?.count_views === 0 ? "#FF6951" : "#CBFF51"}
-                    />
+                    {user?.count_views === 0 ? (
+                      <SmallChartPie
+                        max={user?.free_views || 0}
+                        current={user?.count_views || 0}
+                        color="#FF6951"
+                      />
+                    ) : (
+                      <SmallChartPie
+                        max={user?.free_views || 0}
+                        current={user?.count_views || 0}
+                      />
+                    )}
                     <p className="text-[15px] leading-[16px] font-semibold">
                       {user?.count_views} / {user?.free_views}
                     </p>

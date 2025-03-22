@@ -200,25 +200,29 @@ const Subaccounts = () => {
                     </div>
                     <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full lg:w-[630px]">
                       <div className="flex items-center gap-3">
-                        {/* {subaccounts?.subaccounts_count ===
+                        {subaccounts?.subaccounts_count ===
                           subaccounts?.limit_subaccounts && (
                           <p className="leading-[16px] font-semibold text-[#FF6951]">
                             Attention!
                           </p>
-                        )} */}
+                        )}
                         <p className="leading-[16px] font-semibold">
                           Subaccounts is used
                         </p>
-                        <SmallChartPie
-                          max={subaccounts?.limit_subaccounts || 0}
-                          current={subaccounts?.subaccounts_count || 0}
-                          // color={
-                          //   subaccounts?.subaccounts_count ===
-                          //   subaccounts?.limit_subaccounts
-                          //     ? "#FF6951"
-                          //     : "#393B41"
-                          // }
-                        />
+                        {subaccounts?.subaccounts_count ===
+                        subaccounts?.limit_subaccounts ? (
+                          <SmallChartPie
+                            max={subaccounts?.limit_subaccounts || 0}
+                            current={subaccounts?.subaccounts_count || 0}
+                            color="#FF6951"
+                          />
+                        ) : (
+                          <SmallChartPie
+                            max={subaccounts?.limit_subaccounts || 0}
+                            current={subaccounts?.subaccounts_count || 0}
+                          />
+                        )}
+
                         <p className="leading-[16px] font-semibold">
                           {subaccounts
                             ? `${subaccounts.subaccounts_count}/${subaccounts.limit_subaccounts}`

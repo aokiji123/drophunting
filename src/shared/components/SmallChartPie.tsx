@@ -1,9 +1,14 @@
 type SmallChartPieProps = {
   max: number;
   current: number;
+  color?: string;
 };
 
-export default function SmallChartPie({ max, current }: SmallChartPieProps) {
+export default function SmallChartPie({
+  max,
+  current,
+  color = "#393B41",
+}: SmallChartPieProps) {
   const percentage = Math.min(Math.max(current / max, 0), 1) * 100;
   const angle = (percentage / 100) * 360;
   const largeArcFlag = angle >= 180 ? 1 : 0;
@@ -13,7 +18,7 @@ export default function SmallChartPie({ max, current }: SmallChartPieProps) {
   return (
     <div className="relative w-[20px] h-[20px] flex items-center justify-center">
       <svg width="20" height="20" viewBox="0 0 20 20" className="absolute">
-        <circle cx="10" cy="10" r="10" fill="#393B41" />
+        <circle cx="10" cy="10" r="10" fill={color ? color : "#393B41"} />
         {percentage === 100 ? (
           <circle cx="10" cy="10" r="10" fill="#CBFF51" />
         ) : (
