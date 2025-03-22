@@ -1,8 +1,7 @@
 import React from "react";
-import Image from "next/image";
-import logoRectangle from "../../../public/assets/rectangle.png";
 import Link from "next/link";
 import { FaAngleUp } from "react-icons/fa6";
+import { MainLogo } from "@/shared/icons/MainLogo";
 
 const Footer = () => {
   const scrollToTop = () => {
@@ -15,10 +14,7 @@ const Footer = () => {
   return (
     <footer className="mt-auto py-[24px] pb-[30px] flex flex-col gap-4 relative">
       <div className="flex items-center justify-center text-center">
-        <Image className="mr-2" src={logoRectangle} alt="Logo Rectangle" />
-        <Link href="#" className="font-bold text-[18px] font-chakra">
-          Drophunting
-        </Link>
+        <MainLogo width={170} height={40} color="#fff" />
       </div>
       <Link
         href="https://www.google.com"
