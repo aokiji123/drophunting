@@ -325,7 +325,7 @@ const Subaccounts = () => {
                                 }}>
                                 <TableCell
                                   align="left"
-                                  className="min-w-[220px]">
+                                  className="min-w-[50px]">
                                   <div className="flex items-center gap-2">
                                     <Image
                                       src={subaccount.avatar}
@@ -339,7 +339,7 @@ const Subaccounts = () => {
                                 </TableCell>
                                 <TableCell
                                   align="left"
-                                  className="min-w-[220px]">
+                                  className="min-w-[50px]">
                                   {subaccount.email}
                                 </TableCell>
                                 <TableCell align="left">
