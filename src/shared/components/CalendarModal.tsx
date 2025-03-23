@@ -1,7 +1,7 @@
 "use client";
 
 import { IoMdClose } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import CalendarMonth from "./CalendarMonth";
 import useStore from "../store";
@@ -20,12 +20,27 @@ export default function CalendarModal({
   metadata,
 }: CalendarModalProps) {
   const [selectedDays, setSelectedDays] = useState<Set<string>>(new Set());
-  const [notificationAdded, setNotificationAdded] = useState<
-    "good" | "bad" | null
-  >(null);
+  const [notificationStatus, setNotificationStatus] = useState<true | false>(
+    false,
+  );
+  const [notificationMessage, setNotificationMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { addCalendarNotification } = useStore();
+  const { addCalendarNotification, getCalendarNotifications } = useStore();
+
+  useEffect(() => {
+    if (metadata.project_id) {
+      setIsLoading(true);
+
+      getCalendarNotifications(metadata.project_id)
+        .then((res) => {
+          setSelectedDays(new Set(res.map((date) => date.date)));
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [metadata]);
 
   const handleSelectedDaysChange = (newSelectedDays: Set<string>) => {
     setSelectedDays(newSelectedDays);
@@ -39,10 +54,18 @@ export default function CalendarModal({
       dates: Array.from(selectedDays),
     })
       .then(() => {
-        setNotificationAdded("good");
+        setNotificationStatus(true);
+        setNotificationMessage("Notifications are configured");
       })
-      .catch(() => {
-        setNotificationAdded("bad");
+      .catch((err) => {
+        setNotificationStatus(false);
+        setNotificationMessage(
+          err.status === 403
+            ? "Telegram account not linked"
+            : err.status === 422
+              ? "Select dates"
+              : "Something went wrong",
+        );
       })
       .finally(() => {
         setIsLoading(false);
@@ -89,14 +112,10 @@ export default function CalendarModal({
             </div>
           </div>
 
-          {notificationAdded !== null && (
+          {notificationMessage.length > 0 && (
             <div
-              className={`text-center w-full mt-5 leading-[10%] ${notificationAdded === "bad" ? "text-red-500" : "text-green-500"}`}>
-              {
-                { good: "Successfully added", bad: "Something went wrong" }[
-                  notificationAdded
-                ]
-              }
+              className={`text-center w-full mt-5 leading-[10%] ${!notificationStatus ? "text-red-500" : "text-green-500"}`}>
+              {notificationMessage}
             </div>
           )}
 

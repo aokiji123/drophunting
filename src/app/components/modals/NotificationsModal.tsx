@@ -51,11 +51,19 @@ const NotificationsModal = ({
             <div
               key={notification.id}
               onClick={() => {
-                window.location.href = `${notification.article_id ? "/blog" : "/guides"}/${
-                  notification.project_id || notification.article_id
-                }`;
+                if (notification.article_id || notification.project_id) {
+                  window.location.href = `${notification.article_id ? "/blog" : "/guides"}/${
+                    notification.project_id || notification.article_id
+                  }`;
+                }
+
+                if (notification.is_referral || notification.is_subuser) {
+                  window.location.href = notification.is_subuser
+                    ? "/subaccounts"
+                    : "/referal";
+                }
               }}
-              className={`pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] text-white overflow-y-auto ${(notification.article_id || notification.project_id) && "cursor-pointer hover:text-[#9EA0A6]"}`}>
+              className={`pl-[15px] flex gap-3 mt-[20px] border-b-[1px] border-[#24262A] pb-[10px] text-white overflow-y-auto cursor-default ${(notification.article_id || notification.project_id || notification.is_referral || notification.is_subuser) && "!cursor-pointer hover:text-[#9EA0A6]"}`}>
               <div className="relative w-[28px] h-[28px] rounded-full bg-[#23252A] flex items-center justify-center">
                 {notification.seen === 0 && (
                   <GoDotFill className="absolute right-[25px] md:right-[30px] text-red-500" />
