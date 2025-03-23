@@ -227,12 +227,13 @@ type GuidesResponse = {
   total: number;
 };
 
-type GuidesParams = {
+export type GuidesParams = {
   page?: number;
   tag_id?: number;
   search?: string;
   favorites?: 0 | 1;
   sorting?: 1 | 2;
+  type_sorting?: "date" | "invest" | "network" | "bs" | "priority" | "score";
 };
 
 type Coupon = {
@@ -1251,6 +1252,8 @@ const useStore = create<StoreState>()(
               queryParams.append("favorites", params.favorites.toString());
             if (params.sorting)
               queryParams.append("sorting", params.sorting.toString());
+            if (params.type_sorting)
+              queryParams.append("type_sorting", params.type_sorting);
           }
 
           const queryString = queryParams.toString();

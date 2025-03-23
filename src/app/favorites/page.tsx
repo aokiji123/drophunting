@@ -19,7 +19,7 @@ import { GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import useStore from "@/shared/store";
+import useStore, { GuidesParams } from "@/shared/store";
 import { debounce } from "lodash";
 
 const CustomSlider = styled(Slider)({
@@ -71,13 +71,7 @@ const Favorites = () => {
   }, [sessionVerified, user, router]);
 
   useEffect(() => {
-    const params: {
-      page?: number;
-      tag_id?: number;
-      search?: string;
-      favorites?: 0 | 1;
-      sorting?: 1 | 2;
-    } = {
+    const params: GuidesParams = {
       page: currentPage,
       sorting: sorting,
       favorites: 1,
