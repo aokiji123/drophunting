@@ -461,6 +461,8 @@ type Notification = {
   project_id: number | null;
   article_id: number | null;
   date_time: string;
+  is_referral: boolean;
+  is_subuser: boolean;
 };
 
 type NotificationsResponse = {
@@ -616,6 +618,12 @@ type StoreState = {
   addCalendarNotification: (
     data: AddCalendarNotificationData,
   ) => Promise<boolean>;
+  getCalendarNotifications: (project_id: number) => Promise<
+    {
+      id: number;
+      date: string;
+    }[]
+  >;
   deleteSubaccount: (id: number) => Promise<boolean>;
   buySubaccounts: (amount: number) => Promise<boolean>;
 };
@@ -704,6 +712,28 @@ const useStore = create<StoreState>()(
 
       setSelectedTimezone: (timezone: string) => {
         set({ selectedTimezone: timezone });
+      },
+
+      getCalendarNotifications: async (project_id: number) => {
+        try {
+          const response = await axiosInstance.get<
+            {
+              id: number;
+              date: string;
+            }[]
+          >("/api/notifications/telegram", {
+            params: {
+              project_id,
+              date_from: "2025-01-01",
+              date_to: "2030-01-01",
+            },
+          });
+
+          return response.data;
+        } catch (error) {
+          console.error("Error fetching calendar notifications:", error);
+          return [];
+        }
       },
 
       fetchTimezones: async () => {
@@ -2193,8 +2223,8 @@ const useStore = create<StoreState>()(
           await axiosInstance.post("/api/notifications/telegram/store", data);
 
           return true;
-        } catch {
-          throw new Error("Failed to add calendar notification");
+        } catch (err) {
+          throw err;
         }
       },
 
