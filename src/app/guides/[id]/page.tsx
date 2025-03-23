@@ -479,12 +479,25 @@ const Guide = () => {
             {subscriptions && subscriptions.length <= 0 && (
               <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
                 <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
+                  {user?.count_views === 0 && (
+                    <p className="leading-[16px] font-semibold text-[#FF3E3E]">
+                      Attention!
+                    </p>
+                  )}
                   <p>Free task previews on your plan</p>
                   <div className="flex items-center gap-[8px]">
-                    <SmallChartPie
-                      max={user?.free_views || 0}
-                      current={user?.count_views || 0}
-                    />
+                    {user?.count_views === 0 ? (
+                      <SmallChartPie
+                        max={user?.free_views || 0}
+                        current={user?.count_views || 0}
+                        color="#FF6951"
+                      />
+                    ) : (
+                      <SmallChartPie
+                        max={user?.free_views || 0}
+                        current={user?.count_views || 0}
+                      />
+                    )}
                     <p>
                       {user?.count_views} / {user?.free_views}
                     </p>
