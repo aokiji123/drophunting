@@ -19,10 +19,11 @@ import HalfChartPie from "@/shared/components/HalfChartPie";
 import { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
-import useStore from "@/shared/store";
+import useStore, { GuidesParams } from "@/shared/store";
 import { debounce } from "lodash";
 import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
 import CalendarModal from "@/shared/components/CalendarModal";
+import clsx from "clsx";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -50,14 +51,14 @@ const CustomSlider = styled(Slider)({
   },
 });
 
-const sortingOptions = [
-  { id: 1, name: "By default", icon: <IoFilterOutline size={16} /> },
-  { id: 2, name: "By newest", icon: <GoArrowDown size={16} /> },
-  { id: 3, name: "By investment", icon: <GoArrowDown size={16} /> },
-  { id: 4, name: "By BS", icon: <GoArrowDown size={16} /> },
-  { id: 5, name: "By priority", icon: <GoArrowDown size={16} /> },
-  { id: 6, name: "By Score", icon: <GoArrowDown size={16} /> },
-  { id: 7, name: "By network", icon: <GoArrowDown size={16} /> },
+const SORTING_OPTIONS = [
+  { key: "default", name: "By default", icon: <IoFilterOutline size={16} /> },
+  { key: "date", name: "By newest", icon: <GoArrowDown size={16} /> },
+  { key: "invest", name: "By investment", icon: <GoArrowDown size={16} /> },
+  { key: "bs", name: "By BS", icon: <GoArrowDown size={16} /> },
+  { key: "priority", name: "By priority", icon: <GoArrowDown size={16} /> },
+  { key: "score", name: "By Score", icon: <GoArrowDown size={16} /> },
+  { key: "network", name: "By network", icon: <GoArrowDown size={16} /> },
 ];
 
 const Guides = () => {
@@ -66,10 +67,11 @@ const Guides = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
-  const [sortingOption, setSortingOption] = useState({
-    id: 1,
-    name: "By newest",
-  });
+  const [actualSorting, setActualSorting] = useState<
+    (typeof SORTING_OPTIONS)[number] & {
+      orderBy: "asc" | "desc";
+    }
+  >({ ...SORTING_OPTIONS[0], orderBy: "asc" });
 
   const sortDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -99,16 +101,14 @@ const Guides = () => {
   }, [tags, activeFilter]);
 
   useEffect(() => {
-    const params: {
-      page?: number;
-      tag_id?: number;
-      search?: string;
-      favorites?: 0 | 1;
-      sorting?: 1 | 2;
-    } = {
+    const params: GuidesParams = {
       page: currentPage,
-      sorting: sortingOption.id <= 2 ? (sortingOption.id as 1 | 2) : 2,
     };
+
+    if (actualSorting.key !== "default") {
+      params.sorting = actualSorting.orderBy === "asc" ? 1 : 2;
+      params.type_sorting = actualSorting.key as GuidesParams["type_sorting"];
+    }
 
     if (activeTagId !== null) {
       params.tag_id = activeTagId;
@@ -118,8 +118,10 @@ const Guides = () => {
       params.search = searchQuery;
     }
 
+    console.log({ params });
+
     fetchGuides(params);
-  }, [fetchGuides, currentPage, activeTagId, searchQuery, sortingOption]);
+  }, [fetchGuides, currentPage, activeTagId, searchQuery, actualSorting]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -148,18 +150,11 @@ const Guides = () => {
     await toggleFavorite(guideId);
   };
 
-  const handleSortingChange = (option: (typeof sortingOptions)[number]) => {
-    if (option.id <= 2) {
-      setSortingOption({
-        id: option.id as 1 | 2,
-        name: option.name,
-      });
-    } else {
-      setSortingOption({
-        id: 2,
-        name: option.name,
-      });
-    }
+  const handleSortingChange = (option: (typeof SORTING_OPTIONS)[number]) => {
+    setActualSorting((prev) => ({
+      ...option,
+      orderBy: prev.orderBy === "asc" ? "desc" : "asc",
+    }));
     setIsSortDropdownOpen(false);
     setCurrentPage(1);
   };
@@ -259,7 +254,7 @@ const Guides = () => {
                 className="flex items-center cursor-pointer"
                 onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}>
                 <p className="text-white mr-[5px] ">
-                  Sort <span className="text-white">{sortingOption.name}</span>
+                  Sort <span className="text-white">{actualSorting.name}</span>
                 </p>
                 {isSortDropdownOpen ? (
                   <FaAngleUp size={16} className="text-[#8E8E8E] ml-1" />
@@ -277,7 +272,14 @@ const Guides = () => {
 
                   <div className="fixed xs:absolute inset-x-0 xs:inset-auto bottom-0 xs:bottom-auto xs:right-0 xs:top-[30px] mt-0 xs:mt-[2px] w-screen xs:w-[340px] text-white bg-[#141518] p-[16px] sm:p-[4px] rounded-t-[16px] xs:rounded-[12px] shadow-lg z-50 flex flex-col h-auto xs:h-auto">
                     <div className="flex xs:hidden justify-between mb-[24px]">
-                      <button className="text-[14px] leading-[24px] font-semibold font-sans">
+                      <button
+                        onClick={() => {
+                          setActualSorting({
+                            ...SORTING_OPTIONS[0],
+                            orderBy: "desc",
+                          });
+                        }}
+                        className="text-[14px] leading-[24px] font-semibold font-sans">
                         Clear
                       </button>
                       <p className="text-[20px] leading-[13px] font-bold font-sans">
@@ -289,29 +291,43 @@ const Guides = () => {
                         <IoMdClose size={24} />
                       </button>
                     </div>
+
                     <div className="mb-[2px] flex-grow">
-                      {sortingOptions.map((option) => (
+                      {SORTING_OPTIONS.map((option) => (
                         <div
-                          key={option.id}
-                          className="flex items-center justify-between p-[12px] cursor-pointer hover:bg-[#181C20] border-b-[1px] border-[#212327] last:border-b-0 font-sans"
+                          key={option.key}
+                          className={clsx(
+                            "flex items-center justify-between p-[12px] border-b-[1px] border-[#212327] last:border-b-0 font-sans",
+                            option.key === "default" &&
+                              option.key === actualSorting.key
+                              ? "cursor-default"
+                              : "cursor-pointer hover:bg-[#181C20] ",
+                          )}
                           onClick={() => handleSortingChange(option)}>
                           <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px] font-sans">
-                            {option.icon}
+                            <span
+                              className={clsx(
+                                actualSorting.key === option.key &&
+                                  actualSorting.orderBy === "asc" &&
+                                  "-rotate-180",
+                              )}>
+                              {option.icon}
+                            </span>
                             {option.name}
                           </p>
-                          {sortingOption.id === option.id && (
+                          {actualSorting.key === option.key && (
                             <FaCheck size={16} className="text-[#CBFF51]" />
                           )}
                         </div>
                       ))}
                     </div>
-                    <div className="mt-[24px] xs:hidden">
+                    {/* <div className="mt-[24px] xs:hidden">
                       <button
                         className="h-[45px] w-full bg-[#11CA00] hover:bg-blue-500 hover:rounded-[8px] rounded-[12px] text-[14px] leading-[16px] font-semibold p-[12px] mb-[12px]"
                         onClick={() => setIsSortDropdownOpen(false)}>
                         Apply
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </>
               )}
