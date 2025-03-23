@@ -29,7 +29,7 @@ export default function CalendarModal({
   const { addCalendarNotification, getCalendarNotifications } = useStore();
 
   useEffect(() => {
-    if (metadata.project_id) {
+    if (metadata.project_id && open) {
       setIsLoading(true);
 
       getCalendarNotifications(metadata.project_id)
@@ -40,7 +40,7 @@ export default function CalendarModal({
           setIsLoading(false);
         });
     }
-  }, [metadata]);
+  }, [metadata, open]);
 
   const handleSelectedDaysChange = (newSelectedDays: Set<string>) => {
     setSelectedDays(newSelectedDays);

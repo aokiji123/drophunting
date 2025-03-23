@@ -46,10 +46,14 @@ const Blog = () => {
   useEffect(() => {
     const params = {
       page: currentPage,
-      category_id: activeCategoryId || undefined,
       search: searchQuery || undefined,
       sorting,
     };
+
+    if (activeCategoryId && activeCategoryId !== 6) {
+      // @ts-expect-error: ""
+      params.category_id = activeCategoryId;
+    }
 
     fetchBlogArticles(params);
   }, [fetchBlogArticles, currentPage, activeCategoryId, searchQuery, sorting]);

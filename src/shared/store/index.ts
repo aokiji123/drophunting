@@ -65,6 +65,7 @@ export type User = {
   ban_reason: string | null;
   notifications: number;
   subaccount: boolean;
+  plan_id: number | null;
 };
 
 type Plan = {
@@ -1089,6 +1090,9 @@ const useStore = create<StoreState>()(
               buyPlanSuccess: response.data.message,
               coupon: null,
             });
+
+            await get().refreshUser();
+
             return true;
           }
 

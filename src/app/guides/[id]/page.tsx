@@ -186,6 +186,7 @@ const Guide = () => {
 
   const handleOpenTaskById = (taskId: number) => {
     if (
+      typeof user?.plan_id === "number" ||
       (user?.count_views || 0) > 0 ||
       (activeTask === taskId && (user?.count_views || 0) === 0)
     ) {
