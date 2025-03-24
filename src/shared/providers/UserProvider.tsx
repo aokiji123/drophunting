@@ -19,6 +19,7 @@ export default function UserProvider({
 
   useEffect(() => {
     const handleLogout = () => {
+      alert("Unauthorized");
       window.location.href = "/auth/login";
     };
 
