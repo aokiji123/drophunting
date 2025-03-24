@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
 import { validateAmount, formatAmount } from "@/shared/utils/validation";
 
@@ -9,6 +10,7 @@ type BalanceModalType = {
 };
 
 const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
+  const { t } = useTranslation();
   const { payWithYookassa, payWithNowPayments, paymentRedirectUrl } =
     useStore();
   const [amount, setAmount] = useState<number>(100);
@@ -80,9 +82,13 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
         />
       </button>
       <div>
-        <p className="text-[18px] font-bold leading-[20px]">Top Up Balance</p>
+        <p className="text-[18px] font-bold leading-[20px]">
+          {t("balanceModal.title")}
+        </p>
         <div className="mt-5">
-          <p className="font-semibold leading-[16px]">Currency type</p>
+          <p className="font-semibold leading-[16px]">
+            {t("balanceModal.currencyType")}
+          </p>
           <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
             <button
               className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
@@ -91,7 +97,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
                   : "bg-transparent text-gray-400"
               }`}
               onClick={() => handleSwitch("Fiat")}>
-              Fiat
+              {t("balanceModal.fiat")}
             </button>
             <button
               className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
@@ -100,12 +106,14 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
                   : "bg-transparent text-gray-400"
               }`}
               onClick={() => handleSwitch("Crypto")}>
-              Crypto
+              {t("balanceModal.crypto")}
             </button>
           </div>
         </div>
         <div className="my-5">
-          <p className="font-semibold leading-[16px]">Amount</p>
+          <p className="font-semibold leading-[16px]">
+            {t("balanceModal.amount")}
+          </p>
           <input
             type="text"
             className={`bg-[#292B2F] border-[1px] ${
@@ -117,7 +125,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
             onChange={handleInputBalanceChange}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
-            placeholder="Enter amount"
+            placeholder={t("balanceModal.enterAmount")}
           />
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
         </div>
@@ -129,7 +137,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
               ? "bg-gray-500 cursor-not-allowed"
               : "bg-[#11CA00] hover:bg-blue-500"
           } font-semibold leading-[20px] text-[17px]`}>
-          Go to payment
+          {t("balanceModal.goToPayment")}
           <MdOutlineKeyboardArrowRight />
         </button>
       </div>

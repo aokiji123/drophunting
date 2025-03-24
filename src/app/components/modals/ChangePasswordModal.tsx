@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
 
 type ChangePasswordModalType = {
@@ -7,6 +8,7 @@ type ChangePasswordModalType = {
 };
 
 export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
+  const { t } = useTranslation();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,34 +22,36 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
 
     try {
       if (!oldPassword) {
-        throw new Error("Current password is required");
+        throw new Error(t("changePasswordModal.currentPasswordRequired"));
       }
 
       if (!newPassword) {
-        throw new Error("New password is required");
+        throw new Error(t("changePasswordModal.newPasswordRequired"));
       }
 
       if (newPassword.length < 8) {
-        throw new Error("New password must be at least 8 characters long");
+        throw new Error(t("changePasswordModal.passwordTooShort"));
       }
 
       if (!confirmPassword) {
-        throw new Error("Please confirm your new password");
+        throw new Error(t("changePasswordModal.confirmPasswordRequired"));
       }
 
       if (newPassword !== confirmPassword) {
-        throw new Error("Passwords do not match");
+        throw new Error(t("changePasswordModal.passwordsDontMatch"));
       }
 
       if (oldPassword === newPassword) {
-        throw new Error("New password must be different from current password");
+        throw new Error(t("changePasswordModal.samePassword"));
       }
 
       await changePassword(oldPassword, newPassword, confirmPassword);
       onClose();
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to change password",
+        err instanceof Error
+          ? err.message
+          : t("changePasswordModal.changeFailed"),
       );
     } finally {
       setIsLoading(false);
@@ -62,46 +66,46 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
         </button>
 
         <p className="text-[22px] font-bold leading-[20px] mb-[24px]">
-          Change your password
+          {t("changePasswordModal.title")}
         </p>
 
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-2 text-[#949392]">
-              Current Password
+              {t("changePasswordModal.currentPassword")}
             </label>
             <input
               type="password"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
               className="w-full bg-[#212226] placeholder:text-[#949392] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
-              placeholder="Enter current password"
+              placeholder={t("changePasswordModal.currentPasswordPlaceholder")}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-2 text-[#949392]">
-              New Password
+              {t("changePasswordModal.newPassword")}
             </label>
             <input
               type="password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               className="w-full bg-[#212226] placeholder:text-[#949392] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
-              placeholder="Enter new password"
+              placeholder={t("changePasswordModal.newPasswordPlaceholder")}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-2 text-[#949392]">
-              Confirm New Password
+              {t("changePasswordModal.confirmPassword")}
             </label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full bg-[#212226] placeholder:text-[#949392] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
-              placeholder="Confirm new password"
+              placeholder={t("changePasswordModal.confirmPasswordPlaceholder")}
             />
           </div>
 
@@ -112,7 +116,9 @@ export const ChangePasswordModal = ({ onClose }: ChangePasswordModalType) => {
           onClick={handleSubmit}
           disabled={isLoading}
           className="w-full bg-[#11CA00] h-[56px] py-[12px] px-[18px] rounded-[16px] font-semibold hover:bg-[#0FB300] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-[17px] leading-[20px] font-sans mt-[40px]">
-          {isLoading ? "Saving..." : "Save"}
+          {isLoading
+            ? t("changePasswordModal.saving")
+            : t("changePasswordModal.save")}
         </button>
       </div>
     </div>

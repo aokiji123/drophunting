@@ -27,57 +27,57 @@ type ProfileModalType = {
   openBalanceModal: () => void;
 };
 
-const tabs = [
-  {
-    name: "Subscriptions",
-    href: "/subscriptions",
-    icon: <FaDollarSign size={20} className="mr-2" />,
-  },
-  {
-    name: "Subaccounts",
-    href: "/subaccounts",
-    icon: <FiUsers size={20} className="mr-2.5" />,
-  },
-  {
-    name: "Progress",
-    href: "/progress",
-    icon: <Progress size={20} className="mr-2.5" color="#fff" />,
-  },
-  {
-    name: "Referal",
-    href: "/referal",
-    icon: <LuPercent size={20} className="mr-2.5" />,
-  },
-  {
-    name: "Guides",
-    href: "/suggest-guide",
-    icon: <GrBook size={20} className="mr-2.5" />,
-  },
-];
-
-const languages = [
-  { code: "ru", name: "Russian", flag: ru },
-  { code: "en", name: "English", flag: en },
-];
-
-const subaccountTabs = [
-  {
-    name: "Guides",
-    href: "/suggest-guide",
-    icon: <GrBook size={20} className="mr-2.5" />,
-  },
-];
-
 const ProfileModal = ({
   toggleProfileModal,
   openBalanceModal,
 }: ProfileModalType) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { logout, user, setIsLoading, updateUser } = useStore();
   const router = useRouter();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isUpdatingLanguage, setIsUpdatingLanguage] = useState(false);
+
+  const tabs = [
+    {
+      name: t("profileModal.subscriptions"),
+      href: "/subscriptions",
+      icon: <FaDollarSign size={20} className="mr-2" />,
+    },
+    {
+      name: t("profileModal.subaccounts"),
+      href: "/subaccounts",
+      icon: <FiUsers size={20} className="mr-2.5" />,
+    },
+    {
+      name: t("profileModal.progress"),
+      href: "/progress",
+      icon: <Progress size={20} className="mr-2.5" color="#fff" />,
+    },
+    {
+      name: t("profileModal.referal"),
+      href: "/referal",
+      icon: <LuPercent size={20} className="mr-2.5" />,
+    },
+    {
+      name: t("profileModal.guides"),
+      href: "/suggest-guide",
+      icon: <GrBook size={20} className="mr-2.5" />,
+    },
+  ];
+
+  const languages = [
+    { code: "ru", name: t("profileModal.russian"), flag: ru },
+    { code: "en", name: t("profileModal.english"), flag: en },
+  ];
+
+  const subaccountTabs = [
+    {
+      name: t("profileModal.guides"),
+      href: "/suggest-guide",
+      icon: <GrBook size={20} className="mr-2.5" />,
+    },
+  ];
 
   const handleLanguageChange = async (code: string) => {
     if (isUpdatingLanguage || code === selectedLanguage) return;
@@ -237,7 +237,9 @@ const ProfileModal = ({
           className="hover:bg-[#24262A] rounded-lg cursor-pointer flex items-center gap-[12px] p-[12px] pb-[16px] lg:px-[12px] lg:py-[8px] h-[40px]"
           onClick={handleLogout}>
           <FaPowerOff size={24} />
-          <p className="text-[14px] font-semibold leading-[20px]">Logout</p>
+          <p className="text-[14px] font-semibold leading-[20px]">
+            {t("profileModal.logout")}
+          </p>
         </li>
       </div>
     </div>

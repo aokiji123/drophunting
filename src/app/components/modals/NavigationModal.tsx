@@ -13,21 +13,6 @@ type ProfileModalType = {
   openPlansModal: () => void;
 };
 
-const tabs = [
-  {
-    name: "Guides",
-    href: "/guides",
-  },
-  {
-    name: "Blog",
-    href: "/blog",
-  },
-  {
-    name: "Store",
-    href: "/store",
-  },
-];
-
 const NavigationModal = ({
   toggleNavigationModal,
   openPlansModal,
@@ -40,6 +25,21 @@ const NavigationModal = ({
     toggleNavigationModal();
     openPlansModal();
   };
+
+  const tabs = [
+    {
+      name: t("navigationModal.guides"),
+      href: "/guides",
+    },
+    {
+      name: t("navigationModal.blog"),
+      href: "/blog",
+    },
+    {
+      name: t("navigationModal.store"),
+      href: "/store",
+    },
+  ];
 
   return (
     <div className="h-full bg-[#1C1E22] relative lg:w-[299px] rounded-[12px] px-[12px] pt-[32px]">
@@ -70,14 +70,14 @@ const NavigationModal = ({
               className="w-[16px] h-[16px]"
             />
             <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-              {t("upgrade")}
+              {t("navigationModal.upgrade")}
             </p>
           </button>
         ) : (
           <button
             onClick={() => (window.location.href = "/auth/login")}
             className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
-            Login
+            {t("navigationModal.login")}
           </button>
         )}
         <div className="flex gap-2">

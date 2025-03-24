@@ -1,6 +1,7 @@
 import useStore from "@/shared/store";
 import { useState, ChangeEvent } from "react";
 import { IoMdClose } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 type BuySubaccountsModalType = {
   onClose: () => void;
@@ -19,6 +20,7 @@ export const BuySubaccountsModal = ({
   onClose,
   subaccountPrice,
 }: BuySubaccountsModalType) => {
+  const { t } = useTranslation();
   const [amount, setAmount] = useState<number>(1);
   const [error, setError] = useState<string>("");
   const { buySubaccounts } = useStore();
@@ -33,7 +35,7 @@ export const BuySubaccountsModal = ({
       setAmount(numValue);
 
       if (numValue > 10) {
-        setError("Maximum 10 subaccounts allowed per payment");
+        setError(t("buySubaccountsModal.maxSubaccountsError"));
       } else {
         setError("");
       }
@@ -49,9 +51,9 @@ export const BuySubaccountsModal = ({
     } catch (error: unknown) {
       const apiError = error as APIError;
       if (apiError?.response?.data?.message === "Insufficient balance") {
-        setError("Insufficient balance. Please top up your account.");
+        setError(t("buySubaccountsModal.insufficientBalance"));
       } else {
-        setError("Insufficient balance. Please top up your account.");
+        setError(t("buySubaccountsModal.insufficientBalance"));
       }
       console.error("Error buying subaccounts:", error);
     }
@@ -68,17 +70,21 @@ export const BuySubaccountsModal = ({
 
         <div className="flex flex-col gap-[20px] mb-6">
           <p className="text-[18px] font-bold leading-[20px]">
-            Buy Subaccounts
+            {t("buySubaccountsModal.title")}
           </p>
 
           <p className="text-[#8E8E8E] leading-[20px]">
-            Выберите количество саббакаунтов и проведите оплату
+            {t("buySubaccountsModal.description")}
           </p>
 
           <div className="flex flex-col gap-[2px]">
-            <p className="text-[12px] leading-[20px] text-[#8E8E8E]">Price</p>
+            <p className="text-[12px] leading-[20px] text-[#8E8E8E]">
+              {t("buySubaccountsModal.price")}
+            </p>
             <p className="text-[14px] leading-[16px] font-medium">
-              1 subaccount ${subaccountPrice}
+              {t("buySubaccountsModal.pricePerSubaccount", {
+                price: subaccountPrice,
+              })}
             </p>
           </div>
         </div>
@@ -87,7 +93,7 @@ export const BuySubaccountsModal = ({
           <label
             htmlFor="subaccountsAmount"
             className="text-[14px] leading-[16px] font-medium">
-            Amount of Subaccounts (max 10)
+            {t("buySubaccountsModal.amountLabel")}
           </label>
           <input
             type="text"
@@ -100,7 +106,9 @@ export const BuySubaccountsModal = ({
             <p className="text-[--error] text-sm font-medium">{error}</p>
           )}
           <div className="flex items-center justify-end gap-[12px]">
-            <p className="text-[14px] leading-[16px] font-medium">Итого</p>
+            <p className="text-[14px] leading-[16px] font-medium">
+              {t("buySubaccountsModal.total")}
+            </p>
             <p className="text-[19px] leading-[16px] font-medium">
               ${totalPrice}
             </p>
@@ -115,7 +123,7 @@ export const BuySubaccountsModal = ({
               ? "bg-[#11CA00] hover:bg-blue-500"
               : "bg-gray-500 cursor-not-allowed"
           }`}>
-          Buy Subaccounts
+          {t("buySubaccountsModal.buySubaccounts")}
         </button>
       </div>
     </div>

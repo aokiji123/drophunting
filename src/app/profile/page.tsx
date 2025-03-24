@@ -29,7 +29,7 @@ import { AuthenticatorVerificationModal } from "../components/modals/Authenticat
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress } from "@/shared/icons/Progress";
 import { MdOutlineDone } from "react-icons/md";
-import { Delete2FAModal } from "../components/modals/Delete2FAModa";
+import { Delete2FAModal } from "../components/modals/Delete2FAModal";
 import { update2FA } from "@/shared/api/axios";
 
 const languages = [

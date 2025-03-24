@@ -1,6 +1,7 @@
 import { IoMdClose } from "react-icons/io";
 import { LuCheck, LuCopy } from "react-icons/lu";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import useStore from "@/shared/store";
 import Loading from "@/shared/components/Loading";
@@ -14,6 +15,7 @@ export const AuthenticatorModal = ({
   onClose,
   onNext,
 }: DeleteAccountModalType) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
 
   const [qrCode, setQrCode] = useState<string>("");
@@ -50,11 +52,11 @@ export const AuthenticatorModal = ({
 
           <div className="flex flex-col gap-[15px]">
             <p className="text-[18px] font-bold leading-[20px]">
-              Link an Authenticator
+              {t("authenticatorModal.title")}
             </p>
 
             <p className="text-[#949392] leading-[20px] mb-6">
-              Scan this QR code in the App
+              {t("authenticatorModal.scanQR")}
             </p>
           </div>
 
@@ -78,15 +80,14 @@ export const AuthenticatorModal = ({
             </p>
 
             <p className="my-[16px] text-[14px] leading-[16px] font-sans text-[#656768] text-center">
-              If you can&apos;t scan the QR code, enter the code manually into
-              the app.
+              {t("authenticatorModal.manualEntry")}
             </p>
           </div>
 
           <button
             onClick={onNext}
             className="w-full bg-[#11CA00] h-[56px] py-[12px] px-[18px] rounded-[16px] font-semibold hover:bg-[#0FB300] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-[17px] leading-[20px] font-sans mt-[8px]">
-            Next
+            {t("authenticatorModal.next")}
           </button>
         </div>
       )}

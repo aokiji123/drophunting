@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { GoDotFill } from "react-icons/go";
 import { LuBell } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
 import Image from "next/image";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
@@ -13,6 +14,7 @@ type NotificationsModalType = {
 const NotificationsModal = ({
   toggleNotificationsModal,
 }: NotificationsModalType) => {
+  const { t } = useTranslation();
   const { notifications, isLoadingNotifications, fetchNotifications } =
     useStore();
 
@@ -33,7 +35,7 @@ const NotificationsModal = ({
         <IoMdClose size={24} className="cursor-pointer" />
       </button>
       <p className="text-[16px] leading-[16px] font-bold pl-[15px]">
-        Notifications
+        {t("notificationsModal.title")}
       </p>
       <OverlayScrollbarsComponent
         className="overflow-y-auto mt-2"
@@ -93,7 +95,9 @@ const NotificationsModal = ({
             </div>
           ))
         ) : (
-          <div className="text-center py-4 text-gray-400">No notifications</div>
+          <div className="text-center py-4 text-gray-400">
+            {t("notificationsModal.noNotifications")}
+          </div>
         )}
       </OverlayScrollbarsComponent>
     </div>

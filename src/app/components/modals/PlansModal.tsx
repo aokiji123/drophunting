@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { MdOutlineDone, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { validateAmount, formatAmount } from "@/shared/utils/validation";
 import useStore from "@/shared/store";
+import { useTranslation } from "react-i18next";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 type PlansModalType = {
@@ -16,6 +17,7 @@ enum CurrencyType {
 }
 
 export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
+  const { t } = useTranslation();
   const [isInnerModalOpen, setIsInnerModalOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<number | null>(null);
   const [amount, setAmount] = useState(100);
@@ -192,14 +194,14 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
             <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-4">
               <MdOutlineDone size={32} />
             </div>
-            <h2 className="text-xl font-bold mb-2">Success!</h2>
+            <h2 className="text-xl font-bold mb-2">{t("common.success")}</h2>
             <p className="text-center text-gray-300 mb-6">
-              {buyPlanSuccess || "Your plan has been successfully activated."}
+              {buyPlanSuccess || t("plansModal.planActivated")}
             </p>
             <button
               onClick={togglePlansModal}
               className="px-6 py-3 bg-[#11CA00] hover:bg-blue-500 rounded-[12px] font-semibold">
-              Close
+              {t("common.close")}
             </button>
           </div>
         </div>
@@ -214,7 +216,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
         <p className="text-[#CBFF51] leading-[20px] mb-[10px] p-4 pb-0">
-          Plans
+          {t("plansModal.title")}
         </p>
         <OverlayScrollbarsComponent
           className="overflow-y-auto flex-1 p-4 pt-0"
@@ -229,7 +231,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               {buyPlanError.includes("already has active subscription") ||
               buyPlanError.includes("active plan") ||
               buyPlanError.includes("subscription")
-                ? "You already have an active subscription"
+                ? t("plansModal.alreadyHasSubscription")
                 : buyPlanError}
             </div>
           )}
@@ -237,11 +239,10 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
           <div className="flex flex-col lg:flex-row lg:justify-between">
             <div className="py-[10px] sm:p-0 w-[100%] flex flex-col gap-[12px] md:gap-[20px] lg:w-[450px]">
               <p className="font-bold text-[22px] xl:text-[24px] sm:text-[26px] leading-[36px] -tracking-[3%]">
-                Get Unlimited Access to the Site Materials
+                {t("plansModal.description")}
               </p>
               <p className="font-semibold text-[13px] leading-[20px] text-[#949392] xl:w-[450px]">
-                You will also receive an invitation to a private channel and
-                access.
+                {t("plansModal.additionalInfo")}
               </p>
               <div>
                 <div className="relative mb-5">
@@ -250,7 +251,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                     className="text-[#CBFF51] absolute top-0 left-0"
                   />
                   <p className="font-semibold leading-[20px] px-[25px]">
-                    Unlimited access to view guides
+                    {t("plansModal.benefit1")}
                   </p>
                 </div>
                 <div className="relative">
@@ -259,15 +260,14 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                     className="text-[#CBFF51] absolute top-0 left-0"
                   />
                   <p className="font-semibold leading-[20px] px-[25px]">
-                    Private channel and access to a closed section with projects
-                    with maximum potential
+                    {t("plansModal.benefit2")}
                   </p>
                 </div>
               </div>
             </div>
             <div className="w-[100%] bg-transparent lg:w-[450px]">
               <h2 className="text-[18px] leading-[20px] -tracking-[0.18px] font-bold pt-[32px] lg:pt-0 mb-[15px]">
-                Select plan
+                {t("plansModal.choosePlan")}
               </h2>
 
               {isLoadingPlans ? (
@@ -308,7 +308,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                           }`}>
                           <p className="font-bold">{plan.name}</p>
                           <p className="text-[#8E8E8E]">
-                            {plan.count_days} days
+                            {plan.count_days} {t("plansModal.days")}
                           </p>
                         </div>
                       </div>
@@ -319,8 +319,8 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                               ${parseFloat(plan.price).toFixed(0)}
                             </p>
                             <p className="leading-[15px] text-[#8E8E8E]">
-                              ${parseFloat(plan.price_month).toFixed(0)}
-                              /month
+                              ${parseFloat(plan.price_month).toFixed(0)}/
+                              {t("plansModal.month")}
                             </p>
                           </div>
                         ) : (
@@ -335,13 +335,15 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
               )}
 
               <div className="mt-[25px]">
-                <p className="mb-1 leading-[16px] font-semibold">Coupon</p>
+                <p className="mb-1 leading-[16px] font-semibold">
+                  {t("plansModal.coupon")}
+                </p>
                 <div className="flex items-center gap-2">
                   <input
                     className={`bg-[#212226] p-2 w-[200px] rounded-[12px] placeholder:text-[14px] placeholder:leading-[20px] ${
                       couponError ? "border border-red-500" : ""
                     } ${isCouponApplied ? "border border-green-500" : ""}`}
-                    placeholder="Coupon code"
+                    placeholder={t("plansModal.enterCoupon")}
                     value={couponCode}
                     onChange={handleCouponInputChange}
                   />
@@ -358,23 +360,23 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                     {isCouponLoading ? (
                       <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                     ) : isCouponApplied ? (
-                      "Applied"
+                      t("plansModal.couponApplied")
                     ) : (
-                      "Apply"
+                      t("plansModal.apply")
                     )}
                   </button>
                 </div>
                 {couponError && (
                   <p className="text-red-500 text-sm mt-1">
-                    Coupon is not valid or expired
+                    {t("plansModal.couponInvalid")}
                   </p>
                 )}
                 {coupon && isCouponApplied && (
                   <p className="text-green-500 text-sm mt-1">
-                    Coupon applied:{" "}
+                    {t("plansModal.couponAppliedInfo")}:{" "}
                     {coupon.perc
-                      ? `${coupon.sale}% off`
-                      : `$${coupon.sale} off`}
+                      ? `${coupon.sale}% ${t("plansModal.off")}`
+                      : `$${coupon.sale} ${t("plansModal.off")}`}
                   </p>
                 )}
               </div>
@@ -386,7 +388,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
           <div className="bg-[#1C1E22] sticky -bottom-[30px] h-[150px] left-0 w-full pt-4 lg:pt-0">
             <div className="flex items-center justify-between h-[46px] md:h-[58px]">
               <div className="flex flex-col gap-[2px]">
-                <p className="leading-[20px]">Amount due</p>
+                <p className="leading-[20px]">{t("plansModal.totalPrice")}</p>
                 <div className="flex items-center gap-2">
                   <p className="text-[20px] leading-[24px] md:text-[24px] md:leading-[28px] font-bold">
                     ${amountDue.toFixed(2)}
@@ -412,7 +414,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                   ) : (
                     <>
-                      Go to payment
+                      {t("plansModal.pay")}
                       <MdOutlineKeyboardArrowRight />
                     </>
                   )}
@@ -421,7 +423,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                 <button
                   className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] hover:bg-blue-500 font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
                   onClick={toggleInnerModal}>
-                  Top up balance
+                  {t("balanceModal.title")}
                   <MdOutlineKeyboardArrowRight />
                 </button>
               )}
@@ -430,11 +432,10 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
             {user && Number(user.balance) < amountDue && (
               <p className="text-[#8E8E8E] leading-[20px] mt-[26px]">
                 <span className="text-[#FF6F6F]">
-                  Account balance: ${user.balance}
+                  {t("plansModal.accountBalance")}: ${user.balance}
                 </span>{" "}
                 <span className="hidden sm:inline">
-                  There are not enough funds on your account to pay for the
-                  order.
+                  {t("plansModal.insufficientFunds")}
                 </span>
               </p>
             )}
@@ -442,8 +443,10 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
             <div className="flex text-[#D7B5FF] bg-[#B030BE0A] gap-2 mt-4 rounded-[12px] p-[10px] items-center">
               <CiCircleInfo size={24} />
               <p className="text-[13px] leading-[18px]">
-                Tip: if you get blocked at the time of payment -{" "}
-                <span className="text-[#E37DFF]">use a VPN</span>
+                {t("plansModal.vpnTip1")}{" "}
+                <span className="text-[#E37DFF]">
+                  {t("plansModal.vpnTip2")}
+                </span>
               </p>
             </div>
           </div>
@@ -463,11 +466,11 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                 </button>
                 <div>
                   <p className="text-[18x] font-bold leading-[20px]">
-                    Top Up Balance
+                    {t("balanceModal.title")}
                   </p>
                   <div className="mt-5">
                     <p className="font-semibold leading-[16px]">
-                      Currency type
+                      {t("balanceModal.currencyType")}
                     </p>
                     <div className="flex items-center bg-[#292B2F] rounded-full mt-2 w-[184px]">
                       <button
@@ -477,7 +480,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                             : "bg-transparent text-gray-400"
                         }`}
                         onClick={() => handleSwitch(CurrencyType.Fiat)}>
-                        Fiat
+                        {t("balanceModal.fiat")}
                       </button>
                       <button
                         className={`px-4 py-2 rounded-full text-sm font-medium w-[92px] ${
@@ -486,12 +489,14 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                             : "bg-transparent text-gray-400"
                         }`}
                         onClick={() => handleSwitch(CurrencyType.Crypto)}>
-                        Crypto
+                        {t("balanceModal.crypto")}
                       </button>
                     </div>
                   </div>
                   <div className="my-5">
-                    <p className="font-semibold leading-[16px]">Amount</p>
+                    <p className="font-semibold leading-[16px]">
+                      {t("balanceModal.amount")}
+                    </p>
                     <input
                       type="text"
                       className={`bg-[#292B2F] border-[1px] ${
@@ -503,7 +508,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                       onChange={handleInputBalanceChange}
                       onFocus={handleInputFocus}
                       onBlur={handleInputBlur}
-                      placeholder="Enter amount"
+                      placeholder={t("balanceModal.enterAmount")}
                     />
                     {error && (
                       <p className="text-red-500 text-sm mt-1">{error}</p>
@@ -517,7 +522,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                         ? "bg-gray-500 cursor-not-allowed"
                         : "bg-[#11CA00] hover:bg-blue-500"
                     } font-semibold leading-[20px] text-[17px]`}>
-                    Go to payment
+                    {t("balanceModal.goToPayment")}
                     <MdOutlineKeyboardArrowRight />
                   </button>
                 </div>
