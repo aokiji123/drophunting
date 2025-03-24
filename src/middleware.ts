@@ -47,9 +47,12 @@ export function middleware(request: NextRequest) {
   if (!token) {
     const redirectParam =
       searchParams.get("refer") || searchParams.get("mainaccount");
-    if (redirectParam) {
+    if (redirectParam && pathname !== "/auth/sign-up") {
       return NextResponse.redirect(
-        new URL(`/auth/sign-up?${redirectParam}`, request.url),
+        new URL(
+          `/auth/sign-up?${searchParams.get("refer") ? "refer" : "mainaccount"}=${redirectParam}`,
+          request.url,
+        ),
       );
     }
 
