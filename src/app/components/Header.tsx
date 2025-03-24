@@ -134,18 +134,20 @@ const Header = () => {
                 className="text-[#9EA0A6] cursor-pointer"
               />
             </div>
-            <button
-              className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]"
-              onClick={togglePlansModal}>
-              <Image
-                src={starIcon}
-                alt="Star icon"
-                className="w-[16px] h-[16px]"
-              />
-              <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-                {t("header.upgrade")}
-              </p>
-            </button>
+            {user && !user?.subaccount && (
+              <button
+                className="hidden lg:flex items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px]"
+                onClick={togglePlansModal}>
+                <Image
+                  src={starIcon}
+                  alt="Star icon"
+                  className="w-[16px] h-[16px]"
+                />
+                <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
+                  {t("header.upgrade")}
+                </p>
+              </button>
+            )}
           </>
         )}
 
