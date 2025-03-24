@@ -8,6 +8,7 @@ import i18n from "@/shared/i18n";
 import "./globals.css";
 import "overlayscrollbars/overlayscrollbars.css";
 import "../shared/styles/scrollbar.css";
+import "../shared/styles/server-content.scss";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import UserProvider from "@/shared/providers/UserProvider";
 import LoadingProvider from "@/shared/providers/LoadingProvider";

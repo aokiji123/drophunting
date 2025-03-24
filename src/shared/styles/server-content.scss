@@ -1,0 +1,111 @@
+.article-content {
+  p {
+    color: #cacbce;
+    font-size: 18px;
+    line-height: 28px;
+    font-family: "Chakra Petch", sans-serif;
+    padding: 24px 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: white;
+    font-family: "Chakra Petch", sans-serif;
+  }
+
+  h1,
+  h2 {
+    font-weight: 700;
+    padding: 24px 0;
+  }
+
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+  }
+
+  h1 {
+    font-size: 42px;
+    line-height: 50px;
+    font-family: "IBM Plex Sans", sans-serif !important;
+  }
+
+  h2 {
+    font-size: 34px;
+    line-height: 41px;
+  }
+
+  h3 {
+    font-size: 28px;
+    line-height: 35px;
+  }
+
+  h4 {
+    font-size: 22px;
+    line-height: 28px;
+    padding: 16px 0 !important;
+  }
+
+  h5 {
+    font-size: 18px;
+    line-height: 22px;
+    padding: 16px 0;
+  }
+
+  h6 {
+    font-size: 16px;
+    line-height: 18px;
+    padding: 12px 0;
+  }
+
+  a {
+    color: #98ce18;
+    text-decoration: underline;
+  }
+
+  ul,
+  ol {
+    li {
+      color: #cacbce;
+      font-size: 18px;
+      line-height: 28px;
+      font-family: "Chakra Petch", sans-serif;
+      padding: 4px 0;
+    }
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    th,
+    td {
+      text-align: left;
+      padding: 16px;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      font-weight: 500;
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f213;
+    }
+  }
+}

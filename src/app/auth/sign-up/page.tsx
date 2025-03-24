@@ -36,7 +36,7 @@ const SignUp = () => {
   const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
     null,
   );
-  const [useCaptcha] = useState(false);
+  const [useCaptcha] = useState(true);
 
   const onChange = (value: string | null) => {
     setGRecaptchaResponse(value);
