@@ -18,6 +18,18 @@ export default function UserProvider({
   const { refreshUser, setIsLoading, logout } = useStore();
 
   useEffect(() => {
+    const handleLogout = () => {
+      window.location.href = "/auth/login";
+    };
+
+    window.addEventListener("unauthorized", handleLogout);
+
+    return () => {
+      window.removeEventListener("unauthorized", handleLogout);
+    };
+  }, []);
+
+  useEffect(() => {
     const checkUserStatus = async () => {
       if (
         !["auth"].some((p) => pathname.includes(p)) &&

@@ -53,15 +53,24 @@ export const update2FA = (newToken: string | null) => {
   }
 };
 
+const handleUnauthorized = () => {
+  Cookies.remove("auth-token");
+  Cookies.remove("2fa");
+  Cookies.remove("user");
+
+  updateAxiosToken(null);
+  update2FA(null);
+
+  if (typeof window !== "undefined") {
+    window.location.href = "/login";
+  }
+};
+
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      Cookies.remove("auth-token");
-      Cookies.remove("2fa");
-      Cookies.remove("user");
-      updateAxiosToken(null);
-      update2FA(null);
+      handleUnauthorized();
     }
     return Promise.reject(error);
   },
