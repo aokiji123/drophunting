@@ -356,7 +356,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                     disabled={!couponCode || isCouponApplied || isCouponLoading}
                     onClick={handleApplyCoupon}>
                     {isCouponLoading ? (
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                     ) : isCouponApplied ? (
                       "Applied"
                     ) : (
@@ -409,7 +409,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                   onClick={handlePurchasePlan}
                   disabled={isBuyingPlan}>
                   {isBuyingPlan ? (
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                   ) : (
                     <>
                       Go to payment

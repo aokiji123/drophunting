@@ -71,7 +71,7 @@ const Header = () => {
     return (
       <div className="bg-[#101114] text-white">
         <div className="flex justify-center items-center h-screen">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
         </div>
       </div>
     );

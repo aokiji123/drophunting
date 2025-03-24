@@ -83,7 +83,7 @@ const ProductDetail = () => {
       <div className="bg-[#101114] text-white min-h-screen">
         <Header />
         <main className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#11CA00]"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
         </main>
         <Footer />
       </div>

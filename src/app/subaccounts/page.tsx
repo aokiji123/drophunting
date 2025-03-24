@@ -175,7 +175,7 @@ const Subaccounts = () => {
           <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
             {isLoadingSubaccounts && !subaccounts ? (
               <div className="flex justify-center items-center h-[200px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#11CA00]"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
               </div>
             ) : subaccountsError ? (
               <div className="flex justify-center items-center h-[200px]">
@@ -275,7 +275,7 @@ const Subaccounts = () => {
                 </div>
                 {isLoadingSubaccounts && subaccounts ? (
                   <div className="flex justify-center items-center h-[200px]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#11CA00]"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                   </div>
                 ) : (
                   <>
