@@ -20,8 +20,10 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress } from "@/shared/icons/Progress";
+import { useTranslation } from "react-i18next";
 
 const Referal = () => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [copied, setCopied] = useState(false);
@@ -153,22 +155,26 @@ const Referal = () => {
                 </div>
                 <div className="mt-4">
                   <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                    Invite friends
+                    {t("referal.title")}
                   </p>
                   <p className="text-[#949392] leading-[20px] sm:w-[450px] lg:w-[650px] mb-5">
-                    Invite friends and get {referrals?.profit || "20"}% rewards
+                    {t("referal.subtitle", {
+                      percent: referrals?.profit || "20",
+                    })}
                   </p>
                 </div>
                 <div className="flex gap-[24px] flex-row items-start sm:gap-[36px]">
                   <div className="flex flex-col gap-2 min-w-[96px]">
-                    <p className="font-semibold leading-[20px]">Your profit</p>
+                    <p className="font-semibold leading-[20px]">
+                      {t("referal.yourProfit")}
+                    </p>
                     <p className="text-[25px] leading-[28px] font-semibold">
                       {referrals?.profit || "0"}%
                     </p>
                   </div>
                   <div className="flex flex-col gap-[8px] flex-grow">
                     <p className="font-semibold leading-[20px]">
-                      Referals invited
+                      {t("referal.referalsInvited")}
                     </p>
                     <div className="flex flex-row items-center gap-[20px]">
                       <p className="text-[25px] leading-[28px] font-semibold">
@@ -200,7 +206,7 @@ const Referal = () => {
                   <div className="flex flex-col sm:flex-row">
                     <div className="border-b-[1px] border-[#202126] p-[24px] sm:border-b-0 sm:border-r-[1px] sm:border-[#202126] sm:p-[12px] sm:pr-[24px] w-full md:w-[324px] lg:w-[65%]">
                       <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
-                        Send invitation link
+                        {t("referal.sendInvitationLink")}
                       </p>
                       <div className="flex items-center gap-[10px] mt-3">
                         <input
@@ -211,10 +217,10 @@ const Referal = () => {
                         <button
                           onClick={handleCopy}
                           className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
-                          Copy
+                          {t("referal.copy")}
                           {copied && (
                             <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
-                              Link copied!
+                              {t("referal.linkCopied")}
                             </span>
                           )}
                         </button>
@@ -222,7 +228,7 @@ const Referal = () => {
                     </div>
                     <div className="w-full md:w-[50%] lg:w-[35%] p-[24px] sm:p-[12px] sm:pl-[24px]">
                       <p className="text-[13px] sm:text-[14px] w-full leading-[20px] font-bold mr-[5px]">
-                        Rewards
+                        {t("referal.rewards")}
                       </p>
                       <div className="flex items-center justify-between mt-3 gap-[20px]">
                         <p className="text-[25px] leading-[28px] font-semibold">
@@ -236,7 +242,7 @@ const Referal = () => {
                               ? "bg-gray-600 cursor-not-allowed"
                               : "bg-[#11CA00] hover:bg-blue-500"
                           }`}>
-                          Claim
+                          {t("referal.claim")}
                         </button>
                       </div>
                     </div>
@@ -245,7 +251,7 @@ const Referal = () => {
                 <div>
                   <div className="flex items-center gap-3 mb-[8px]">
                     <p className="text-[16px] font-bold leading-[24px] -tracking-[3%]">
-                      Your referals
+                      {t("referal.yourReferals")}
                     </p>
                     <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
                       {referrals?.referrals_count || "0"}
@@ -282,10 +288,18 @@ const Referal = () => {
                       aria-label="referrals table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="left">Name</TableCell>
-                          <TableCell align="left">Email</TableCell>
-                          <TableCell align="left">Amount</TableCell>
-                          <TableCell align="left">Date</TableCell>
+                          <TableCell align="left">
+                            {t("referal.name")}
+                          </TableCell>
+                          <TableCell align="left">
+                            {t("referal.email")}
+                          </TableCell>
+                          <TableCell align="left">
+                            {t("referal.amount")}
+                          </TableCell>
+                          <TableCell align="left">
+                            {t("referal.date")}
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -333,7 +347,7 @@ const Referal = () => {
                               colSpan={4}
                               align="center"
                               sx={{ color: "#8E8E8E" }}>
-                              You don&apos;t have any referrals yet
+                              {t("referal.noReferrals")}
                             </TableCell>
                           </TableRow>
                         )}

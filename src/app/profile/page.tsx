@@ -45,7 +45,7 @@ const toBool = (value: boolean | undefined): boolean => {
 };
 
 const Profile = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const pathname = usePathname();
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
@@ -456,21 +456,27 @@ const Profile = () => {
             </div>
             <div className="w-full md:w-[550px] mt-[32px]">
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Name</p>
+                <p className="mb-1 md:mb-0 font-semibold">
+                  {t("profile.name")}
+                </p>
                 <input
                   value={editedName}
                   onChange={handleNameChange}
                   className="max-w-[350px] sm:w-[350px] bg-[#212226] border-[1px] border-[#212226] py-[12px] px-[16px] rounded-[14px] focus:border-[1px] focus:border-gray-400 focus:outline-none"
                 />
               </div>
-              {/* <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Wallet</p>
+              <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
+                <p className="mb-1 md:mb-0 font-semibold">
+                  {t("profile.wallet")}
+                </p>
                 <p className="md:py-[12px] md:px-[16px] w-full md:w-[350px]">
                   {user?.affiliate_id}
                 </p>
-              </div> */}
+              </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Language</p>
+                <p className="mb-1 md:mb-0 font-semibold">
+                  {t("profile.language")}
+                </p>
                 <div className="relative max-w-[350px] sm:w-[350px]">
                   <button
                     className="w-full h-[48px] bg-[#212226] flex items-center justify-between p-[12px] rounded-[12px]"
@@ -528,7 +534,9 @@ const Profile = () => {
                 </div>
               </div>
               <div className="flex-col flex md:flex-row md:items-center md:justify-between mb-3">
-                <p className="mb-1 md:mb-0 font-semibold">Worldtime</p>
+                <p className="mb-1 md:mb-0 font-semibold">
+                  {t("profile.timezone")}
+                </p>
                 <div className="relative max-w-[350px] sm:w-[350px]">
                   <button
                     className="w-full h-[48px] bg-[#212226] flex items-center justify-between p-[12px] rounded-[12px]"
@@ -580,28 +588,28 @@ const Profile = () => {
 
             <div className="font-chakra mb-6">
               <p className="text-[20px] font-bold leading-[16px] mb-6">
-                Notifications
+                {t("profile.notificationSettings")}
               </p>
               <div className="flex gap-[13px] mb-4 flex-col justify-start">
                 <CustomCheckbox
                   checked={notifChange}
                   onChange={handleNotifChangeToggle}
-                  label="Change in favorites"
+                  label={t("profile.notifyAboutChanges")}
                 />
                 <CustomCheckbox
                   checked={notifGuides}
                   onChange={handleNotifGuidesToggle}
-                  label="New guides"
+                  label={t("profile.notifyNewGuides")}
                 />
                 <CustomCheckbox
                   checked={notifArticles}
                   onChange={handleNotifArticlesToggle}
-                  label="New articles"
+                  label={t("profile.notifyNewArticles")}
                 />
                 <CustomCheckbox
                   checked={notifDeadline}
                   onChange={handleNotifDeadlineToggle}
-                  label="Deadlines in favorites"
+                  label={t("profile.notifyAboutDeadline")}
                 />
               </div>
             </div>
@@ -611,18 +619,17 @@ const Profile = () => {
               <div className="flex flex-col gap-4">
                 <div>
                   <p className="text-[16px] font-semibold">
-                    Telegram notifications
+                    {t("profile.telegramNotifications")}
                   </p>
                   <p className="max-w-[350px] sm:w-[350px] leading-[18px] text-[#949392]">
-                    Subscribe to our bot to receive notifications about changes
-                    to favorite guides, publication of new guides and articles.
+                    {t("profile.telegramDescription")}
                   </p>
                 </div>
                 <a
                   href={user?.telegram_bot_link}
                   target="_blank"
                   className="w-fit bg-[#11CA00] hover:bg-[#11ca00bd] transition-colors py-[8px] px-[12px] rounded-[8px] h-[32px] font-sans font-semibold flex flex-shrink-0 items-center gap-2 text-[14px] leading-[16px]">
-                  Subscribe Telegram
+                  {t("profile.subscribeTelegram")}
                 </a>
               </div>
             </div>
@@ -632,7 +639,7 @@ const Profile = () => {
             <div className="font-chakra">
               <div className="mb-[40px]">
                 <p className="text-[20px] font-bold leading-[16px] mb-6">
-                  Security
+                  {t("profile.securitySection")}
                 </p>
                 <div className="flex-col md:flex-row flex md:items-center md:justify-between w-full md:w-[591px]">
                   <div className="flex gap-2 mb-3">
@@ -644,23 +651,23 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
-                        Change password
+                        {t("profile.changePasswordButton")}
                       </p>
                       <p className="w-full md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
-                        Use your email to protect your account and transactions
+                        {t("profile.password")}
                       </p>
                     </div>
                   </div>
                   <button
                     className="w-[100px] bg-[#2C2D31] hover:opacity-80 transition-opacity py-[8px] px-[20px] ml-[35px] rounded-[10px]"
                     onClick={() => setShowChangePasswordModal(true)}>
-                    Change
+                    {t("profile.changePasswordButton")}
                   </button>
                 </div>
               </div>
               <div className="mb-[40px] w-full md:w-[600px]">
                 <p className="text-[18px] font-bold leading-[18px] mb-6">
-                  Two-Factor Authentication (2FA)
+                  {t("profile.twoFactorAuth")}
                 </p>
                 <div className="flex-col md:flex-row flex md:items-center md:justify-between w-full md:w-[591px]">
                   <div className="mb-3 flex gap-2">
@@ -675,11 +682,10 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
-                        Authenticator app
+                        {t("profile.twoFactorAuth")}
                       </p>
                       <p className="md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
-                        Use Google Authenticator to protect your account and
-                        transactions
+                        {t("profile.twoFactorAuthEnabled")}
                       </p>
                     </div>
                   </div>
@@ -689,7 +695,7 @@ const Profile = () => {
                         <div className="h-[18px] rounded-[20px] pr-[8px] pl-[4px] flex items-center gap-1">
                           <MdOutlineDone size={16} className="text-[#0EB159]" />
                           <p className="text-[#39FF6E] text-[14px] font-semibold font-chakra leading-[18px]">
-                            On
+                            {t("profile.twoFactorAuthEnabled")}
                           </p>
                         </div>
                         <button
@@ -703,7 +709,7 @@ const Profile = () => {
                               className="w-[16px] h-[16px]"
                             />
                           </div>
-                          <div>Delete</div>
+                          <div>{t("profile.twoFactorAuthDelete")}</div>
                         </button>
                       </>
                     ) : (
@@ -711,13 +717,15 @@ const Profile = () => {
                         <div>
                           <div className="flex items-center gap-1 ml-[35px]">
                             <IoIosCloseCircle size={16} />
-                            <p className="text-[#C2C0BD] leading-[18px]">Off</p>
+                            <p className="text-[#C2C0BD] leading-[18px]">
+                              {t("profile.twoFactorAuthDisabled")}
+                            </p>
                           </div>
                         </div>{" "}
                         <button
-                          className="hover:opacity-80 transition-opacity w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]"
+                          className="hover:opacity-80 transition-opacity bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]"
                           onClick={() => setShowAuthenticatorModal(true)}>
-                          Manage
+                          {t("profile.link2FAButton")}
                         </button>
                       </>
                     )}
@@ -742,7 +750,7 @@ const Profile = () => {
                         className="w-[16px] h-[16px]"
                       />
                     </div>
-                    <div>Delete account</div>
+                    <div>{t("profile.deleteAccountButton")}</div>
                   </button>
                 ) : (
                   <div></div>
@@ -771,10 +779,10 @@ const Profile = () => {
                             fill="currentColor"
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Saving...
+                        {t("profile.saving")}
                       </>
                     ) : (
-                      "Save Changes"
+                      t("profile.saveChanges")
                     )}
                   </button>
                 )}
@@ -806,10 +814,10 @@ const Profile = () => {
                           fill="currentColor"
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Saving...
+                      {t("profile.saving")}
                     </>
                   ) : (
-                    "Save Changes"
+                    t("profile.saveChanges")
                   )}
                 </button>
               </div>

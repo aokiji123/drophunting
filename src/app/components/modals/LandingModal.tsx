@@ -11,7 +11,12 @@ type LandingModalType = {
 };
 
 const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "en" ? "ru" : "en";
+    i18n.changeLanguage(newLang);
+  };
 
   return (
     <div className="flex flex-col h-full p-4 px-[12px] pt-[48px] pb-[34px]">
@@ -87,10 +92,10 @@ const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
           />
         </div>
       </div>
-      <div className="cursor-pointer">
+      <div className="cursor-pointer" onClick={toggleLanguage}>
         <div className="flex items-center gap-[6px]">
           <GrLanguage size={20} />
-          <p>EN</p>
+          <p>{t("landing.language")}</p>
           <FaCaretDown />
         </div>
       </div>

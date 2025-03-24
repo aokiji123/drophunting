@@ -6,8 +6,10 @@ import Header from "@/app/auth/components/Header";
 import { RiKey2Line } from "react-icons/ri";
 import Footer from "@/app/auth/components/Footer";
 import useStore from "@/shared/store";
+import { useTranslation } from "react-i18next";
 
 const PasswordResetHandler = () => {
+  const { t } = useTranslation();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const token = pathname.slice(16);
@@ -33,13 +35,13 @@ const PasswordResetHandler = () => {
     setLoading(true);
 
     if (!password || !newPassword) {
-      setError("Both fields are required.");
+      setError(t("passwordReset.bothFieldsRequired"));
       setLoading(false);
       return;
     }
 
     if (password !== newPassword) {
-      setError("Passwords do not match.");
+      setError(t("passwordReset.passwordsDontMatch"));
       setLoading(false);
       return;
     }
@@ -54,7 +56,7 @@ const PasswordResetHandler = () => {
       router.push("/auth/password-reset-confirmation");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-      setError("Failed to reset password. Please try again.");
+      setError(t("passwordReset.resetFailed"));
     }
 
     setLoading(false);
@@ -71,16 +73,16 @@ const PasswordResetHandler = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mt-[35px] mb-[20px]">
-              Reset password
+              {t("passwordReset.title")}
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-[340px] mb-[30px]">
-              Write the new password in the input
+              {t("passwordReset.description")}
             </p>
 
             <form onSubmit={handleSubmit}>
               <input
                 type="password"
-                placeholder="New password"
+                placeholder={t("passwordReset.newPassword")}
                 value={password}
                 onChange={handlePasswordChange}
                 className={`p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-2 focus:border-[1px] focus:border-gray-500 focus:outline-none ${
@@ -91,7 +93,7 @@ const PasswordResetHandler = () => {
               />
               <input
                 type="password"
-                placeholder="Repeat new password"
+                placeholder={t("passwordReset.repeatPassword")}
                 value={newPassword}
                 onChange={handleNewPasswordChange}
                 className={`p-3 border-[1px] border-[--dark-gray] px-4 w-full bg-[--dark-gray] rounded-[14px] mb-4 focus:border-[1px] focus:border-gray-500 focus:outline-none ${
@@ -103,7 +105,9 @@ const PasswordResetHandler = () => {
               <button
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
                 type="submit">
-                {loading ? "Loading..." : "Reset password"}
+                {loading
+                  ? t("passwordReset.loading")
+                  : t("passwordReset.resetButton")}
               </button>
             </form>
             {error && <p className="text-[--error] text-sm mb-4">{error}</p>}

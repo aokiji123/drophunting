@@ -13,6 +13,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import useStore from "@/shared/store";
 import { Slider, sliderClasses, styled } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const CustomSlider = styled(Slider)({
   height: 4,
@@ -31,6 +32,7 @@ const CustomSlider = styled(Slider)({
 });
 
 const Progress = () => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const {
@@ -207,10 +209,10 @@ const Progress = () => {
               </div>
               <div className="mt-4">
                 <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                  Progress
+                  {t("progress.title")}
                 </p>
                 <p className="text-[#949392] leading-[20px] mt-2 max-w-full lg:w-[650px]">
-                  Track the progress of your subaccounts on the guides
+                  {t("progress.subtitle")}
                 </p>
               </div>
             </div>
@@ -244,7 +246,7 @@ const Progress = () => {
                         <p className="flex items-center gap-[8px]">
                           <FiUsers size={16} />
                           <span className="text-[14px] leading-[20px] font-normal">
-                            {project.users_count} accounts
+                            {project.users_count} {t("progress.accounts")}
                           </span>
                         </p>
                       </div>
@@ -253,7 +255,9 @@ const Progress = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-center py-6">No projects found</div>
+                <div className="text-center py-6">
+                  {t("progress.noProjects")}
+                </div>
               )}
             </div>
           </section>
@@ -295,7 +299,7 @@ const Progress = () => {
                   {subaccountProjects?.data.find(
                     (p) => p.id === selectedProject.id,
                   )?.users_count || 0}{" "}
-                  accounts
+                  {t("progress.accounts")}
                 </p>
               </div>
               <button onClick={closeModal} className="block sm:hidden">
@@ -345,7 +349,9 @@ const Progress = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center py-8">No progress data available</div>
+              <div className="text-center py-8">
+                {t("progress.noProgressData")}
+              </div>
             )}
           </div>
         </div>

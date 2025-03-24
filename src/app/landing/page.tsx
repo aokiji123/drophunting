@@ -8,6 +8,10 @@ import { HiLightningBolt } from "react-icons/hi";
 import { BsTwitterX } from "react-icons/bs";
 import { FaDiscord, FaInstagram, FaPlay, FaCaretDown } from "react-icons/fa";
 import { RiTelegram2Fill } from "react-icons/ri";
+import { GrLanguage } from "react-icons/gr";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import landingHeaderBg from "../../../public/assets/landing-header-bg.jpg";
 import landingFooterBg from "../../../public/assets/landing-footer-bg.jpg";
@@ -29,17 +33,20 @@ import underline from "../../../public/assets/underline.png";
 import goldBitcoin from "../../../public/assets/gold-bitcoin.png";
 import goldCrypto from "../../../public/assets/gold-crypto.png";
 import greenTether from "../../../public/assets/green-tether.png";
-import { GrLanguage } from "react-icons/gr";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { useEffect, useState } from "react";
 import LandingModal from "../components/modals/LandingModal";
 import { MainLogo } from "@/shared/icons/MainLogo";
 
 const Landing = () => {
   const [isLandingModalOpen, setIsLandingModalOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   const toggleLandingModal = () => {
     setIsLandingModalOpen(!isLandingModalOpen);
+  };
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "en" ? "ru" : "en";
+    i18n.changeLanguage(newLang);
   };
 
   useEffect(() => {
@@ -65,30 +72,30 @@ const Landing = () => {
             <MainLogo width={170} height={40} color="#fff" />
             <ul className="hidden lg:flex gap-[16px]">
               <li>
-                <Link href="/">О сервисе</Link>
+                <Link href="/">{t("landing.aboutService")}</Link>
               </li>
               <li>
-                <Link href="/">Результаты</Link>
+                <Link href="/">{t("landing.resultsNav")}</Link>
               </li>
               <li>
-                <Link href="/">Как это работает</Link>
+                <Link href="/">{t("landing.howItWorksNav")}</Link>
               </li>
               <li>
-                <Link href="/">Контакты</Link>
+                <Link href="/">{t("landing.contacts")}</Link>
               </li>
             </ul>
             <div className="flex items-center gap-[8px] md:gap-[16px]">
-              <div className="cursor-pointer">
+              <div className="cursor-pointer" onClick={toggleLanguage}>
                 <div className="flex items-center gap-[6px]">
                   <GrLanguage size={20} />
-                  <p>EN</p>
+                  <p>{t("landing.language")}</p>
                   <FaCaretDown />
                 </div>
               </div>
               <a
                 href="https://app.drophunting.io"
                 className="hidden bg-[#11CA00] hover:bg-[#0D9E00] transition-colors py-[10px] px-[16px] rounded-[8px] text-[14px] leading-[16px] md:flex items-center justify-center">
-                Перейти в агрегатор
+                {t("landing.goToAggregator")}
               </a>
               <GiHamburgerMenu
                 className="block lg:hidden cursor-pointer"
@@ -118,13 +125,12 @@ const Landing = () => {
               <div className="w-full xl:w-[55%]">
                 <div className="flex flex-col gap-[28px]">
                   <p className="text-[13px] md:text-[14px] leading-[16px] text-[#89FF45] uppercase">
-                    Airdrop Агрегатор #1
+                    {t("landing.airdropAggregator")}
                   </p>
                   <p
                     className="text-[56px] leading-[56px] md:text-[86px] md:leading-[80px] lg:text-[94px] lg:leading-[86px] uppercase font-bold font-druk"
                     style={{ letterSpacing: 0 }}>
-                    Получайте лучшие{" "}
-                    <span className="text-[#89FF45]">AirDrop</span> первыми
+                    {t("landing.getTheBest")}
                   </p>
                   <ul className="font-chakra list-none flex flex-col gap-[24px] mb-[40px] -tracking-tighter">
                     <li className="relative flex items-center gap-[16px]">
@@ -132,7 +138,7 @@ const Landing = () => {
                         <FaCheck size={18} className="text-[#ABE91A]" />
                       </div>
                       <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[18px] md:leading-[24px]">
-                        Новые дропы каждый день
+                        {t("landing.newDrops")}
                       </p>
                     </li>
                     <li className="relative flex items-center gap-[16px]">
@@ -140,7 +146,7 @@ const Landing = () => {
                         <FaCheck size={18} className="text-[#ABE91A]" />
                       </div>
                       <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[18px] md:leading-[24px]">
-                        А еще вот это новинки
+                        {t("landing.latestNews")}
                       </p>
                     </li>
                     <li className="relative flex items-center gap-[16px]">
@@ -148,14 +154,14 @@ const Landing = () => {
                         <FaCheck size={18} className="text-[#ABE91A]" />
                       </div>
                       <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[18px] md:leading-[24px]">
-                        Новинки узнавайте первыми о которых не знал никто
+                        {t("landing.discoverNewDrops")}
                       </p>
                     </li>
                   </ul>
                   <a
                     href="https://app.drophunting.io"
                     className="hover:bg-[#0D9E00] transition-colors w-full sm:w-[260px] md:h-[56px] lg:w-[318px] lg:h-[66px] bg-[#11CA00] py-[18px] md:py-[24px] px-[38px] lg:px-[56px] rounded-[8px] text-[15px] md:text-[16px] lg:text-[18px] leading-[18px] font-semibold flex items-center justify-center">
-                    Перейти в агрегатор
+                    {t("landing.goToAggregator")}
                   </a>
                 </div>
               </div>
@@ -172,7 +178,7 @@ const Landing = () => {
                   2102
                 </p>
                 <p className="text-[#ABABAB] text-[14px] leading-[20px]">
-                  Аирдропов уже прошли на Drophunting
+                  {t("landing.airdropsCompleted")}
                 </p>
               </div>
               <div className="flex flex-col gap-[16px] w-[400px]">
@@ -180,8 +186,7 @@ const Landing = () => {
                   $ 294 210 391
                 </p>
                 <p className="text-[#ABABAB] text-[14px] leading-[20px]">
-                  Доступная сумма выигрышей через DropHunting. Охотьтесь по
-                  крупному
+                  {t("landing.availableWinningsSum")}
                 </p>
               </div>
             </div>
@@ -192,7 +197,7 @@ const Landing = () => {
         <div className="flex items-center flex-col xl:flex-row gap-[45px]">
           <div className="w-full xl:w-[50%] flex flex-col gap-[48px] relative">
             <p className="text-[32px] md:text-[64px] xl:text-[80px] md:leading-[64px] xl:leading-[90px] uppercase font-bold font-druk">
-              Выполняй задания по гайдам и зарабатывай
+              {t("landing.completeTasksEarn")}
             </p>
             <div className="max-w-[500px] flex flex-col gap-[40px]">
               <div className="flex gap-[23px]">
@@ -202,8 +207,8 @@ const Landing = () => {
                   </div>
                 </div>
                 <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[22px]">
-                  <span className="font-bold">Экономьте свое время. </span>
-                  <span>Узнавайте сразу все обновления в одном месте</span>
+                  <span className="font-bold">{t("landing.saveTime")} </span>
+                  <span>{t("landing.getUpdatesOnePlace")}</span>
                 </p>
               </div>
               <div className="flex gap-[23px]">
@@ -214,12 +219,9 @@ const Landing = () => {
                 </div>
                 <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[22px]">
                   <span className="font-bold">
-                    Распределите ресурсы правильно.{" "}
+                    {t("landing.distributeResources")}{" "}
                   </span>
-                  <span>
-                    Вы знаете сколько нужно вложиться и какие есть возможные
-                    прибыли
-                  </span>
+                  <span>{t("landing.investmentInfo")}</span>
                 </p>
               </div>
               <div className="flex gap-[23px]">
@@ -229,11 +231,10 @@ const Landing = () => {
                   </div>
                 </div>
                 <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[22px]">
-                  <span className="font-bold">Быстро и точно. </span>
-                  <span>
-                    Собирайте все возможные аирдропы в одном месте и получайте
-                    доход
+                  <span className="font-bold">
+                    {t("landing.fastAndAccurate")}{" "}
                   </span>
+                  <span>{t("landing.collectAirdropsOnePlace")}</span>
                 </p>
               </div>
             </div>
@@ -266,10 +267,10 @@ const Landing = () => {
           <div className="flex flex-col gap-[24px]">
             <div className="relative">
               <p className="text-[34px] leading-[34px] md:text-[40px] md:leading-[37px] lg:text-[50px] lg:leading-[50px] uppercase font-bold font-druk">
-                Подпишись
+                {t("landing.subscribe")}
                 <br className="block xs:hidden" />{" "}
                 <span className="relative inline-block">
-                  на телеграм канал
+                  {t("landing.subscribe")}
                   <Image
                     src={underline}
                     alt="Underline"
@@ -280,8 +281,7 @@ const Landing = () => {
             </div>
 
             <p className="text-[14px] leading-[18px] md:text-[15px] lg:text-[17px] md:leading-[22px]">
-              Каждый день новые дропы. Подпишись и будь в курсе последних
-              обновлений в проектах
+              {t("landing.newDropsEveryDay")}
             </p>
             <div className="flex">
               <a
@@ -291,7 +291,9 @@ const Landing = () => {
                 <div>
                   <RiTelegram2Fill size={32} />
                 </div>
-                <p className="text-[18px] leading-[16px]">Телеграм</p>
+                <p className="text-[18px] leading-[16px]">
+                  {t("landing.telegram")}
+                </p>
               </a>
             </div>
           </div>
@@ -299,14 +301,13 @@ const Landing = () => {
       </div>
       <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[156px] xl:py-[80px] relative z-10 overflow-hidden flex flex-col items-center">
         <p className="text-[20px] leading-[20px] md:text-[28px] md:leading-[75px] uppercase font-bold font-druk text-[#67F25B] text-center">
-          РЕЗУЛЬТАТЫ
+          {t("landing.resultsTitle")}
         </p>
         <p className="font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] text-center mb-[20px]">
-          НАГРАДЫ С ПРОШЕДШИХ ДРОПОВ
+          {t("landing.rewardsFromPastDrops")}
         </p>
         <p className="text-center text-[14px] leading-[21px] md:text-[17px] max-w-[539px] lg:w-full md:leading-[24px]">
-          Наши пользователи участвуют в более чем 500 дропов и зарабатывают
-          гарантированные вознаграждения
+          {t("landing.usersParticipate")}
         </p>
 
         <div className="relative z-0 mt-[50px] flex flex-wrap items-center gap-[8px] md:gap-[12px] lg:gap-[25px]">
@@ -340,7 +341,7 @@ const Landing = () => {
               <div className="flex md:flex-col gap-[12px] lg:gap-[20px]">
                 <div className="flex flex-col md:flex-row md:items-center md:gap-[20px]">
                   <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
-                    Заработано
+                    {t("landing.earned")}
                   </p>
                   <p className="text-[14px] md:text-[20px] lg:text-[28px] leading-[18px] font-semibold">
                     $2500
@@ -348,7 +349,7 @@ const Landing = () => {
                 </div>
                 <div className="flex flex-col md:flex-row smd:items-center md:gap-[35px]">
                   <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
-                    Вложения
+                    {t("landing.investment")}
                   </p>
                   <p className="text-[14px] md:text-[20px] leading-[18px] text-[#ADADAD]">
                     $0
@@ -395,29 +396,26 @@ const Landing = () => {
       </div>
       <div className="px-[20px] py-[50px] pl-0 md:px-[40px] md:pt-[80px] md:pl-0 md:pb-[64px] xl:px-[96px] xl:pl-0 xl:py-[80px] overflow-hidden">
         <p className="pl-[20px] md:pl-[40px] xl:pl-[96px] font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px] uppercase">
-          Как это работает
+          {t("landing.howItWorksTitle")}
         </p>
         <div className="relative flex flex-col gap-[40px]">
           {[
             {
               number: "1",
-              title: "Проекты публикуют дроп, а вы следите за ними",
-              description:
-                "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+              title: t("landing.projectsPublishDrops"),
+              description: t("landing.projectsPublishDescription"),
               image: group,
             },
             {
               number: "2",
-              title: "Проекты публикуют дроп, а вы следите за ними",
-              description:
-                "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+              title: t("landing.projectsPublishDrops"),
+              description: t("landing.projectsPublishDescription"),
               image: landingZenchain,
             },
             {
               number: "3",
-              title: "Зарабатывайте деньги на гарантированнх дропах",
-              description:
-                "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+              title: t("landing.earnMoney"),
+              description: t("landing.projectsPublishDescription"),
               image: dollarBag,
             },
           ].map((item) => (
@@ -470,18 +468,17 @@ const Landing = () => {
         <div className="flex flex-col gap-[64px] items-center relative px-[40px]">
           <div className="w-[335px] sm:w-[505px] md:w-[705px] lg:w-[923px] flex flex-col gap-[20px] text-center relative">
             <p className="text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[75px] font-bold font-druk uppercase">
-              Присоединяйся к комьюнити
+              {t("landing.joinCommunity")}
             </p>
             <p className="text-[15px] leading-[20px] md:text-[17px] md:leading-[24px] text-center">
-              Подпишись на Drop Hunting в соц сетях чтобы не пропустить ни
-              одного дропа и всегда быть в курсе событий
+              {t("landing.subscribeToDropHunting")}
             </p>
           </div>
           <div className="flex flex-col gap-[40px]">
             <a
               href="https://app.drophunting.io"
               className="hover:bg-[#0D9E00] transition-colors w-[335px] md:w-[573px] bg-[#11CA00] h-[56px] md:h-[88px] py-[24px] px-[56px] rounded-[8px] text-[16px] leading-[18px] md:text-[22px] md:leading-[18px] font-bold flex items-center justify-center">
-              Перейти в агрегатор
+              {t("landing.goToAggregator")}
             </a>
             <div className="flex items-center justify-center">
               <div className="flex items-center gap-[40px]">
@@ -531,11 +528,10 @@ const Landing = () => {
           <div className="flex flex-col md:flex-row md:justify-between gap-[24px] md:gap-[48px]">
             <div className="flex flex-col gap-[24px]">
               <p className="text-[42px] leading-[42px] md:text-[51px] md:leading-[47px] font-bold font-druk uppercase">
-                Лучшие аирдропы в мире
+                {t("landing.bestAirdropsInWorld")}
               </p>
               <p className="text-[14px] leading-[24px] max-w-[360px]">
-                Больше никаких &quot;приваток&quot; и подписок на сотни телеграм
-                каналов
+                {t("landing.noMorePrivates")}
               </p>
               <div className="flex items-center gap-[10px] mb-[24px]">
                 <BsTwitterX
@@ -561,56 +557,56 @@ const Landing = () => {
               </div>
               <ul className="hidden lg:hidden md:flex flex-col gap-[17px] w-[150px]">
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  О сервисе
+                  {t("landing.aboutService")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Результаты
+                  {t("landing.resultsNav")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Как это работает
+                  {t("landing.howItWorksNav")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Контакты
+                  {t("landing.contacts")}
                 </li>
               </ul>
             </div>
             <div className="flex flex-col md:flex-row gap-[48px] md:gap-[24px]">
               <ul className="hidden lg:flex flex-col gap-[17px] w-[150px]">
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  О сервисе
+                  {t("landing.aboutService")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Результаты
+                  {t("landing.resultsNav")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Как это работает
+                  {t("landing.howItWorksNav")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Контакты
+                  {t("landing.contacts")}
                 </li>
               </ul>
               <div className="flex flex-col gap-[12px]">
                 <a
                   href="https://app.drophunting.io"
                   className="hover:bg-[#0D9E00] transition-colors bg-[#11CA00] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
-                  Перейти в агрегатор
+                  {t("landing.goToAggregator")}
                 </a>
                 {/* <button className="bg-[#21274C] w-full md:w-[192px] h-[44px] py-[12px] px-[16px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
-                  Подписаться на бот
+                  {t('landingModal.subscribeToBot')}
                 </button> */}
               </div>
               <ul className="flex md:hidden flex-col gap-[17px] w-[150px]">
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  О сервисе
+                  {t("landing.aboutService")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Результаты
+                  {t("landing.resultsNav")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Как это работает
+                  {t("landing.howItWorksNav")}
                 </li>
                 <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  Контакты
+                  {t("landing.contacts")}
                 </li>
               </ul>
             </div>
@@ -622,13 +618,13 @@ const Landing = () => {
           </p>
           <ul className="flex flex-wrap items-center gap-[12px] md:gap-[24px]">
             <li className="text-[12px] leading-[12px] text-[#535353]">
-              Политика пользовательского соглашения
+              {t("landing.userAgreement")}
             </li>
             <li className="text-[12px] leading-[12px] text-[#535353]">
-              Privacy
+              {t("landing.privacy")}
             </li>
             <li className="text-[12px] leading-[12px] text-[#535353]">
-              Cookie
+              {t("landing.cookie")}
             </li>
           </ul>
         </div>
