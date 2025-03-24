@@ -67,6 +67,7 @@ export type User = {
   subaccount: boolean;
   plan_id: number | null;
   two_factor: boolean;
+  telegram_bot_link: string;
 };
 
 type Plan = {

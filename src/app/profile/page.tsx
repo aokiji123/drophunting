@@ -619,9 +619,12 @@ const Profile = () => {
                     to favorite guides, publication of new guides and articles.
                   </p>
                 </div>
-                <button className="w-fit bg-[#11CA00] py-[8px] px-[12px] rounded-[8px] h-[32px] font-sans font-semibold flex flex-shrink-0 items-center gap-2 text-[14px] leading-[16px]">
+                <a
+                  href={user?.telegram_bot_link}
+                  target="_blank"
+                  className="w-fit bg-[#11CA00] hover:bg-[#11ca00bd] transition-colors py-[8px] px-[12px] rounded-[8px] h-[32px] font-sans font-semibold flex flex-shrink-0 items-center gap-2 text-[14px] leading-[16px]">
                   Subscribe Telegram
-                </button>
+                </a>
               </div>
             </div>
 
