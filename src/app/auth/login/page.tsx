@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import Image from "next/image";
@@ -9,35 +9,90 @@ import Link from "next/link";
 import useStore from "@/shared/store";
 import { AuthenticatorVerificationModal } from "@/app/components/modals/AuthenticatorVerificationModal";
 import { updateAxiosToken } from "@/shared/api/axios";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type LoginFormData = {
   email: string;
   password: string;
 };
 
+type ValidationErrors = {
+  email?: string;
+  password?: string;
+};
+
 const Login = () => {
   const { register, handleSubmit } = useForm<LoginFormData>();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {},
+  );
   const [
     showAuthenticatorVerificationModal,
     setShowAuthenticatorVerificationModal,
   ] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string>("");
+  const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
+    null,
+  );
+  const [useCaptcha] = useState(true);
 
-  const { login } = useStore();
+  const { login, fetchRecaptchaToken } = useStore();
+
+  useEffect(() => {
+    fetchRecaptchaToken().then((token) => {
+      setRecaptchaToken(token);
+    });
+    // Reset reCAPTCHA state when component mounts
+    setGRecaptchaResponse(null);
+  }, [fetchRecaptchaToken]);
+
+  const onChange = (value: string | null) => {
+    setGRecaptchaResponse(value);
+    setServerError("");
+  };
 
   const handleGoogleLogin = () => {
     window.location.href = "https://app.esdev.tech/api/google/redirect";
   };
 
+  const validateForm = (data: LoginFormData): boolean => {
+    const errors: ValidationErrors = {};
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+
+    if (data.password.length < 8) {
+      errors.password = "Password must be at least 8 characters long";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const onSubmit = async (data: LoginFormData) => {
+    if (!validateForm(data)) {
+      return;
+    }
+
+    if (useCaptcha && !gRecaptchaResponse) {
+      setServerError("Please verify you are not a robot");
+      return;
+    }
+
     setLoading(true);
     try {
       setServerError("");
 
-      const res = await login(data);
+      const loginData = {
+        ...data,
+        "g-recaptcha-response": gRecaptchaResponse || "",
+      };
 
-      console.log(res);
+      const res = await login(loginData);
 
       if (res.two_factor) {
         updateAxiosToken(res.token || null);
@@ -87,14 +142,19 @@ const Login = () => {
                   placeholder="Email"
                   {...register("email")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    serverError
+                    validationErrors.email || serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!serverError}
+                  aria-invalid={!!validationErrors.email || !!serverError}
                   aria-describedby="email-error"
                   autoComplete="off"
                 />
+                {validationErrors.email && (
+                  <p className="text-[--error] text-sm mt-1 text-left">
+                    {validationErrors.email}
+                  </p>
+                )}
               </div>
 
               <div className="mb-4">
@@ -103,23 +163,35 @@ const Login = () => {
                   placeholder="Password"
                   {...register("password")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
-                    serverError
+                    validationErrors.password || serverError
                       ? "bg-[--input-bg-error] placeholder:text-[--input-error] border border-[--input-bg-error]"
                       : "border-[--dark-gray] border-[1px] bg-[--dark-gray] focus:border-[1px] focus:border-gray-500"
                   }`}
-                  aria-invalid={!!serverError}
+                  aria-invalid={!!validationErrors.password || !!serverError}
                   aria-describedby="password-error"
+                  autoComplete="off"
                 />
+                {validationErrors.password && (
+                  <p className="text-[--error] text-sm mt-1 text-left">
+                    {validationErrors.password}
+                  </p>
+                )}
+              </div>
+
+              <div className="my-4 flex justify-center">
+                {recaptchaToken && (
+                  <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
+                )}
               </div>
 
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-sans font-bold transition-all duration-200 ${
-                  loading
+                  useCaptcha && (!gRecaptchaResponse || loading)
                     ? "bg-gray-600 cursor-not-allowed"
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
-                disabled={loading}>
+                disabled={loading || (useCaptcha && !gRecaptchaResponse)}>
                 {loading ? "Logging in..." : "Log In"}
               </button>
 
