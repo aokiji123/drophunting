@@ -429,6 +429,7 @@ type SubaccountsData = {
 
 type SubaccountsResponse = {
   limit_subaccounts: number;
+  subaccounts_user_count: number;
   subaccounts_count: number;
   subaccounts_link: string;
   subaccounts: SubaccountsData;
