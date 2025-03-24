@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import axiosInstance, { updateAxiosToken } from "../api/axios";
+import axiosInstance, { update2FA, updateAxiosToken } from "../api/axios";
 import Cookies from "js-cookie";
 
 type AuthErrors = {
@@ -2210,6 +2210,7 @@ const useStore = create<StoreState>()(
         try {
           await axiosInstance.post("/api/logout");
           updateAxiosToken(null);
+          update2FA(null);
           Cookies.remove("auth-token");
           Cookies.remove("user");
           set({

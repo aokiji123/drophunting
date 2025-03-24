@@ -36,6 +36,7 @@ const SignUp = () => {
   const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
     null,
   );
+  const [useCaptcha] = useState(false);
 
   const onChange = (value: string | null) => {
     setGRecaptchaResponse(value);
@@ -79,7 +80,7 @@ const SignUp = () => {
       return;
     }
 
-    if (!gRecaptchaResponse) {
+    if (useCaptcha && !gRecaptchaResponse) {
       setServerError("Please verify you are not a robot");
       return;
     }
@@ -91,7 +92,7 @@ const SignUp = () => {
       const signUpData = {
         ...data,
         password_confirmation: data.password,
-        "g-recaptcha-response": gRecaptchaResponse,
+        "g-recaptcha-response": gRecaptchaResponse || "",
       };
 
       if (searchParams.get("refer")) {
@@ -103,6 +104,7 @@ const SignUp = () => {
       }
 
       await registerUser(signUpData);
+
       window.location.href = "/guides";
     } catch (e) {
       setServerError(
@@ -200,11 +202,11 @@ const SignUp = () => {
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-bold font-sans transition-all duration-200 ${
-                  !gRecaptchaResponse || loading
+                  useCaptcha && (!gRecaptchaResponse || loading)
                     ? "bg-gray-600 cursor-not-allowed"
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
-                disabled={loading || !gRecaptchaResponse}>
+                disabled={loading || (useCaptcha && !gRecaptchaResponse)}>
                 {loading ? "Signing up..." : "Sign Up"}
               </button>
               <div className="flex items-center my-6">
