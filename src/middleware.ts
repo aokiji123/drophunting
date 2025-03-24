@@ -57,6 +57,7 @@ export function middleware(request: NextRequest) {
     }
 
     if (!isPublicRoute) {
+      console.log("Метка 1");
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
