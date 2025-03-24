@@ -21,8 +21,10 @@ import useStore from "@/shared/store";
 import { format } from "date-fns";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress } from "@/shared/icons/Progress";
+import { useTranslation } from "react-i18next";
 
 const Subscriptions = () => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -135,13 +137,10 @@ const Subscriptions = () => {
               </div>
               <div className="mt-4">
                 <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                  Subscriptions
+                  {t("subscriptions.title")}
                 </p>
                 <p className="text-[#949392] leading-[20px] mt-2 md:w-[80%]">
-                  Subscription allows you to get unlimited access to the site
-                  materials. We provide a choice of several tariff plans based
-                  on the principle “the longer - the cheaper”. A few free views
-                  are available without subscription.
+                  {t("subscriptions.description")}
                 </p>
               </div>
               <div className="mt-7">
@@ -149,11 +148,11 @@ const Subscriptions = () => {
                   <div className="flex items-center gap-[10px]">
                     {user?.count_views === 0 && (
                       <p className="leading-[16px] font-semibold text-[#FF6951]">
-                        Attention!
+                        {t("subscriptions.attention")}
                       </p>
                     )}
                     <p className="text-[15px] leading-[16px] font-semibold">
-                      Free Views
+                      {t("subscriptions.freeViews")}
                     </p>
                     {user?.count_views === 0 ? (
                       <SmallChartPie
@@ -177,13 +176,13 @@ const Subscriptions = () => {
                   className={`h-[44px] bg-[--green] px-[14px] py-[20px] font-sans font-bold leading-[16px] tracking-[-1%] rounded-[12px] flex items-center justify-center mt-[40px] my-[60px] ${
                     subscriptions.length > 0 && "mt-0"
                   }`}>
-                  See plans
+                  {t("subscriptions.seePlans")}
                 </button>
               </div>
               <div>
                 <div className="flex items-center gap-3">
                   <p className="text-[16px] font-bold leading-[24px] -tracking-[3%]">
-                    My subscriptions
+                    {t("subscriptions.mySubscriptions")}
                   </p>
                   {!isLoadingSubscriptions && (
                     <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
@@ -235,10 +234,16 @@ const Subscriptions = () => {
                       aria-label="subscriptions table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Plan</TableCell>
-                          <TableCell align="left">Date start</TableCell>
-                          <TableCell align="left">Date end</TableCell>
-                          <TableCell align="left">Price</TableCell>
+                          <TableCell>{t("subscriptions.plan")}</TableCell>
+                          <TableCell align="left">
+                            {t("subscriptions.dateStart")}
+                          </TableCell>
+                          <TableCell align="left">
+                            {t("subscriptions.dateEnd")}
+                          </TableCell>
+                          <TableCell align="left">
+                            {t("subscriptions.price")}
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -271,7 +276,7 @@ const Subscriptions = () => {
                               colSpan={4}
                               align="center"
                               sx={{ color: "#8E8E8E" }}>
-                              You don&apos;t have any active subscriptions
+                              {t("subscriptions.noActiveSubscriptions")}
                             </TableCell>
                           </TableRow>
                         )}

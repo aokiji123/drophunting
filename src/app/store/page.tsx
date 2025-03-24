@@ -9,8 +9,10 @@ import Footer from "@/app/components/Footer";
 import useStore from "@/shared/store";
 import Image from "next/image";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
+import { useTranslation } from "react-i18next";
 
 const Store = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,7 +80,7 @@ const Store = () => {
   });
 
   const allCategoriesWithAll = [
-    { id: 0, title: "All", sort: 0 },
+    { id: 0, title: t("store.all"), sort: 0 },
     ...productCategories,
   ];
 
@@ -87,9 +89,11 @@ const Store = () => {
       <Header />
 
       <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] flex-grow">
-        <p className="text-[42px] leading-[50px] font-bold">Store</p>
+        <p className="text-[42px] leading-[50px] font-bold">
+          {t("header.store")}
+        </p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
-          Buy new products from Drophunting and earn with us
+          {t("store.buyProducts")}
         </p>
         <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="w-full overflow-x-auto" ref={scrollRef}>
@@ -124,7 +128,7 @@ const Store = () => {
               size={16}
             />
             <input
-              placeholder="Search"
+              placeholder={t("store.search")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
@@ -134,16 +138,16 @@ const Store = () => {
         <div>
           <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
-              {products?.total || 0} products
+              {products?.total || 0} {t("store.products")}
             </p>
             <div
               className="flex items-center gap-[5px] text-[#676A70] cursor-pointer"
               onClick={handleSortingChange}>
               <IoFilterOutline size={20} />
               <p>
-                Sort by{" "}
+                {t("store.sortBy")}{" "}
                 <span className="text-white">
-                  {sorting === 1 ? "Oldest" : "Newest"}
+                  {sorting === 1 ? t("store.oldest") : t("store.newest")}
                 </span>
               </p>
               <MdOutlineArrowDropDown className="text-white" size={20} />
@@ -187,10 +191,10 @@ const Store = () => {
                       </div>
                       <div className="flex items-center gap-[12px]">
                         <p className="text-[18px] leading-[20px] font-semibold">
-                          From ${product.price}
+                          {t("store.from")} ${product.price}
                         </p>
                         <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
-                          per project
+                          {t("store.perProject")}
                         </p>
                       </div>
                     </div>
@@ -199,7 +203,7 @@ const Store = () => {
               ) : (
                 <div className="w-full text-center py-10">
                   <p className="text-[18px] text-[#B0B0B0]">
-                    No products found
+                    {t("store.noProductsFound")}
                   </p>
                 </div>
               )}

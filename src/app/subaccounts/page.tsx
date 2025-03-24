@@ -25,8 +25,10 @@ import trashIcon from "../../../public/assets/icons/trash-red.png";
 import { BuySubaccountsModal } from "../components/modals/BuySubaccountsModal";
 import { DeleteSubaccountModal } from "../components/modals/DeleteSubaccountModal";
 import { Progress } from "@/shared/icons/Progress";
+import { useTranslation } from "react-i18next";
 
 const Subaccounts = () => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
   const [copied, setCopied] = useState(false);
@@ -190,12 +192,10 @@ const Subaccounts = () => {
                     </div>
                     <div className="mt-4">
                       <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                        Subaccounts
+                        {t("subaccounts.title")}
                       </p>
                       <p className="text-[#949392] leading-[20px] mt-2 max-w-full lg:w-[650px]">
-                        You can invite partners to work together by creating
-                        sub-accounts. The subaccount limit can be increased to
-                        the required number of subaccounts.
+                        {t("subaccounts.description")}
                       </p>
                     </div>
                     <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full lg:w-[630px]">
@@ -203,11 +203,11 @@ const Subaccounts = () => {
                         {subaccounts?.subaccounts_count ===
                           subaccounts?.limit_subaccounts && (
                           <p className="leading-[16px] font-semibold text-[#FF6951]">
-                            Attention!
+                            {t("subaccounts.attention")}
                           </p>
                         )}
                         <p className="leading-[16px] font-semibold">
-                          Subaccounts is used
+                          {t("subaccounts.usedSubaccounts")}
                         </p>
                         {subaccounts?.subaccounts_count ===
                         subaccounts?.limit_subaccounts ? (
@@ -235,7 +235,7 @@ const Subaccounts = () => {
                           <hr className="mb-[25px] mt-[10px] border-0 h-px bg-[#27292D]" />
                           <div className="flexitems-center justify-between">
                             <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
-                              Send invitation link
+                              {t("subaccounts.sendInvitationLink")}
                             </p>
                             <div className="relative flex items-center justify-between md:w-[465px] gap-[10px] mt-3">
                               <input
@@ -246,10 +246,10 @@ const Subaccounts = () => {
                               <button
                                 onClick={handleCopy}
                                 className="relative flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] bg-[#11CA00] font-bold leading-[20px] hover:bg-blue-500">
-                                Copy
+                                {t("subaccounts.copy")}
                                 {copied && (
                                   <span className="absolute top-[-35px] right-0 bg-[--dark-gray] text-white text-xs px-2 py-1 rounded-md w-[110px]">
-                                    Link copied!
+                                    {t("subaccounts.linkCopied")}
                                   </span>
                                 )}
                               </button>
@@ -262,12 +262,12 @@ const Subaccounts = () => {
                   <button
                     onClick={() => setShowBuySubaccountsModal(true)}
                     className="bg-[#11CA00] text-white px-[16px] py-[12px] rounded-[12px] my-6 text-[15px] font-bold leading-[20px] w-fit">
-                    Buy subaccounts
+                    {t("subaccounts.buySubaccounts")}
                   </button>
                 </div>
                 <div className="flex items-center gap-3">
                   <p className="text-[16px] font-bold leading-[24px] -tracking-[3%]">
-                    My subaccounts
+                    {t("subaccounts.mySubaccounts")}
                   </p>
                   <p className="text-[#797979] text-[16px] leading-[24px] font-bold">
                     {subaccounts?.subaccounts_user_count ?? 0}
@@ -310,10 +310,18 @@ const Subaccounts = () => {
                         aria-label="subaccounts table">
                         <TableHead>
                           <TableRow>
-                            <TableCell align="left">Name</TableCell>
-                            <TableCell align="left">Email</TableCell>
-                            <TableCell align="left">Date</TableCell>
-                            <TableCell align="left">Delete</TableCell>
+                            <TableCell align="left">
+                              {t("subaccounts.name")}
+                            </TableCell>
+                            <TableCell align="left">
+                              {t("subaccounts.email")}
+                            </TableCell>
+                            <TableCell align="left">
+                              {t("subaccounts.date")}
+                            </TableCell>
+                            <TableCell align="left">
+                              {t("subaccounts.delete")}
+                            </TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -363,7 +371,7 @@ const Subaccounts = () => {
                                       height={14}
                                     />
                                     <p className="text-[14px] leading-[20px]">
-                                      Delete
+                                      {t("subaccounts.delete")}
                                     </p>
                                   </button>
                                 </TableCell>
@@ -372,7 +380,7 @@ const Subaccounts = () => {
                           ) : (
                             <TableRow>
                               <TableCell colSpan={4} align="center">
-                                No subaccounts found
+                                {t("subaccounts.noSubaccountsFound")}
                               </TableCell>
                             </TableRow>
                           )}

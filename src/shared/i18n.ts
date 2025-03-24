@@ -8,6 +8,7 @@ i18n.use(initReactI18next).init({
         common: {
           success: "Success!",
           close: "Close",
+          back: "Back",
         },
         authHeader: {
           back: "Back to site",
@@ -445,6 +446,109 @@ i18n.use(initReactI18next).init({
           date: "Date",
           noReferrals: "You don't have any referrals yet",
         },
+        store: {
+          productNotFound: "Product Not Found",
+          productNotFoundDescription:
+            "The requested product could not be found.",
+          backToStore: "Back to Store",
+          from: "From",
+          perProject: "per project",
+          orderProduct: "Order product",
+          orderSubmitted: "Order Submitted",
+          orderThankYou:
+            "Thank you! Our team will contact you shortly via Telegram.",
+          leaveContacts:
+            "Leave your contacts and the drophunting team will be sure to get back to you",
+          telegram: "Telegram",
+          yourMessage: "Your message",
+          describeIdea: "Describe your idea",
+          sending: "Sending...",
+          send: "Send",
+          all: "All",
+          buyProducts: "Buy new products from Drophunting and earn with us",
+          search: "Search",
+          products: "products",
+          sortBy: "Sort by",
+          newest: "Newest",
+          oldest: "Oldest",
+          noProductsFound: "No products found",
+        },
+        subaccounts: {
+          title: "Subaccounts",
+          description:
+            "You can invite partners to work together by creating sub-accounts. The subaccount limit can be increased to the required number of subaccounts.",
+          attention: "Attention!",
+          usedSubaccounts: "Subaccounts is used",
+          sendInvitationLink: "Send invitation link",
+          copy: "Copy",
+          linkCopied: "Link copied!",
+          buySubaccounts: "Buy subaccounts",
+          mySubaccounts: "My subaccounts",
+          name: "Name",
+          email: "Email",
+          date: "Date",
+          delete: "Delete",
+          noSubaccountsFound: "No subaccounts found",
+        },
+        subscriptions: {
+          title: "Subscriptions",
+          description:
+            'Subscription allows you to get unlimited access to the site materials. We provide a choice of several tariff plans based on the principle "the longer - the cheaper". A few free views are available without subscription.',
+          attention: "Attention!",
+          freeViews: "Free Views",
+          seePlans: "See plans",
+          mySubscriptions: "My subscriptions",
+          plan: "Plan",
+          dateStart: "Date start",
+          dateEnd: "Date end",
+          price: "Price",
+          noActiveSubscriptions: "You don't have any active subscriptions",
+        },
+        suggestGuide: {
+          description:
+            "Do you know any interesting guides? Tell us about the guides you want to see in DropHunting",
+          suggestTheGuide: "Suggest the guide",
+          nameOfGuide: "Name of the guide",
+          enterNamePlaceholder: "Enter the name of the guide",
+          describeGuide: "Describe guide",
+          describeIdeaPlaceholder: "Describe your idea",
+          nameRequired: "Guide name is required",
+          descriptionRequired: "Guide description is required",
+          sending: "Sending...",
+          send: "Send",
+        },
+        termsAndPrivacy: {
+          privacyPolicy: "Privacy Policy",
+          privacyIntro:
+            "Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information.",
+          infoWeCollectTitle: "1. Information We Collect",
+          infoWeCollectText:
+            "We may collect personal information such as your name, email address, and usage data when you interact with our website.",
+          howWeUseTitle: "2. How We Use Your Information",
+          howWeUseText:
+            "Your information is used to improve our services, provide customer support, and ensure the security of our platform.",
+          dataProtectionTitle: "3. Data Protection",
+          dataProtectionText:
+            "We implement security measures to protect your data but cannot guarantee complete security against unauthorized access.",
+          termsOfService: "Terms of Service",
+          termsIntro:
+            "By using our website, you agree to comply with these terms and conditions.",
+          acceptanceTitle: "1. Acceptance of Terms",
+          acceptanceText:
+            "By accessing our website, you accept and agree to be bound by these terms.",
+          useOfServicesTitle: "2. Use of Services",
+          useOfServicesText:
+            "You agree not to use our services for any unlawful or prohibited activities.",
+          limitationTitle: "3. Limitation of Liability",
+          limitationText:
+            "We are not responsible for any damages resulting from the use of our services.",
+          contactUs:
+            "If you have any questions about our Privacy Policy or Terms of Service, please contact us.",
+        },
+        notFound: {
+          pageNotFound: "Page not found",
+          goBackHome: "Go back to home",
+        },
       },
     },
     ru: {
@@ -452,6 +556,7 @@ i18n.use(initReactI18next).init({
         common: {
           success: "Успех!",
           close: "Закрыть",
+          back: "Назад",
         },
         authHeader: {
           back: "Назад на сайт",
@@ -894,6 +999,109 @@ i18n.use(initReactI18next).init({
           amount: "Сумма",
           date: "Дата",
           noReferrals: "У вас пока нет рефералов",
+        },
+        store: {
+          productNotFound: "Товар не найден",
+          productNotFoundDescription: "Запрошенный товар не найден.",
+          backToStore: "Вернуться в магазин",
+          from: "От",
+          perProject: "за проект",
+          orderProduct: "Заказать товар",
+          orderSubmitted: "Заказ отправлен",
+          orderThankYou:
+            "Спасибо! Наша команда скоро свяжется с вами через Telegram.",
+          leaveContacts:
+            "Оставьте свои контакты, и команда drophunting обязательно свяжется с вами",
+          telegram: "Telegram",
+          yourMessage: "Ваше сообщение",
+          describeIdea: "Опишите вашу идею",
+          sending: "Отправка...",
+          send: "Отправить",
+          all: "Все",
+          buyProducts:
+            "Покупайте новые продукты от Drophunting и зарабатывайте вместе с нами",
+          search: "Поиск",
+          products: "товаров",
+          sortBy: "Сортировать по",
+          newest: "Новые",
+          oldest: "Старые",
+          noProductsFound: "Товары не найдены",
+        },
+        subaccounts: {
+          title: "Субаккаунты",
+          description:
+            "Вы можете приглашать партнеров для совместной работы, создавая субаккаунты. Лимит субаккаунтов может быть увеличен до необходимого количества.",
+          attention: "Внимание!",
+          usedSubaccounts: "Субаккаунтов использовано",
+          sendInvitationLink: "Отправить пригласительную ссылку",
+          copy: "Копировать",
+          linkCopied: "Ссылка скопирована!",
+          buySubaccounts: "Купить субаккаунты",
+          mySubaccounts: "Мои субаккаунты",
+          name: "Имя",
+          email: "Email",
+          date: "Дата",
+          delete: "Удалить",
+          noSubaccountsFound: "Субаккаунты не найдены",
+        },
+        subscriptions: {
+          title: "Подписки",
+          description:
+            'Подписка позволяет получить неограниченный доступ к материалам сайта. Мы предлагаем выбор из нескольких тарифных планов по принципу "чем дольше - тем дешевле". Без подписки доступно несколько бесплатных просмотров.',
+          attention: "Внимание!",
+          freeViews: "Бесплатные просмотры",
+          seePlans: "Смотреть планы",
+          mySubscriptions: "Мои подписки",
+          plan: "План",
+          dateStart: "Дата начала",
+          dateEnd: "Дата окончания",
+          price: "Цена",
+          noActiveSubscriptions: "У вас нет активных подписок",
+        },
+        suggestGuide: {
+          description:
+            "Вы знаете интересные гайды? Расскажите нам о гайдах, которые вы хотели бы видеть в DropHunting",
+          suggestTheGuide: "Предложить гайд",
+          nameOfGuide: "Название гайда",
+          enterNamePlaceholder: "Введите название гайда",
+          describeGuide: "Опишите гайд",
+          describeIdeaPlaceholder: "Опишите вашу идею",
+          nameRequired: "Название гайда обязательно",
+          descriptionRequired: "Описание гайда обязательно",
+          sending: "Отправка...",
+          send: "Отправить",
+        },
+        termsAndPrivacy: {
+          privacyPolicy: "Политика конфиденциальности",
+          privacyIntro:
+            "Ваша конфиденциальность важна для нас. Эта Политика конфиденциальности объясняет, как мы собираем, используем и защищаем вашу личную информацию.",
+          infoWeCollectTitle: "1. Информация, которую мы собираем",
+          infoWeCollectText:
+            "Мы можем собирать личную информацию, такую как ваше имя, адрес электронной почты и данные об использовании, когда вы взаимодействуете с нашим сайтом.",
+          howWeUseTitle: "2. Как мы используем вашу информацию",
+          howWeUseText:
+            "Ваша информация используется для улучшения наших услуг, предоставления поддержки клиентам и обеспечения безопасности нашей платформы.",
+          dataProtectionTitle: "3. Защита данных",
+          dataProtectionText:
+            "Мы внедряем меры безопасности для защиты ваших данных, но не можем гарантировать полную безопасность от несанкционированного доступа.",
+          termsOfService: "Условия использования",
+          termsIntro:
+            "Используя наш сайт, вы соглашаетесь соблюдать эти условия.",
+          acceptanceTitle: "1. Принятие условий",
+          acceptanceText:
+            "Открывая наш сайт, вы принимаете и соглашаетесь соблюдать эти условия.",
+          useOfServicesTitle: "2. Использование услуг",
+          useOfServicesText:
+            "Вы соглашаетесь не использовать наши услуги для незаконной или запрещенной деятельности.",
+          limitationTitle: "3. Ограничение ответственности",
+          limitationText:
+            "Мы не несем ответственности за любой ущерб, возникший в результате использования наших услуг.",
+          contactUs:
+            "Если у вас есть вопросы о нашей Политике конфиденциальности или Условиях использования, пожалуйста, свяжитесь с нами.",
+        },
+        notFound: {
+          pageNotFound: "Страница не найдена",
+          goBackHome: "Вернуться на главную",
         },
       },
     },

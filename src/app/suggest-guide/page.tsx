@@ -9,8 +9,10 @@ import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { GrBook } from "react-icons/gr";
 import useStore from "@/shared/store";
 import { Progress } from "@/shared/icons/Progress";
+import { useTranslation } from "react-i18next";
 
 const SuggestGuide = () => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
 
@@ -48,9 +50,9 @@ const SuggestGuide = () => {
     e.preventDefault();
 
     const errors: { name?: string; description?: string } = {};
-    if (!name.trim()) errors.name = "Guide name is required";
+    if (!name.trim()) errors.name = t("suggestGuide.nameRequired");
     if (!description.trim())
-      errors.description = "Guide description is required";
+      errors.description = t("suggestGuide.descriptionRequired");
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -133,30 +135,29 @@ const SuggestGuide = () => {
               </div>
               <div className="mt-4 mb-[32px]">
                 <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                  Guides
+                  {t("guides.title")}
                 </p>
                 <p className="text-[#949392] text-[14px] leading-[20px] sm:w-[450px] lg:w-[650px]">
-                  Do you know any interesting guides? Tell us about the guides
-                  you want to see in DropHunting
+                  {t("suggestGuide.description")}
                 </p>
               </div>
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <p className="text-[18px] leading-[32px] font-semibold">
-                  Suggest the guide
+                  {t("suggestGuide.suggestTheGuide")}
                 </p>
                 <div className="max-w-[635px] w-full flex flex-col gap-4">
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="guide-name"
                       className="text-[14px] leading-[16px]">
-                      Name of the guide
+                      {t("suggestGuide.nameOfGuide")}
                     </label>
                     <input
                       id="guide-name"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="Enter the name of the guide"
+                      placeholder={t("suggestGuide.enterNamePlaceholder")}
                       className={`w-full h-[48px] bg-[#292B2F] rounded-[14px] py-[12px] px-[16px] text-[14px] leading-[20px] text-white ${
                         formErrors.name ? "border border-red-500" : ""
                       }`}
@@ -171,7 +172,7 @@ const SuggestGuide = () => {
                     <label
                       htmlFor="guide-description"
                       className="text-[14px] leading-[16px]">
-                      Describe guide
+                      {t("suggestGuide.describeGuide")}
                     </label>
                     <div>
                       <textarea
@@ -181,7 +182,7 @@ const SuggestGuide = () => {
                         className={`w-full min-h-[160px] h-full bg-[#292B2F] py-[12px] px-[16px] rounded-[10px] resize-none overflow-auto text-white ${
                           formErrors.description ? "border border-red-500" : ""
                         }`}
-                        placeholder="Describe your idea"
+                        placeholder={t("suggestGuide.describeIdeaPlaceholder")}
                       />
                       {formErrors.description && (
                         <span className="text-red-500 text-[12px]">
@@ -198,7 +199,9 @@ const SuggestGuide = () => {
                         ? "bg-[#0E9900] opacity-70"
                         : "bg-[#11CA00]"
                     } rounded-[14px] px-[20px] py-[14px] flex items-center justify-center text-[15px] leading-[16px] text-white`}>
-                    {isSuggestingGuide ? "Sending..." : "Send"}
+                    {isSuggestingGuide
+                      ? t("suggestGuide.sending")
+                      : t("suggestGuide.send")}
                   </button>
                 </div>
               </form>

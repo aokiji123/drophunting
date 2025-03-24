@@ -8,8 +8,10 @@ import { FiCheck } from "react-icons/fi";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import useStore from "@/shared/store";
+import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const params = useParams();
   const productId = params.id as string;
@@ -95,15 +97,17 @@ const ProductDetail = () => {
       <div className="bg-[#101114] text-white min-h-screen">
         <Header />
         <main className="flex flex-col items-center justify-center py-20">
-          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <h1 className="text-2xl font-bold mb-4">
+            {t("store.productNotFound")}
+          </h1>
           <p className="text-[#B0B0B0] mb-8">
-            {productDetailsError || "The requested product could not be found."}
+            {productDetailsError || t("store.productNotFoundDescription")}
           </p>
           <button
             onClick={() => router.push("/store")}
             className="flex items-center px-4 py-2 rounded-[32px] bg-[#1C1D21] text-white hover:bg-[#2A2C32]">
             <IoIosArrowBack size={20} className="mr-2" />
-            Back to Store
+            {t("store.backToStore")}
           </button>
         </main>
         <Footer />
@@ -121,7 +125,7 @@ const ProductDetail = () => {
             onClick={() => router.push("/store")}
             className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
             <IoIosArrowBack size={20} />
-            <p>Back</p>
+            <p>{t("common.back")}</p>
           </button>
         </div>
         <div className="pt-[16px] pb-[80px] px-[32px] md:gap-[56px] flex justify-center">
@@ -154,16 +158,16 @@ const ProductDetail = () => {
                 </div>
                 <div className="flex items-center gap-[12px] my-[12px] md:my-[28px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-semibold">
-                    From ${productDetails.price}
+                    {t("store.from")} ${productDetails.price}
                   </p>
                   <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
-                    per project
+                    {t("store.perProject")}
                   </p>
                 </div>
                 <button
                   onClick={toggleModal}
                   className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
-                  Order product
+                  {t("store.orderProduct")}
                 </button>
               </div>
             </div>
@@ -193,16 +197,16 @@ const ProductDetail = () => {
                 </div>
                 <div className="flex items-center gap-[12px] my-[12px] md:my-[28px]">
                   <p className="text-[16px] leading-[20px] lg:text-[18px] lg:leading-[22px] font-semibold">
-                    From ${productDetails.price}
+                    {t("store.from")} ${productDetails.price}
                   </p>
                   <p className="text-[14px] leading-[20px] text-[#8E8E8E]">
-                    per project
+                    {t("store.perProject")}
                   </p>
                 </div>
                 <button
                   onClick={toggleModal}
                   className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#11CA00] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
-                  Order product
+                  {t("store.orderProduct")}
                 </button>
               </div>
             </div>
@@ -229,25 +233,24 @@ const ProductDetail = () => {
                     <FiCheck size={32} className="text-white" />
                   </div>
                   <h2 className="text-[24px] font-bold mb-4 text-center">
-                    Order Submitted
+                    {t("store.orderSubmitted")}
                   </h2>
                   <p className="text-[16px] text-[#B0B0B0] text-center mb-8">
-                    Thank you! Our team will contact you shortly via Telegram.
+                    {t("store.orderThankYou")}
                   </p>
                   <button
                     onClick={toggleModal}
                     className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#1D1E23] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
-                    Close
+                    {t("common.close")}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
                   <p className="text-[20px] lg:text-[24px] font-bold leading-[20px]">
-                    Order Product
+                    {t("store.orderProduct")}
                   </p>
                   <p className="text-[14px] leading-[16px] font-chakra text-[#8E8E8E] mt-[12px] mb-[16px] lg:mb-[28px]">
-                    Leave your contacts and the drophunting team will be sure to
-                    get back to you
+                    {t("store.leaveContacts")}
                   </p>
 
                   {orderCreateError && (
@@ -258,7 +261,7 @@ const ProductDetail = () => {
 
                   <div className="flex flex-col gap-2 mb-[16px]">
                     <p className="font-semibold text-[13px] lg:text-[14px]">
-                      Telegram
+                      {t("store.telegram")}
                     </p>
                     <input
                       className="bg-[#292B2F] px-[16px] py-[12px] rounded-[14px] outline-none border-[1px] border-transparent focus:border-blue-500"
@@ -271,7 +274,7 @@ const ProductDetail = () => {
                   </div>
                   <div className="flex flex-col gap-2 mb-[24px]">
                     <p className="font-semibold text-[13px] lg:text-[14px]">
-                      Your message
+                      {t("store.yourMessage")}
                     </p>
                     <div
                       className={`p-[6px] bg-[#292B2F] rounded-[14px] overflow-hidden h-[160px] ${
@@ -280,7 +283,7 @@ const ProductDetail = () => {
                       data-focused={isFocused}>
                       <textarea
                         className="w-full min-h-[50px] h-full bg-[#292B2F] px-[10px] py-[6px] rounded-[10px] resize-none overflow-auto focus:outline-none"
-                        placeholder="Describe your idea"
+                        placeholder={t("store.describeIdea")}
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         onFocus={() => setIsFocused(true)}
@@ -299,10 +302,10 @@ const ProductDetail = () => {
                     {isCreatingOrder ? (
                       <>
                         <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white mr-2"></div>
-                        Sending...
+                        {t("store.sending")}
                       </>
                     ) : (
-                      "Send"
+                      t("store.send")
                     )}
                   </button>
                 </form>
