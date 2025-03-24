@@ -1,19 +1,33 @@
 import { IoIosArrowBack, IoMdClose } from "react-icons/io";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
+import useStore from "@/shared/store";
+import { update2FA } from "@/shared/api/axios";
+import { usePathname } from "next/navigation";
 
 type DeleteAccountModalType = {
   onClose: () => void;
   onBack?: () => void;
+  token?: string;
 };
 
 export const AuthenticatorVerificationModal = ({
   onClose,
   onBack,
 }: DeleteAccountModalType) => {
+  const pathname = usePathname();
+
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  const [badCode, setBadCode] = useState(false);
+  const [disableCode, setDisableCode] = useState(false);
+
+  const { confirm2FA, refreshUser } = useStore();
+
   const handleChange = (index: number, value: string) => {
+    setBadCode(false);
+
     if (!/^\d*$/.test(value)) return;
 
     const newCode = [...code];
@@ -42,6 +56,33 @@ export const AuthenticatorVerificationModal = ({
     }
   };
 
+  useEffect(() => {
+    if (code.every((num) => !isNaN(parseFloat(num)))) {
+      setTimeout(() => {
+        const finishCode = +code.join("");
+
+        setDisableCode(true);
+
+        confirm2FA(finishCode)
+          .then(({ two_factor_token }) => {
+            update2FA(two_factor_token);
+
+            if (pathname === "/auth/login") {
+              window.location.href = "/guides";
+            }
+
+            refreshUser().then(() => {
+              onClose();
+            });
+          })
+          .catch(() => {
+            setBadCode(true);
+            setDisableCode(false);
+          });
+      }, 500);
+    }
+  }, [code]);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 z-80 flex items-center justify-center">
       <div className="bg-[#1C1E22] rounded-[16px] p-6 max-w-[370px] w-full absolute top-[120px]">
@@ -49,16 +90,18 @@ export const AuthenticatorVerificationModal = ({
           <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
         </button>
 
-        <div
-          className="flex items-center gap-1 mb-[15px] cursor-pointer"
-          onClick={handleBackClick}>
-          <button>
-            <IoIosArrowBack size={16} />
-          </button>
-          <p className="text-[14px] font-normal leading-[16px] font-sans">
-            Back
-          </p>
-        </div>
+        {typeof onBack === "function" && (
+          <div
+            className="flex items-center gap-1 mb-[15px] cursor-pointer"
+            onClick={handleBackClick}>
+            <button>
+              <IoIosArrowBack size={16} />
+            </button>
+            <p className="text-[14px] font-normal leading-[16px] font-sans">
+              Back
+            </p>
+          </div>
+        )}
 
         <div className="flex flex-col gap-[15px]">
           <p className="text-[22px] font-bold leading-[20px]">
@@ -84,7 +127,11 @@ export const AuthenticatorVerificationModal = ({
               value={code[index]}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="w-[48px] h-[64px] bg-[#292C33] rounded-[8px] text-center text-[24px] focus:outline-none focus:border-2 focus:border-[#CBFF51]"
+              className={clsx(
+                "w-[48px] h-[64px] bg-[#292C33] rounded-[8px] text-center text-[24px] focus:outline-none focus:border-2 focus:border-[#CBFF51]",
+                badCode && "border-2 !border-[#FF0000]/65",
+                disableCode && "pointer-events-none !opacity-65",
+              )}
             />
           ))}
         </div>

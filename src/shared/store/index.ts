@@ -66,6 +66,7 @@ export type User = {
   notifications: number;
   subaccount: boolean;
   plan_id: number | null;
+  two_factor: boolean;
 };
 
 type Plan = {
@@ -601,6 +602,13 @@ type StoreState = {
   notifications: NotificationsResponse | null;
   isLoadingNotifications: boolean;
   notificationsError: string | null;
+  get2FA: () => Promise<{ secret: string; qr_code: string }>;
+  confirm2FA: (one_time_password: number) => Promise<{
+    type: string;
+    status: string;
+    two_factor_token: string;
+  }>;
+  delete2FA: () => Promise<boolean>;
   fetchTimezones: () => Promise<void>;
   updateUser: (updateData: UpdateUserParams) => Promise<boolean>;
   deleteUser: () => Promise<void>;
@@ -641,7 +649,9 @@ type StoreState = {
   authStatus: string | null;
   sessionVerified: boolean;
   googleLogin: (accessToken: string) => Promise<{ token: string }>;
-  login: (data: LoginParams) => Promise<{ token: string | null }>;
+  login: (
+    data: LoginParams,
+  ) => Promise<{ token: string | null; two_factor: boolean }>;
   register: (data: RegisterParams) => Promise<{ token: string }>;
   logout: () => Promise<void>;
   sendPasswordResetLink: (data: {
@@ -760,6 +770,45 @@ const useStore = create<StoreState>()(
       subaccountProjectTasks: null,
       isLoadingSubaccountProjectTasks: false,
       subaccountProjectTasksError: null,
+
+      get2FA: async () => {
+        try {
+          const response = await axiosInstance.post<{
+            secret: string;
+            qr_code: string;
+          }>("/api/auth/two-factor");
+
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+      },
+      confirm2FA: async (one_time_password: number) => {
+        try {
+          const response = await axiosInstance.post<{
+            type: string;
+            status: string;
+            two_factor_token: string;
+          }>("/api/auth/two-factor/validate", {
+            one_time_password,
+          });
+
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+      },
+      delete2FA: async () => {
+        try {
+          await axiosInstance.post<{ type: string; status: string }>(
+            "/api/auth/two-factor/delete",
+          );
+
+          return true;
+        } catch (error) {
+          throw error;
+        }
+      },
 
       fetchRecaptchaToken: async () => {
         const response =
@@ -2012,62 +2061,71 @@ const useStore = create<StoreState>()(
 
         try {
           const {
-            data: { token },
-          } = await axiosInstance.post<{ token: string }>("/api/login", data);
+            data: { token, two_factor },
+          } = await axiosInstance.post<{ token: string; two_factor: boolean }>(
+            "/api/login",
+            data,
+          );
 
           if (token) {
-            Cookies.set("auth-token", token, {
-              expires: 7,
-              secure: true,
-              sameSite: "Strict",
-            });
-            updateAxiosToken(token);
+            if (!two_factor) {
+              Cookies.set("auth-token", token, {
+                expires: 7,
+                secure: true,
+                sameSite: "Strict",
+              });
+              updateAxiosToken(token);
 
-            try {
-              const { data: userData } = await axiosInstance.get<User>(
-                "/api/user",
-                { headers: { Authorization: `Bearer ${token}` } },
-              );
-              set({ user: userData, sessionVerified: true });
-            } catch (userError) {
-              const err = userError as {
-                response?: { status?: number; data?: { message?: string } };
-              };
+              try {
+                const { data: userData } = await axiosInstance.get<User>(
+                  "/api/user",
+                  { headers: { Authorization: `Bearer ${token}` } },
+                );
+                set({ user: userData, sessionVerified: true });
+              } catch (userError) {
+                const err = userError as {
+                  response?: { status?: number; data?: { message?: string } };
+                };
 
-              if (
-                err.response?.status === 403 ||
-                err.response?.status === 422
-              ) {
-                errorMessage =
-                  err.response?.status === 403 &&
-                  typeof err?.response?.data === "string"
-                    ? err?.response?.data
-                    : (err?.response?.data?.message || "Unknown error") ===
-                        "Эти учетные данные не соответствуют нашим записям.."
-                      ? "This login and password does not exist, please try again or register a new profile"
-                      : "Unknown error";
-                set({
-                  authErrors: { global: errorMessage },
-                  sessionVerified: false,
-                  user: null,
-                });
-              } else {
-                set({ sessionVerified: false, user: null });
+                if (
+                  err.response?.status === 403 ||
+                  err.response?.status === 422
+                ) {
+                  errorMessage =
+                    err.response?.status === 403 &&
+                    typeof err?.response?.data === "string"
+                      ? err?.response?.data
+                      : (err?.response?.data?.message || "Unknown error") ===
+                          "Эти учетные данные не соответствуют нашим записям.."
+                        ? "This login and password does not exist, please try again or register a new profile"
+                        : "Unknown error";
+                  set({
+                    authErrors: { global: errorMessage },
+                    sessionVerified: false,
+                    user: null,
+                  });
+                } else {
+                  set({ sessionVerified: false, user: null });
+                }
+
+                updateAxiosToken(null);
+                Cookies.remove("auth-token");
+
+                throw {
+                  errorMessage:
+                    errorMessage ||
+                    "This login and password does not exist, please try again or register a new profile",
+                };
               }
+            }
 
-              updateAxiosToken(null);
-              Cookies.remove("auth-token");
-
-              throw {
-                errorMessage:
-                  errorMessage ||
-                  "This login and password does not exist, please try again or register a new profile",
-              };
+            if (two_factor) {
+              return { token, two_factor: true };
             }
           }
 
           set({ authLoading: false });
-          return { token };
+          return { token, two_factor: false };
         } catch (userError) {
           const err = userError as {
             response?: { status?: number; data?: { message?: string } };

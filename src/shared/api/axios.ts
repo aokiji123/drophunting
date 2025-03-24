@@ -1,16 +1,36 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const getToken = () => Cookies.get("auth-token");
-
 const axiosInstance = axios.create({
   baseURL: "https://app.esdev.tech",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    Authorization: `Bearer ${getToken() || ""}`,
   },
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  if (!config.headers) {
+    config.headers = {};
+  }
+
+  const token = Cookies.get("auth-token");
+  const twoFA = Cookies.get("2fa");
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    delete config.headers.Authorization;
+  }
+
+  if (twoFA) {
+    config.headers["X-2FA-Token"] = twoFA;
+  } else {
+    delete config.headers["X-2FA-Token"];
+  }
+
+  return config;
 });
 
 export const updateAxiosToken = (newToken: string | null) => {
@@ -18,13 +38,18 @@ export const updateAxiosToken = (newToken: string | null) => {
     Cookies.set("auth-token", newToken, {
       expires: 7,
       secure: true,
-      path: "/guides",
+      path: "/",
     });
-    axiosInstance.defaults.headers.common["Authorization"] =
-      `Bearer ${newToken}`;
   } else {
     Cookies.remove("auth-token");
-    delete axiosInstance.defaults.headers.common["Authorization"];
+  }
+};
+
+export const update2FA = (newToken: string | null) => {
+  if (newToken) {
+    Cookies.set("2fa", newToken, { secure: true, path: "/" });
+  } else {
+    Cookies.remove("2fa");
   }
 };
 
@@ -33,8 +58,10 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       Cookies.remove("auth-token");
+      Cookies.remove("2fa");
       Cookies.remove("user");
       updateAxiosToken(null);
+      update2FA(null);
     }
     return Promise.reject(error);
   },
