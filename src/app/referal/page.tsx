@@ -74,7 +74,7 @@ const Referal = () => {
               }}>
               <ul className="w-full border-b-[1px] border-[#27292D] lg:border-none flex flex-row lg:flex-col mb-3">
                 {user?.subaccount
-                  ? subaccountTabs.map((tab) => (
+                  ? subaccountTabs().map((tab) => (
                       <li
                         key={tab.name}
                         className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${
@@ -105,7 +105,7 @@ const Referal = () => {
                         </Link>
                       </li>
                     ))
-                  : tabs.map((tab) => (
+                  : tabs().map((tab) => (
                       <li
                         key={tab.name}
                         className={`whitespace-nowrap p-[6px] lg:px-[16px] lg:py-[12px] lg:rounded-[12px] lg:mb-1 cursor-pointer ${

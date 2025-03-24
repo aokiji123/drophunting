@@ -549,6 +549,18 @@ i18n.use(initReactI18next).init({
           pageNotFound: "Page not found",
           goBackHome: "Go back to home",
         },
+        tabs: {
+          profile: "Profile",
+          subscriptions: "Subscriptions",
+          subaccounts: "Subaccounts",
+          progress: "Progress",
+          referal: "Referal",
+          guides: "Guides",
+        },
+        subaccountTabs: {
+          profile: "Profile",
+          guides: "Guides",
+        },
       },
     },
     ru: {
@@ -873,7 +885,7 @@ i18n.use(initReactI18next).init({
           subscriptions: "Подписки",
           subaccounts: "Субаккаунты",
           progress: "Прогресс",
-          referal: "Реферальная программа",
+          referal: "Рефералы",
           guides: "Гайды",
           russian: "Русский",
           english: "Английский",
@@ -1102,6 +1114,18 @@ i18n.use(initReactI18next).init({
         notFound: {
           pageNotFound: "Страница не найдена",
           goBackHome: "Вернуться на главную",
+        },
+        tabs: {
+          profile: "Профиль",
+          subscriptions: "Подписки",
+          subaccounts: "Субаккаунты",
+          progress: "Прогресс",
+          referal: "Рефералы",
+          guides: "Гайды",
+        },
+        subaccountTabs: {
+          profile: "Профиль",
+          guides: "Гайды",
         },
       },
     },
