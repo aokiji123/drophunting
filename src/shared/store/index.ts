@@ -494,6 +494,48 @@ type SuggestGuideResponse = {
   message: string;
 };
 
+type SubaccountProject = {
+  id: number;
+  title: string;
+  logo: string;
+  users_count: number;
+};
+
+type SubaccountProjectsResponse = {
+  current_page: number;
+  data: SubaccountProject[];
+  first_page_url: string;
+  from: number;
+  next_page_url: string | null;
+  path: string;
+  per_page: string;
+  prev_page_url: string | null;
+  to: number;
+};
+
+type SubaccountProjectTaskUser = {
+  id: number;
+  name: string;
+  pivot: {
+    task_id: number;
+    user_id: number;
+    lead_time: number;
+  };
+};
+
+type SubaccountProjectTask = {
+  id: number;
+  project_id: number;
+  serial_id: number;
+  users: SubaccountProjectTaskUser[];
+};
+
+type SubaccountProjectTasksResponse = {
+  id: number;
+  tasks_count: number;
+  tasks: SubaccountProjectTask[];
+};
+
 type StoreState = {
   isLoading: boolean;
   setIsLoading: (setIsLoading: boolean) => void;
@@ -628,6 +670,14 @@ type StoreState = {
   >;
   deleteSubaccount: (id: number) => Promise<boolean>;
   buySubaccounts: (amount: number) => Promise<boolean>;
+  subaccountProjects: SubaccountProjectsResponse | null;
+  isLoadingSubaccountProjects: boolean;
+  subaccountProjectsError: string | null;
+  fetchSubaccountProjects: (page?: number) => Promise<void>;
+  subaccountProjectTasks: SubaccountProjectTasksResponse | null;
+  isLoadingSubaccountProjectTasks: boolean;
+  subaccountProjectTasksError: string | null;
+  fetchSubaccountProjectTasks: (projectId: number) => Promise<void>;
 };
 
 const useStore = create<StoreState>()(
@@ -704,6 +754,12 @@ const useStore = create<StoreState>()(
       isSuggestingGuide: false,
       suggestGuideSuccess: null,
       suggestGuideError: null,
+      subaccountProjects: null,
+      isLoadingSubaccountProjects: false,
+      subaccountProjectsError: null,
+      subaccountProjectTasks: null,
+      isLoadingSubaccountProjectTasks: false,
+      subaccountProjectTasksError: null,
 
       fetchRecaptchaToken: async () => {
         const response =
@@ -2318,6 +2374,82 @@ const useStore = create<StoreState>()(
           return true;
         } catch {
           throw new Error("Failed to buy subaccounts");
+        }
+      },
+
+      fetchSubaccountProjects: async (page?: number) => {
+        try {
+          set({
+            isLoadingSubaccountProjects: true,
+            subaccountProjectsError: null,
+          });
+
+          const queryParams = new URLSearchParams();
+          if (page) queryParams.append("page", page.toString());
+
+          const response = await axiosInstance.get<SubaccountProjectsResponse>(
+            "/api/projects/subaccounts",
+          );
+
+          set({
+            subaccountProjects: response.data,
+            isLoadingSubaccountProjects: false,
+            subaccountProjectsError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching subaccount projects:", error);
+          let errorMessage = "Failed to load subaccount projects";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            subaccountProjectsError: errorMessage,
+            isLoadingSubaccountProjects: false,
+          });
+        }
+      },
+
+      fetchSubaccountProjectTasks: async (projectId: number) => {
+        try {
+          set({
+            isLoadingSubaccountProjectTasks: true,
+            subaccountProjectTasksError: null,
+          });
+
+          const response =
+            await axiosInstance.get<SubaccountProjectTasksResponse>(
+              `/api/subaccounts/projects/tasks/${projectId}`,
+            );
+
+          set({
+            subaccountProjectTasks: response.data,
+            isLoadingSubaccountProjectTasks: false,
+            subaccountProjectTasksError: null,
+          });
+        } catch (error) {
+          console.error("Error fetching subaccount project tasks:", error);
+          let errorMessage = "Failed to load subaccount project tasks";
+
+          if (error && typeof error === "object" && "response" in error) {
+            const errorResponse = error.response as ErrorResponse;
+            if (errorResponse?.data?.message) {
+              errorMessage = errorResponse.data.message;
+            }
+          } else if (error instanceof Error) {
+            errorMessage = error.message;
+          }
+
+          set({
+            subaccountProjectTasksError: errorMessage,
+            isLoadingSubaccountProjectTasks: false,
+          });
         }
       },
     }),

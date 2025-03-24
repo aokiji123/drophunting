@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
@@ -8,7 +8,6 @@ import { subaccountTabs, tabs } from "@/shared/utils/tabs";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress as ProgressIcon } from "@/shared/icons/Progress";
 import Image from "next/image";
-import zenchain from "../../../public/assets/zenchain.png";
 import { FiUsers } from "react-icons/fi";
 import { FaChevronRight } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
@@ -34,28 +33,92 @@ const CustomSlider = styled(Slider)({
 const Progress = () => {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
-  const { user } = useStore();
+  const {
+    user,
+    fetchSubaccountProjects,
+    subaccountProjects,
+    isLoadingSubaccountProjects,
+    fetchSubaccountProjectTasks,
+    subaccountProjectTasks,
+    isLoadingSubaccountProjectTasks,
+  } = useStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<{
+    id: number;
+    title: string;
+  } | null>(null);
 
-  const openModal = (projectName: string) => {
-    setSelectedProject(projectName);
+  useEffect(() => {
+    fetchSubaccountProjects();
+  }, [fetchSubaccountProjects]);
+
+  useEffect(() => {
+    if (selectedProject && selectedProject.id) {
+      fetchSubaccountProjectTasks(selectedProject.id);
+    }
+  }, [selectedProject, fetchSubaccountProjectTasks]);
+
+  const openModal = (project: { id: number; title: string }) => {
+    setSelectedProject(project);
     setIsModalOpen(true);
     document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // Re-enable scrolling
     document.body.style.overflow = "auto";
   };
 
-  // Projects data
-  const projects = [
-    { id: 1, name: "Ithaca", accountsCount: 12 },
-    { id: 2, name: "Venice", accountsCount: 8 },
-    { id: 3, name: "Athens", accountsCount: 15 },
-  ];
+  const getImageUrl = (path: string) => {
+    const backendUrl = "https://app.esdev.tech";
+    return path.startsWith("http") ? path : `${backendUrl}${path}`;
+  };
+
+  const calculateProgress = (userId: number) => {
+    if (
+      !subaccountProjectTasks ||
+      !subaccountProjectTasks.tasks ||
+      subaccountProjectTasks.tasks.length === 0
+    ) {
+      return 0;
+    }
+
+    const totalTasks = subaccountProjectTasks.tasks_count;
+    const completedTasks = subaccountProjectTasks.tasks.filter((task) =>
+      task.users.some((user) => user.id === userId),
+    ).length;
+
+    return Math.round((completedTasks / totalTasks) * 100);
+  };
+
+  const getSubaccounts = () => {
+    if (!subaccountProjectTasks || !subaccountProjectTasks.tasks) {
+      return [];
+    }
+
+    const userMap = new Map();
+
+    subaccountProjectTasks.tasks.forEach((task) => {
+      task.users.forEach((user) => {
+        if (!userMap.has(user.id)) {
+          userMap.set(user.id, user);
+        }
+      });
+    });
+
+    return Array.from(userMap.values());
+  };
+
+  const isTaskCompleted = (taskId: number, userId: number) => {
+    if (!subaccountProjectTasks || !subaccountProjectTasks.tasks) {
+      return false;
+    }
+
+    const task = subaccountProjectTasks.tasks.find((t) => t.id === taskId);
+    if (!task) return false;
+
+    return task.users.some((user) => user.id === userId);
+  };
 
   return (
     <div className="bg-[#101114] text-white">
@@ -147,44 +210,57 @@ const Progress = () => {
                   Progress
                 </p>
                 <p className="text-[#949392] leading-[20px] mt-2 max-w-full lg:w-[650px]">
-                  Track the progress of your sabaccounts on the guides
+                  Track the progress of your subaccounts on the guides
                 </p>
               </div>
             </div>
             <div className="flex flex-col gap-[8px]">
-              {projects.map((project) => (
-                <div
-                  key={project.id}
-                  onClick={() => openModal(project.name)}
-                  className="max-w-[650px] h-[75px] w-full bg-[#1F2025] border-[1px] border-[#25272B] rounded-[12px] p-[16px] flex items-center justify-between cursor-pointer hover:border-[#3E4047] transition-colors">
-                  <div className="flex items-center gap-[16px]">
-                    <Image
-                      src={zenchain}
-                      alt={project.name}
-                      width={42}
-                      height={42}
-                    />
-                    <div className="flex flex-col gap-[2px]">
-                      <p className="text-[15px] leading-[20px] font-semibold">
-                        {project.name}
-                      </p>
-                      <p className="flex items-center gap-[8px]">
-                        <FiUsers size={16} />
-                        <span className="text-[14px] leading-[20px] font-normal">
-                          {project.accountsCount} accounts
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  <FaChevronRight size={20} />
+              {isLoadingSubaccountProjects ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                 </div>
-              ))}
+              ) : subaccountProjects?.data &&
+                subaccountProjects.data.length > 0 ? (
+                subaccountProjects.data.map((project) => (
+                  <div
+                    key={project.id}
+                    onClick={() =>
+                      openModal({ id: project.id, title: project.title })
+                    }
+                    className="max-w-[650px] h-[75px] w-full bg-[#1F2025] border-[1px] border-[#25272B] rounded-[12px] p-[16px] flex items-center justify-between cursor-pointer hover:border-[#3E4047] transition-colors">
+                    <div className="flex items-center gap-[16px]">
+                      <Image
+                        className="rounded-[8px]"
+                        src={getImageUrl(project.logo)}
+                        alt={project.title}
+                        width={42}
+                        height={42}
+                        unoptimized
+                      />
+                      <div className="flex flex-col gap-[2px]">
+                        <p className="text-[15px] leading-[20px] font-semibold">
+                          {project.title}
+                        </p>
+                        <p className="flex items-center gap-[8px]">
+                          <FiUsers size={16} />
+                          <span className="text-[14px] leading-[20px] font-normal">
+                            {project.users_count} accounts
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    <FaChevronRight size={20} />
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-6">No projects found</div>
+              )}
             </div>
           </section>
         </div>
       </main>
 
-      {isModalOpen && (
+      {isModalOpen && selectedProject && (
         <div className="fixed inset-0 z-20">
           <div
             className="absolute inset-0 bg-black bg-opacity-40"
@@ -200,67 +276,77 @@ const Progress = () => {
           <div className="fixed top-0 right-0 h-full w-full max-w-[550px] bg-[#17181B] shadow-lg transform transition-transform duration-300 ease-in-out z-50 overflow-y-auto">
             <div className="px-[24px] py-[20px] flex items-center justify-between border-b-[1px] border-[#2B2D31]">
               <div className="flex items-center gap-[16px]">
-                <Image src={zenchain} alt="Curvance" width={34} height={34} />
+                <Image
+                  src={getImageUrl(
+                    subaccountProjects?.data.find(
+                      (p) => p.id === selectedProject.id,
+                    )?.logo || "",
+                  )}
+                  className="rounded-[8px]"
+                  alt={selectedProject.title || "Project"}
+                  width={34}
+                  height={34}
+                  unoptimized
+                />
                 <p className="text-[22px] leading-[20px] font-semibold">
-                  Curvance
+                  {selectedProject.title}
                 </p>
                 <p className="text-[15px] leading-[18px] font-semibold">
-                  5 accoutns
+                  {subaccountProjects?.data.find(
+                    (p) => p.id === selectedProject.id,
+                  )?.users_count || 0}{" "}
+                  accounts
                 </p>
               </div>
               <button onClick={closeModal} className="block sm:hidden">
                 <IoClose size={24} />
               </button>
             </div>
-            {[1, 2, 3, 4, 5].map((el) => (
-              <div
-                key={el}
-                className="px-[24px] py-[20px] flex flex-col gap-[6px]">
-                <div className="flex items-center gap-[16px]">
-                  <p className="text-[16px] leading-[16px] font-semibold">
-                    grigor2310
-                  </p>
-                  <div className="w-full max-w-[150px] flex items-center justify-center">
-                    <CustomSlider
-                      defaultValue={20}
-                      step={1}
-                      min={0}
-                      max={100}
-                      disabled
-                    />
-                  </div>
-                  <p className="text-[14px] leading-[18px] font-semibold">
-                    15%
-                  </p>
-                </div>
-                <p className="text-[14px] leading-[16px] text-[#727477]">
-                  0x29394xdkdkk1224440ds
-                </p>
-                <div className="flex items-center gap-[8px] flex-wrap">
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(
-                    (el) => {
-                      if (el % 2 === 0) {
-                        return (
-                          <div
-                            key={el}
-                            className="w-[25px] h-[25px] bg-[#CBFF51] text-black rounded-full flex items-center justify-center text-[12px] leading-[18px] font-semibold">
-                            {el}
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div
-                            key={el}
-                            className="w-[25px] h-[25px] border-[1px] border-[#34353B] bg-[#12140D] rounded-full flex items-center justify-center text-[12px] leading-[18px] font-semibold">
-                            {el}
-                          </div>
-                        );
-                      }
-                    },
-                  )}
-                </div>
+
+            {isLoadingSubaccountProjectTasks ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
               </div>
-            ))}
+            ) : subaccountProjectTasks ? (
+              getSubaccounts().map((user) => (
+                <div
+                  key={user.id}
+                  className="px-[24px] py-[20px] flex flex-col gap-[6px]">
+                  <div className="flex items-center gap-[16px]">
+                    <p className="text-[16px] leading-[16px] font-semibold">
+                      {user.name}
+                    </p>
+                    <div className="w-full max-w-[150px] flex items-center justify-center">
+                      <CustomSlider
+                        value={calculateProgress(user.id)}
+                        step={1}
+                        min={0}
+                        max={100}
+                        disabled
+                      />
+                    </div>
+                    <p className="text-[14px] leading-[18px] font-semibold">
+                      {calculateProgress(user.id)}%
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-[8px] flex-wrap mt-2">
+                    {subaccountProjectTasks.tasks.map((task) => (
+                      <div
+                        key={task.id}
+                        className={`w-[25px] h-[25px] ${
+                          isTaskCompleted(task.id, user.id)
+                            ? "bg-[#CBFF51] text-black"
+                            : "border-[1px] border-[#34353B] bg-[#12140D]"
+                        } rounded-full flex items-center justify-center text-[12px] leading-[18px] font-semibold`}>
+                        {task.serial_id}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8">No progress data available</div>
+            )}
           </div>
         </div>
       )}

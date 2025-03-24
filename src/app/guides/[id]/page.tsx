@@ -295,7 +295,7 @@ const Guide = () => {
               </div>
             </div>
             <div className="flex flex-col md:flex-row md:items-center justify-between xl:items-start xl:flex-col gap-[24px]">
-              <div className="flex items-center gap-[6px]">
+              <div className="flex items-center flex-wrap gap-[6px]">
                 <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
                   <IoMdTime size={16} />
                   <p className="text-[14px] leading-[16px] font-semibold">

@@ -9,7 +9,6 @@ export default function SmallChartPie({
   current,
   color,
 }: SmallChartPieProps) {
-  console.log(color);
   const percentage = Math.min(Math.max(current / max, 0), 1) * 100;
   const angle = (percentage / 100) * 360;
   const largeArcFlag = angle >= 180 ? 1 : 0;

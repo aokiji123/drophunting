@@ -200,8 +200,7 @@ const Subaccounts = () => {
                     </div>
                     <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full lg:w-[630px]">
                       <div className="flex items-center gap-3">
-                        {subaccounts?.subaccounts_count ===
-                          subaccounts?.limit_subaccounts && (
+                        {subaccounts?.subaccounts_count === 0 && (
                           <p className="leading-[16px] font-semibold text-[#FF6951]">
                             Attention!
                           </p>
@@ -209,8 +208,7 @@ const Subaccounts = () => {
                         <p className="leading-[16px] font-semibold">
                           Subaccounts is used
                         </p>
-                        {subaccounts?.subaccounts_count ===
-                        subaccounts?.limit_subaccounts ? (
+                        {subaccounts?.subaccounts_count === 0 ? (
                           <SmallChartPie
                             max={subaccounts?.limit_subaccounts || 0}
                             current={subaccounts?.subaccounts_count || 0}
