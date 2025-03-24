@@ -24,6 +24,7 @@ import { PlansModal } from "@/app/components/modals/PlansModal";
 import Link from "next/link";
 import useStore from "@/shared/store";
 import CalendarModal from "@/shared/components/CalendarModal";
+import { useTranslation } from "react-i18next";
 
 const CustomSlider = styled(Slider)({
   height: 6,
@@ -54,6 +55,7 @@ const GuideDescription = ({ description }: { description: string }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
   const descriptionRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (descriptionRef.current) {
@@ -77,7 +79,9 @@ const GuideDescription = ({ description }: { description: string }) => {
             <button
               className="text-[#CBFF51] text-[14px] leading-[20px] mt-[5px] xl:mt-0"
               onClick={() => setShowFullDescription(!showFullDescription)}>
-              {showFullDescription ? "Less" : "More"}
+              {showFullDescription
+                ? t("guideDetails.less")
+                : t("guideDetails.more")}
             </button>
           </p>
         </div>
@@ -92,8 +96,8 @@ const Guide = () => {
   const [showPlansModal, setShowPlansModal] = useState(false);
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
-  // const [showFullDescription, setShowFullDescription] = useState(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const { t } = useTranslation();
 
   const params = useParams();
   const id = params.id as string;
@@ -231,12 +235,14 @@ const Guide = () => {
   if (guideDetailsError) {
     return (
       <div className="bg-[#101114] text-white min-h-screen flex flex-col items-center justify-center p-4">
-        <p className="text-red-500 text-xl mb-4">Error loading guide details</p>
+        <p className="text-red-500 text-xl mb-4">
+          {t("guideDetails.errorLoading")}
+        </p>
         <p className="text-gray-400 mb-6">{guideDetailsError}</p>
         <button
           onClick={() => router.push("/guides")}
           className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]">
-          Back to Guides
+          {t("guideDetails.backToGuides")}
         </button>
       </div>
     );
@@ -245,7 +251,7 @@ const Guide = () => {
   if (!guideDetails) {
     return (
       <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
-        <p className="text-gray-400">Guide not found</p>
+        <p className="text-gray-400">{t("guideDetails.guideNotFound")}</p>
       </div>
     );
   }
@@ -259,7 +265,7 @@ const Guide = () => {
           onClick={() => router.push("/guides")}
           className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]">
           <IoIosArrowBack size={20} />
-          <p>Back</p>
+          <p>{t("guideDetails.back")}</p>
         </button>
         <div className="flex flex-col xl:flex-row justify-between mt-[10px] pt-[16px] w-full gap-[24px] xl:gap-[120px]">
           <section className="w-full xl:w-[34%] flex flex-col gap-[24px]">
@@ -282,7 +288,7 @@ const Guide = () => {
                       <GoDotFill size={16} className="text-[#C9FF4A]" />
                     </div>
                     <p className="text-[14px] leading-[16px] font-bold">
-                      Actual
+                      {t("guideDetails.actual")}
                     </p>
                   </div>
                   <div>
@@ -299,7 +305,7 @@ const Guide = () => {
                 <div className="flex items-center bg-[#202124] rounded-[8px] px-[10px] py-[8px] gap-1">
                   <IoMdTime size={16} />
                   <p className="text-[14px] leading-[16px] font-semibold">
-                    {guideDetails.time} min
+                    {guideDetails.time} {t("guideDetails.minutes")}
                   </p>
                 </div>
                 {guideDetails.markers.map((marker) => (
@@ -347,7 +353,7 @@ const Guide = () => {
                   className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
                   <IoCalendarClear size={20} />
 
-                  <p>Remind on Telegram</p>
+                  <p>{t("guideDetails.remindOnTelegram")}</p>
                 </button>
 
                 <CalendarModal
@@ -378,7 +384,7 @@ const Guide = () => {
               <HalfChartPie defaultValue={guideDetails.evaluation} size="big" />
               <div className="flex flex-col items-center gap-2">
                 <p className="text-[14px] leading-[16px] text-[#50535D]">
-                  Investment
+                  {t("guideDetails.investment")}
                 </p>
                 <p className="text-[18px] leading-[22px] sm:text-[20px] sm:leading-[24px] font-bold truncate max-w-[100px]">
                   {guideDetails.investments}
@@ -392,27 +398,6 @@ const Guide = () => {
               </div>
             </div>
 
-            {/* <div>
-              <div
-                className={`text-[#9A9A9A] text-[14px] leading-[20px] ${showFullDescription ? "" : "line-clamp-5"}`}
-                dangerouslySetInnerHTML={{
-                  __html: guideDetails.description_full || "",
-                }}
-              />
-              <div className="mt-[20px]">
-                <p className="text-[#9A9A9A] text-[14px] leading-[20px]">
-                  {guideDetails.description_full && (
-                    <button
-                      className="text-[#CBFF51] text-[14px] leading-[20px] mt-[5px] xl:mt-0"
-                      onClick={() =>
-                        setShowFullDescription(!showFullDescription)
-                      }>
-                      {showFullDescription ? "Less" : "More"}
-                    </button>
-                  )}
-                </p>
-              </div>
-            </div> */}
             <GuideDescription
               description={guideDetails.description_full || ""}
             />
@@ -451,11 +436,15 @@ const Guide = () => {
             </div>
           </section>
           <section className="w-full xl:w-[70%] flex flex-col gap-[18px]">
-            <p className="text-[20px] leading-[24px] font-bold">Tasks</p>
+            <p className="text-[20px] leading-[24px] font-bold">
+              {t("guideDetails.tasks")}
+            </p>
             <div className="relative flex flex-col">
               <div className="flex items-center justify-between text-[16px] leading-[18px] font-bold ">
                 <div className="flex items-center gap-3">
-                  <p className="text-[#707273]">Completed:</p>
+                  <p className="text-[#707273]">
+                    {t("guideDetails.completed")}
+                  </p>
                   <p className="text-white">
                     {guideDetails.competed_tasks_count}/
                     {guideDetails.tasks_count}
@@ -481,10 +470,10 @@ const Guide = () => {
                 <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
                   {user?.count_views === 0 && (
                     <p className="leading-[16px] font-semibold text-[#FF3E3E]">
-                      Attention!
+                      {t("guideDetails.attention")}
                     </p>
                   )}
-                  <p>Free task previews on your plan</p>
+                  <p>{t("guideDetails.freePreviews")}</p>
                   <div className="flex items-center gap-[8px]">
                     {user?.count_views === 0 ? (
                       <SmallChartPie
@@ -506,7 +495,7 @@ const Guide = () => {
                 <button
                   className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
                   onClick={togglePlansModal}>
-                  Upgrade plan
+                  {t("guideDetails.upgradePlan")}
                 </button>
               </div>
             )}
@@ -545,7 +534,9 @@ const Guide = () => {
                         </p>
                         <div className="text-[#747677] flex items-center gap-1.5">
                           <IoMdTime size={12} />
-                          <p>{task.time} min</p>
+                          <p>
+                            {task.time} {t("guideDetails.minutes")}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -560,7 +551,7 @@ const Guide = () => {
                       </div>
                       {activeModal === task.id && (
                         <p className="absolute top-9 right-4 bg-black text-white rounded-[9px] px-[10px] py-[7px] shadow-lg w-[125px] flex items-center justify-center">
-                          Link copied
+                          {t("guideDetails.linkCopied")}
                         </p>
                       )}
                       <div className="text-[#8E8E8E] cursor-pointer">
@@ -588,7 +579,7 @@ const Guide = () => {
                           />
                         ) : (
                           <p className="text-gray-400">
-                            No task details available
+                            {t("guideDetails.noTaskDetails")}
                           </p>
                         )}
 
@@ -620,7 +611,7 @@ const Guide = () => {
                                   ? "text-[#A0A8AECC]"
                                   : "text-[#A0A8AE]"
                               }`}>
-                              Task Completed
+                              {t("guideDetails.taskCompleted")}
                             </p>
                           </div>
                         </div>

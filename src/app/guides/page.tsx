@@ -24,6 +24,7 @@ import { debounce } from "lodash";
 import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
 import CalendarModal from "@/shared/components/CalendarModal";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -51,17 +52,43 @@ const CustomSlider = styled(Slider)({
   },
 });
 
-const SORTING_OPTIONS = [
-  { key: "default", name: "By default", icon: <IoFilterOutline size={16} /> },
-  { key: "date", name: "By newest", icon: <GoArrowDown size={16} /> },
-  { key: "invest", name: "By investment", icon: <GoArrowDown size={16} /> },
-  // { key: "bs", name: "By BS", icon: <GoArrowDown size={16} /> },
-  { key: "priority", name: "By priority", icon: <GoArrowDown size={16} /> },
-  { key: "score", name: "By Score", icon: <GoArrowDown size={16} /> },
-  { key: "network", name: "By network", icon: <GoArrowDown size={16} /> },
-];
-
 const Guides = () => {
+  const { t } = useTranslation();
+
+  const SORTING_OPTIONS = [
+    {
+      key: "default",
+      name: t("guides.sortByDefault"),
+      icon: <IoFilterOutline size={16} />,
+    },
+    {
+      key: "date",
+      name: t("guides.sortByNewest"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "invest",
+      name: t("guides.sortByInvestment"),
+      icon: <GoArrowDown size={16} />,
+    },
+    // { key: "bs", name: "By BS", icon: <GoArrowDown size={16} /> },
+    {
+      key: "priority",
+      name: t("guides.sortByPriority"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "score",
+      name: t("guides.sortByScore"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "network",
+      name: t("guides.sortByNetwork"),
+      icon: <GoArrowDown size={16} />,
+    },
+  ];
+
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [activeTagId, setActiveTagId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -196,9 +223,11 @@ const Guides = () => {
       <Header />
 
       <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px] min-w-[375p]">
-        <p className="text-[42px] leading-[50px] font-bold">Guides</p>
+        <p className="text-[42px] leading-[50px] font-bold">
+          {t("guides.title")}
+        </p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
-          Celebrate your web3 journey. Complete quests and earn drops!
+          {t("guides.description")}
         </p>
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
           <div className="w-full overflow-x-auto" ref={scrollRef}>
@@ -235,7 +264,7 @@ const Guides = () => {
               size={16}
             />
             <input
-              placeholder="Search"
+              placeholder={t("guides.search")}
               onChange={handleSearchChange}
               className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-full sm:w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
             />
@@ -244,7 +273,7 @@ const Guides = () => {
         <div className="min-w-[341px]">
           <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
-              {guides?.total || 0} airdrops
+              {guides?.total || 0} {t("guides.airdrops")}
             </p>
             <div
               className="flex items-center gap-[10px] text-[#676A70] relative"
@@ -254,7 +283,8 @@ const Guides = () => {
                 className="flex items-center cursor-pointer"
                 onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}>
                 <p className="text-white mr-[5px] ">
-                  Sort <span className="text-white">{actualSorting.name}</span>
+                  {t("guides.sort")}{" "}
+                  <span className="text-white">{actualSorting.name}</span>
                 </p>
                 {isSortDropdownOpen ? (
                   <FaAngleUp size={16} className="text-[#8E8E8E] ml-1" />
@@ -280,10 +310,10 @@ const Guides = () => {
                           });
                         }}
                         className="text-[14px] leading-[24px] font-semibold font-sans">
-                        Clear
+                        {t("guides.clear")}
                       </button>
                       <p className="text-[20px] leading-[13px] font-bold font-sans">
-                        Sort by
+                        {t("guides.sortBy")}
                       </p>
                       <button
                         className="flex items-center justify-center"
@@ -321,13 +351,6 @@ const Guides = () => {
                         </div>
                       ))}
                     </div>
-                    {/* <div className="mt-[24px] xs:hidden">
-                      <button
-                        className="h-[45px] w-full bg-[#11CA00] hover:bg-blue-500 hover:rounded-[8px] rounded-[12px] text-[14px] leading-[16px] font-semibold p-[12px] mb-[12px]"
-                        onClick={() => setIsSortDropdownOpen(false)}>
-                        Apply
-                      </button>
-                    </div> */}
                   </div>
                 </>
               )}
@@ -340,11 +363,11 @@ const Guides = () => {
             </div>
           ) : guidesError ? (
             <div className="text-red-500 p-4 rounded-md bg-red-500/10 border border-red-500/30">
-              {guidesError}
+              {t("guides.error")}
             </div>
           ) : guides?.data.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
-              No guides found. Try changing your filters.
+              {t("guides.noGuidesFound")}
             </div>
           ) : (
             <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center items-center">
@@ -358,7 +381,7 @@ const Guides = () => {
                         <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                           <IoMdTime size={12} className="text-[#A0A8AE]" />
                           <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
-                            {guide.time} min
+                            {guide.time} {t("guides.min")}
                           </p>
                         </div>
                         {guide.markers.map((marker) => (
@@ -437,7 +460,7 @@ const Guides = () => {
                       <HalfChartPie defaultValue={guide.evaluation} />
                       <div>
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
-                          Invest.
+                          {t("guides.investmentLabel")}
                         </p>
                         <p className="text-[16px] leading-[18px] font-bold truncate max-w-[100px]">
                           {guide.investments}
@@ -475,7 +498,7 @@ const Guides = () => {
                     </div>
                     <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
                       <p className="text-[13px] leading-[16px] font-semibold truncate max-w-full">
-                        Last updates: {guide.updated}
+                        {t("guides.lastUpdates")}: {guide.updated}
                       </p>
                       <MdOutlineKeyboardArrowRight
                         size={20}

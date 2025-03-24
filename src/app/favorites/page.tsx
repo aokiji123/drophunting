@@ -21,6 +21,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import useStore, { GuidesParams } from "@/shared/store";
 import { debounce } from "lodash";
+import { useTranslation } from "react-i18next";
 
 const CustomSlider = styled(Slider)({
   height: 8,
@@ -52,6 +53,7 @@ const Favorites = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [sorting, setSorting] = useState<1 | 2>(2);
+  const { t } = useTranslation();
 
   const router = useRouter();
   const {
@@ -120,10 +122,10 @@ const Favorites = () => {
 
       <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] l:py-[64px] min-w-[375px]">
         <p className="text-[32px] sm:text-[42px] leading-[50px] font-bold">
-          Favorites
+          {t("favorites.title")}
         </p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
-          Celebrate your web3 journey. Complete quests and earn drops!
+          {t("favorites.description")}
         </p>
 
         <div className="mt-[40px] flex flex-col xl:flex-row xl:items-center xl:justify-between">
@@ -133,7 +135,7 @@ const Favorites = () => {
               size={16}
             />
             <input
-              placeholder="Search"
+              placeholder={t("favorites.search")}
               onChange={handleSearchChange}
               className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-full sm:w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
             />
@@ -143,16 +145,16 @@ const Favorites = () => {
         <div className="min-w-[341px]">
           <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
-              {favoriteGuides?.length || 0} favorites
+              {favoriteGuides?.length || 0} {t("favorites.favorites")}
             </p>
             <div className="flex items-center gap-[5px] text-[#676A70]">
               <IoFilterOutline size={20} />
               <p>
-                Sort by{" "}
+                {t("favorites.sortBy")}{" "}
                 <span
                   className="text-white cursor-pointer"
                   onClick={handleSortingChange}>
-                  {sorting === 1 ? "Old" : "New"}
+                  {sorting === 1 ? t("favorites.old") : t("favorites.new")}
                 </span>
               </p>
               <MdOutlineArrowDropDown className="text-white" size={20} />
@@ -165,11 +167,11 @@ const Favorites = () => {
             </div>
           ) : guidesError ? (
             <div className="text-red-500 p-4 rounded-md bg-red-500/10 border border-red-500/30">
-              {guidesError}
+              {t("favorites.error")}
             </div>
           ) : favoriteGuides?.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
-              No favorite guides found. Try adding some favorites!
+              {t("favorites.noFavoritesFound")}
             </div>
           ) : (
             <div className="flex flex-wrap gap-[16px] lg:gap-[28px] justify-center items-center">
@@ -183,7 +185,7 @@ const Favorites = () => {
                         <div className="flex items-center gap-[2px] px-[6px] py-[5px] bg-[#212125] rounded-[8px]">
                           <IoMdTime size={12} className="text-[#A0A8AE]" />
                           <p className="text-[12px] leading-[14px] sm:text-[13px] sm:leading-[16px] text-[#A0A8AE] font-semibold">
-                            {guide.time} min
+                            {guide.time} {t("favorites.min")}
                           </p>
                         </div>
                         {guide.markers.map((marker) => (
@@ -250,7 +252,7 @@ const Favorites = () => {
                       <HalfChartPie defaultValue={guide.evaluation} />
                       <div>
                         <p className="text-[13px] leading-[16px] font-semibold text-[#50535D]">
-                          Invest.
+                          {t("favorites.investmentLabel")}
                         </p>
                         <p className="text-[16px] leading-[18px] font-bold max-w-[100px] truncate">
                           {guide.investments}
@@ -288,7 +290,7 @@ const Favorites = () => {
                     </div>
                     <div className="mt-[12px] lg:mt-[16px] flex items-center gap-[5px] text-[#50535D] border-t-[1px] border-[#3032393D] pt-[12px] lg:pt-[16px]">
                       <p className="text-[13px] leading-[16px] font-semibold">
-                        Last updates: {guide.updated}
+                        {t("favorites.lastUpdates")}: {guide.updated}
                       </p>
                       <MdOutlineKeyboardArrowRight size={20} />
                       <GoDotFill className="text-red-500" />
