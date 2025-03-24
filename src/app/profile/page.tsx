@@ -31,7 +31,6 @@ import { Progress } from "@/shared/icons/Progress";
 import { MdOutlineDone } from "react-icons/md";
 import { Delete2FAModal } from "../components/modals/Delete2FAModa";
 import { update2FA } from "@/shared/api/axios";
-// import { MdOutlineDone } from "react-icons/md";
 
 const languages = [
   { code: "ru", name: "Russian", flag: ru },
