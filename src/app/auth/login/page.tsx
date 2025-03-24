@@ -7,6 +7,8 @@ import loginIcon from "../../../../public/assets/icons/login.png";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import useStore from "@/shared/store";
+import { AuthenticatorVerificationModal } from "@/app/components/modals/AuthenticatorVerificationModal";
+import { updateAxiosToken } from "@/shared/api/axios";
 
 type LoginFormData = {
   email: string;
@@ -17,6 +19,11 @@ const Login = () => {
   const { register, handleSubmit } = useForm<LoginFormData>();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [
+    showAuthenticatorVerificationModal,
+    setShowAuthenticatorVerificationModal,
+  ] = useState(false);
+
   const { login } = useStore();
 
   const handleGoogleLogin = () => {
@@ -27,8 +34,17 @@ const Login = () => {
     setLoading(true);
     try {
       setServerError("");
-      await login(data);
-      window.location.href = "/guides";
+
+      const res = await login(data);
+
+      console.log(res);
+
+      if (res.two_factor) {
+        updateAxiosToken(res.token || null);
+        setShowAuthenticatorVerificationModal(true);
+      } else {
+        window.location.href = "/guides";
+      }
     } catch (error) {
       console.log({ error });
 
@@ -168,6 +184,14 @@ const Login = () => {
       </main>
 
       <Footer />
+
+      {showAuthenticatorVerificationModal && (
+        <AuthenticatorVerificationModal
+          onClose={() => {
+            setShowAuthenticatorVerificationModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -28,6 +28,9 @@ import { AuthenticatorModal } from "../components/modals/AuthenticatorModal";
 import { AuthenticatorVerificationModal } from "../components/modals/AuthenticatorVerificationModal";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress } from "@/shared/icons/Progress";
+import { MdOutlineDone } from "react-icons/md";
+import { Delete2FAModal } from "../components/modals/Delete2FAModa";
+import { update2FA } from "@/shared/api/axios";
 // import { MdOutlineDone } from "react-icons/md";
 
 const languages = [
@@ -58,6 +61,9 @@ const Profile = () => {
     deleteUser,
     user,
     updateUser,
+    delete2FA,
+    refreshUser,
+    setIsLoading,
   } = useStore();
   const router = useRouter();
   const [notifChange, setNotifChange] = useState(toBool(user?.notif_change));
@@ -90,14 +96,20 @@ const Profile = () => {
 
   const scrollRef = useCustomScrollbar();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDelete2FA, setShowDelete2FA] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showAuthenticatorModal, setShowAuthenticatorModal] = useState(false);
   const [
     showAuthenticatorVerificationModal,
     setShowAuthenticatorVerificationModal,
   ] = useState(false);
+
   const handleDeleteAccount = () => {
     setShowDeleteModal(true);
+  };
+
+  const handleDelete2FA = () => {
+    setShowDelete2FA(true);
   };
 
   const handleConfirmDelete = () => {
@@ -105,6 +117,15 @@ const Profile = () => {
     Cookies.remove("auth-token");
     Cookies.remove("user");
     router.push("/auth/login");
+  };
+
+  const handleConfirmDelete2FA = () => {
+    setIsLoading(true);
+    setShowDelete2FA(false);
+    delete2FA().then(() => {
+      update2FA(null);
+      refreshUser().finally(() => setIsLoading(false));
+    });
   };
 
   useEffect(() => {
@@ -629,7 +650,7 @@ const Profile = () => {
                     </div>
                   </div>
                   <button
-                    className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] ml-[35px] rounded-[10px]"
+                    className="w-[100px] bg-[#2C2D31] hover:opacity-80 transition-opacity py-[8px] px-[20px] ml-[35px] rounded-[10px]"
                     onClick={() => setShowChangePasswordModal(true)}>
                     Change
                   </button>
@@ -661,24 +682,43 @@ const Profile = () => {
                     </div>
                   </div>
                   <div className="flex flex-row items-center gap-[24px]">
-                    <div>
-                      <div className="flex items-center gap-1 ml-[35px]">
-                        <IoIosCloseCircle size={16} />
-                        <p className="text-[#C2C0BD] leading-[18px]">Off</p>
-                      </div>
-                    </div>
-                    {/* if authenticator is enabled, show "On" */}
-                    {/* <div className="h-[18px] bg-[#162721] rounded-[20px] pr-[8px] pl-[4px] flex items-center gap-1">
-                      <MdOutlineDone size={16} className="text-[#0EB159]" />
-                      <p className="text-[#39FF6E] text-[14px] font-semibold font-chakra leading-[18px]">
-                        On
-                      </p>
-                    </div> */}
-                    <button
-                      className="w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]"
-                      onClick={() => setShowAuthenticatorModal(true)}>
-                      Manage
-                    </button>
+                    {user?.two_factor ? (
+                      <>
+                        <div className="h-[18px] rounded-[20px] pr-[8px] pl-[4px] flex items-center gap-1">
+                          <MdOutlineDone size={16} className="text-[#0EB159]" />
+                          <p className="text-[#39FF6E] text-[14px] font-semibold font-chakra leading-[18px]">
+                            On
+                          </p>
+                        </div>
+                        <button
+                          className="hover:opacity-80 transition-opacity bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                          onClick={handleDelete2FA}
+                          disabled={isSaving}>
+                          <div className="flex-shrink-0">
+                            <Image
+                              src={cancel}
+                              alt="Cancel icon"
+                              className="w-[16px] h-[16px]"
+                            />
+                          </div>
+                          <div>Delete</div>
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <div className="flex items-center gap-1 ml-[35px]">
+                            <IoIosCloseCircle size={16} />
+                            <p className="text-[#C2C0BD] leading-[18px]">Off</p>
+                          </div>
+                        </div>{" "}
+                        <button
+                          className="hover:opacity-80 transition-opacity w-[100px] bg-[#2C2D31] py-[8px] px-[20px] rounded-[10px]"
+                          onClick={() => setShowAuthenticatorModal(true)}>
+                          Manage
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -690,7 +730,7 @@ const Profile = () => {
                 className="flex justify-between items-center gap-4">
                 {!user?.subaccount ? (
                   <button
-                    className="bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                    className="hover:opacity-80 transition-opacity bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
                     onClick={handleDeleteAccount}
                     disabled={isSaving}>
                     <div className="flex-shrink-0">
@@ -782,6 +822,13 @@ const Profile = () => {
         <DeleteAccountModal
           onClose={() => setShowDeleteModal(false)}
           onConfirm={handleConfirmDelete}
+        />
+      )}
+
+      {showDelete2FA && (
+        <Delete2FAModal
+          onClose={() => setShowDelete2FA(false)}
+          onConfirm={handleConfirmDelete2FA}
         />
       )}
 
