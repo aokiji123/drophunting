@@ -7,9 +7,11 @@ import Image from "next/image";
 import { MdOutlineDone } from "react-icons/md";
 import { useParams, useRouter } from "next/navigation";
 import useStore from "@/shared/store";
+import { useTranslation } from "react-i18next";
 
 const BlogArticle = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const params = useParams();
   const id = params.id as string;
@@ -58,12 +60,14 @@ const BlogArticle = () => {
   if (blogArticleDetailsError) {
     return (
       <div className="bg-[#101114] text-white min-h-screen flex flex-col items-center justify-center p-4">
-        <p className="text-red-500 text-xl mb-4">Error loading article</p>
+        <p className="text-red-500 text-xl mb-4">
+          {t("blogArticle.errorLoading")}
+        </p>
         <p className="text-gray-400 mb-6">{blogArticleDetailsError}</p>
         <button
           onClick={() => router.push("/blog")}
           className="bg-[#1C1D21] text-white px-4 py-2 rounded-lg hover:bg-[#2A2C32]">
-          Back to Blog
+          {t("blogArticle.backToBlog")}
         </button>
       </div>
     );
@@ -72,7 +76,7 @@ const BlogArticle = () => {
   if (!blogArticleDetails) {
     return (
       <div className="bg-[#101114] text-white min-h-screen flex items-center justify-center">
-        <p className="text-gray-400">Article not found</p>
+        <p className="text-gray-400">{t("blogArticle.articleNotFound")}</p>
       </div>
     );
   }
@@ -87,7 +91,7 @@ const BlogArticle = () => {
             onClick={() => router.push("/blog")}
             className="flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F]">
             <IoIosArrowBack size={20} />
-            <p>Back</p>
+            <p>{t("blogArticle.back")}</p>
           </button>
         </div>
         <div className="pb-[120px] px-[30px] sm:px-[56px] md:px-[106px] lg:px-[206px] xl:px-[306px]">
@@ -144,7 +148,7 @@ const BlogArticle = () => {
                     ? "text-[#A0A8AECC]"
                     : "text-[#A0A8AE]"
                 }`}>
-                I have read
+                {t("blogArticle.iHaveRead")}
               </p>
             </div>
           </div>
@@ -181,7 +185,7 @@ const BlogArticle = () => {
                       ? "text-[#A0A8AECC]"
                       : "text-[#A0A8AE]"
                   }`}>
-                  I have read
+                  {t("blogArticle.iHaveRead")}
                 </p>
               </div>
             </div>

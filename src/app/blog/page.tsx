@@ -10,8 +10,10 @@ import { useRouter } from "next/navigation";
 import useStore from "@/shared/store";
 import { debounce } from "lodash";
 import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
+import { useTranslation } from "react-i18next";
 
 const Blog = () => {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -106,9 +108,11 @@ const Blog = () => {
       <Header />
 
       <main className="px-[16px] sm:px-[32px] sm:pt-[48px] sm:pb-[64px] lg:px-[96px] min-w-[375px]">
-        <p className="text-[42px] leading-[50px] font-bold">Blog</p>
+        <p className="text-[42px] leading-[50px] font-bold">
+          {t("blog.title")}
+        </p>
         <p className="text-[16px] leading-[22px] text-[#B0B0B0] mt-[20px]">
-          Celebrate your web3 journey. Complete quests and earn drops!
+          {t("blog.description")}
         </p>
         <div className="mt-[40px] flex flex-col md:flex-row md:items-center md:justify-between">
           <div className="w-full overflow-x-auto" ref={scrollRef}>
@@ -146,7 +150,7 @@ const Blog = () => {
               size={16}
             />
             <input
-              placeholder="Search"
+              placeholder={t("blog.search")}
               onChange={handleSearchChange}
               className="bg-[#1D1E23] pr-[12px] pl-[36px] py-[10px] rounded-[11px] w-[300px] placeholder:text-[14px] placeholder:leading-[16px] font-semibold"
             />
@@ -155,16 +159,16 @@ const Blog = () => {
         <div>
           <div className="flex items-center justify-between">
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
-              {blogArticles?.total} articles
+              {blogArticles?.total} {t("blog.articles")}
             </p>
             <div className="flex items-center gap-[5px] text-[#676A70]">
               <IoFilterOutline size={20} />
               <p>
-                Sort by{" "}
+                {t("blog.sortBy")}{" "}
                 <span
                   className="text-white cursor-pointer"
                   onClick={handleSortingChange}>
-                  {sorting === 1 ? "Old" : "New"}
+                  {sorting === 1 ? t("blog.old") : t("blog.new")}
                 </span>
               </p>
               <MdOutlineArrowDropDown className="text-white" size={20} />
@@ -181,7 +185,7 @@ const Blog = () => {
             </div>
           ) : blogArticles?.data.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
-              No articles found. Try changing your filters.
+              {t("blog.noArticlesFound")}
             </div>
           ) : (
             <div className="flex flex-wrap gap-[16px] sm:gap-[24px] lg:gap-[28px] justify-center items-center">
@@ -221,7 +225,7 @@ const Blog = () => {
                         <div className="text-[#A0A8AE] flex items-center bg-[#0D0E0F] px-[8px] py-[6px] rounded-[6px] gap-1">
                           <IoMdTime size={12} />
                           <p className="text-[13px] leading-[16px] font-semibold">
-                            {article.reading_time} min
+                            {article.reading_time} {t("blog.readingTime")}
                           </p>
                         </div>
 

@@ -40,12 +40,12 @@ const Header = () => {
   };
 
   const tabs = [
-    { name: t("guides"), href: "/guides" },
+    { name: t("header.guides"), href: "/guides" },
     {
-      name: t("blog"),
+      name: t("header.blog"),
       href: "/blog",
     },
-    { name: t("store"), href: "/store" },
+    { name: t("header.store"), href: "/store" },
   ];
 
   const [openModal, setOpenModal] = useState<string | null>(null);
@@ -143,7 +143,7 @@ const Header = () => {
                 className="w-[16px] h-[16px]"
               />
               <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-                {t("upgrade")}
+                {t("header.upgrade")}
               </p>
             </button>
           </>

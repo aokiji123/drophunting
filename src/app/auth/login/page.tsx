@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import Image from "next/image";
@@ -9,7 +9,6 @@ import Link from "next/link";
 import useStore from "@/shared/store";
 import { AuthenticatorVerificationModal } from "@/app/components/modals/AuthenticatorVerificationModal";
 import { updateAxiosToken } from "@/shared/api/axios";
-import ReCAPTCHA from "react-google-recaptcha";
 import { useTranslation } from "react-i18next";
 
 type LoginFormData = {
@@ -34,26 +33,8 @@ const Login = () => {
     showAuthenticatorVerificationModal,
     setShowAuthenticatorVerificationModal,
   ] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string>("");
-  const [gRecaptchaResponse, setGRecaptchaResponse] = useState<string | null>(
-    null,
-  );
-  const [useCaptcha] = useState(true);
 
-  const { login, fetchRecaptchaToken } = useStore();
-
-  useEffect(() => {
-    fetchRecaptchaToken().then((token) => {
-      setRecaptchaToken(token);
-    });
-    // Reset reCAPTCHA state when component mounts
-    setGRecaptchaResponse(null);
-  }, [fetchRecaptchaToken]);
-
-  const onChange = (value: string | null) => {
-    setGRecaptchaResponse(value);
-    setServerError("");
-  };
+  const { login } = useStore();
 
   const handleGoogleLogin = () => {
     window.location.href = "https://app.esdev.tech/api/google/redirect";
@@ -80,21 +61,11 @@ const Login = () => {
       return;
     }
 
-    if (useCaptcha && !gRecaptchaResponse) {
-      setServerError(t("login.captchaError"));
-      return;
-    }
-
     setLoading(true);
     try {
       setServerError("");
 
-      const loginData = {
-        ...data,
-        "g-recaptcha-response": gRecaptchaResponse || "",
-      };
-
-      const res = await login(loginData);
+      const res = await login(data);
 
       if (res.two_factor) {
         updateAxiosToken(res.token || null);
@@ -179,20 +150,14 @@ const Login = () => {
                 )}
               </div>
 
-              <div className="my-4 flex justify-center">
-                {recaptchaToken && (
-                  <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
-                )}
-              </div>
-
               <button
                 type="submit"
                 className={`p-3 px-4 w-full rounded-[14px] font-sans font-bold transition-all duration-200 ${
-                  useCaptcha && (!gRecaptchaResponse || loading)
+                  loading
                     ? "bg-gray-600 cursor-not-allowed"
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
-                disabled={loading || (useCaptcha && !gRecaptchaResponse)}>
+                disabled={loading}>
                 {loading ? t("login.loggingIn") : t("login.loginButton")}
               </button>
 
