@@ -4,9 +4,11 @@ import Header from "@/app/auth/components/Header";
 import Footer from "@/app/auth/components/Footer";
 import { useRouter } from "next/navigation";
 import DraftsOutlinedIcon from "@mui/icons-material/DraftsOutlined";
+import { useTranslation } from "react-i18next";
 
 const PasswordResetConfirmation = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <div className="bg-[#101114] mx-auto text-white min-h-screen flex flex-col overflow-hidden">
@@ -19,15 +21,15 @@ const PasswordResetConfirmation = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px]">
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mt-[35px] mb-[20px]">
-              Your password has been reset
+              {t("passwordResetConfirmation.title")}
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
-              You can try to log in with the new password now
+              {t("passwordResetConfirmation.description")}
             </p>
             <button
               className="p-3 px-4 w-full bg-[--green] rounded-[14px] mb-6 font-sans font-bold hover:bg-blue-500 hover:rounded-[10px]"
               onClick={() => router.push("/auth/login")}>
-              Log In
+              {t("passwordResetConfirmation.login")}
             </button>
           </div>
         </div>

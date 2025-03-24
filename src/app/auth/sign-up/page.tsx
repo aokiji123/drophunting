@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import useStore from "@/shared/store";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useTranslation } from "react-i18next";
 
 type SignUpFormData = {
   name: string;
@@ -24,6 +25,7 @@ type ValidationErrors = {
 };
 
 const SignUp = () => {
+  const { t } = useTranslation();
   const { register, handleSubmit } = useForm<SignUpFormData>();
   const [serverError, setServerError] = useState("");
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
@@ -59,16 +61,16 @@ const SignUp = () => {
     const errors: ValidationErrors = {};
 
     if (!data.name.trim()) {
-      errors.name = "Name is required";
+      errors.name = t("signUp.nameRequired");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
-      errors.email = "Please enter a valid email address";
+      errors.email = t("signUp.emailError");
     }
 
     if (data.password.length < 8) {
-      errors.password = "Password must be at least 8 characters long";
+      errors.password = t("signUp.passwordError");
     }
 
     setValidationErrors(errors);
@@ -81,7 +83,7 @@ const SignUp = () => {
     }
 
     if (useCaptcha && !gRecaptchaResponse) {
-      setServerError("Please verify you are not a robot");
+      setServerError(t("signUp.captchaError"));
       return;
     }
 
@@ -107,9 +109,7 @@ const SignUp = () => {
 
       window.location.href = "/guides";
     } catch (e) {
-      setServerError(
-        "This email already exists, please try again or login " + e,
-      );
+      setServerError(t("signUp.emailExists") + " " + e);
     } finally {
       setLoading(false);
     }
@@ -125,10 +125,10 @@ const SignUp = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px] mt-[35px]">
             <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
-              Sign Up
+              {t("signUp.title")}
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
-              Create an account to track your investments and progress
+              {t("signUp.description")}
             </p>
 
             <form
@@ -137,7 +137,7 @@ const SignUp = () => {
               <div className="mb-2">
                 <input
                   type="text"
-                  placeholder="Name"
+                  placeholder={t("signUp.name")}
                   {...register("name")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
                     validationErrors.name
@@ -157,7 +157,7 @@ const SignUp = () => {
               <div className="mb-2">
                 <input
                   type="text"
-                  placeholder="Email"
+                  placeholder={t("signUp.email")}
                   {...register("email")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
                     validationErrors.email
@@ -177,7 +177,7 @@ const SignUp = () => {
               <div className="mb-4">
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder={t("signUp.password")}
                   {...register("password")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
                     validationErrors.password
@@ -207,11 +207,13 @@ const SignUp = () => {
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
                 disabled={loading || (useCaptcha && !gRecaptchaResponse)}>
-                {loading ? "Signing up..." : "Sign Up"}
+                {loading ? t("signUp.signingUp") : t("signUp.signUpButton")}
               </button>
               <div className="flex items-center my-6">
                 <div className="flex-grow border-t border-[#27292D]"></div>
-                <span className="flex-shrink mx-4 text-[#8E8E8E]">or</span>
+                <span className="flex-shrink mx-4 text-[#8E8E8E]">
+                  {t("signUp.or")}
+                </span>
                 <div className="flex-grow border-t border-[#27292D]"></div>
               </div>
               <button
@@ -240,19 +242,19 @@ const SignUp = () => {
                       d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
                   </svg>
                 </div>
-                <span>Continue with Google</span>
+                <span>{t("signUp.continueWithGoogle")}</span>
               </button>
               {serverError && (
                 <p className="text-[--error] text-sm mt-4">{serverError}</p>
               )}
               <div className="flex items-center justify-center gap-[16px] mt-5">
                 <p className="text-[14px leading-[20px] text-[#B0B0B0]">
-                  Already have an account?
+                  {t("signUp.haveAccount")}
                 </p>
                 <Link
                   className="bg-[--dark-gray] font-sans rounded-xl hover:bg-[#2a2b30] transition-all duration-200 text-[14px] leading-[16px] font-medium w-[69px] h-[32px] flex items-center justify-center"
                   href="/auth/login">
-                  Sign In
+                  {t("signUp.signIn")}
                 </Link>
               </div>
             </form>

@@ -5,8 +5,9 @@ import { RiKey2Line } from "react-icons/ri";
 import Footer from "@/app/auth/components/Footer";
 import { useRouter } from "next/navigation";
 import useStore from "@/shared/store";
-
+import { useTranslation } from "react-i18next";
 const ForgotPassword = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -22,14 +23,14 @@ const ForgotPassword = () => {
     setLoading(true);
 
     if (!email) {
-      setError("Email is required.");
+      setError(t("forgotPassword.required"));
       setLoading(false);
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError("Please enter a valid email address.");
+      setError(t("forgotPassword.invalid"));
       setLoading(false);
       return;
     }
@@ -39,7 +40,7 @@ const ForgotPassword = () => {
       router.push("/auth/email-confirmation");
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-      setError("Failed to send reset link. Please try again.");
+      setError(t("forgotPassword.failed"));
     }
 
     setLoading(false);
@@ -56,18 +57,16 @@ const ForgotPassword = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] mt-[35px] sm:w-[375px]">
             <h2 className="text-[24px] sm:text-[28px] w-[350px] font-bold leading-[40px] mb-[20px]">
-              Restore password
+              {t("forgotPassword.title")}
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-[340px] mb-[30px]">
-              Forgot your password? No problem. Just let us know your email
-              address and we will email you a password reset link that will
-              allow you to choose a new one.
+              {t("forgotPassword.description")}
             </p>
 
             <form onSubmit={handleSubmit} className="w-full max-w-[420px]">
               <div className="mb-4">
                 <input
-                  placeholder="Email"
+                  placeholder={t("forgotPassword.email")}
                   value={email}
                   onChange={handleEmailChange}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
@@ -90,7 +89,9 @@ const ForgotPassword = () => {
                 className="p-3 px-4 w-full bg-[--green] rounded-[14px] font-sans mb-6 font-bold hover:bg-blue-500 hover:rounded-[10px]"
                 type="submit"
                 disabled={loading}>
-                {loading ? "Loading..." : "Email password reset link"}
+                {loading
+                  ? t("forgotPassword.loading")
+                  : t("forgotPassword.reset")}
               </button>
             </form>
           </div>

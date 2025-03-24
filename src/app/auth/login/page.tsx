@@ -10,6 +10,7 @@ import useStore from "@/shared/store";
 import { AuthenticatorVerificationModal } from "@/app/components/modals/AuthenticatorVerificationModal";
 import { updateAxiosToken } from "@/shared/api/axios";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useTranslation } from "react-i18next";
 
 type LoginFormData = {
   email: string;
@@ -22,6 +23,7 @@ type ValidationErrors = {
 };
 
 const Login = () => {
+  const { t } = useTranslation();
   const { register, handleSubmit } = useForm<LoginFormData>();
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -62,11 +64,11 @@ const Login = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
-      errors.email = "Please enter a valid email address";
+      errors.email = t("login.emailError");
     }
 
     if (data.password.length < 8) {
-      errors.password = "Password must be at least 8 characters long";
+      errors.password = t("login.passwordError");
     }
 
     setValidationErrors(errors);
@@ -79,7 +81,7 @@ const Login = () => {
     }
 
     if (useCaptcha && !gRecaptchaResponse) {
-      setServerError("Please verify you are not a robot");
+      setServerError(t("login.captchaError"));
       return;
     }
 
@@ -105,8 +107,7 @@ const Login = () => {
 
       setServerError(
         // @ts-expect-error: ""
-        error?.errorMessage ||
-          "This login and password does not exist, please try again or register a new profile",
+        error?.errorMessage || t("login.invalidCredentials"),
       );
     } finally {
       setLoading(false);
@@ -127,10 +128,10 @@ const Login = () => {
           </div>
           <div className="flex flex-col items-center justify-center w-[335px] sm:w-[375px] mt-[35px]">
             <h2 className="text-[34px] w-[350px] font-bold leading-[40px] mb-[20px]">
-              Sign In
+              {t("login.title")}
             </h2>
             <p className="text-[#B0B0B0] leading-[20px] w-full mb-[30px]">
-              Authorize in the system to get into your account
+              {t("login.description")}
             </p>
 
             <form
@@ -139,7 +140,7 @@ const Login = () => {
               <div className="mb-2">
                 <input
                   type="text"
-                  placeholder="Email"
+                  placeholder={t("login.email")}
                   {...register("email")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
                     validationErrors.email || serverError
@@ -160,7 +161,7 @@ const Login = () => {
               <div className="mb-4">
                 <input
                   type="password"
-                  placeholder="Password"
+                  placeholder={t("login.password")}
                   {...register("password")}
                   className={`p-3 w-full px-4 bg-[--dark-gray] rounded-[14px] focus:outline-none ${
                     validationErrors.password || serverError
@@ -192,12 +193,14 @@ const Login = () => {
                     : "bg-[--green] hover:bg-blue-500 hover:rounded-[10px]"
                 }`}
                 disabled={loading || (useCaptcha && !gRecaptchaResponse)}>
-                {loading ? "Logging in..." : "Log In"}
+                {loading ? t("login.loggingIn") : t("login.loginButton")}
               </button>
 
               <div className="flex items-center my-6">
                 <div className="flex-grow border-t border-[#27292D]"></div>
-                <span className="flex-shrink mx-4 text-[#8E8E8E]">or</span>
+                <span className="flex-shrink mx-4 text-[#8E8E8E]">
+                  {t("login.or")}
+                </span>
                 <div className="flex-grow border-t border-[#27292D]"></div>
               </div>
 
@@ -227,7 +230,7 @@ const Login = () => {
                       d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
                   </svg>
                 </div>
-                <span>Continue with Google</span>
+                <span>{t("login.continueWithGoogle")}</span>
               </button>
 
               {serverError && (
@@ -237,17 +240,17 @@ const Login = () => {
               <Link
                 className="text-[--light-green] block mt-4 hover:underline"
                 href="/auth/forgot-password">
-                Forgot your password?
+                {t("login.forgotPassword")}
               </Link>
 
               <div className="flex items-center justify-center gap-[16px] mt-5">
                 <p className="text-[14px leading-[20px] text-[#B0B0B0]">
-                  Don&#39;t have an account?
+                  {t("login.noAccount")}
                 </p>
                 <Link
                   className="bg-[--dark-gray] font-sans rounded-xl hover:bg-[#2a2b30] transition-all duration-200 text-[14px] leading-[16px] font-medium w-[69px] h-[32px] flex items-center justify-center"
                   href="/auth/sign-up">
-                  Sign Up
+                  {t("login.signUp")}
                 </Link>
               </div>
             </form>
