@@ -38,7 +38,7 @@ export const updateAxiosToken = (newToken: string | null) => {
     Cookies.set("auth-token", newToken, {
       expires: 7,
       secure: true,
-      path: "/",
+      path: "/guides",
     });
   } else {
     Cookies.remove("auth-token");
@@ -62,7 +62,7 @@ const handleUnauthorized = () => {
   update2FA(null);
 
   if (typeof window !== "undefined") {
-    window.location.href = "/login";
+    window.dispatchEvent(new Event("unauthorized"));
   }
 };
 
