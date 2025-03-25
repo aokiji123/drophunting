@@ -16,7 +16,7 @@ const TermsAndPrivacy = () => {
       <main>
         <button
           onClick={() => router.push("/guides")}
-          className="font-chakra flex items-center ml-[24px] pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]">
+          className="font-chakra flex items-center ml-[24px] pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] h-[32px]">
           <IoIosArrowBack size={20} />
           <p>{t("common.back")}</p>
         </button>

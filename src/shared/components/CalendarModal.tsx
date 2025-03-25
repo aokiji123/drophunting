@@ -2,6 +2,7 @@
 
 import { IoMdClose } from "react-icons/io";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import CalendarMonth from "./CalendarMonth";
 import useStore from "../store";
@@ -19,6 +20,7 @@ export default function CalendarModal({
   onClose,
   metadata,
 }: CalendarModalProps) {
+  const { t } = useTranslation();
   const [selectedDays, setSelectedDays] = useState<Set<string>>(new Set());
   const [notificationStatus, setNotificationStatus] = useState<true | false>(
     false,
@@ -55,16 +57,16 @@ export default function CalendarModal({
     })
       .then(() => {
         setNotificationStatus(true);
-        setNotificationMessage("Notifications are configured");
+        setNotificationMessage(t("calendar.notifications.configured"));
       })
       .catch((err) => {
         setNotificationStatus(false);
         setNotificationMessage(
           err.status === 403
-            ? "Telegram account not linked"
+            ? t("calendar.notifications.telegramNotLinked")
             : err.status === 422
-              ? "Select dates"
-              : "Something went wrong",
+              ? t("calendar.notifications.selectDates")
+              : t("calendar.notifications.somethingWentWrong"),
         );
       })
       .finally(() => {
@@ -90,10 +92,12 @@ export default function CalendarModal({
             <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
           </button>
 
-          <h6 className="font-plex text-[22px] font-medium">Calendar</h6>
+          <h6 className="font-plex text-[22px] font-medium">
+            {t("calendar.title")}
+          </h6>
 
           <p className="mt-2 mb-5 text-[#94969F] text-[13px] font-plex">
-            Напомнить через телеграм-бота
+            {t("calendar.reminderViaTelegramBot")}
           </p>
 
           <div className="flex items-start gap-5 w-full">
@@ -123,13 +127,13 @@ export default function CalendarModal({
             <button
               onClick={onClose}
               className="bg-[#33343A] hover:bg-[#292a2f] rounded-lg h-11 px-6">
-              Cancel
+              {t("calendar.cancel")}
             </button>
 
             <button
               onClick={handleRemindOnTelegram}
               className="bg-[#11CA00] hover:bg-[#0fb201] px-3 h-11 rounded-lg">
-              Notify in Telegram
+              {t("calendar.notifyInTelegram")}
             </button>
           </div>
         </div>

@@ -685,7 +685,7 @@ const Profile = () => {
                         {t("profile.twoFactorAuth")}
                       </p>
                       <p className="md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
-                        {t("profile.twoFactorAuthEnabled")}
+                        {t("profile.twoFactorDescription")}
                       </p>
                     </div>
                   </div>

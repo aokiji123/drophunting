@@ -312,42 +312,50 @@ const Progress = () => {
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
               </div>
             ) : subaccountProjectTasks ? (
-              getSubaccounts().map((user) => (
-                <div
-                  key={user.id}
-                  className="px-[24px] py-[20px] flex flex-col gap-[6px]">
-                  <div className="flex items-center gap-[16px]">
-                    <p className="text-[16px] leading-[16px] font-semibold">
-                      {user.name}
-                    </p>
-                    <div className="w-full max-w-[150px] flex items-center justify-center">
-                      <CustomSlider
-                        value={calculateProgress(user.id)}
-                        step={1}
-                        min={0}
-                        max={100}
-                        disabled
-                      />
-                    </div>
-                    <p className="text-[14px] leading-[18px] font-semibold">
-                      {calculateProgress(user.id)}%
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-[8px] flex-wrap mt-2">
-                    {subaccountProjectTasks.tasks.map((task) => (
-                      <div
-                        key={task.id}
-                        className={`w-[25px] h-[25px] ${
-                          isTaskCompleted(task.id, user.id)
-                            ? "bg-[#CBFF51] text-black"
-                            : "border-[1px] border-[#34353B] bg-[#12140D]"
-                        } rounded-full flex items-center justify-center text-[12px] leading-[18px] font-semibold`}>
-                        {task.serial_id}
+              <OverlayScrollbarsComponent
+                className="overflow-auto"
+                options={{
+                  scrollbars: {
+                    autoHide: "never",
+                  },
+                }}>
+                {getSubaccounts().map((user) => (
+                  <div
+                    key={user.id}
+                    className="px-[24px] py-[20px] flex flex-col gap-[6px]">
+                    <div className="flex items-center gap-[16px]">
+                      <p className="text-[16px] leading-[16px] font-semibold">
+                        {user.name}
+                      </p>
+                      <div className="w-full max-w-[150px] flex items-center justify-center">
+                        <CustomSlider
+                          value={calculateProgress(user.id)}
+                          step={1}
+                          min={0}
+                          max={100}
+                          disabled
+                        />
                       </div>
-                    ))}
+                      <p className="text-[14px] leading-[18px] font-semibold">
+                        {calculateProgress(user.id)}%
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-[8px] flex-wrap mt-2">
+                      {subaccountProjectTasks.tasks.map((task) => (
+                        <div
+                          key={task.id}
+                          className={`w-[25px] h-[25px] ${
+                            isTaskCompleted(task.id, user.id)
+                              ? "bg-[#CBFF51] text-black"
+                              : "border-[1px] border-[#34353B] bg-[#12140D]"
+                          } rounded-full flex items-center justify-center text-[12px] leading-[18px] font-semibold`}>
+                          {task.serial_id}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))
+                ))}
+              </OverlayScrollbarsComponent>
             ) : (
               <div className="text-center py-8">
                 {t("progress.noProgressData")}

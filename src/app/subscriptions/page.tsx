@@ -16,7 +16,6 @@ import Link from "next/link";
 import { subaccountTabs, tabs } from "@/shared/utils/tabs";
 import SmallChartPie from "@/shared/components/SmallChartPie";
 import { PlansModal } from "../components/modals/PlansModal";
-import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { format } from "date-fns";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
@@ -48,12 +47,6 @@ const Subscriptions = () => {
       document.body.classList.remove("no-scroll");
     }
   };
-
-  const tableRef = useCustomScrollbar({
-    scrollbars: {
-      autoHide: "never",
-    },
-  });
 
   const formatDate = (dateString: string) => {
     try {
@@ -144,31 +137,33 @@ const Subscriptions = () => {
                 </p>
               </div>
               <div className="mt-7">
-                {subscriptions.length <= 0 && (
-                  <div className="flex items-center gap-[10px]">
-                    {user?.count_views === 0 && (
-                      <p className="leading-[16px] font-semibold text-[#FF6951]">
-                        {t("subscriptions.attention")}
-                      </p>
-                    )}
+                {user?.plan_id === null && (
+                  <div className="flex flex-col sm:flex-row gap-[10px]">
                     <p className="text-[15px] leading-[16px] font-semibold">
+                      {user?.count_views === 0 && (
+                        <span className="leading-[16px] font-semibold text-[#FF6951]">
+                          {t("subscriptions.attention")}
+                        </span>
+                      )}{" "}
                       {t("subscriptions.freeViews")}
                     </p>
-                    {user?.count_views === 0 ? (
-                      <SmallChartPie
-                        max={user?.free_views || 0}
-                        current={user?.count_views || 0}
-                        color="#FF6951"
-                      />
-                    ) : (
-                      <SmallChartPie
-                        max={user?.free_views || 0}
-                        current={user?.count_views || 0}
-                      />
-                    )}
-                    <p className="text-[15px] leading-[16px] font-semibold">
-                      {user?.count_views} / {user?.free_views}
-                    </p>
+                    <div className="flex items-center gap-[10px]">
+                      {user?.count_views === 0 ? (
+                        <SmallChartPie
+                          max={user?.free_views || 0}
+                          current={user?.count_views || 0}
+                          color="#FF6951"
+                        />
+                      ) : (
+                        <SmallChartPie
+                          max={user?.free_views || 0}
+                          current={user?.count_views || 0}
+                        />
+                      )}
+                      <p className="text-[15px] leading-[16px] font-semibold">
+                        {user?.count_views} / {user?.free_views}
+                      </p>
+                    </div>
                   </div>
                 )}
                 <button
@@ -202,87 +197,96 @@ const Subscriptions = () => {
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                   </div>
                 ) : (
-                  <TableContainer
-                    ref={tableRef}
-                    sx={{
-                      backgroundColor: "transparent",
-                      overflowX: "scroll",
-                    }}>
-                    <Table
-                      sx={{
-                        width: "100%",
-                        "& .MuiTableCell-head": {
+                  <div className="overflow-hidden">
+                    <OverlayScrollbarsComponent
+                      className="overflow-auto"
+                      options={{
+                        scrollbars: {
+                          autoHide: "never",
+                        },
+                      }}>
+                      <TableContainer
+                        sx={{
                           backgroundColor: "transparent",
-                          color: "#949392",
-                          fontWeight: "bold",
-                          fontSize: "13px",
-                          lineHeight: "16px",
-                          borderBottom: "1px solid #27292D",
-                          padding: "16px 8px",
-                          fontFamily: "IBM Plex Mono",
-                        },
-                        "& .MuiTableCell-body": {
-                          minWidth: 120,
-                          color: "#FFFFFF",
-                          fontSize: "14px",
-                          lineHeight: "20px",
-                          borderBottom: "1px solid #27292D",
-                          padding: "16px 8px",
-                          fontFamily: "IBM Plex Mono",
-                        },
-                      }}
-                      aria-label="subscriptions table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>{t("subscriptions.plan")}</TableCell>
-                          <TableCell align="left">
-                            {t("subscriptions.dateStart")}
-                          </TableCell>
-                          <TableCell align="left">
-                            {t("subscriptions.dateEnd")}
-                          </TableCell>
-                          <TableCell align="left">
-                            {t("subscriptions.price")}
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {subscriptions.length > 0 ? (
-                          subscriptions.map((subscription, index) => (
-                            <TableRow
-                              key={index}
-                              sx={{
-                                "&:hover": {
-                                  backgroundColor: "#27292D",
-                                },
-                              }}>
+                          overflowX: "visible",
+                        }}>
+                        <Table
+                          sx={{
+                            width: "100%",
+                            "& .MuiTableCell-head": {
+                              backgroundColor: "transparent",
+                              color: "#949392",
+                              fontWeight: "bold",
+                              fontSize: "13px",
+                              lineHeight: "16px",
+                              borderBottom: "1px solid #27292D",
+                              padding: "16px",
+                              fontFamily: "IBM Plex Mono",
+                            },
+                            "& .MuiTableCell-body": {
+                              minWidth: 150,
+                              color: "#FFFFFF",
+                              fontSize: "14px",
+                              lineHeight: "20px",
+                              borderBottom: "1px solid #27292D",
+                              padding: "16px",
+                              fontFamily: "IBM Plex Mono",
+                            },
+                          }}
+                          aria-label="subscriptions table">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell>{t("subscriptions.plan")}</TableCell>
                               <TableCell align="left">
-                                {subscription.name}
+                                {t("subscriptions.dateStart")}
                               </TableCell>
                               <TableCell align="left">
-                                {formatDate(subscription.date_start)}
+                                {t("subscriptions.dateEnd")}
                               </TableCell>
                               <TableCell align="left">
-                                {formatDate(subscription.date_end)}
-                              </TableCell>
-                              <TableCell align="left">
-                                ${subscription.price}
+                                {t("subscriptions.price")}
                               </TableCell>
                             </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell
-                              colSpan={4}
-                              align="center"
-                              sx={{ color: "#8E8E8E" }}>
-                              {t("subscriptions.noActiveSubscriptions")}
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                          </TableHead>
+                          <TableBody>
+                            {subscriptions.length > 0 ? (
+                              subscriptions.map((subscription, index) => (
+                                <TableRow
+                                  key={index}
+                                  sx={{
+                                    "&:hover": {
+                                      backgroundColor: "#27292D",
+                                    },
+                                  }}>
+                                  <TableCell align="left">
+                                    {subscription.name}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    {formatDate(subscription.date_start)}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    {formatDate(subscription.date_end)}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    ${subscription.price}
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                            ) : (
+                              <TableRow>
+                                <TableCell
+                                  colSpan={4}
+                                  align="center"
+                                  sx={{ color: "#8E8E8E" }}>
+                                  {t("subscriptions.noActiveSubscriptions")}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </OverlayScrollbarsComponent>
+                  </div>
                 )}
               </div>
             </div>

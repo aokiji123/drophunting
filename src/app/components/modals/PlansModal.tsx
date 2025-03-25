@@ -191,12 +191,12 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
             <IoMdClose size={24} className="text-[#8E8E8E] cursor-pointer" />
           </button>
           <div className="flex flex-col items-center justify-center py-8">
-            <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-4">
+            <div className="w-16 h-16 bg-[#11CA00] rounded-full flex items-center justify-center mb-4">
               <MdOutlineDone size={32} />
             </div>
             <h2 className="text-xl font-bold mb-2">{t("common.success")}</h2>
             <p className="text-center text-gray-300 mb-6">
-              {buyPlanSuccess || t("plansModal.planActivated")}
+              {t("plansModal.planActivated") || buyPlanSuccess}
             </p>
             <button
               onClick={togglePlansModal}
@@ -303,8 +303,8 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                         <div
                           className={`flex flex-col sm:flex-row sm:items-center justify-between sm:gap-[12px] ${
                             plan.sort === 2 || plan.sort === 3
-                              ? `sm:w-[170px]`
-                              : `sm:w-[162px]`
+                              ? `sm:w-[200px]`
+                              : `sm:w-[200px]`
                           }`}>
                           <p className="font-bold">{plan.name}</p>
                           <p className="text-[#8E8E8E]">
@@ -386,8 +386,8 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
           <hr className="my-[16px] md:my-[32px] border-0 h-px bg-[#27292D]" />
 
           <div className="bg-[#1C1E22] sticky -bottom-[30px] h-[150px] left-0 w-full pt-4 lg:pt-0">
-            <div className="flex items-center justify-between h-[46px] md:h-[58px]">
-              <div className="flex flex-col gap-[2px]">
+            <div className="flex items-center justify-between h-[46px] md:h-[58px] gap-[12px]">
+              <div className="flex flex-col gap-[12px]">
                 <p className="leading-[20px]">{t("plansModal.totalPrice")}</p>
                 <div className="flex items-center gap-2">
                   <p className="text-[20px] leading-[24px] md:text-[24px] md:leading-[28px] font-bold">
@@ -403,7 +403,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
 
               {user && Number(user.balance) >= amountDue ? (
                 <button
-                  className={`flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] ${
+                  className={`flex items-center font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] ${
                     isBuyingPlan
                       ? "bg-gray-600"
                       : "bg-[#11CA00] hover:bg-blue-500"
@@ -421,7 +421,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
                 </button>
               ) : (
                 <button
-                  className="flex items-center w-[167px] md:w-[182px] font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] hover:bg-blue-500 font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
+                  className="flex items-center font-sans gap-1 rounded-[16px] pr-[12px] pl-[20px] py-[12px] md:py-[18px] md:pr-[16px] md:pl-[24px] bg-[#11CA00] hover:bg-blue-500 font-semibold leading-[20px] justify-center text-[16px] md:text-[17px]"
                   onClick={toggleInnerModal}>
                   {t("balanceModal.title")}
                   <MdOutlineKeyboardArrowRight />

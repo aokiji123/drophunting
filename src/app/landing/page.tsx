@@ -270,7 +270,7 @@ const Landing = () => {
                 {t("landing.subscribe")}
                 <br className="block xs:hidden" />{" "}
                 <span className="relative inline-block">
-                  {t("landing.subscribe")}
+                  {t("landing.onTelegram")}
                   <Image
                     src={underline}
                     alt="Underline"
@@ -317,47 +317,49 @@ const Landing = () => {
             alt="Green Blur"
           />
 
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((el) => (
-            <div
-              key={el}
-              className="w-[159px] h-[171px] md:w-[334px] md:h-[158px] lg:w-[356px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] md:p-[20px] lg:p-[25px] z-10 relative">
-              <div className="flex flex-col md:flex-row md:items-center gap-[20px] md:gap-[24px] mb-[20px] lg:mb-[24px]">
-                <div>
-                  <Image
-                    src={prevDrop}
-                    alt="Previous Drop Logo"
-                    className="w-[32px] h-[32px] md:w-[48px] md:h-[48px] rounded-[10px]"
-                  />
+          <div className="flex flex-wrap items-center justify-center gap-[8px] md:gap-[12px] lg:gap-[25px]">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((el) => (
+              <div
+                key={el}
+                className="w-[159px] h-[171px] md:w-[334px] md:h-[158px] lg:w-[356px] lg:h-[189px] bg-[#1F2027AB] rounded-[16px] px-[12px] py-[14px] md:p-[20px] lg:p-[25px] z-10 relative">
+                <div className="flex flex-col md:flex-row md:items-center gap-[20px] md:gap-[24px] mb-[20px] lg:mb-[24px]">
+                  <div>
+                    <Image
+                      src={prevDrop}
+                      alt="Previous Drop Logo"
+                      className="w-[32px] h-[32px] md:w-[48px] md:h-[48px] rounded-[10px]"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-[14px] leading-[17px] md:text-[16px] md:leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
+                      Hemi Network
+                    </p>
+                    <p className="text-[12px] leading-[14px] md:text-[13px] md:leading-[16px] text-[#8E8E8E]">
+                      Ноябрь 2024
+                    </p>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-[8px]">
-                  <p className="text-[14px] leading-[17px] md:text-[16px] md:leading-[20px] lg:text-[18px] lg:leading-[22px] font-bold">
-                    Hemi Network
-                  </p>
-                  <p className="text-[12px] leading-[14px] md:text-[13px] md:leading-[16px] text-[#8E8E8E]">
-                    Ноябрь 2024
-                  </p>
+                <div className="flex md:flex-col gap-[12px] lg:gap-[20px]">
+                  <div className="flex flex-col md:flex-row md:items-center md:gap-[20px]">
+                    <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
+                      {t("landing.earned")}
+                    </p>
+                    <p className="text-[14px] md:text-[20px] lg:text-[28px] leading-[18px] font-semibold">
+                      $2500
+                    </p>
+                  </div>
+                  <div className="flex flex-col md:flex-row smd:items-center md:gap-[35px]">
+                    <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
+                      {t("landing.investment")}
+                    </p>
+                    <p className="text-[14px] md:text-[20px] leading-[18px] text-[#ADADAD]">
+                      $0
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="flex md:flex-col gap-[12px] lg:gap-[20px]">
-                <div className="flex flex-col md:flex-row md:items-center md:gap-[20px]">
-                  <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
-                    {t("landing.earned")}
-                  </p>
-                  <p className="text-[14px] md:text-[20px] lg:text-[28px] leading-[18px] font-semibold">
-                    $2500
-                  </p>
-                </div>
-                <div className="flex flex-col md:flex-row smd:items-center md:gap-[35px]">
-                  <p className="text-[11px] md:text-[14px] lg:text-[13px] leading-[16px] text-[#8E8E8E]">
-                    {t("landing.investment")}
-                  </p>
-                  <p className="text-[14px] md:text-[20px] leading-[18px] text-[#ADADAD]">
-                    $0
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
 
           <Image
             className="absolute top-[-40px] sm:top-[-80px] left-[-40px] lg:top-[-150px] sm:left-[-65px] lg:left-[-90px] w-[57px] h-[57px] sm:w-[88px] lg:w-[100px] sm:h-[88px] lg:h-[100px]"

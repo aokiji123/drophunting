@@ -9,6 +9,7 @@ i18n.use(initReactI18next).init({
           success: "Success!",
           close: "Close",
           back: "Back",
+          good: "Good",
         },
         authHeader: {
           back: "Back to site",
@@ -271,7 +272,8 @@ i18n.use(initReactI18next).init({
           fastAndAccurate: "Fast and accurate.",
           collectAirdropsOnePlace:
             "Collect all possible airdrops in one place and earn income",
-          subscribe: "Subscribe to the telegram channel",
+          subscribe: "Subscribe",
+          onTelegram: "on telegram channel",
           newDropsEveryDay:
             "New drops every day. Subscribe and stay up to date with the latest project updates",
           telegram: "Telegram",
@@ -396,6 +398,8 @@ i18n.use(initReactI18next).init({
           password: "Use your email to protect your account and transactions",
           changePasswordButton: "Change",
           twoFactorAuth: "Two-Factor Authentication (2FA)",
+          twoFactorDescription:
+            "Use Google Authenticator to protect your account and transactions",
           twoFactorAuthEnabled: "On",
           twoFactorAuthDisabled: "Off",
           twoFactorAuthDelete: "Delete",
@@ -561,6 +565,38 @@ i18n.use(initReactI18next).init({
           profile: "Profile",
           guides: "Guides",
         },
+        calendar: {
+          title: "Calendar",
+          reminderViaTelegramBot: "Remind via Telegram bot",
+          notifyInTelegram: "Notify in Telegram",
+          cancel: "Cancel",
+          notifications: {
+            configured: "Notifications are configured",
+            telegramNotLinked: "Telegram account not linked",
+            selectDates: "Select dates",
+            somethingWentWrong: "Something went wrong",
+          },
+        },
+        calendarMonth: {
+          daysOfWeek: {
+            mon: "Mon",
+            tue: "Tue",
+            wed: "Wed",
+            thu: "Thu",
+            fri: "Fri",
+            sat: "Sat",
+            sun: "Sun",
+          },
+        },
+        validation: {
+          onlyOneDecimalPoint: "Only one decimal point is allowed",
+          amountRequired: "Amount is required",
+          enterValidNumber: "Please enter a valid number",
+          amountGreaterThanZero: "Amount must be greater than 0",
+          maxTwoDecimalPlaces: "Maximum 2 decimal places allowed",
+          maxFiatAmount: "Maximum amount for fiat is $2000",
+          maxCryptoAmount: "Maximum amount for crypto is $2000",
+        },
       },
     },
     ru: {
@@ -569,6 +605,7 @@ i18n.use(initReactI18next).init({
           success: "Успех!",
           close: "Закрыть",
           back: "Назад",
+          good: "Хорошо",
         },
         authHeader: {
           back: "Назад на сайт",
@@ -836,7 +873,8 @@ i18n.use(initReactI18next).init({
           fastAndAccurate: "Быстро и точно.",
           collectAirdropsOnePlace:
             "Собирайте все возможные аирдропы в одном месте и получайте доход",
-          subscribe: "Подпишись на телеграм канал",
+          subscribe: "Подпишись",
+          onTelegram: "на телеграм канал",
           newDropsEveryDay:
             "Каждый день новые дропы. Подпишись и будь в курсе последних обновлений в проектах",
           telegram: "Телеграм",
@@ -962,6 +1000,8 @@ i18n.use(initReactI18next).init({
           password: "Используйте вашу почту для защиты аккаунта и транзакций",
           changePasswordButton: "Изменить",
           twoFactorAuth: "Двухфакторная аутентификация (2FA)",
+          twoFactorDescription:
+            "Используйте Google Authenticator для защиты вашего аккаунта и транзакций",
           twoFactorAuthEnabled: "Вкл",
           twoFactorAuthDisabled: "Выкл",
           twoFactorAuthDelete: "Удалить",
@@ -1126,6 +1166,38 @@ i18n.use(initReactI18next).init({
         subaccountTabs: {
           profile: "Профиль",
           guides: "Гайды",
+        },
+        calendar: {
+          title: "Календарь",
+          reminderViaTelegramBot: "Напомнить через телеграм-бота",
+          notifyInTelegram: "Уведомить в Телеграм",
+          cancel: "Отмена",
+          notifications: {
+            configured: "Уведомления настроены",
+            telegramNotLinked: "Аккаунт Телеграм не привязан",
+            selectDates: "Выберите даты",
+            somethingWentWrong: "Что-то пошло не так",
+          },
+        },
+        calendarMonth: {
+          daysOfWeek: {
+            mon: "Пн",
+            tue: "Вт",
+            wed: "Ср",
+            thu: "Чт",
+            fri: "Пт",
+            sat: "Сб",
+            sun: "Вс",
+          },
+        },
+        validation: {
+          onlyOneDecimalPoint: "Допускается только одна десятичная точка",
+          amountRequired: "Требуется указать сумму",
+          enterValidNumber: "Пожалуйста, введите корректное число",
+          amountGreaterThanZero: "Сумма должна быть больше 0",
+          maxTwoDecimalPlaces: "Максимально допустимо 2 знака после запятой",
+          maxFiatAmount: "Максимальная сумма для фиатной валюты - $2000",
+          maxCryptoAmount: "Максимальная сумма для криптовалюты - $2000",
         },
       },
     },

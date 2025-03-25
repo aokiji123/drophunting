@@ -124,7 +124,7 @@ const BlogArticle = () => {
           </p>
           <div
             onClick={handleToggleRead}
-            className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-[184px] h-[56px] ${
+            className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-fit h-[56px] ${
               blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
             }`}>
             <div className="flex items-center gap-4">
@@ -161,7 +161,7 @@ const BlogArticle = () => {
           <div className="flex items-center justify-center mt-[60px]">
             <div
               onClick={handleToggleRead}
-              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 w-[180px] max-h-[56px] ${
+              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 max-h-[56px] ${
                 blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
               }`}>
               <div className="flex items-center gap-4">

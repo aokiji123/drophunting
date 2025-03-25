@@ -104,7 +104,6 @@ const Guide = () => {
 
   const {
     user,
-    subscriptions,
     sessionVerified,
     guideDetails,
     isLoadingGuideDetails,
@@ -263,7 +262,7 @@ const Guide = () => {
       <main className="my-[8px] px-[16px] sm:mb-[64px] sm:px-[32px] lg:mb-[80px] lg:px-[96px]">
         <button
           onClick={() => router.push("/guides")}
-          className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] w-[72px] h-[32px]">
+          className="font-chakra flex items-center pr-[14px] pl-[8px] py-[8px] rounded-[32px] gap-1 bg-[#1C1D21] text-[#7F7F7F] h-[32px]">
           <IoIosArrowBack size={20} />
           <p>{t("guideDetails.back")}</p>
         </button>
@@ -350,7 +349,7 @@ const Guide = () => {
               <div className="flex items-center gap-[7px]">
                 <button
                   onClick={() => setIsCalendarModalOpen(true)}
-                  className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold w-[207px]">
+                  className="font-sans flex items-center gap-1 bg-[#11CA00] rounded-[14px] text-[16px] leading-[20px] h-[44px] justify-center font-bold px-[14px]">
                   <IoCalendarClear size={20} />
 
                   <p>{t("guideDetails.remindOnTelegram")}</p>
@@ -465,9 +464,9 @@ const Guide = () => {
               />
               <div className="absolute bottom-[13px] h-1.5 outline-4 outline outline-[#101114] rounded-full left-1 right-1" />
             </div>
-            {subscriptions && subscriptions.length <= 0 && (
-              <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] h-[80px] md:h-[60px] rounded-[14px] gap-[16px]">
-                <div className="flex justify-center md:items-center min-h-[60px] md:h-[40px] flex-col md:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
+            {user?.plan_id === null && (
+              <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] rounded-[14px] gap-[16px]">
+                <div className="flex justify-center lg:items-center flex-col lg:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
                   {user?.count_views === 0 && (
                     <p className="leading-[16px] font-semibold text-[#FF3E3E]">
                       {t("guideDetails.attention")}
@@ -493,7 +492,7 @@ const Guide = () => {
                   </div>
                 </div>
                 <button
-                  className="h-[44px] bg-[#11CA00] min-w-[110px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
+                  className="h-[44px] bg-[#11CA00] min-w-[120px] p-[8px] sm:p-[20px] rounded-[14px] md:text-[16px] text-[14px] font-sans leading-[20px] flex items-center justify-center"
                   onClick={togglePlansModal}>
                   {t("guideDetails.upgradePlan")}
                 </button>

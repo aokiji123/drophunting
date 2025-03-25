@@ -1,17 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
-// Массив дней недели
-const daysOfWeek = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-
-// Типы состояния
+// Types
 type SelectedDays = Set<string>;
 
 interface CalendarProps {
   selectedDays: SelectedDays;
   onSelectedDaysChange: (newSelectedDays: SelectedDays) => void;
-  startMonth?: number; // Необязательный параметр для стартового месяца
+  startMonth?: number; // Optional parameter for starting month
 }
 
 const CalendarMonth: React.FC<CalendarProps> = ({
@@ -22,28 +20,26 @@ const CalendarMonth: React.FC<CalendarProps> = ({
   const today = new Date();
   const currentMonth = today.getMonth();
   const currentYear = today.getFullYear();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { t, i18n } = useTranslation();
 
-  // Состояния
-  //   eslint-disable-next-line
-  //   const [selectedDays, setSelectedDays] = useState<SelectedDays>(new Set());
-  //   eslint-disable-next-line
+  // States
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [month, setMonth] = useState<number>(startMonth);
-  //   const [month, setMonth] = useState<number>(currentMonth);
-  //   eslint-disable-next-line
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [year, setYear] = useState<number>(today.getFullYear());
-  //   const [year, setYear] = useState<number>(currentYear);
 
-  // Функция для получения первого дня месяца (1 - понедельник, 7 - воскресенье)
+  // Function to get first day of month (1 - Monday, 7 - Sunday)
   const getFirstDayOfMonth = (month: number, year: number): number => {
     const firstDay = new Date(year, month, 1).getDay();
-    return firstDay === 0 ? 7 : firstDay; // Если воскресенье, то считаем как 7
+    return firstDay === 0 ? 7 : firstDay; // If Sunday, count as 7
   };
 
-  // Функция для получения количества дней в месяце
+  // Function to get days in month
   const getDaysInMonth = (month: number, year: number): number =>
     new Date(year, month + 1, 0).getDate();
 
-  // Функция для обработки клика по дню
+  // Function to handle day click
   const toggleDay = (day: number) => {
     const dateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     const newSelectedDays = new Set(selectedDays);
@@ -57,9 +53,9 @@ const CalendarMonth: React.FC<CalendarProps> = ({
     onSelectedDaysChange(newSelectedDays);
   };
 
-  // Обработчики для стрелок
+  // Arrow handlers
   const goToPreviousMonth = () => {
-    // Нельзя переходить в прошлый месяц, если он раньше текущего
+    // Can't go to previous month if it's before current month
     if (month > currentMonth || year > currentYear) {
       if (month === 0) {
         setMonth(11);
@@ -79,29 +75,40 @@ const CalendarMonth: React.FC<CalendarProps> = ({
     }
   };
 
-  // Вычисляем первый день месяца и количество дней в месяце
+  // Compute first day of month and days in month
   const firstDayOfMonth = getFirstDayOfMonth(month, year);
   const daysInMonth = getDaysInMonth(month, year);
 
-  // Заполняем массив дней для отображения в календаре
+  // Fill days array for calendar display
   const calendarDays = [];
   for (let i = 1; i <= daysInMonth; i++) {
     calendarDays.push(i);
   }
 
-  // Добавляем пустые ячейки для дней, которые идут до начала месяца
+  // Add empty cells for days before month start
   const leadingEmptyDays = Array.from(
     { length: firstDayOfMonth - 1 },
     (_, index) => index,
   );
 
-  // Функция для получения месяца с заглавной буквы
+  // Function to get month name with first letter capitalized
   const getMonthName = (month: number, year: number): string => {
-    const monthName = new Date(year, month).toLocaleString("ru-RU", {
-      month: "long",
-    });
-    return monthName.charAt(0).toUpperCase() + monthName.slice(1); // Делаем первую букву заглавной
+    const monthName = new Date(year, month).toLocaleString(
+      i18n.language === "ru" ? "ru-RU" : "en-US",
+      { month: "long" },
+    );
+    return monthName.charAt(0).toUpperCase() + monthName.slice(1);
   };
+
+  const daysOfWeekTranslations = [
+    t("calendarMonth.daysOfWeek.mon"),
+    t("calendarMonth.daysOfWeek.tue"),
+    t("calendarMonth.daysOfWeek.wed"),
+    t("calendarMonth.daysOfWeek.thu"),
+    t("calendarMonth.daysOfWeek.fri"),
+    t("calendarMonth.daysOfWeek.sat"),
+    t("calendarMonth.daysOfWeek.sun"),
+  ];
 
   return (
     <div className="mx-auto">
@@ -109,7 +116,7 @@ const CalendarMonth: React.FC<CalendarProps> = ({
         <button
           className={`cursor-pointer ${!(month > currentMonth || year > currentYear) && "opacity-65 !cursor-not-allowed"}`}
           onClick={goToPreviousMonth}
-          disabled={month === currentMonth && year === currentYear} // Делаем кнопку неактивной, если это текущий месяц
+          disabled={month === currentMonth && year === currentYear} // Button inactive if current month
         >
           <svg
             width="32"
@@ -148,10 +155,10 @@ const CalendarMonth: React.FC<CalendarProps> = ({
       </div>
 
       <div className="grid grid-cols-7">
-        {daysOfWeek.map((day) => (
+        {daysOfWeekTranslations.map((day) => (
           <div
             key={day}
-            className={`flex items-center justify-center h-8 text-[14px] font-plex ${(day === "Сб" || day === "Вс") && "text-[#545969]"}`}>
+            className={`flex items-center justify-center h-8 text-[14px] font-plex ${(day === t("calendarMonth.daysOfWeek.sat") || day === t("calendarMonth.daysOfWeek.sun")) && "text-[#545969]"}`}>
             {day}
           </div>
         ))}

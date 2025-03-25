@@ -16,7 +16,6 @@ import Link from "next/link";
 import Image from "next/image";
 import avatar from "../../../public/assets/avatar.png";
 import { subaccountTabs, tabs } from "@/shared/utils/tabs";
-import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 import { Progress } from "@/shared/icons/Progress";
@@ -48,12 +47,6 @@ const Referal = () => {
     }
   };
 
-  const tableRef = useCustomScrollbar({
-    scrollbars: {
-      autoHide: "never",
-    },
-  });
-
   const handleClaim = () => {
     claimReward();
   };
@@ -66,7 +59,6 @@ const Referal = () => {
         <div className="flex flex-col lg:flex-row justify-center w-full p-3">
           <nav className="lg:w-[240px] w-full font-chakra font-bold leading-[20px] text-[#8E8E8E] m-0 lg:mr-[40px]">
             <OverlayScrollbarsComponent
-              className="h-auto max-h-[300px] lg:max-h-none"
               options={{
                 scrollbars: {
                   autoHide: "never",
@@ -140,6 +132,19 @@ const Referal = () => {
             </OverlayScrollbarsComponent>
           </nav>
           <section className="w-full min-h-[1300px] bg-[--dark-gray] p-[32px] rounded-[16px]">
+            <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
+              <LuPercent size={24} />
+            </div>
+            <div className="mt-4">
+              <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
+                {t("referal.title")}
+              </p>
+              <p className="text-[#949392] leading-[20px] sm:w-[450px] lg:w-[650px] mb-5">
+                {t("referal.subtitle", {
+                  percent: referrals?.profit || "20",
+                })}
+              </p>
+            </div>
             {isLoadingReferrals ? (
               <div className="flex items-center justify-center py-8 h-[40%]">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
@@ -150,19 +155,6 @@ const Referal = () => {
               </div>
             ) : (
               <div className="flex-col flex">
-                <div className="flex items-center justify-center w-[48px] h-[48px] bg-[#2A2B32] rounded-[12px]">
-                  <LuPercent size={24} />
-                </div>
-                <div className="mt-4">
-                  <p className="text-[24px] font-semibold leading-[32px] tracking-[-3%] mb-2">
-                    {t("referal.title")}
-                  </p>
-                  <p className="text-[#949392] leading-[20px] sm:w-[450px] lg:w-[650px] mb-5">
-                    {t("referal.subtitle", {
-                      percent: referrals?.profit || "20",
-                    })}
-                  </p>
-                </div>
                 <div className="flex gap-[24px] flex-row items-start sm:gap-[36px]">
                   <div className="flex flex-col gap-2 min-w-[96px]">
                     <p className="font-semibold leading-[20px]">
@@ -202,9 +194,9 @@ const Referal = () => {
                   </div>
                 </div>
 
-                <div className="bg-[#1B1C20] sm:p-[12px] rounded-[12px] my-6 w-full border-[1px] border-[#202126]">
-                  <div className="flex flex-col sm:flex-row">
-                    <div className="border-b-[1px] border-[#202126] p-[24px] sm:border-b-0 sm:border-r-[1px] sm:border-[#202126] sm:p-[12px] sm:pr-[24px] w-full md:w-[324px] lg:w-[65%]">
+                <div className="w-full bg-[#1B1C20] sm:p-[12px] rounded-[12px] my-6 border-[1px] border-[#202126]">
+                  <div className="flex flex-col md:flex-row w-full">
+                    <div className="w-full md:w-[60%] border-b-[1px] border-[#202126] p-[24px] sm:border-b-0 sm:border-r-[1px] sm:border-[#202126] sm:p-[12px] sm:pr-[24px]">
                       <p className="text-[13px] sm:text-[14px] leading-[20px] font-bold mr-[5px]">
                         {t("referal.sendInvitationLink")}
                       </p>
@@ -226,7 +218,7 @@ const Referal = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="w-full md:w-[50%] lg:w-[35%] p-[24px] sm:p-[12px] sm:pl-[24px]">
+                    <div className="w-full md:w-[40%] p-[24px] sm:p-[12px] sm:pl-[24px]">
                       <p className="text-[13px] sm:text-[14px] w-full leading-[20px] font-bold mr-[5px]">
                         {t("referal.rewards")}
                       </p>
@@ -237,7 +229,7 @@ const Referal = () => {
                         <button
                           disabled={+(referrals?.rewards || 0) === 0}
                           onClick={handleClaim}
-                          className={`flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px]  font-bold leading-[20px]  ${
+                          className={`flex items-center rounded-[12px] p-[12px] md:py-[12px] md:px-[20px] text-[15px] font-bold leading-[20px]  ${
                             +(referrals?.rewards || 0) === 0
                               ? "bg-gray-600 cursor-not-allowed"
                               : "bg-[#11CA00] hover:bg-blue-500"
@@ -257,103 +249,115 @@ const Referal = () => {
                       {referrals?.referrals_count || "0"}
                     </p>
                   </div>
-                  <TableContainer
-                    ref={tableRef}
-                    sx={{
-                      backgroundColor: "transparent",
-                      overflowX: "visible",
-                    }}>
-                    <Table
-                      sx={{
-                        width: "100%",
-                        "& .MuiTableCell-head": {
+                  <div className="overflow-hidden">
+                    <OverlayScrollbarsComponent
+                      className="overflow-auto"
+                      options={{
+                        scrollbars: {
+                          autoHide: "never",
+                        },
+                      }}>
+                      <TableContainer
+                        sx={{
                           backgroundColor: "transparent",
-                          color: "#949392",
-                          fontWeight: "bold",
-                          fontSize: "13px",
-                          lineHeight: "16px",
-                          borderBottom: "1px solid #27292D",
-                          padding: "8px",
-                          fontFamily: "IBM Plex Mono",
-                        },
-                        "& .MuiTableCell-body": {
-                          color: "#FFFFFF",
-                          fontSize: "14px",
-                          lineHeight: "20px",
-                          borderBottom: "1px solid #27292D",
-                          padding: "10px 8px",
-                          fontFamily: "IBM Plex Mono",
-                        },
-                      }}
-                      aria-label="referrals table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell align="left">
-                            {t("referal.name")}
-                          </TableCell>
-                          <TableCell align="left">
-                            {t("referal.email")}
-                          </TableCell>
-                          <TableCell align="left">
-                            {t("referal.amount")}
-                          </TableCell>
-                          <TableCell align="left">
-                            {t("referal.date")}
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {referrals && referrals.referrals.data.length > 0 ? (
-                          referrals.referrals.data.map((referral) => (
-                            <TableRow
-                              key={referral.id}
-                              sx={{
-                                "&:hover": {
-                                  backgroundColor: "#27292D",
-                                },
-                              }}>
-                              <TableCell
-                                align="left"
-                                className="min-w-[220px] text-white">
-                                <div className="flex items-center gap-2">
-                                  <Image
-                                    src={referral.avatar || avatar}
-                                    alt="Avatar"
-                                    width={28}
-                                    height={28}
-                                    className="w-[28px] h-[28px] rounded-full object-cover"
-                                  />
-                                  <p>{referral.name}</p>
-                                </div>
+                          overflowX: "visible",
+                        }}>
+                        <Table
+                          sx={{
+                            width: "100%",
+                            "& .MuiTableCell-head": {
+                              backgroundColor: "transparent",
+                              color: "#949392",
+                              fontWeight: "bold",
+                              fontSize: "13px",
+                              lineHeight: "16px",
+                              borderBottom: "1px solid #27292D",
+                              padding: "8px",
+                              fontFamily: "IBM Plex Mono",
+                            },
+                            "& .MuiTableCell-body": {
+                              color: "#FFFFFF",
+                              fontSize: "14px",
+                              lineHeight: "20px",
+                              borderBottom: "1px solid #27292D",
+                              padding: "10px 16px",
+                              fontFamily: "IBM Plex Mono",
+                            },
+                          }}
+                          aria-label="referrals table">
+                          <TableHead>
+                            <TableRow>
+                              <TableCell align="left">
+                                {t("referal.name")}
                               </TableCell>
-                              <TableCell
-                                align="left"
-                                className="min-w-[220px] text-white">
-                                {referral.email}
+                              <TableCell align="left">
+                                {t("referal.email")}
                               </TableCell>
-                              <TableCell
-                                align="left"
-                                className="min-w-[50px] text-white">
-                                ${referral.amount || "0"}
+                              <TableCell align="left">
+                                {t("referal.amount")}
                               </TableCell>
-                              <TableCell align="left" className="text-white">
-                                {referral.date}
+                              <TableCell align="left">
+                                {t("referal.date")}
                               </TableCell>
                             </TableRow>
-                          ))
-                        ) : (
-                          <TableRow>
-                            <TableCell
-                              colSpan={4}
-                              align="center"
-                              sx={{ color: "#8E8E8E" }}>
-                              {t("referal.noReferrals")}
-                            </TableCell>
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                          </TableHead>
+                          <TableBody>
+                            {referrals &&
+                            referrals.referrals.data.length > 0 ? (
+                              referrals.referrals.data.map((referral) => (
+                                <TableRow
+                                  key={referral.id}
+                                  sx={{
+                                    "&:hover": {
+                                      backgroundColor: "#27292D",
+                                    },
+                                  }}>
+                                  <TableCell
+                                    align="left"
+                                    className="min-w-[150px] text-white">
+                                    <div className="flex items-center gap-2">
+                                      <Image
+                                        src={referral.avatar || avatar}
+                                        alt="Avatar"
+                                        width={28}
+                                        height={28}
+                                        className="w-[28px] h-[28px] rounded-full object-cover"
+                                      />
+                                      <p>{referral.name}</p>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    className="min-w-[150px] text-white">
+                                    {referral.email}
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    className="min-w-[75px] text-white">
+                                    ${referral.amount || "0"}
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    className="min-w-[150px] text-white">
+                                    {referral.date}
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                            ) : (
+                              <TableRow>
+                                <TableCell
+                                  colSpan={4}
+                                  align="center"
+                                  sx={{ color: "#8E8E8E" }}>
+                                  {t("referal.noReferrals")}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </OverlayScrollbarsComponent>
+                  </div>
                 </div>
               </div>
             )}

@@ -3,7 +3,7 @@
 import HalfChartPieMUI from "@/shared/components/HalfChartPieMUI";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { useEffect, useState } from "react";
-
+import { useTranslation } from "react-i18next";
 export type HalfChartPieProps = {
   size?: "small" | "medium" | "big";
   defaultValue?: number;
@@ -13,6 +13,7 @@ export default function HalfChartPie({
   size = "small",
   defaultValue,
 }: HalfChartPieProps) {
+  const { t } = useTranslation();
   const [responsiveSize, setResponsiveSize] = useState(size);
 
   useEffect(() => {
@@ -104,7 +105,7 @@ export default function HalfChartPie({
         </div>
         {responsiveSize !== "small" && (
           <p className="font-sf font-medium text-[14px] leading-[15px] text-[#FFA025] relative top-1">
-            Good
+            {t("common.good")}
           </p>
         )}
       </div>

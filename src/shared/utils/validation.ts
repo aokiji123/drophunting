@@ -1,3 +1,5 @@
+import i18n from "i18next";
+
 export function validateAmount(
   value: string,
   currencyType: "Fiat" | "Crypto" = "Fiat",
@@ -11,7 +13,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Only one decimal point is allowed",
+      error: i18n.t("validation.onlyOneDecimalPoint"),
     };
   }
 
@@ -21,7 +23,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Amount is required",
+      error: i18n.t("validation.amountRequired"),
     };
   }
 
@@ -30,7 +32,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Please enter a valid number",
+      error: i18n.t("validation.enterValidNumber"),
     };
   }
 
@@ -38,7 +40,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Amount must be greater than 0",
+      error: i18n.t("validation.amountGreaterThanZero"),
     };
   }
 
@@ -47,7 +49,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Maximum 2 decimal places allowed",
+      error: i18n.t("validation.maxTwoDecimalPlaces"),
     };
   }
 
@@ -55,7 +57,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Maximum amount for fiat is $2000",
+      error: i18n.t("validation.maxFiatAmount"),
     };
   }
 
@@ -63,7 +65,7 @@ export function validateAmount(
     return {
       isValid: false,
       amount: null,
-      error: "Maximum amount for crypto is $2000",
+      error: i18n.t("validation.maxCryptoAmount"),
     };
   }
 

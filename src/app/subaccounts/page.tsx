@@ -17,7 +17,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { subaccountTabs, tabs } from "@/shared/utils/tabs";
 import SmallChartPie from "@/shared/components/SmallChartPie";
-import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import useStore from "@/shared/store";
 import { format } from "date-fns";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
@@ -86,12 +85,6 @@ const Subaccounts = () => {
       return dateString;
     }
   };
-
-  const tableRef = useCustomScrollbar({
-    scrollbars: {
-      autoHide: "never",
-    },
-  });
 
   return (
     <div className="bg-[#101114] text-white">
@@ -199,35 +192,37 @@ const Subaccounts = () => {
                       </p>
                     </div>
                     <div className="bg-[#1B1C20] p-[24px] rounded-[12px] my-6 w-full lg:w-[630px]">
-                      <div className="flex items-center gap-3">
-                        {subaccounts?.subaccounts_count ===
-                          subaccounts?.limit_subaccounts && (
-                          <p className="leading-[16px] font-semibold text-[#FF6951]">
-                            {t("subaccounts.attention")}
-                          </p>
-                        )}
+                      <div className="flex flex-col sm:flex-row gap-3">
                         <p className="leading-[16px] font-semibold">
+                          {subaccounts?.subaccounts_count ===
+                            subaccounts?.limit_subaccounts && (
+                            <span className="leading-[16px] font-semibold text-[#FF6951]">
+                              {t("subaccounts.attention")}
+                            </span>
+                          )}{" "}
                           {t("subaccounts.usedSubaccounts")}
                         </p>
-                        {subaccounts?.subaccounts_count ===
-                        subaccounts?.limit_subaccounts ? (
-                          <SmallChartPie
-                            max={subaccounts?.limit_subaccounts || 0}
-                            current={subaccounts?.subaccounts_count || 0}
-                            color="#FF6951"
-                          />
-                        ) : (
-                          <SmallChartPie
-                            max={subaccounts?.limit_subaccounts || 0}
-                            current={subaccounts?.subaccounts_count || 0}
-                          />
-                        )}
+                        <div className="flex items-center gap-3">
+                          {subaccounts?.subaccounts_count ===
+                          subaccounts?.limit_subaccounts ? (
+                            <SmallChartPie
+                              max={subaccounts?.limit_subaccounts || 0}
+                              current={subaccounts?.subaccounts_count || 0}
+                              color="#FF6951"
+                            />
+                          ) : (
+                            <SmallChartPie
+                              max={subaccounts?.limit_subaccounts || 0}
+                              current={subaccounts?.subaccounts_count || 0}
+                            />
+                          )}
 
-                        <p className="leading-[16px] font-semibold">
-                          {subaccounts
-                            ? `${subaccounts.subaccounts_count}/${subaccounts.limit_subaccounts}`
-                            : "0/0"}
-                        </p>
+                          <p className="leading-[16px] font-semibold">
+                            {subaccounts
+                              ? `${subaccounts.subaccounts_count}/${subaccounts.limit_subaccounts}`
+                              : "0/0"}
+                          </p>
+                        </div>
                       </div>
                       {subaccounts?.subaccounts_count !==
                         subaccounts?.limit_subaccounts && (
@@ -273,121 +268,128 @@ const Subaccounts = () => {
                     {subaccounts?.subaccounts_user_count ?? 0}
                   </p>
                 </div>
+
                 {isLoadingSubaccounts && subaccounts ? (
-                  <div className="flex justify-center items-center h-[200px]">
+                  <div className="flex justify-center py-8">
                     <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]"></div>
                   </div>
                 ) : (
-                  <>
-                    <TableContainer
-                      ref={tableRef}
-                      sx={{
-                        backgroundColor: "transparent",
-                        overflowX: "scroll",
+                  <div className="overflow-hidden">
+                    <OverlayScrollbarsComponent
+                      options={{
+                        scrollbars: {
+                          autoHide: "never",
+                        },
                       }}>
-                      <Table
+                      <TableContainer
                         sx={{
-                          width: "100%",
-                          "& .MuiTableCell-head": {
-                            backgroundColor: "transparent",
-                            color: "#949392",
-                            fontWeight: "bold",
-                            fontSize: "13px",
-                            lineHeight: "16px",
-                            borderBottom: "1px solid #27292D",
-                            padding: "16px 8px",
-                            fontFamily: "IBM Plex Mono",
-                          },
-                          "& .MuiTableCell-body": {
-                            color: "#FFFFFF",
-                            fontSize: "14px",
-                            lineHeight: "20px",
-                            borderBottom: "1px solid #27292D",
-                            padding: "16px 8px",
-                            fontFamily: "IBM Plex Mono",
-                          },
-                        }}
-                        aria-label="subaccounts table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell align="left">
-                              {t("subaccounts.name")}
-                            </TableCell>
-                            <TableCell align="left">
-                              {t("subaccounts.email")}
-                            </TableCell>
-                            <TableCell align="left">
-                              {t("subaccounts.date")}
-                            </TableCell>
-                            <TableCell align="left">
-                              {t("subaccounts.delete")}
-                            </TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {subaccounts?.subaccounts.data &&
-                          subaccounts.subaccounts.data.length > 0 ? (
-                            subaccounts.subaccounts.data.map((subaccount) => (
-                              <TableRow
-                                key={subaccount.id}
-                                sx={{
-                                  "&:hover": {
-                                    backgroundColor: "#27292D",
-                                  },
-                                }}>
-                                <TableCell
-                                  align="left"
-                                  className="min-w-[50px]">
-                                  <div className="flex items-center gap-2">
-                                    <Image
-                                      src={subaccount.avatar}
-                                      alt={subaccount.name}
-                                      width={28}
-                                      height={28}
-                                      className="w-[28px] h-[28px] rounded-full object-cover"
-                                    />
-                                    <p>{subaccount.name}</p>
-                                  </div>
-                                </TableCell>
-                                <TableCell
-                                  align="left"
-                                  className="min-w-[50px]">
-                                  {subaccount.email}
-                                </TableCell>
-                                <TableCell align="left">
-                                  {formatDate(subaccount.created_at)}
-                                </TableCell>
-                                <TableCell align="left">
-                                  <button
-                                    className="text-[#FFA7A7] flex items-center gap-1"
-                                    onClick={() => {
-                                      setShowDeleteSubaccountModal(true);
-                                      setSubaccountId(subaccount.id);
-                                    }}>
-                                    <Image
-                                      src={trashIcon}
-                                      alt="trash"
-                                      width={14}
-                                      height={14}
-                                    />
-                                    <p className="text-[14px] leading-[20px]">
-                                      {t("subaccounts.delete")}
-                                    </p>
-                                  </button>
-                                </TableCell>
-                              </TableRow>
-                            ))
-                          ) : (
+                          backgroundColor: "transparent",
+                          overflowX: "visible",
+                        }}>
+                        <Table
+                          sx={{
+                            width: "100%",
+                            "& .MuiTableCell-head": {
+                              backgroundColor: "transparent",
+                              color: "#949392",
+                              fontWeight: "bold",
+                              fontSize: "13px",
+                              lineHeight: "16px",
+                              borderBottom: "1px solid #27292D",
+                              padding: "16px",
+                              fontFamily: "IBM Plex Mono",
+                            },
+                            "& .MuiTableCell-body": {
+                              minWidth: 150,
+                              color: "#FFFFFF",
+                              fontSize: "14px",
+                              lineHeight: "20px",
+                              borderBottom: "1px solid #27292D",
+                              padding: "16px",
+                              fontFamily: "IBM Plex Mono",
+                            },
+                          }}
+                          aria-label="subaccounts table">
+                          <TableHead>
                             <TableRow>
-                              <TableCell colSpan={4} align="center">
-                                {t("subaccounts.noSubaccountsFound")}
+                              <TableCell align="left" className="min-w-[150px]">
+                                {t("subaccounts.name")}
+                              </TableCell>
+                              <TableCell align="left" className="min-w-[150px]">
+                                {t("subaccounts.email")}
+                              </TableCell>
+                              <TableCell align="left" className="min-w-[150px]">
+                                {t("subaccounts.date")}
+                              </TableCell>
+                              <TableCell align="left" className="min-w-[150px]">
+                                {t("subaccounts.delete")}
                               </TableCell>
                             </TableRow>
-                          )}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-
+                          </TableHead>
+                          <TableBody>
+                            {subaccounts?.subaccounts.data &&
+                            subaccounts.subaccounts.data.length > 0 ? (
+                              subaccounts.subaccounts.data.map((subaccount) => (
+                                <TableRow
+                                  key={subaccount.id}
+                                  sx={{
+                                    "&:hover": {
+                                      backgroundColor: "#27292D",
+                                    },
+                                  }}>
+                                  <TableCell
+                                    align="left"
+                                    className="min-w-[50px]">
+                                    <div className="flex items-center gap-2">
+                                      <Image
+                                        src={subaccount.avatar}
+                                        alt={subaccount.name}
+                                        width={28}
+                                        height={28}
+                                        className="w-[28px] h-[28px] rounded-full object-cover"
+                                      />
+                                      <p>{subaccount.name}</p>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell
+                                    align="left"
+                                    className="min-w-[50px]">
+                                    {subaccount.email}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    {formatDate(subaccount.created_at)}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    <button
+                                      className="text-[#FFA7A7] flex items-center gap-1"
+                                      onClick={() => {
+                                        setShowDeleteSubaccountModal(true);
+                                        setSubaccountId(subaccount.id);
+                                      }}>
+                                      <Image
+                                        src={trashIcon}
+                                        alt="trash"
+                                        width={14}
+                                        height={14}
+                                      />
+                                      <p className="text-[14px] leading-[20px]">
+                                        {t("subaccounts.delete")}
+                                      </p>
+                                    </button>
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                            ) : (
+                              <TableRow>
+                                <TableCell colSpan={4} align="center">
+                                  {t("subaccounts.noSubaccountsFound")}
+                                </TableCell>
+                              </TableRow>
+                            )}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </OverlayScrollbarsComponent>
                     {subaccounts?.subaccounts.data &&
                       subaccounts.subaccounts.data.length > 0 && (
                         <div className="flex justify-center mt-6">
@@ -415,7 +417,7 @@ const Subaccounts = () => {
                           />
                         </div>
                       )}
-                  </>
+                  </div>
                 )}
               </div>
             )}
