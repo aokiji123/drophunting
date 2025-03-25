@@ -37,18 +37,18 @@ export const updateAxiosToken = (newToken: string | null) => {
   if (newToken) {
     Cookies.set("auth-token", newToken, {
       expires: 7,
-      sameSite: "Lax",
-      path: "/guides",
+      sameSite: "None",
+      path: "/",
       secure: true,
     });
   } else {
-    Cookies.remove("auth-token", { path: "/guides" });
+    Cookies.remove("auth-token", { path: "/" });
   }
 };
 
 export const update2FA = (newToken: string | null) => {
   if (newToken) {
-    Cookies.set("2fa", newToken, { secure: true, sameSite: "Lax", path: "/" });
+    Cookies.set("2fa", newToken, { secure: true, sameSite: "None", path: "/" });
   } else {
     Cookies.remove("2fa", { path: "/" });
   }
