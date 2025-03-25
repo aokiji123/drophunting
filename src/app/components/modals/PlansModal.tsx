@@ -228,11 +228,7 @@ export const PlansModal = ({ togglePlansModal }: PlansModalType) => {
           }}>
           {buyPlanError && (
             <div className="mb-3 p-3 bg-red-900/30 border border-red-500 rounded-[12px] text-red-400">
-              {buyPlanError.includes("already has active subscription") ||
-              buyPlanError.includes("active plan") ||
-              buyPlanError.includes("subscription")
-                ? t("plansModal.alreadyHasSubscription")
-                : buyPlanError}
+              {buyPlanError}
             </div>
           )}
 

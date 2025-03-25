@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axiosInstance, { update2FA, updateAxiosToken } from "../api/axios";
 import Cookies from "js-cookie";
+import { t } from "i18next";
 
 type AuthErrors = {
   name?: string[];
@@ -1118,10 +1119,18 @@ const useStore = create<StoreState>()(
           });
         } catch (error) {
           console.error("Error fetching plans:", error);
-          set({
-            plansFetchError: "Failed to load plans. Please try again later.",
-            isLoadingPlans: false,
-          });
+          // @ts-expect-error: "error" is unknown
+          if (error instanceof Error && error.response?.status === 403) {
+            set({
+              plansFetchError: t("subscriptions.subaccountError"),
+              isLoadingPlans: false,
+            });
+          } else {
+            set({
+              plansFetchError: "Failed to load plans. Please try again later.",
+              isLoadingPlans: false,
+            });
+          }
         }
       },
 

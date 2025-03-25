@@ -507,6 +507,8 @@ i18n.use(initReactI18next).init({
           dateEnd: "Date end",
           price: "Price",
           noActiveSubscriptions: "You don't have any active subscriptions",
+          subaccountError:
+            "You're a subaccount, you should refer to the main account and get a subscription there, to be able to see guides' task",
         },
         suggestGuide: {
           description:
@@ -1109,6 +1111,8 @@ i18n.use(initReactI18next).init({
           dateEnd: "Дата окончания",
           price: "Цена",
           noActiveSubscriptions: "У вас нет активных подписок",
+          subaccountError:
+            "Вы являетесь субаккаунтом, вы должны обратиться к основному аккаунту и получить подписку там, чтобы иметь возможность просматривать задания гайдов",
         },
         suggestGuide: {
           description:

@@ -434,12 +434,14 @@ const Guide = () => {
             {user?.plan_id === null && (
               <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] rounded-[14px] gap-[16px]">
                 <div className="flex justify-center lg:items-center flex-col lg:flex-row gap-[8px] text-[14px] md:text-[15px] leading-[16px] font-bold">
-                  {user?.count_views === 0 && (
-                    <p className="leading-[16px] font-semibold text-[#FF3E3E]">
-                      {t("guideDetails.attention")}
-                    </p>
-                  )}
-                  <p>{t("guideDetails.freePreviews")}</p>
+                  <p>
+                    {user?.count_views === 0 && (
+                      <span className="leading-[16px] font-semibold text-[#FF3E3E]">
+                        {t("guideDetails.attention")}
+                      </span>
+                    )}{" "}
+                    {t("guideDetails.freePreviews")}
+                  </p>
                   <div className="flex items-center gap-[8px]">
                     {user?.count_views === 0 ? (
                       <SmallChartPie
@@ -453,7 +455,7 @@ const Guide = () => {
                         current={user?.count_views || 0}
                       />
                     )}
-                    <p>
+                    <p className="w-[70px]">
                       {user?.count_views} / {user?.free_views}
                     </p>
                   </div>
