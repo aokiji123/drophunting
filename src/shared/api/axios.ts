@@ -38,7 +38,8 @@ export const updateAxiosToken = (newToken: string | null) => {
     Cookies.set("auth-token", newToken, {
       expires: 7,
       secure: true,
-      path: "/guides",
+      // path: "/guides",
+      path: "/",
     });
   } else {
     Cookies.remove("auth-token");
