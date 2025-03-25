@@ -15,7 +15,6 @@ import { MdFavorite, MdFavoriteBorder, MdOutlineDone } from "react-icons/md";
 import { PiXLogo } from "react-icons/pi";
 import { GrLanguage } from "react-icons/gr";
 import { FaTelegramPlane } from "react-icons/fa";
-import { Slider, styled } from "@mui/material";
 import { AiOutlineLink } from "react-icons/ai";
 import { useParams, useRouter } from "next/navigation";
 import SmallChartPie from "@/shared/components/SmallChartPie";
@@ -25,31 +24,7 @@ import Link from "next/link";
 import useStore from "@/shared/store";
 import CalendarModal from "@/shared/components/CalendarModal";
 import { useTranslation } from "react-i18next";
-
-const CustomSlider = styled(Slider)({
-  height: 6,
-  "& .MuiSlider-track": {
-    background: "#CBFF51",
-    border: "none",
-  },
-  "& .MuiSlider-thumb": {
-    display: "none",
-  },
-  "& .MuiSlider-rail": {
-    backgroundColor: "#b3b3b3",
-  },
-  "& .MuiSlider-mark": {
-    height: 10,
-    width: 4,
-    backgroundColor: "#101114",
-    transform: "rotate(30deg) translateY(-3px) translateX(-5px)",
-  },
-});
-
-const marks = Array.from({ length: 6 }, (_, i) => ({
-  value: i,
-  visible: i !== 0 && i !== 5,
-}));
+import ProgressBar from "@/app/components/ProgressBar";
 
 const GuideDescription = ({ description }: { description: string }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -439,7 +414,7 @@ const Guide = () => {
               {t("guideDetails.tasks")}
             </p>
             <div className="relative flex flex-col">
-              <div className="flex items-center justify-between text-[16px] leading-[18px] font-bold ">
+              <div className="mb-2.5 flex items-center justify-between text-[16px] leading-[18px] font-bold ">
                 <div className="flex items-center gap-3">
                   <p className="text-[#707273]">
                     {t("guideDetails.completed")}
@@ -451,18 +426,10 @@ const Guide = () => {
                 </div>
                 <p>{getCompletionPercentage().toFixed(0)}%</p>
               </div>
-              <CustomSlider
-                marks={marks
-                  .filter((mark) => mark.visible)
-                  .map((mark) => ({ value: mark.value }))}
-                value={guideDetails.competed_tasks_count}
-                step={1}
-                min={0}
-                max={
-                  guideDetails.tasks_count > 0 ? guideDetails.tasks_count : 1
-                }
+              <ProgressBar
+                currentValue={guideDetails.competed_tasks_count}
+                maxValue={guideDetails.tasks_count}
               />
-              <div className="absolute bottom-[13px] h-1.5 outline-4 outline outline-[#101114] rounded-full left-1 right-1" />
             </div>
             {user?.plan_id === null && (
               <div className="bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] flex items-center justify-between py-[8px] pr-[12px] pl-[20px] rounded-[14px] gap-[16px]">
