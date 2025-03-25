@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-
+import i18n from "@/shared/i18n";
 import useStore from "@/shared/store";
 
 export default function UserProvider({
@@ -37,7 +37,11 @@ export default function UserProvider({
         !pathname.includes("landing")
       ) {
         try {
-          await refreshUser();
+          const user = await refreshUser();
+          // Sync language with user preference
+          if (user?.lang && i18n.language !== user.lang) {
+            i18n.changeLanguage(user.lang);
+          }
         } catch (error) {
           if (error instanceof Error && error.message === "Forbidden") {
             setIsLoading(true);

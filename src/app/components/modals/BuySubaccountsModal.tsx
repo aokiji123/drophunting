@@ -23,7 +23,7 @@ export const BuySubaccountsModal = ({
   const { t } = useTranslation();
   const [amount, setAmount] = useState<number>(1);
   const [error, setError] = useState<string>("");
-  const { buySubaccounts } = useStore();
+  const { buySubaccounts, refreshUser, fetchSubaccounts } = useStore();
   const totalPrice = amount * subaccountPrice;
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,8 +46,9 @@ export const BuySubaccountsModal = ({
     try {
       setError("");
       await buySubaccounts(amount);
+      await refreshUser();
+      await fetchSubaccounts();
       onClose();
-      window.location.reload();
     } catch (error: unknown) {
       const apiError = error as APIError;
       if (apiError?.response?.data?.message === "Insufficient balance") {
