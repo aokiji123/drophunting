@@ -898,6 +898,7 @@ const useStore = create<StoreState>()(
             } catch (e) {
               console.warn("Error fetching user:", e);
               set({ sessionVerified: false, user: null });
+              console.log("Метка 5");
               updateAxiosToken(null);
               Cookies.remove("auth-token");
             }
@@ -2028,11 +2029,9 @@ const useStore = create<StoreState>()(
           const token = accessToken;
 
           if (token) {
-            Cookies.set("auth-token", token, {
-              expires: 7,
-              secure: true,
-              sameSite: "Strict",
-            });
+            // Cookies.set("auth-token", token, {
+            //   expires: 7,
+            // });
             updateAxiosToken(token);
           }
 
@@ -2047,6 +2046,7 @@ const useStore = create<StoreState>()(
           } catch (userError) {
             console.warn("Error fetching user after login:", userError);
             set({ sessionVerified: false, user: null });
+            console.log("Метка 6");
             updateAxiosToken(null);
             Cookies.remove("auth-token");
           }
@@ -2071,11 +2071,9 @@ const useStore = create<StoreState>()(
 
           if (token) {
             if (!two_factor) {
-              Cookies.set("auth-token", token, {
-                expires: 7,
-                secure: true,
-                sameSite: "Strict",
-              });
+              // Cookies.set("auth-token", token, {
+              //   expires: 7,
+              // });
               updateAxiosToken(token);
 
               try {
@@ -2109,7 +2107,7 @@ const useStore = create<StoreState>()(
                 } else {
                   set({ sessionVerified: false, user: null });
                 }
-
+                console.log("Метка 7");
                 updateAxiosToken(null);
                 Cookies.remove("auth-token");
 
@@ -2151,9 +2149,9 @@ const useStore = create<StoreState>()(
           } else {
             set({ sessionVerified: false, user: null });
           }
-
+          console.log("Метка 8");
           updateAxiosToken(null);
-          Cookies.remove("auth-token");
+          // Cookies.remove("auth-token");
 
           throw {
             errorMessage:
@@ -2171,11 +2169,10 @@ const useStore = create<StoreState>()(
           }>("/api/register", data);
           const token = response.data?.token;
           if (token) {
-            Cookies.set("auth-token", token, {
-              expires: 7,
-              secure: true,
-              sameSite: "Strict",
-            });
+            // Cookies.set("auth-token", token, {
+            //   expires: 7,
+            //   sameSite: "Lax",
+            // });
             updateAxiosToken(token);
           }
 
@@ -2211,6 +2208,7 @@ const useStore = create<StoreState>()(
 
         try {
           await axiosInstance.post("/api/logout");
+          console.log("Метка 9");
           updateAxiosToken(null);
           update2FA(null);
           Cookies.remove("auth-token");

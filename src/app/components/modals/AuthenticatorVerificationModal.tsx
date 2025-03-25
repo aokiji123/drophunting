@@ -27,6 +27,8 @@ export const AuthenticatorVerificationModal = ({
 
   const { confirm2FA, refreshUser } = useStore();
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const handleChange = (index: number, value: string) => {
     setBadCode(false);
 
@@ -77,9 +79,16 @@ export const AuthenticatorVerificationModal = ({
               onClose();
             });
           })
-          .catch(() => {
-            setBadCode(true);
-            setDisableCode(false);
+          .catch((err) => {
+            if (err.status === 403) {
+              if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+              }
+              setErrorMessage(err.response.data);
+            } else {
+              setBadCode(true);
+              setDisableCode(false);
+            }
           });
       }, 500);
     }
@@ -137,7 +146,9 @@ export const AuthenticatorVerificationModal = ({
             />
           ))}
         </div>
-
+        {errorMessage && (
+          <p className="text-red-600 mt-3 -mb-4">{errorMessage}</p>
+        )}
         <p className="text-[14px] leading-[20px] font-sans text-[#656768] mt-[24px]">
           {t("authenticatorVerificationModal.codeValidity")}
         </p>
