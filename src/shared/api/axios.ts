@@ -38,11 +38,11 @@ export const updateAxiosToken = (newToken: string | null) => {
     Cookies.set("auth-token", newToken, {
       expires: 7,
       sameSite: "Lax",
-      path: "/",
+      path: "/guides",
       secure: true,
     });
   } else {
-    Cookies.remove("auth-token", { path: "/" });
+    Cookies.remove("auth-token", { path: "/guides" });
   }
 };
 
