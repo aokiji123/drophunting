@@ -195,7 +195,7 @@ const SignUp = () => {
                 )}
               </div>
               <div className="my-4 flex justify-center">
-                {recaptchaToken && (
+                {useCaptcha && recaptchaToken.length > 0 && (
                   <ReCAPTCHA sitekey={recaptchaToken} onChange={onChange} />
                 )}
               </div>
