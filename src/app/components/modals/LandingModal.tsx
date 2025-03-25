@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BsTwitterX } from "react-icons/bs";
 import { FaCaretDown, FaDiscord, FaInstagram } from "react-icons/fa6";
 import { GrLanguage } from "react-icons/gr";
@@ -8,9 +7,21 @@ import { useTranslation } from "react-i18next";
 
 type LandingModalType = {
   toggleLandingModal: () => void;
+  scrollToSection: (ref: React.RefObject<HTMLDivElement | null>) => void;
+  aboutSectionRef: React.RefObject<HTMLDivElement>;
+  resultsSectionRef: React.RefObject<HTMLDivElement>;
+  howItWorksSectionRef: React.RefObject<HTMLDivElement>;
+  contactsSectionRef: React.RefObject<HTMLDivElement>;
 };
 
-const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
+const LandingModal = ({
+  toggleLandingModal,
+  scrollToSection,
+  aboutSectionRef,
+  resultsSectionRef,
+  howItWorksSectionRef,
+  contactsSectionRef,
+}: LandingModalType) => {
   const { t, i18n } = useTranslation();
 
   const toggleLanguage = () => {
@@ -28,32 +39,32 @@ const LandingModal = ({ toggleLandingModal }: LandingModalType) => {
       <div className="flex flex-col gap-[38px]">
         <ul className="flex flex-col gap-[4px]">
           <li className="px-[12px] py-[8px]">
-            <Link
-              href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold">
+            <button
+              onClick={() => scrollToSection(aboutSectionRef)}
+              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
               {t("landingModal.aboutService")}
-            </Link>
+            </button>
           </li>
           <li className="px-[12px] py-[8px]">
-            <Link
-              href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold">
+            <button
+              onClick={() => scrollToSection(resultsSectionRef)}
+              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
               {t("landingModal.results")}
-            </Link>
+            </button>
           </li>
           <li className="px-[12px] py-[8px]">
-            <Link
-              href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold">
+            <button
+              onClick={() => scrollToSection(howItWorksSectionRef)}
+              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
               {t("landingModal.howItWorks")}
-            </Link>
+            </button>
           </li>
           <li className="px-[12px] py-[8px]">
-            <Link
-              href="/"
-              className="text-white text-[16px] leading-[18px] font-semibold">
+            <button
+              onClick={() => scrollToSection(contactsSectionRef)}
+              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
               {t("landingModal.contacts")}
-            </Link>
+            </button>
           </li>
         </ul>
         <div className="flex flex-col gap-[8px]">

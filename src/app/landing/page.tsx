@@ -1,7 +1,5 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
-
 import { FaCheck, FaDollarSign } from "react-icons/fa6";
 import { MdAccessTime } from "react-icons/md";
 import { HiLightningBolt } from "react-icons/hi";
@@ -10,7 +8,7 @@ import { FaDiscord, FaInstagram, FaPlay, FaCaretDown } from "react-icons/fa";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { GrLanguage } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 import landingHeaderBg from "../../../public/assets/landing-header-bg.jpg";
@@ -41,6 +39,11 @@ const Landing = () => {
   const [isLandingModalOpen, setIsLandingModalOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
+  const aboutSectionRef = useRef<HTMLDivElement>(null);
+  const resultsSectionRef = useRef<HTMLDivElement>(null);
+  const howItWorksSectionRef = useRef<HTMLDivElement>(null);
+  const contactsSectionRef = useRef<HTMLDivElement>(null);
+
   const toggleLandingModal = () => {
     setIsLandingModalOpen(!isLandingModalOpen);
   };
@@ -48,6 +51,15 @@ const Landing = () => {
   const toggleLanguage = () => {
     const newLang = i18n.language === "en" ? "ru" : "en";
     i18n.changeLanguage(newLang);
+  };
+
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+      if (isLandingModalOpen) {
+        toggleLandingModal();
+      }
+    }
   };
 
   useEffect(() => {
@@ -73,16 +85,32 @@ const Landing = () => {
             <MainLogo width={170} height={40} color="#fff" />
             <ul className="hidden lg:flex gap-[16px]">
               <li>
-                <Link href="/">{t("landing.aboutService")}</Link>
+                <button
+                  onClick={() => scrollToSection(aboutSectionRef)}
+                  className="text-white hover:text-[#11CA00] transition-colors">
+                  {t("landing.aboutService")}
+                </button>
               </li>
               <li>
-                <Link href="/">{t("landing.resultsNav")}</Link>
+                <button
+                  onClick={() => scrollToSection(resultsSectionRef)}
+                  className="text-white hover:text-[#11CA00] transition-colors">
+                  {t("landing.resultsNav")}
+                </button>
               </li>
               <li>
-                <Link href="/">{t("landing.howItWorksNav")}</Link>
+                <button
+                  onClick={() => scrollToSection(howItWorksSectionRef)}
+                  className="text-white hover:text-[#11CA00] transition-colors">
+                  {t("landing.howItWorksNav")}
+                </button>
               </li>
               <li>
-                <Link href="/">{t("landing.contacts")}</Link>
+                <button
+                  onClick={() => scrollToSection(contactsSectionRef)}
+                  className="text-white hover:text-[#11CA00] transition-colors">
+                  {t("landing.contacts")}
+                </button>
               </li>
             </ul>
             <div className="flex items-center gap-[8px] md:gap-[16px]">
@@ -114,7 +142,22 @@ const Landing = () => {
                   toggleLandingModal();
                 }
               }}>
-              <LandingModal toggleLandingModal={toggleLandingModal} />
+              <LandingModal
+                toggleLandingModal={toggleLandingModal}
+                scrollToSection={scrollToSection}
+                aboutSectionRef={
+                  aboutSectionRef as React.RefObject<HTMLDivElement>
+                }
+                resultsSectionRef={
+                  resultsSectionRef as React.RefObject<HTMLDivElement>
+                }
+                howItWorksSectionRef={
+                  howItWorksSectionRef as React.RefObject<HTMLDivElement>
+                }
+                contactsSectionRef={
+                  contactsSectionRef as React.RefObject<HTMLDivElement>
+                }
+              />
             </div>
 
             {isLandingModalOpen && (
@@ -194,7 +237,9 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px] overflow-hidden flex flex-col gap-[80px]">
+      <div
+        ref={aboutSectionRef}
+        className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px] overflow-hidden flex flex-col gap-[80px]">
         <div className="flex items-center flex-col xl:flex-row gap-[45px]">
           <div className="w-full xl:w-[50%] flex flex-col gap-[48px] relative">
             <p className="text-[32px] md:text-[64px] xl:text-[80px] md:leading-[64px] xl:leading-[90px] uppercase font-bold font-druk">
@@ -300,7 +345,9 @@ const Landing = () => {
           </div>
         </div>
       </div>
-      <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[156px] xl:py-[80px] relative z-10 overflow-hidden flex flex-col items-center">
+      <div
+        ref={resultsSectionRef}
+        className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[156px] xl:py-[80px] relative z-10 overflow-hidden flex flex-col items-center">
         <p className="text-[20px] leading-[20px] md:text-[28px] md:leading-[75px] uppercase font-bold font-druk text-[#67F25B] text-center">
           {t("landing.resultsTitle")}
         </p>
@@ -397,7 +444,9 @@ const Landing = () => {
           alt="Paint"
         />
       </div>
-      <div className="px-[20px] py-[50px] pl-0 md:px-[40px] md:pt-[80px] md:pl-0 md:pb-[64px] xl:px-[96px] xl:pl-0 xl:py-[80px] overflow-hidden">
+      <div
+        ref={howItWorksSectionRef}
+        className="px-[20px] py-[50px] pl-0 md:px-[40px] md:pt-[80px] md:pl-0 md:pb-[64px] xl:px-[96px] xl:pl-0 xl:py-[80px] overflow-hidden">
         <p className="pl-[20px] md:pl-[40px] xl:pl-[96px] font-bold font-druk text-[46px] leading-[46px] md:text-[68px] md:leading-[72px] lg:text-[80px] lg:leading-[80px] mb-[48px] uppercase">
           {t("landing.howItWorksTitle")}
         </p>
@@ -461,6 +510,7 @@ const Landing = () => {
         </div>
       </div>
       <div
+        ref={contactsSectionRef}
         className="bg-cover bg-center bg-no-repeat h-[616px] md:h-[768px] flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: `url(${landingFooterBg.src})`,
@@ -559,33 +609,49 @@ const Landing = () => {
                 />
               </div>
               <ul className="hidden lg:hidden md:flex flex-col gap-[17px] w-[150px]">
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.aboutService")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(aboutSectionRef)}>
+                    {t("landing.aboutService")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.resultsNav")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(resultsSectionRef)}>
+                    {t("landing.resultsNav")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.howItWorksNav")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(howItWorksSectionRef)}>
+                    {t("landing.howItWorksNav")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.contacts")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(contactsSectionRef)}>
+                    {t("landing.contacts")}
+                  </button>
                 </li>
               </ul>
             </div>
             <div className="flex flex-col md:flex-row gap-[48px] md:gap-[24px]">
               <ul className="hidden lg:flex flex-col gap-[17px] w-[150px]">
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.aboutService")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(aboutSectionRef)}>
+                    {t("landing.aboutService")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.resultsNav")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(resultsSectionRef)}>
+                    {t("landing.resultsNav")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.howItWorksNav")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(howItWorksSectionRef)}>
+                    {t("landing.howItWorksNav")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.contacts")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(contactsSectionRef)}>
+                    {t("landing.contacts")}
+                  </button>
                 </li>
               </ul>
               <div className="flex flex-col gap-[12px]">
@@ -599,17 +665,25 @@ const Landing = () => {
                 </button> */}
               </div>
               <ul className="flex md:hidden flex-col gap-[17px] w-[150px]">
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.aboutService")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(aboutSectionRef)}>
+                    {t("landing.aboutService")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.resultsNav")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(resultsSectionRef)}>
+                    {t("landing.resultsNav")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.howItWorksNav")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(howItWorksSectionRef)}>
+                    {t("landing.howItWorksNav")}
+                  </button>
                 </li>
-                <li className="text-[14px] leading-[13px] text-[#9AA5B9]">
-                  {t("landing.contacts")}
+                <li className="text-[14px] leading-[13px] text-[#9AA5B9] hover:text-white transition-colors cursor-pointer">
+                  <button onClick={() => scrollToSection(contactsSectionRef)}>
+                    {t("landing.contacts")}
+                  </button>
                 </li>
               </ul>
             </div>
