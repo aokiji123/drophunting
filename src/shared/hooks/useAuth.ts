@@ -39,6 +39,8 @@ const useAuth = () => {
           } catch (error) {
             console.warn("Error initializing authentication:", error);
             Cookies.remove("auth-token");
+            console.log("Метка 4");
+            alert("Метка 4");
             updateAxiosToken(null);
             useStore.setState({
               user: null,

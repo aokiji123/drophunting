@@ -37,18 +37,16 @@ export const updateAxiosToken = (newToken: string | null) => {
   if (newToken) {
     Cookies.set("auth-token", newToken, {
       expires: 7,
-      secure: true,
-      // path: "/guides",
-      path: "/",
+      sameSite: "Lax",
     });
   } else {
-    Cookies.remove("auth-token");
+    Cookies.remove("auth-token", { path: "/" });
   }
 };
 
 export const update2FA = (newToken: string | null) => {
   if (newToken) {
-    Cookies.set("2fa", newToken, { secure: true, path: "/" });
+    Cookies.set("2fa", newToken, { secure: false });
   } else {
     Cookies.remove("2fa");
   }
@@ -70,7 +68,11 @@ const handleUnauthorized = () => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (
+      error.response?.status === 401 &&
+      !error.config?.url.includes("/login")
+    ) {
+      console.log({ error });
       handleUnauthorized();
     }
     return Promise.reject(error);
