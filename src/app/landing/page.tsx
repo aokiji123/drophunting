@@ -35,6 +35,7 @@ import goldCrypto from "../../../public/assets/gold-crypto.png";
 import greenTether from "../../../public/assets/green-tether.png";
 import LandingModal from "../components/modals/LandingModal";
 import { MainLogo } from "@/shared/icons/MainLogo";
+import "../../../public/fonts/stylesheet.css";
 
 const Landing = () => {
   const [isLandingModalOpen, setIsLandingModalOpen] = useState(false);
