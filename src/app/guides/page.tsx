@@ -53,7 +53,7 @@ const CustomSlider = styled(Slider)({
 });
 
 const Guides = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const SORTING_OPTIONS = [
     {
@@ -126,6 +126,15 @@ const Guides = () => {
       setActiveTagId(null);
     }
   }, [tags, activeFilter]);
+
+  useEffect(() => {
+    setActualSorting((prev) => ({
+      ...prev,
+      name: t(
+        `guides.sortBy${prev.key.charAt(0).toUpperCase() + prev.key.slice(1)}`,
+      ),
+    }));
+  }, [i18n.language, t]);
 
   useEffect(() => {
     const params: GuidesParams = {
@@ -251,7 +260,7 @@ const Guides = () => {
                         : "bg-[#1D1E23]"
                     }`}>
                     <p className="text-[14px] leading-[16px] font-semibold truncate max-w-[100px]">
-                      {tag.name.en}
+                      {i18n.language === "ru" ? tag.name.ru : tag.name.en}
                     </p>
                   </button>
                 ))}

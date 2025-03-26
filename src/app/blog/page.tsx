@@ -13,7 +13,7 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import { useTranslation } from "react-i18next";
 
 const Blog = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -124,23 +124,30 @@ const Blog = () => {
               <div className="text-red-500 p-2">{blogCategoriesError}</div>
             ) : (
               <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
-                {blogCategories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() =>
-                      handleCategoryClick(
-                        category.title,
-                        category.id === 0 ? null : category.id,
-                      )
-                    }
-                    className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
-                      activeFilter === category.title
-                        ? "bg-[#11CA00]"
-                        : "bg-[#1D1E23]"
-                    }`}>
-                    {category.title}
-                  </button>
-                ))}
+                {blogCategories.map(
+                  (category) => (
+                    console.log(category),
+                    (
+                      <button
+                        key={category.id}
+                        onClick={() =>
+                          handleCategoryClick(
+                            category.name.en,
+                            category.id === 0 ? null : category.id,
+                          )
+                        }
+                        className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                          activeFilter === category.name.en
+                            ? "bg-[#11CA00]"
+                            : "bg-[#1D1E23]"
+                        }`}>
+                        {i18n.language === "ru"
+                          ? category.name.ru
+                          : category.name.en}
+                      </button>
+                    )
+                  ),
+                )}
               </div>
             )}
           </div>
@@ -196,7 +203,7 @@ const Blog = () => {
                   )}
 
                   <div
-                    className="relative w-[334px] sm:w-[336px] h-[414px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden hover:border-[#CBFF51] cursor-pointer"
+                    className="relative w-[334px] sm:w-[336px] h-[420px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden hover:border-[#CBFF51] cursor-pointer"
                     onClick={() => router.push(`blog/${article.id}`)}>
                     <div className="h-[200px] relative">
                       <Image
@@ -218,7 +225,7 @@ const Blog = () => {
                           {article.category.title}
                         </p>
                       </div>
-                      <p className="text-[14px] leading-[20px] text-[#B0B0B0] line-clamp-3">
+                      <p className="text-[14px] leading-[20px] text-[#B0B0B0] line-clamp-2">
                         {article.description}
                       </p>
                       <div className="flex items-center justify-between lg:mt-[15px] relative">

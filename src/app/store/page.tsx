@@ -12,7 +12,7 @@ import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
 import { useTranslation } from "react-i18next";
 
 const Store = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,6 +41,12 @@ const Store = () => {
       sorting,
     });
   }, [fetchProducts, currentPage, activeFilter, searchQuery, sorting]);
+
+  useEffect(() => {
+    if (productCategories.length > 0 && activeFilter === null) {
+      setActiveFilter(0);
+    }
+  }, [productCategories, activeFilter]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,7 +86,7 @@ const Store = () => {
   });
 
   const allCategoriesWithAll = [
-    { id: 0, title: t("store.all"), sort: 0 },
+    { id: 0, name: { en: "All", ru: "Все" }, sort: 0 },
     ...productCategories,
   ];
 
@@ -114,7 +120,9 @@ const Store = () => {
                         ? "bg-[#11CA00]"
                         : "bg-[#1D1E23]"
                     }`}>
-                    {category.title}
+                    {i18n.language === "ru"
+                      ? category.name.ru
+                      : category.name.en}
                   </button>
                 ))
               )}
@@ -165,7 +173,7 @@ const Store = () => {
                   <div
                     key={product.id}
                     className="relative w-[335px] sm:w-[336px] h-[482px] lg:w-[394px] lg:h-[483px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] hover:border-[#CBFF51] cursor-pointer overflow-hidden"
-                    onClick={() => router.push(`store/${product.id}`)}>
+                    onClick={() => router.push(`store/${product.slug}`)}>
                     <div className="h-[200px] overflow-hidden">
                       <Image
                         src={getImageUrl(product.img)}
@@ -185,7 +193,7 @@ const Store = () => {
                             {product.product_category.title}
                           </p>
                         </div>
-                        <p className="text-[14px] leading-[20px] text-[#B0B0B0] line-clamp-3">
+                        <p className="text-[14px] leading-[20px] text-[#B0B0B0] line-clamp-2">
                           {product.description}
                         </p>
                       </div>

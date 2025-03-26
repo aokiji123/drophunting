@@ -268,7 +268,10 @@ type BuyPlanResponse = {
 
 type BlogCategory = {
   id: number;
-  title: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   sort: number;
 };
 
@@ -333,7 +336,10 @@ type BlogArticleDetails = {
 
 type ProductCategory = {
   id: number;
-  title: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   sort: number;
 };
 
