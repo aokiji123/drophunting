@@ -403,7 +403,7 @@ i18n.use(initReactI18next).init({
           registrationDate: "Registration date",
           deleteAccountButton: "Delete account",
           password: "Use your email to protect your account and transactions",
-          changePasswordButton: "Change",
+          changePasswordButton: "Change password",
           twoFactorAuth: "Two-Factor Authentication (2FA)",
           twoFactorDescription:
             "Use Google Authenticator to protect your account and transactions",
@@ -1009,7 +1009,7 @@ i18n.use(initReactI18next).init({
           registrationDate: "Дата регистрации",
           deleteAccountButton: "Удалить аккаунт",
           password: "Используйте вашу почту для защиты аккаунта и транзакций",
-          changePasswordButton: "Изменить",
+          changePasswordButton: "Изменить пароль",
           twoFactorAuth: "Двухфакторная аутентификация (2FA)",
           twoFactorDescription:
             "Используйте Google Authenticator для защиты вашего аккаунта и транзакций",

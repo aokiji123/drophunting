@@ -287,7 +287,12 @@ const Guides = () => {
             <div
               className="flex items-center gap-[10px] text-[#676A70] relative"
               ref={sortDropdownRef}>
-              <IoFilterOutline size={20} />
+              <IoFilterOutline
+                size={20}
+                className={clsx(
+                  actualSorting.orderBy === "desc" && "-rotate-180",
+                )}
+              />
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}>
@@ -347,7 +352,7 @@ const Guides = () => {
                             <span
                               className={clsx(
                                 actualSorting.key === option.key &&
-                                  actualSorting.orderBy === "asc" &&
+                                  actualSorting.orderBy === "desc" &&
                                   "-rotate-180",
                               )}>
                               {option.icon}

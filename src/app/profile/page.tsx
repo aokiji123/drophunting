@@ -653,7 +653,7 @@ const Profile = () => {
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
                         {t("profile.changePasswordButton")}
                       </p>
-                      <p className="w-full md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
+                      <p className="w-full sm:w-full leading-[18px] text-[#949392]">
                         {t("profile.password")}
                       </p>
                     </div>
@@ -684,7 +684,7 @@ const Profile = () => {
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
                         {t("profile.twoFactorAuth")}
                       </p>
-                      <p className="md:w-[250px] sm:w-full leading-[18px] text-[#949392]">
+                      <p className="w-full leading-[18px] text-[#949392]">
                         {t("profile.twoFactorDescription")}
                       </p>
                     </div>
