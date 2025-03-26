@@ -1,17 +1,11 @@
-"use client";
-
 import { Geist, Geist_Mono } from "next/font/google";
-import { I18nextProvider } from "react-i18next";
-
-import i18n from "@/shared/i18n";
+import { Metadata } from "next";
+import ClientLayout from "./ClientLayout";
 
 import "./globals.css";
 import "overlayscrollbars/overlayscrollbars.css";
 import "../shared/styles/scrollbar.css";
 import "../shared/styles/server-content.scss";
-import useCustomScrollbar from "@/shared/hooks/useCustomScrollbar";
-import UserProvider from "@/shared/providers/UserProvider";
-import LoadingProvider from "@/shared/providers/LoadingProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,23 +17,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const metadata: Metadata = {
+  title: "DropHunting - Find and Hunt Profitable Product Drops",
+  description:
+    "Track and discover profitable product drops, releases, and limited editions to maximize your e-commerce success.",
+  keywords: "drop hunting, product drops, ecommerce, limited releases",
+  openGraph: {
+    title: "DropHunting - Find and Hunt Profitable Product Drops",
+    description:
+      "Track and discover profitable product drops, releases, and limited editions to maximize your e-commerce success.",
+    url: "https://drophunting.com",
+    siteName: "DropHunting",
+    type: "website",
+  },
+  robots: "index, follow",
+  themeColor: "#101114",
+  viewport: "width=device-width, initial-scale=1",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const bodyRef = useCustomScrollbar();
-
   return (
     <html lang="en" style={{ overflow: "auto" }}>
       <body
-        ref={bodyRef}
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#101114]`}>
-        <I18nextProvider i18n={i18n}>
-          <LoadingProvider>
-            <UserProvider>{children}</UserProvider>
-          </LoadingProvider>
-        </I18nextProvider>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

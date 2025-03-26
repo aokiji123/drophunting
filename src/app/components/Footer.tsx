@@ -7,10 +7,18 @@ import { useTranslation } from "react-i18next";
 const Footer = () => {
   const { t } = useTranslation();
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    if (typeof window !== "undefined" && window.overlayScrollbarsInstance) {
+      window.overlayScrollbarsInstance.elements().viewport.scroll({
+        top: 0,
+        behavior: "smooth",
+      });
+    } else {
+      // Fallback to default scroll if overlay scrollbar isn't initialized
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
