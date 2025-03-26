@@ -40,7 +40,7 @@ const GuideDescription = ({ description }: { description: string }) => {
   }, [description]);
 
   return (
-    <div>
+    <div className="guide-content">
       <div
         ref={descriptionRef}
         className={`text-[#9A9A9A] text-[14px] leading-[20px] ${showFullDescription ? "" : "line-clamp-5"}`}

@@ -19,8 +19,7 @@ export default function UserProvider({
 
   useEffect(() => {
     const handleLogout = () => {
-      console.log("Метка 2");
-      // window.location.href = "/auth/login";
+      window.location.href = "/auth/login";
     };
 
     window.addEventListener("unauthorized", handleLogout);
@@ -32,6 +31,7 @@ export default function UserProvider({
 
   useEffect(() => {
     const checkUserStatus = async () => {
+      setIsLoading(true);
       if (
         !["auth"].some((p) => pathname.includes(p)) &&
         !pathname.includes("landing")
@@ -41,6 +41,16 @@ export default function UserProvider({
           // Sync language with user preference
           if (user?.lang && i18n.language !== user.lang) {
             i18n.changeLanguage(user.lang);
+          }
+          if (user?.subaccount && pathname !== "/not-found") {
+            if (
+              pathname.includes("referal") ||
+              pathname.includes("subaccounts") ||
+              pathname.includes("subscriptions") ||
+              pathname.includes("progress")
+            ) {
+              router.push("/not-found");
+            }
           }
         } catch (error) {
           if (error instanceof Error && error.message === "Forbidden") {
@@ -53,6 +63,7 @@ export default function UserProvider({
           setIsRefreshed(true);
         }
       } else {
+        setIsLoading(false);
         setIsRefreshed(true);
       }
     };
