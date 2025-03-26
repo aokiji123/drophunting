@@ -4,16 +4,19 @@ import React from "react";
 interface ProgressBarProps {
   currentValue: number;
   maxValue: number;
+  isSingle: boolean;
 }
 
 const Part = ({
   filled,
   first,
   last,
+  isSingle,
 }: {
   filled: boolean;
   first: boolean;
   last: boolean;
+  isSingle: boolean; // New prop to detect single bar
 }) => {
   return (
     <div
@@ -24,11 +27,13 @@ const Part = ({
         last && "rounded-r-full",
       )}
       style={{
-        clipPath: first
-          ? "polygon(0% 0%, 100% 0%, 98% 100%, 0% 100%)"
-          : last
-            ? "polygon(2% 0%, 100% 0%, 100% 100%, 0% 100%)"
-            : "polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)",
+        clipPath: isSingle
+          ? undefined // No clipping for a single bar
+          : first
+            ? "polygon(0% 0%, 100% 0%, 98% 100%, 0% 100%)"
+            : last
+              ? "polygon(2% 0%, 100% 0%, 100% 100%, 0% 100%)"
+              : "polygon(2% 0%, 100% 0%, 98% 100%, 0% 100%)",
       }}
     />
   );
@@ -37,6 +42,7 @@ const Part = ({
 const ProgressBar: React.FC<ProgressBarProps> = ({
   currentValue,
   maxValue,
+  isSingle,
 }) => {
   return (
     <div className="flex w-full items-center gap-px">
@@ -48,6 +54,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
             filled={index < currentValue}
             first={index === 0}
             last={index === maxValue - 1}
+            isSingle={isSingle}
           />
         ))}
     </div>

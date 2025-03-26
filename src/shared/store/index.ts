@@ -209,6 +209,10 @@ type Guide = {
   favorite: number;
   updated: string;
   markers: Marker[];
+  network: {
+    id: number;
+    icon: string;
+  };
 };
 
 type GuidesResponse = {

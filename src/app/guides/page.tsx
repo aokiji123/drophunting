@@ -454,11 +454,22 @@ const Guides = () => {
                           className="object-cover"
                         />
                       </div>
+
                       <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-3">
                           <p className="text-[18px] font-bold leading-[22px] truncate max-w-[240px]">
                             {guide.title}
                           </p>
+                          {guide.network?.icon && (
+                            <div className="w-[20px] h-[20px] rounded-[10px] relative overflow-hidden">
+                              <Image
+                                src={getImageUrl(guide.network.icon)}
+                                alt={`${guide.title} network`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
                         </div>
                         <p className="text-[13px] text-[#8E8E8E] overflow-hidden truncate max-w-[240px]">
                           {guide.description}

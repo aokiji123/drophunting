@@ -429,6 +429,7 @@ const Guide = () => {
               <ProgressBar
                 currentValue={guideDetails.competed_tasks_count}
                 maxValue={guideDetails.tasks_count}
+                isSingle={guideDetails.tasks_count === 1}
               />
             </div>
             {user?.plan_id === null && (
