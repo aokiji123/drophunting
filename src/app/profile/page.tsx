@@ -111,11 +111,17 @@ const Profile = () => {
     setShowDelete2FA(true);
   };
 
-  const handleConfirmDelete = () => {
-    deleteUser();
-    Cookies.remove("auth-token");
-    Cookies.remove("user");
-    router.push("/auth/login");
+  const handleConfirmDelete = async () => {
+    try {
+      setIsLoading(true);
+      await deleteUser();
+      Cookies.remove("auth-token");
+      Cookies.remove("user");
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Error deleting user account:", error);
+      setIsLoading(false);
+    }
   };
 
   const handleConfirmDelete2FA = () => {
@@ -651,7 +657,7 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-[15px] leading-[24px] tracking-[-0.18px]">
-                        {t("profile.changePasswordButton")}
+                        {t("profile.changePassword")}
                       </p>
                       <p className="w-full sm:w-full leading-[18px] text-[#949392]">
                         {t("profile.password")}
