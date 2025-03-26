@@ -210,7 +210,7 @@ const Landing = () => {
             </div>
 
             {isLandingModalOpen && (
-              <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
+              <div className="block lg:hidden fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40" />
             )}
           </header>
           <div className="px-[20px] py-[40px] md:px-[40px] md:py-[56px] lg:p-[64px] xl:px-[96px] xl:py-[80px]">

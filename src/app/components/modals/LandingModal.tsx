@@ -53,10 +53,10 @@ const LandingModal = ({
         <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
       </button>
       <div className="p-[16px] flex flex-col justify-between h-full">
-        <div className="flex flex-col gap-[16px]">
+        <div className="flex flex-col gap-[4px] text-[16px] leading-[22px] font-semibold">
           <button
             onClick={() => scrollToSection(aboutSectionRef)}
-            className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px]">
+            className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px] mt-[24px]">
             {t("landingModal.aboutService")}
           </button>
           <button
@@ -74,7 +74,44 @@ const LandingModal = ({
             className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px]">
             {t("landingModal.contacts")}
           </button>
-          <div className="relative px-[16px] py-[16px]">
+          <div className="flex flex-col gap-[12px] mt-[24px]">
+            <div className="flex flex-col gap-[12px]">
+              <Link
+                href="https://app.drophunting.io"
+                className="hover:bg-[#0D9E00] transition-colors w-full bg-[#11CA00] py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+                {t("landingModal.goToAggregator")}
+              </Link>
+              {/* <button className="bg-[#21274C] w-full py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+                {t("landingModal.subscribeToBot")}
+              </button> */}
+            </div>
+          </div>
+          <hr className="my-[26px] border-0 h-px bg-[#24262A]" />
+          <div className="flex items-center mb-[26px]">
+            <div className="flex items-center gap-[20px]">
+              <BsTwitterX
+                onClick={() => window.open("https://google.com", "_blank")}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
+                size={24}
+              />
+              <FaDiscord
+                onClick={() => window.open("https://google.com", "_blank")}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
+                size={28}
+              />
+              <RiTelegram2Fill
+                onClick={() => window.open("https://google.com", "_blank")}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
+                size={28}
+              />
+              <FaInstagram
+                onClick={() => window.open("https://google.com", "_blank")}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
+                size={28}
+              />
+            </div>
+          </div>
+          <div className="relative">
             <div
               className="cursor-pointer flex items-center gap-[6px]"
               onClick={() =>
@@ -85,7 +122,7 @@ const LandingModal = ({
               <FaCaretDown />
             </div>
             {isLanguageDropdownOpen && (
-              <div className="absolute left-[16px] mt-2 w-[150px] bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
+              <div className="block absolute left-0 mt-2 w-[150px] bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
                 {languages.map((lang) => (
                   <div
                     key={lang.code}
@@ -104,41 +141,6 @@ const LandingModal = ({
               </div>
             )}
           </div>
-        </div>
-        <div className="flex flex-col gap-[12px]">
-          <div className="flex flex-col gap-[12px]">
-            <Link
-              href="https://app.drophunting.io"
-              className="hover:bg-[#0D9E00] transition-colors w-full bg-[#11CA00] py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
-              {t("landingModal.goToAggregator")}
-            </Link>
-            {/* <button className="bg-[#21274C] w-full py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">{t('landingModal.subscribeToBot')}</button> */}
-          </div>
-        </div>
-      </div>
-      <hr className="my-[26px] border-0 h-px bg-[#24262A]" />
-      <div className="flex items-center mb-[26px]">
-        <div className="flex items-center gap-[20px]">
-          <BsTwitterX
-            onClick={() => window.open("https://google.com", "_blank")}
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            size={24}
-          />
-          <FaDiscord
-            onClick={() => window.open("https://google.com", "_blank")}
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            size={28}
-          />
-          <RiTelegram2Fill
-            onClick={() => window.open("https://google.com", "_blank")}
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            size={28}
-          />
-          <FaInstagram
-            onClick={() => window.open("https://google.com", "_blank")}
-            className="cursor-pointer hover:opacity-80 transition-opacity"
-            size={28}
-          />
         </div>
       </div>
     </div>
