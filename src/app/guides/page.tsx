@@ -291,7 +291,7 @@ const Guides = () => {
               <div
                 className="flex items-center cursor-pointer"
                 onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}>
-                <p className="text-white mr-[5px] ">
+                <p className="mr-[5px] ">
                   {t("guides.sort")}{" "}
                   <span className="text-white">{actualSorting.name}</span>
                 </p>

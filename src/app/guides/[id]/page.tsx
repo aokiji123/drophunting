@@ -102,7 +102,7 @@ const Guide = () => {
     if (id) {
       fetchGuideDetails(id);
     }
-  }, [fetchGuideDetails, id]);
+  }, [fetchGuideDetails, id, user?.lang]);
 
   useEffect(() => {
     fetchSubscriptions();
@@ -118,7 +118,7 @@ const Guide = () => {
     if (activeTask !== null) {
       fetchTaskDetails(activeTask);
     }
-  }, [activeTask, fetchTaskDetails]);
+  }, [activeTask, fetchTaskDetails, user?.lang]);
 
   useEffect(() => {
     if (window.location.hash && (guideDetails?.tasks || []).length > 0) {

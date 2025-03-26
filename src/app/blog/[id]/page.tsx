@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 const BlogArticle = () => {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const params = useParams();
   const id = params.id as string;
@@ -36,7 +36,7 @@ const BlogArticle = () => {
     if (id) {
       fetchBlogArticleDetails(id);
     }
-  }, [fetchBlogArticleDetails, id]);
+  }, [fetchBlogArticleDetails, id, i18n.language]);
 
   const handleToggleRead = async () => {
     if (blogArticleDetails) {

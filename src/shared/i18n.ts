@@ -775,7 +775,7 @@ i18n.use(initReactI18next).init({
           sortByPriority: "По приоритету",
           sortByScore: "По оценке",
           sortByNetwork: "По сети",
-          sort: "Сорт",
+          sort: "Сортировать",
           clear: "Очистить",
           noGuidesFound: "Гайды не найдены. Попробуйте изменить фильтры.",
           lastUpdates: "Последние обновления",

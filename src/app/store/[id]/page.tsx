@@ -11,7 +11,7 @@ import useStore from "@/shared/store";
 import { useTranslation } from "react-i18next";
 
 const ProductDetail = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const params = useParams();
   const productId = params.id as string;
@@ -40,7 +40,7 @@ const ProductDetail = () => {
     }
 
     resetOrderState();
-  }, [productId, fetchProductDetails, resetOrderState]);
+  }, [productId, fetchProductDetails, resetOrderState, i18n.language]);
 
   const toggleModal = () => {
     if (isModalOpen) {

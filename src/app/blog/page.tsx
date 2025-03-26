@@ -36,7 +36,7 @@ const Blog = () => {
 
   useEffect(() => {
     fetchBlogCategories();
-  }, [fetchBlogCategories]);
+  }, [fetchBlogCategories, i18n.language]);
 
   useEffect(() => {
     if (blogCategories.length > 0 && activeFilter === null) {
@@ -58,7 +58,14 @@ const Blog = () => {
     }
 
     fetchBlogArticles(params);
-  }, [fetchBlogArticles, currentPage, activeCategoryId, searchQuery, sorting]);
+  }, [
+    fetchBlogArticles,
+    currentPage,
+    activeCategoryId,
+    searchQuery,
+    sorting,
+    i18n.language,
+  ]);
 
   const handleCategoryClick = (
     categoryName: string,
@@ -124,30 +131,25 @@ const Blog = () => {
               <div className="text-red-500 p-2">{blogCategoriesError}</div>
             ) : (
               <div className="flex flex-wrap items-center gap-[6px] mb-[20px] md:mb-0">
-                {blogCategories.map(
-                  (category) => (
-                    console.log(category),
-                    (
-                      <button
-                        key={category.id}
-                        onClick={() =>
-                          handleCategoryClick(
-                            category.name.en,
-                            category.id === 0 ? null : category.id,
-                          )
-                        }
-                        className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
-                          activeFilter === category.name.en
-                            ? "bg-[#11CA00]"
-                            : "bg-[#1D1E23]"
-                        }`}>
-                        {i18n.language === "ru"
-                          ? category.name.ru
-                          : category.name.en}
-                      </button>
-                    )
-                  ),
-                )}
+                {blogCategories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() =>
+                      handleCategoryClick(
+                        category.name.en,
+                        category.id === 0 ? null : category.id,
+                      )
+                    }
+                    className={`p-[12px] rounded-[12px] h-[40px] flex items-center justify-center ${
+                      activeFilter === category.name.en
+                        ? "bg-[#11CA00]"
+                        : "bg-[#1D1E23]"
+                    }`}>
+                    {i18n.language === "ru"
+                      ? category.name.ru
+                      : category.name.en}
+                  </button>
+                ))}
               </div>
             )}
           </div>
@@ -204,7 +206,7 @@ const Blog = () => {
 
                   <div
                     className="relative w-[334px] sm:w-[336px] h-[420px] lg:w-[394px] lg:h-[460px] border-[1px] bg-[#1A1B1F] border-[#24262C] rounded-[16px] overflow-hidden hover:border-[#CBFF51] cursor-pointer"
-                    onClick={() => router.push(`blog/${article.id}`)}>
+                    onClick={() => router.push(`blog/${article.slug}`)}>
                     <div className="h-[200px] relative">
                       <Image
                         src={getImageUrl(article.img)}

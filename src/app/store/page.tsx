@@ -31,7 +31,7 @@ const Store = () => {
 
   useEffect(() => {
     fetchProductCategories();
-  }, [fetchProductCategories]);
+  }, [fetchProductCategories, i18n.language]);
 
   useEffect(() => {
     fetchProducts({
@@ -40,7 +40,14 @@ const Store = () => {
       search: searchQuery || undefined,
       sorting,
     });
-  }, [fetchProducts, currentPage, activeFilter, searchQuery, sorting]);
+  }, [
+    fetchProducts,
+    currentPage,
+    activeFilter,
+    searchQuery,
+    sorting,
+    i18n.language,
+  ]);
 
   useEffect(() => {
     if (productCategories.length > 0 && activeFilter === null) {
