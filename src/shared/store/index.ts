@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import axiosInstance, { update2FA, updateAxiosToken } from "../api/axios";
 import Cookies from "js-cookie";
 import { t } from "i18next";
+import i18n from "i18next";
 
 type AuthErrors = {
   name?: string[];
@@ -1426,38 +1427,22 @@ const useStore = create<StoreState>()(
 
       refreshUser: async () => {
         try {
-          set({
-            isUpdatingUser: true,
-            updateUserSuccess: null,
-            updateUserError: null,
-          });
+          const token = Cookies.get("auth-token");
+          if (token) {
+            const { data } = await axiosInstance.get<User>("/api/user");
+            set({ user: data });
 
-          const { data: userData } = await axiosInstance.get<User>("/api/user");
+            // Set language from user preferences and remove cookie
+            if (data.lang) {
+              i18n.changeLanguage(data.lang);
+              Cookies.remove("language", { path: "/" });
+            }
 
-          const updatedUser = { ...get().user, ...userData };
-
-          set({
-            user: updatedUser,
-            isUpdatingUser: false,
-            updateUserSuccess: "User refreshed successfully",
-            updateUserError: null,
-          });
-
-          return updatedUser;
-        } catch (err) {
-          console.error("Error refreshing user:", err);
-
-          // @ts-expect-error: AxiosError is not working
-          if (error.response?.status === 403) {
-            throw new Error("Forbidden");
+            return data;
           }
-
-          set({
-            isUpdatingUser: false,
-            updateUserSuccess: null,
-            updateUserError: "Failed to refresh profile",
-          });
-
+          return null;
+        } catch (error) {
+          console.error("Error refreshing user:", error);
           return null;
         }
       },
@@ -2064,103 +2049,56 @@ const useStore = create<StoreState>()(
       },
       login: async (data: LoginParams) => {
         set({ authErrors: {}, authLoading: true });
-
-        let errorMessage = "Unknown error";
-
         try {
-          const {
-            data: { token, two_factor },
-          } = await axiosInstance.post<{ token: string; two_factor: boolean }>(
-            "/api/login",
-            data,
-          );
+          const response = await axiosInstance.post<{
+            token: string;
+            two_factor: boolean;
+          }>("/api/login", data);
 
-          if (token) {
-            if (!two_factor) {
-              updateAxiosToken(token);
+          const { token, two_factor } = response.data;
 
-              try {
-                const { data: userData } = await axiosInstance.get<User>(
-                  "/api/user",
-                  { headers: { Authorization: `Bearer ${token}` } },
-                );
-                set({ user: userData, sessionVerified: true });
-              } catch (userError) {
-                const err = userError as {
-                  response?: { status?: number; data?: { message?: string } };
-                };
+          if (token && !two_factor) {
+            updateAxiosToken(token);
 
-                if (
-                  err.response?.status === 403 ||
-                  err.response?.status === 422
-                ) {
-                  errorMessage =
-                    err.response?.status === 403 &&
-                    typeof err?.response?.data === "string"
-                      ? err?.response?.data
-                      : (err?.response?.data?.message || "Unknown error") ===
-                          "Эти учетные данные не соответствуют нашим записям.."
-                        ? "This login and password does not exist, please try again or register a new profile"
-                        : "Unknown error";
-                  set({
-                    authErrors: { global: errorMessage },
-                    sessionVerified: false,
-                    user: null,
-                  });
-                } else {
-                  set({ sessionVerified: false, user: null });
-                }
-                console.log("Метка 7");
-                updateAxiosToken(null);
-                Cookies.remove("auth-token");
+            try {
+              const { data: userData } = await axiosInstance.get<User>(
+                "/api/user",
+                { headers: { Authorization: `Bearer ${token}` } },
+              );
+              set({ user: userData, sessionVerified: true });
 
-                throw {
-                  errorMessage:
-                    errorMessage ||
-                    "This login and password does not exist, please try again or register a new profile",
-                };
+              // Set language from user preferences and remove cookie
+              if (userData.lang) {
+                i18n.changeLanguage(userData.lang);
+                Cookies.remove("language", { path: "/" });
               }
-            }
-
-            if (two_factor) {
-              return { token, two_factor: true };
+            } catch (userError) {
+              console.warn("Error fetching user after login:", userError);
+              set({ sessionVerified: false, user: null });
             }
           }
 
-          set({ authLoading: false });
-          return { token, two_factor: false };
-        } catch (userError) {
-          const err = userError as {
-            response?: { status?: number; data?: { message?: string } };
+          set({
+            authLoading: false,
+            authStatus: two_factor ? "2fa_required" : null,
+          });
+
+          return response.data;
+        } catch (e) {
+          const err = e as {
+            response?: { data?: { errors?: AuthErrors; message?: string } };
           };
 
-          if (err.response?.status === 403 || err.response?.status === 422) {
-            errorMessage =
-              err.response?.status === 403 &&
-              typeof err?.response?.data === "string"
-                ? err?.response?.data
-                : (err?.response?.data?.message || "Unknown error") ===
-                    "Эти учетные данные не соответствуют нашим записям.."
-                  ? "This login and password does not exist, please try again or register a new profile"
-                  : "Unknown error";
-
-            set({
-              authErrors: { global: errorMessage },
-              sessionVerified: false,
-              user: null,
-            });
-          } else {
-            set({ sessionVerified: false, user: null });
-          }
-          console.log("Метка 8");
-          updateAxiosToken(null);
-          // Cookies.remove("auth-token");
-
-          throw {
-            errorMessage:
-              errorMessage ||
-              "This login and password does not exist, please try again or register a new profile",
-          };
+          set({
+            authErrors: {
+              ...(err.response?.data?.errors || {}),
+              global:
+                err.response?.data?.message ||
+                "Login failed. Please try again.",
+            },
+            authLoading: false,
+          });
+          throw e;
         }
       },
 
@@ -2212,6 +2150,9 @@ const useStore = create<StoreState>()(
           update2FA(null);
           Cookies.remove("auth-token");
           Cookies.remove("user");
+
+          // Keep language cookie - it was already set in the handleLogout function of ProfileModal
+
           set({
             user: null,
             sessionVerified: false,

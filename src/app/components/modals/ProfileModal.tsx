@@ -21,6 +21,7 @@ import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { Progress } from "@/shared/icons/Progress";
+import Cookies from "js-cookie";
 
 type ProfileModalType = {
   toggleProfileModal: () => void;
@@ -89,9 +90,12 @@ const ProfileModal = ({
     if (user && code !== user.lang) {
       try {
         await updateUser({ lang: code });
+        Cookies.remove("language", { path: "/" });
       } catch (error) {
         console.error("Error updating language:", error);
       }
+    } else if (!user) {
+      Cookies.set("language", code, { expires: 365, path: "/" });
     }
 
     setIsLanguageDropdownOpen(false);
@@ -100,6 +104,11 @@ const ProfileModal = ({
 
   const handleLogout = async () => {
     setIsLoading(true);
+
+    if (user?.lang) {
+      Cookies.set("language", user.lang, { expires: 365, path: "/" });
+    }
+
     await logout();
     router.push("/auth/login");
     setIsLoading(false);

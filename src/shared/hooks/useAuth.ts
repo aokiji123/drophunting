@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import axiosInstance, { updateAxiosToken } from "../api/axios";
 import useStore from "../store";
 import { User } from "../store";
+import i18n from "i18next";
 
 const useAuth = () => {
   const [initializing, setInitializing] = useState(true);
@@ -31,6 +32,12 @@ const useAuth = () => {
             updateAxiosToken(token);
             const { data } = await axiosInstance.get<User>("/api/user");
 
+            // Use user's language preference and remove cookie
+            if (data.lang) {
+              i18n.changeLanguage(data.lang);
+              Cookies.remove("language", { path: "/" });
+            }
+
             useStore.setState({
               user: data,
               sessionVerified: true,
@@ -42,6 +49,13 @@ const useAuth = () => {
             console.log("Метка 4");
             alert("Метка 4");
             updateAxiosToken(null);
+
+            // If there's a saved language in cookies, use that
+            const savedLanguage = Cookies.get("language");
+            if (savedLanguage) {
+              i18n.changeLanguage(savedLanguage);
+            }
+
             useStore.setState({
               user: null,
               sessionVerified: true,
@@ -49,6 +63,12 @@ const useAuth = () => {
             });
           }
         } else {
+          // If there's a saved language in cookies, use that
+          const savedLanguage = Cookies.get("language");
+          if (savedLanguage) {
+            i18n.changeLanguage(savedLanguage);
+          }
+
           useStore.setState({
             sessionVerified: true,
             authLoading: false,

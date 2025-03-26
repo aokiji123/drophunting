@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Badge } from "antd";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -19,12 +19,49 @@ import NavigationModal from "./modals/NavigationModal";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { PiXLogo } from "react-icons/pi";
 import { MainLogo } from "@/shared/icons/MainLogo";
+import { FaCheck, FaCaretDown } from "react-icons/fa6";
+import Cookies from "js-cookie";
+import ru from "../../../public/assets/icons/ru.png";
+import en from "../../../public/assets/icons/en.png";
+import { GrLanguage } from "react-icons/gr";
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
   const { user, loading } = useAuth();
+
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [isUpdatingLanguage, setIsUpdatingLanguage] = useState(false);
+
+  useEffect(() => {
+    const savedLanguage = Cookies.get("language");
+    if (savedLanguage && !user) {
+      setSelectedLanguage(savedLanguage);
+      if (i18n.language !== savedLanguage) {
+        i18n.changeLanguage(savedLanguage);
+      }
+    }
+  }, [i18n, user]);
+
+  const languages = [
+    { code: "ru", name: t("profileModal.russian"), flag: ru },
+    { code: "en", name: t("profileModal.english"), flag: en },
+  ];
+
+  const handleLanguageChange = async (code: string) => {
+    if (isUpdatingLanguage || code === selectedLanguage) return;
+
+    setIsUpdatingLanguage(true);
+    setSelectedLanguage(code);
+    i18n.changeLanguage(code);
+
+    Cookies.set("language", code, { expires: 365, path: "/" });
+
+    setIsLanguageDropdownOpen(false);
+    setIsUpdatingLanguage(false);
+  };
 
   const isActive = (href: string) => {
     if (href === "/guides") {
@@ -162,6 +199,40 @@ const Header = () => {
           </div>
         )}
 
+        {!user && (
+          <div className="hidden xs:block relative">
+            <div
+              className="cursor-pointer flex items-center gap-2"
+              onClick={() =>
+                setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+              }>
+              <GrLanguage size={20} />
+              {selectedLanguage === "ru" ? "RU" : "EN"}
+              <FaCaretDown />
+            </div>
+
+            {isLanguageDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-[150px] bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
+                {languages.map((lang) => (
+                  <div
+                    key={lang.code}
+                    className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                      selectedLanguage === lang.code && `bg-[#181C20]`
+                    }`}
+                    onClick={() => handleLanguageChange(lang.code)}>
+                    <div className="flex items-center gap-[12px]">
+                      <p className="text-[14px] font-semibold">{lang.name}</p>
+                    </div>
+                    {selectedLanguage === lang.code && (
+                      <FaCheck size={16} className="text-[#CBFF51]" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {user ? (
           <div
             onClick={toggleProfileModal}
@@ -191,7 +262,7 @@ const Header = () => {
           <button
             onClick={() => (window.location.href = "/auth/login")}
             className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
-            Login
+            {t("header.login")}
           </button>
         )}
 

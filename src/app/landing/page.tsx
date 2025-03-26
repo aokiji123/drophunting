@@ -10,6 +10,7 @@ import { GrLanguage } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 import landingHeaderBg from "../../../public/assets/landing-header-bg.jpg";
 import landingFooterBg from "../../../public/assets/landing-footer-bg.jpg";
@@ -38,6 +39,8 @@ import "../../../public/fonts/stylesheet.css";
 const Landing = () => {
   const [isLandingModalOpen, setIsLandingModalOpen] = useState(false);
   const { t, i18n } = useTranslation();
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
   const aboutSectionRef = useRef<HTMLDivElement>(null);
   const resultsSectionRef = useRef<HTMLDivElement>(null);
@@ -48,9 +51,20 @@ const Landing = () => {
     setIsLandingModalOpen(!isLandingModalOpen);
   };
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "en" ? "ru" : "en";
-    i18n.changeLanguage(newLang);
+  const languages = [
+    { code: "ru", name: t("profileModal.russian") },
+    { code: "en", name: t("profileModal.english") },
+  ];
+
+  const handleLanguageChange = (code: string) => {
+    if (code === selectedLanguage) return;
+
+    setSelectedLanguage(code);
+    i18n.changeLanguage(code);
+    // Save language preference in cookies for non-logged in users
+    Cookies.set("language", code, { expires: 365, path: "/" });
+
+    setIsLanguageDropdownOpen(false);
   };
 
   const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
@@ -61,6 +75,14 @@ const Landing = () => {
       }
     }
   };
+
+  useEffect(() => {
+    // Initialize language from cookies for non-logged in users
+    const savedLanguage = Cookies.get("language");
+    if (savedLanguage && i18n.language !== savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+  }, [i18n]);
 
   useEffect(() => {
     if (isLandingModalOpen) {
@@ -114,12 +136,39 @@ const Landing = () => {
               </li>
             </ul>
             <div className="flex items-center gap-[8px] md:gap-[16px]">
-              <div className="cursor-pointer" onClick={toggleLanguage}>
-                <div className="flex items-center gap-[6px]">
-                  <GrLanguage size={20} />
-                  <p>{t("landing.language")}</p>
-                  <FaCaretDown />
+              <div className="relative">
+                <div
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+                  }>
+                  <div className="flex items-center gap-[6px]">
+                    <GrLanguage size={20} />
+                    <p>{t("landing.language")}</p>
+                    <FaCaretDown />
+                  </div>
                 </div>
+                {isLanguageDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-[150px] bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
+                    {languages.map((lang) => (
+                      <div
+                        key={lang.code}
+                        className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                          selectedLanguage === lang.code && `bg-[#181C20]`
+                        }`}
+                        onClick={() => handleLanguageChange(lang.code)}>
+                        <div className="flex items-center gap-[12px]">
+                          <p className="text-[14px] font-semibold">
+                            {lang.name}
+                          </p>
+                        </div>
+                        {selectedLanguage === lang.code && (
+                          <FaCheck size={16} className="text-[#CBFF51]" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <a
                 href="https://app.drophunting.io"
@@ -431,11 +480,11 @@ const Landing = () => {
           />
         </div>
         <div className="flex items-center justify-center">
-          <div className="opacity-0 flex items-center justify-center mt-[50px] bg-white py-[10px] px-[16px] rounded-[12px] w-[184px] h-[40px] sm:h-[48px] lg:h-[57px]">
-            <div className="text-[14px] leading-[16px] text-black">
-              Показать еще
-            </div>
-          </div>
+          <button className="flex items-center justify-center bg-white rounded-[12px] px-[16px] py-[10px] h-[57px] min-w-[185px] cursor-pointer mt-[50px]">
+            <p className="text-[14px] leading-[16px] text-black">
+              {t("landing.showMore")}
+            </p>
+          </button>
         </div>
 
         <Image

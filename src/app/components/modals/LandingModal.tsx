@@ -1,9 +1,12 @@
+import React, { useState } from "react";
 import { BsTwitterX } from "react-icons/bs";
-import { FaCaretDown, FaDiscord, FaInstagram } from "react-icons/fa6";
+import { FaCaretDown, FaDiscord, FaInstagram, FaCheck } from "react-icons/fa6";
 import { GrLanguage } from "react-icons/gr";
 import { IoMdClose } from "react-icons/io";
 import { RiTelegram2Fill } from "react-icons/ri";
 import { useTranslation } from "react-i18next";
+import Link from "next/link";
+import Cookies from "js-cookie";
 
 type LandingModalType = {
   toggleLandingModal: () => void;
@@ -23,59 +26,94 @@ const LandingModal = ({
   contactsSectionRef,
 }: LandingModalType) => {
   const { t, i18n } = useTranslation();
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === "en" ? "ru" : "en";
-    i18n.changeLanguage(newLang);
+  const languages = [
+    { code: "ru", name: t("profileModal.russian") },
+    { code: "en", name: t("profileModal.english") },
+  ];
+
+  const handleLanguageChange = (code: string) => {
+    if (code === selectedLanguage) return;
+
+    setSelectedLanguage(code);
+    i18n.changeLanguage(code);
+    // Save language preference in cookies for non-logged in users
+    Cookies.set("language", code, { expires: 365, path: "/" });
+
+    setIsLanguageDropdownOpen(false);
   };
 
   return (
-    <div className="flex flex-col h-full p-4 px-[12px] pt-[48px] pb-[34px]">
+    <div className="h-full bg-[#1C1E22] relative">
       <button
-        className="block lg:hidden absolute top-3 right-3 text-white"
+        className="block absolute top-3 right-3 text-white"
         onClick={toggleLandingModal}>
         <IoMdClose size={24} className="hover:text-[#9EA0A6] cursor-pointer" />
       </button>
-      <div className="flex flex-col gap-[38px]">
-        <ul className="flex flex-col gap-[4px]">
-          <li className="px-[12px] py-[8px]">
-            <button
-              onClick={() => scrollToSection(aboutSectionRef)}
-              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
-              {t("landingModal.aboutService")}
-            </button>
-          </li>
-          <li className="px-[12px] py-[8px]">
-            <button
-              onClick={() => scrollToSection(resultsSectionRef)}
-              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
-              {t("landingModal.results")}
-            </button>
-          </li>
-          <li className="px-[12px] py-[8px]">
-            <button
-              onClick={() => scrollToSection(howItWorksSectionRef)}
-              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
-              {t("landingModal.howItWorks")}
-            </button>
-          </li>
-          <li className="px-[12px] py-[8px]">
-            <button
-              onClick={() => scrollToSection(contactsSectionRef)}
-              className="text-white text-[16px] leading-[18px] font-semibold hover:text-[#11CA00] transition-colors">
-              {t("landingModal.contacts")}
-            </button>
-          </li>
-        </ul>
-        <div className="flex flex-col gap-[8px]">
-          <a
-            href="https://app.drophunting.io"
-            className="hover:bg-[#0D9E00] transition-colors w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#11CA00] flex items-center justify-center">
-            {t("landingModal.goToAggregator")}
-          </a>
-          {/* <button className="w-full h-[48px] px-[38px] py-[24px] rounded-[10px] text-[14px] md:text-[15px] leading-[18px] font-semibold bg-[#21274C] flex items-center justify-center">
-            {t("landingModal.subscribeToBot")}
-          </button> */}
+      <div className="p-[16px] flex flex-col justify-between h-full">
+        <div className="flex flex-col gap-[16px]">
+          <button
+            onClick={() => scrollToSection(aboutSectionRef)}
+            className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px]">
+            {t("landingModal.aboutService")}
+          </button>
+          <button
+            onClick={() => scrollToSection(resultsSectionRef)}
+            className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px]">
+            {t("landingModal.results")}
+          </button>
+          <button
+            onClick={() => scrollToSection(howItWorksSectionRef)}
+            className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px]">
+            {t("landingModal.howItWorks")}
+          </button>
+          <button
+            onClick={() => scrollToSection(contactsSectionRef)}
+            className="hover:bg-[#24262A] bg-transparent text-white rounded-[12px] py-[16px] text-left px-[16px]">
+            {t("landingModal.contacts")}
+          </button>
+          <div className="relative px-[16px] py-[16px]">
+            <div
+              className="cursor-pointer flex items-center gap-[6px]"
+              onClick={() =>
+                setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+              }>
+              <GrLanguage size={20} />
+              <p>{t("landing.language")}</p>
+              <FaCaretDown />
+            </div>
+            {isLanguageDropdownOpen && (
+              <div className="absolute left-[16px] mt-2 w-[150px] bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px]">
+                {languages.map((lang) => (
+                  <div
+                    key={lang.code}
+                    className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                      selectedLanguage === lang.code && `bg-[#181C20]`
+                    }`}
+                    onClick={() => handleLanguageChange(lang.code)}>
+                    <div className="flex items-center gap-[12px]">
+                      <p className="text-[14px] font-semibold">{lang.name}</p>
+                    </div>
+                    {selectedLanguage === lang.code && (
+                      <FaCheck size={16} className="text-[#CBFF51]" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col gap-[12px]">
+          <div className="flex flex-col gap-[12px]">
+            <Link
+              href="https://app.drophunting.io"
+              className="hover:bg-[#0D9E00] transition-colors w-full bg-[#11CA00] py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
+              {t("landingModal.goToAggregator")}
+            </Link>
+            {/* <button className="bg-[#21274C] w-full py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">{t('landingModal.subscribeToBot')}</button> */}
+          </div>
         </div>
       </div>
       <hr className="my-[26px] border-0 h-px bg-[#24262A]" />
@@ -101,13 +139,6 @@ const LandingModal = ({
             className="cursor-pointer hover:opacity-80 transition-opacity"
             size={28}
           />
-        </div>
-      </div>
-      <div className="cursor-pointer" onClick={toggleLanguage}>
-        <div className="flex items-center gap-[6px]">
-          <GrLanguage size={20} />
-          <p>{t("landing.language")}</p>
-          <FaCaretDown />
         </div>
       </div>
     </div>

@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
-import Image from "next/image";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import Image from "next/image";
 import starIcon from "../../../../public/assets/icons/star.png";
-import { PiXLogo } from "react-icons/pi";
+import { useTranslation } from "react-i18next";
+import useAuth from "@/shared/hooks/useAuth";
+import { FaCheck, FaCaretDown } from "react-icons/fa6";
+import Cookies from "js-cookie";
 import { RiTelegram2Fill } from "react-icons/ri";
-import useStore from "@/shared/store";
+import { PiXLogo } from "react-icons/pi";
+import ru from "../../../../public/assets/icons/ru.png";
+import en from "../../../../public/assets/icons/en.png";
+import { GrLanguage } from "react-icons/gr";
 
 type ProfileModalType = {
   toggleNavigationModal: () => void;
@@ -17,13 +22,29 @@ const NavigationModal = ({
   toggleNavigationModal,
   openPlansModal,
 }: ProfileModalType) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const { user } = useAuth();
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const [isUpdatingLanguage, setIsUpdatingLanguage] = useState(false);
 
-  const { user } = useStore();
+  const languages = [
+    { code: "ru", name: t("profileModal.russian"), flag: ru },
+    { code: "en", name: t("profileModal.english"), flag: en },
+  ];
 
-  const handlePlansClick = () => {
-    toggleNavigationModal();
-    openPlansModal();
+  const handleLanguageChange = async (code: string) => {
+    if (isUpdatingLanguage || code === selectedLanguage) return;
+
+    setIsUpdatingLanguage(true);
+    setSelectedLanguage(code);
+    i18n.changeLanguage(code);
+
+    // Save language in cookies for non-logged in users
+    Cookies.set("language", code, { expires: 365, path: "/" });
+
+    setIsLanguageDropdownOpen(false);
+    setIsUpdatingLanguage(false);
   };
 
   const tabs = [
@@ -60,25 +81,81 @@ const NavigationModal = ({
             </Link>
           ))}
         </ul>
-        {user ? (
-          <button
-            className="flex w-full items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px] justify-center"
-            onClick={handlePlansClick}>
-            <Image
-              src={starIcon}
-              alt="Star icon"
-              className="w-[16px] h-[16px]"
-            />
-            <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
-              {t("navigationModal.upgrade")}
-            </p>
-          </button>
+        {!user && (
+          <div className="relative w-fit">
+            <div
+              className="cursor-pointer flex items-center justify-between rounded-[12px] hover:bg-[#24262A] h-[40px] p-[12px] gap-[12px]"
+              onClick={() =>
+                setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+              }>
+              <div className="flex items-center gap-[12px]">
+                {/* <Image
+                  src={
+                    languages.find((lang) => lang.code === selectedLanguage)
+                      ?.flag || en
+                  }
+                  alt={selectedLanguage}
+                  className="h-[20px] w-[20px] object-cover rounded-full"
+                /> */}
+                <GrLanguage size={20} />
+                <p className="text-[14px] leading-[20px] font-medium">
+                  {selectedLanguage === "ru" ? "RU" : "EN"}
+                </p>
+              </div>
+              <FaCaretDown />
+            </div>
+
+            {isLanguageDropdownOpen && (
+              <div className="absolute left-0 mt-2 bg-[#141518] p-[4px] rounded-[12px] shadow-lg z-50 space-y-[2px] w-[200px]">
+                {languages.map((lang) => (
+                  <div
+                    key={lang.code}
+                    className={`flex items-center justify-between p-[12px] rounded-[12px] cursor-pointer hover:bg-[#181C20] ${
+                      selectedLanguage === lang.code && `bg-[#181C20]`
+                    }`}
+                    onClick={() => handleLanguageChange(lang.code)}>
+                    <div className="flex items-center gap-[12px]">
+                      <p className="text-[14px] font-semibold">{lang.name}</p>
+                    </div>
+                    {selectedLanguage === lang.code && (
+                      <FaCheck size={16} className="text-[#CBFF51]" />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {!user ? (
+          <div className="p-[8px] w-full">
+            <Link
+              href="/auth/login"
+              className="flex justify-center items-center h-[40px] w-full bg-[#11CA00] hover:bg-[#0CAE00] transition-colors rounded-[12px] text-[14px] leading-[16px] font-medium"
+              onClick={toggleNavigationModal}>
+              {t("navigationModal.login")}
+            </Link>
+          </div>
         ) : (
-          <button
-            onClick={() => (window.location.href = "/auth/login")}
-            className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
-            {t("navigationModal.login")}
-          </button>
+          user &&
+          !user?.subaccount && (
+            <div className="p-[8px] w-full">
+              <button
+                className="flex w-full items-center gap-1 bg-gradient-to-r from-[#C3FF361C] to-[#00AFB81C] p-2 rounded-lg h-[40px] justify-center"
+                onClick={() => {
+                  openPlansModal();
+                  toggleNavigationModal();
+                }}>
+                <Image
+                  src={starIcon}
+                  alt="Star icon"
+                  className="w-[16px] h-[16px]"
+                />
+                <p className="bg-gradient-to-r from-[#CBFF51] to-[#7EE39C] inline-block text-transparent bg-clip-text">
+                  {t("navigationModal.upgrade")}
+                </p>
+              </button>
+            </div>
+          )
         )}
         <div className="flex gap-2">
           <Link href="https://www.google.com" target="_blank">

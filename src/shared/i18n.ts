@@ -1,5 +1,10 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import Cookies from "js-cookie";
+
+// Try to get language from cookies first
+const savedLanguage =
+  typeof window !== "undefined" ? Cookies.get("language") : null;
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -107,6 +112,7 @@ i18n.use(initReactI18next).init({
           guides: "Guides",
           store: "Store",
           upgrade: "Upgrade",
+          login: "Login",
         },
         footer: {
           support: "Support",
@@ -297,6 +303,7 @@ i18n.use(initReactI18next).init({
           userAgreement: "User Agreement Policy",
           privacy: "Privacy",
           cookie: "Cookie",
+          showMore: "Show more",
         },
         landingModal: {
           aboutService: "About service",
@@ -710,6 +717,7 @@ i18n.use(initReactI18next).init({
           guides: "Гайды",
           store: "Магазин",
           upgrade: "Улучшить",
+          login: "Войти",
         },
         footer: {
           support: "Поддержка",
@@ -861,8 +869,8 @@ i18n.use(initReactI18next).init({
           airdropAggregator: "Airdrop Агрегатор #1",
           getTheBest: "Получайте лучшие AirDrop первыми",
           newDrops: "Новые дропы каждый день",
-          latestNews: "А еще вот это новинки",
-          discoverNewDrops: "Новинки узнавайте первыми о которых не знал никто",
+          latestNews: "Получай новости первым",
+          discoverNewDrops: "Исследуйте новые дропы, о которых никто не знает",
           airdropsCompleted: "Аирдропов уже прошли на Drophunting",
           availableWinningsSum:
             "Доступная сумма выигрышей через DropHunting. Охотьтесь по крупному",
@@ -900,6 +908,7 @@ i18n.use(initReactI18next).init({
           userAgreement: "Политика пользовательского соглашения",
           privacy: "Privacy",
           cookie: "Cookie",
+          showMore: "Показать больше",
         },
         landingModal: {
           aboutService: "О сервисе",
@@ -1206,7 +1215,7 @@ i18n.use(initReactI18next).init({
       },
     },
   },
-  lng: "en", // Default language
+  lng: savedLanguage || "en", // Use saved language or default to English
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,
