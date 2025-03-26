@@ -480,7 +480,7 @@ const Landing = () => {
           />
         </div>
         <div className="flex items-center justify-center">
-          <button className="flex items-center justify-center bg-white rounded-[12px] px-[16px] py-[10px] h-[57px] min-w-[185px] cursor-pointer mt-[50px]">
+          <button className="flex items-center justify-center bg-white rounded-[12px] px-[16px] py-[10px] h-[57px] min-w-[185px] cursor-pointer mt-[50px] hover:bg-opacity-90">
             <p className="text-[14px] leading-[16px] text-black">
               {t("landing.showMore")}
             </p>

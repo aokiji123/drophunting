@@ -284,7 +284,7 @@ i18n.use(initReactI18next).init({
             "New drops every day. Subscribe and stay up to date with the latest project updates",
           telegram: "Telegram",
           resultsTitle: "RESULTS",
-          rewardsFromPastDrops: "REWARDS FROM PAST DROPS",
+          rewardsFromPastDrops: "REWARDS FROM INCOMING DROPS",
           usersParticipate:
             "Our users participate in more than 500 drops and earn guaranteed rewards",
           earned: "Earned",
@@ -889,19 +889,19 @@ i18n.use(initReactI18next).init({
             "Каждый день новые дропы. Подпишись и будь в курсе последних обновлений в проектах",
           telegram: "Телеграм",
           resultsTitle: "РЕЗУЛЬТАТЫ",
-          rewardsFromPastDrops: "НАГРАДЫ С ПРОШЕДШИХ ДРОПОВ",
+          rewardsFromPastDrops: "НАГРАДЫ С ПРИШЕДШИХ ДРОПОВ",
           usersParticipate:
             "Наши пользователи участвуют в более чем 500 дропов и зарабатывают гарантированные вознаграждения",
           earned: "Заработано",
           investment: "Вложения",
           howItWorksTitle: "Как это работает",
-          projectsPublishDrops: "Проекты публикуют дроп, а вы следите за ними",
+          projectsPublishDrops: "Проекты публикуют дропы, а вы следите за ними",
           projectsPublishDescription:
-            "Проекты публикуют различные дрропы которые вы можете найти в каталоге или в нашем телеграм канале. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
-          earnMoney: "Зарабатывайте деньги на гарантированнх дропах",
+            "Проекты публикуют различные дропы, которые вы можете найти в каталоге или в нашем телеграм каналe. Каждый из них показан сколько требуется вложений и будет ли гарантированный дроп",
+          earnMoney: "Зарабатывайте деньги на гарантированных дропах",
           joinCommunity: "Присоединяйся к комьюнити",
           subscribeToDropHunting:
-            "Подпишись на Drop Hunting в соц сетях чтобы не пропустить ни одного дропа и всегда быть в курсе событий",
+            "Подпишись на Drop Hunting в соц. сетях, чтобы не пропустить ни одного дропа и всегда быть в курсе событий",
           bestAirdropsInWorld: "Лучшие аирдропы в мире",
           noMorePrivates:
             'Больше никаких "приваток" и подписок на сотни телеграм каналов',
