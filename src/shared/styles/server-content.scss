@@ -1,4 +1,24 @@
 .article-content {
+  ul,
+  ol {
+    padding-left: 32px;
+    li {
+      color: #cacbce;
+      font-size: 18px;
+      line-height: 28px;
+      font-family: "Chakra Petch", sans-serif;
+      padding: 4px 0;
+    }
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    list-style: disc;
+  }
+
   p {
     color: #cacbce;
     font-size: 18px;
@@ -68,24 +88,8 @@
     color: #98ce18;
     text-decoration: underline;
   }
-
-  ul,
-  ol {
-    li {
-      color: #cacbce;
-      font-size: 18px;
-      line-height: 28px;
-      font-family: "Chakra Petch", sans-serif;
-      padding: 4px 0;
-    }
-  }
-
-  ol {
-    list-style: decimal;
-  }
-
-  ul {
-    list-style: disc;
+  hr {
+    margin: 24px 0;
   }
 
   table {
@@ -107,5 +111,38 @@
     tr:nth-child(even) {
       background-color: #f2f2f213;
     }
+  }
+}
+
+.guide-content,
+.task-content {
+  ul,
+  ol {
+    padding: 6px 0 6px 32px;
+    li {
+      padding: 4px 0;
+    }
+  }
+
+  ol {
+    list-style: decimal;
+  }
+
+  ul {
+    list-style: disc;
+  }
+}
+
+.task-content {
+  img {
+    margin: 32px auto;
+  }
+
+  p {
+    font: "IBM Plex Mono", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 21px;
+    margin: 32px 0;
   }
 }
