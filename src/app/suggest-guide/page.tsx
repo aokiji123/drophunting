@@ -10,6 +10,8 @@ import { GrBook } from "react-icons/gr";
 import useStore from "@/shared/store";
 import { Progress } from "@/shared/icons/Progress";
 import { useTranslation } from "react-i18next";
+import { IoMdClose } from "react-icons/io";
+import { FiCheck } from "react-icons/fi";
 
 const SuggestGuide = () => {
   const { t } = useTranslation();
@@ -22,6 +24,8 @@ const SuggestGuide = () => {
     name?: string;
     description?: string;
   }>({});
+
+  const [isSend, setIsSend] = useState(false);
 
   const {
     suggestGuide,
@@ -60,6 +64,8 @@ const SuggestGuide = () => {
     }
 
     await suggestGuide({ name, description });
+
+    setIsSend(true);
   };
 
   return (
@@ -156,7 +162,11 @@ const SuggestGuide = () => {
                       id="guide-name"
                       type="text"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 255) {
+                          setName(e.target.value);
+                        }
+                      }}
                       placeholder={t("suggestGuide.enterNamePlaceholder")}
                       className={`w-full h-[48px] bg-[#292B2F] rounded-[14px] py-[12px] px-[16px] text-[14px] leading-[20px] text-white ${
                         formErrors.name ? "border border-red-500" : ""
@@ -167,7 +177,13 @@ const SuggestGuide = () => {
                         {formErrors.name}
                       </span>
                     )}
+                    <div className="text-right">
+                      <span className="text-[12px] text-[#949392]">
+                        {name.length}/255
+                      </span>
+                    </div>
                   </div>
+
                   <div className="flex flex-col gap-2">
                     <label
                       htmlFor="guide-description"
@@ -178,7 +194,11 @@ const SuggestGuide = () => {
                       <textarea
                         id="guide-description"
                         value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        onChange={(e) => {
+                          if (e.target.value.length <= 800) {
+                            setDescription(e.target.value);
+                          }
+                        }}
                         className={`w-full min-h-[160px] h-full bg-[#292B2F] py-[12px] px-[16px] rounded-[10px] resize-none overflow-auto text-white ${
                           formErrors.description ? "border border-red-500" : ""
                         }`}
@@ -190,7 +210,13 @@ const SuggestGuide = () => {
                         </span>
                       )}
                     </div>
+                    <div className="text-right">
+                      <span className="text-[12px] text-[#949392]">
+                        {description.length}/800
+                      </span>
+                    </div>
                   </div>
+
                   <button
                     type="submit"
                     disabled={isSuggestingGuide}
@@ -211,6 +237,37 @@ const SuggestGuide = () => {
       </main>
 
       <Footer />
+
+      {isSend && (
+        <>
+          <div className="fixed inset-0 bg-black bg-opacity-40 z-50"></div>
+
+          <div className="fixed top-[150px] md:top-[60px] left-1/2 -translate-x-1/2 w-[357px] sm:w-[381px] h-[474px] lg:h-[494px] rounded-[12px] z-50 bg-[#1C1E22] p-6">
+            <button
+              className="absolute top-5 right-5"
+              onClick={() => setIsSend(false)}>
+              <IoMdClose size={24} className="text-[#9EA0A6] cursor-pointer" />
+            </button>
+
+            <div className="flex flex-col items-center justify-center h-full">
+              <div className="bg-[#11CA00] rounded-full p-4 mb-6">
+                <FiCheck size={32} className="text-white" />
+              </div>
+              <h2 className="text-[24px] font-bold mb-4 text-center">
+                {t("suggestGuide.isSendTitle")}
+              </h2>
+              <p className="text-[16px] text-[#B0B0B0] text-center mb-8">
+                {t("suggestGuide.isSendDescription")}
+              </p>
+              <button
+                onClick={() => setIsSend(false)}
+                className="h-[44px] lg:h-[56px] font-sans w-full px-[20px] lg:px-[24px] py-[12px] lg:py-[18px] rounded-[16px] bg-[#1D1E23] text-[16px] lg:text-[17px] leading-[20px] font-semibold">
+                {t("common.close")}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
