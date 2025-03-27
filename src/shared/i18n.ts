@@ -2,7 +2,6 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import Cookies from "js-cookie";
 
-// Try to get language from cookies first
 const savedLanguage =
   typeof window !== "undefined" ? Cookies.get("language") : null;
 
@@ -530,6 +529,9 @@ i18n.use(initReactI18next).init({
           descriptionRequired: "Guide description is required",
           sending: "Sending...",
           send: "Send",
+          isSendTitle: "Your idea has been sent",
+          isSendDescription:
+            "Your idea is sent for moderation. It will be published after moderation.",
         },
         termsAndPrivacy: {
           privacyPolicy: "Privacy Policy",
@@ -1137,6 +1139,9 @@ i18n.use(initReactI18next).init({
           descriptionRequired: "Описание гайда обязательно",
           sending: "Отправка...",
           send: "Отправить",
+          isSendTitle: "Ваша идея отправлена",
+          isSendDescription:
+            "Ваша идея отправлена на модерацию. Она будет опубликована после модерации.",
         },
         termsAndPrivacy: {
           privacyPolicy: "Политика конфиденциальности",
@@ -1217,7 +1222,7 @@ i18n.use(initReactI18next).init({
       },
     },
   },
-  lng: savedLanguage || "en", // Use saved language or default to English
+  lng: savedLanguage || "en",
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,

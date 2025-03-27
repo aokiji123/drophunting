@@ -2162,6 +2162,7 @@ const useStore = create<StoreState>()(
             authErrors: err.response?.data?.errors || {},
             authLoading: false,
           });
+          console.log(e);
           throw e;
         }
       },
