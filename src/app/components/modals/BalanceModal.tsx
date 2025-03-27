@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { useTranslation } from "react-i18next";
@@ -11,13 +11,14 @@ type BalanceModalType = {
 
 const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
   const { t } = useTranslation();
-  const { payWithYookassa, payWithNowPayments, paymentRedirectUrl } =
-    useStore();
+  const { payWithYookassa, payWithNowPayments } = useStore();
   const [amount, setAmount] = useState<number>(100);
   const [inputValue, setInputValue] = useState<string>("100");
   const [selected, setSelected] = useState("Fiat");
   const [error, setError] = useState<string | undefined>();
   const [isFocused, setIsFocused] = useState(false);
+
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const handleSwitch = (type: string) => {
     setSelected(type);
@@ -54,22 +55,22 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
   const handlePayment = async () => {
     if (error || amount <= 0) return;
 
+    let needUrl = "/";
+
+    setPaymentLoading(true);
+
     if (selected === "Fiat") {
-      await payWithYookassa(amount);
+      needUrl = (await payWithYookassa(amount)).redirect_url;
     } else {
-      await payWithNowPayments(amount);
+      needUrl = (await payWithNowPayments(amount)).redirect_url;
     }
 
-    if (paymentRedirectUrl) {
-      window.open(paymentRedirectUrl, "_blank");
+    if (needUrl) {
+      window.location.href = needUrl;
     }
+
+    setPaymentLoading(false);
   };
-
-  useEffect(() => {
-    if (paymentRedirectUrl) {
-      window.open(paymentRedirectUrl, "_blank");
-    }
-  }, [paymentRedirectUrl]);
 
   return (
     <div>
@@ -131,14 +132,20 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
         </div>
         <button
           onClick={handlePayment}
-          disabled={!!error || amount <= 0}
-          className={`w-full flex items-center justify-center gap-1 rounded-[16px] py-[18px] pr-[16px] pl-[24px] ${
+          disabled={!!error || amount <= 0 || paymentLoading}
+          className={`w-full flex items-center justify-center gap-1 rounded-[16px] h-[56px] pr-[16px] pl-[24px] ${
             error || amount <= 0
               ? "bg-gray-500 cursor-not-allowed"
               : "bg-[#11CA00] hover:bg-blue-500"
           } font-semibold leading-[20px] text-[17px]`}>
-          {t("balanceModal.goToPayment")}
-          <MdOutlineKeyboardArrowRight />
+          {paymentLoading ? (
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#CBFF51]" />
+          ) : (
+            <>
+              {t("balanceModal.goToPayment")}
+              <MdOutlineKeyboardArrowRight />
+            </>
+          )}
         </button>
       </div>
     </div>
