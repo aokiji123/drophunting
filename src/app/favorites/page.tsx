@@ -282,8 +282,10 @@ const Favorites = () => {
                       />
                       <p className="text-[16px] leading-[18px] font-bold">
                         {guide.competed_tasks_count > 0
-                          ? (guide.competed_tasks_count / guide.tasks_count) *
-                            100
+                          ? Math.round(
+                              (guide.competed_tasks_count / guide.tasks_count) *
+                                100,
+                            )
                           : 0}
                         %
                       </p>
