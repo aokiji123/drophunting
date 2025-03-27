@@ -24,21 +24,38 @@ export const BuySubaccountsModal = ({
   const [amount, setAmount] = useState<number>(1);
   const [error, setError] = useState<string>("");
   const { buySubaccounts, refreshUser, fetchSubaccounts } = useStore();
-  const totalPrice = amount * subaccountPrice;
+  const totalPrice = Math.floor(amount * subaccountPrice * 100) / 100;
+
+  // const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value;
+
+  //   if (value === "" || /^\d+$/.test(value)) {
+  //     const numValue = value === "" ? 0 : parseInt(value);
+
+  //     setAmount(numValue);
+
+  //     if (numValue > 10) {
+  //       setError(t("buySubaccountsModal.maxSubaccountsError"));
+  //     } else {
+  //       setError("");
+  //     }
+  //   }
+  // };
 
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
     if (value === "" || /^\d+$/.test(value)) {
-      const numValue = value === "" ? 0 : parseInt(value);
-
-      setAmount(numValue);
+      let numValue = value === "" ? 0 : parseInt(value, 10);
 
       if (numValue > 10) {
+        numValue = 10;
         setError(t("buySubaccountsModal.maxSubaccountsError"));
       } else {
         setError("");
       }
+
+      setAmount(numValue);
     }
   };
 
