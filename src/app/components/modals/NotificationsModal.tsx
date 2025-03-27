@@ -4,7 +4,7 @@ import { LuBell } from "react-icons/lu";
 import { IoMdClose } from "react-icons/io";
 import { useTranslation } from "react-i18next";
 import useStore from "@/shared/store";
-import Image from "next/image";
+// import Image from "next/image";
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 type NotificationsModalType = {
@@ -70,7 +70,7 @@ const NotificationsModal = ({
                 {notification.seen === 0 && (
                   <GoDotFill className="absolute right-[25px] md:right-[30px] text-red-500" />
                 )}
-                {notification.icon ? (
+                {/* {notification.icon ? (
                   <div className="w-4 h-4 relative">
                     <Image
                       src={notification.icon.path}
@@ -82,7 +82,8 @@ const NotificationsModal = ({
                   </div>
                 ) : (
                   <LuBell size={16} />
-                )}
+                )} */}
+                <LuBell size={16} />
               </div>
               <div>
                 <p className="font-semibold leading-[19px] mb-1 sm:mb-1">

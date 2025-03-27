@@ -626,8 +626,8 @@ type StoreState = {
   fetchTimezones: () => Promise<void>;
   updateUser: (updateData: UpdateUserParams) => Promise<boolean>;
   deleteUser: () => Promise<void>;
-  payWithYookassa: (amount: number) => Promise<void>;
-  payWithNowPayments: (amount: number) => Promise<void>;
+  payWithYookassa: (amount: number) => Promise<{ redirect_url: string }>;
+  payWithNowPayments: (amount: number) => Promise<{ redirect_url: string }>;
   setSelectedTimezone: (timezone: string) => void;
   changePassword: (
     oldPassword: string,
@@ -1070,10 +1070,17 @@ const useStore = create<StoreState>()(
               .redirect_url,
             error: null,
           });
+
+          return {
+            redirect_url: (response.data as { redirect_url: string })
+              .redirect_url,
+          };
         } catch (error) {
           set({
             error: error instanceof Error ? error.message : "An error occurred",
           });
+
+          return { redirect_url: "/" };
         }
       },
 
@@ -1091,10 +1098,19 @@ const useStore = create<StoreState>()(
               .redirect_url,
             error: null,
           });
+
+          return {
+            redirect_url: (response.data as { redirect_url: string })
+              .redirect_url,
+          };
         } catch (error) {
           set({
             error: error instanceof Error ? error.message : "An error occurred",
           });
+
+          return {
+            redirect_url: "/",
+          };
         }
       },
 
