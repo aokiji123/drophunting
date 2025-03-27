@@ -17,20 +17,13 @@ const BlogArticle = () => {
   const id = params.id as string;
 
   const {
-    user,
-    sessionVerified,
     blogArticleDetails,
     isLoadingBlogArticleDetails,
     blogArticleDetailsError,
     fetchBlogArticleDetails,
     toggleRead,
+    user,
   } = useStore();
-
-  useEffect(() => {
-    if (sessionVerified && !user) {
-      router.push("/auth/login");
-    }
-  }, [sessionVerified, user, router]);
 
   useEffect(() => {
     if (id) {
@@ -122,46 +115,10 @@ const BlogArticle = () => {
           <p className="font-bold text-[32px] lg:text-[35px] xl:text-[42px] leading-[38px] lg:leading-[50px]">
             {blogArticleDetails.title}
           </p>
-          <div
-            onClick={handleToggleRead}
-            className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-fit h-[56px] ${
-              blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
-            }`}>
-            <div className="flex items-center gap-4">
-              <div
-                className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
-                  blogArticleDetails.read > 0
-                    ? "border-[#47572D75] bg-[#151B15]"
-                    : "border-[#32353D] bg-[#101114]"
-                }`}>
-                <div
-                  className={`${
-                    blogArticleDetails.read > 0 &&
-                    `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
-                  }`}>
-                  {blogArticleDetails.read > 0 && <MdOutlineDone size={16} />}
-                </div>
-              </div>
-              <p
-                className={`font-chakra font-bold text-[18px] leading-[15px] ${
-                  blogArticleDetails.read > 0
-                    ? "text-[#A0A8AECC]"
-                    : "text-[#A0A8AE]"
-                }`}>
-                {t("blogArticle.iHaveRead")}
-              </p>
-            </div>
-          </div>
-
-          <div
-            className="article-content mt-[32px] text-[#CACBCE]"
-            dangerouslySetInnerHTML={{ __html: blogArticleDetails.description }}
-          />
-
-          <div className="flex items-center justify-center mt-[60px]">
+          {user && (
             <div
               onClick={handleToggleRead}
-              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 max-h-[56px] ${
+              className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 mt-[32px] w-fit h-[56px] ${
                 blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
               }`}>
               <div className="flex items-center gap-4">
@@ -169,7 +126,7 @@ const BlogArticle = () => {
                   className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
                     blogArticleDetails.read > 0
                       ? "border-[#47572D75] bg-[#151B15]"
-                      : "border-[#32353D]"
+                      : "border-[#32353D] bg-[#101114]"
                   }`}>
                   <div
                     className={`${
@@ -189,7 +146,49 @@ const BlogArticle = () => {
                 </p>
               </div>
             </div>
-          </div>
+          )}
+
+          <div
+            className="article-content mt-[32px] text-[#CACBCE]"
+            dangerouslySetInnerHTML={{ __html: blogArticleDetails.description }}
+          />
+
+          {user && (
+            <div className="flex items-center justify-center mt-[60px]">
+              <div
+                onClick={handleToggleRead}
+                className={`cursor-pointer p-4 rounded-[12px] flex items-center transition-all duration-300 max-h-[56px] ${
+                  blogArticleDetails.read > 0 ? "bg-[#1D2A19]" : "bg-[#070709]"
+                }`}>
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`w-[32px] h-[32px] flex items-center justify-center rounded-full border-2 transition-all duration-300 ${
+                      blogArticleDetails.read > 0
+                        ? "border-[#47572D75] bg-[#151B15]"
+                        : "border-[#32353D]"
+                    }`}>
+                    <div
+                      className={`${
+                        blogArticleDetails.read > 0 &&
+                        `bg-[#CBFF512E] rounded-full p-[4px] text-[#CBFF51]`
+                      }`}>
+                      {blogArticleDetails.read > 0 && (
+                        <MdOutlineDone size={16} />
+                      )}
+                    </div>
+                  </div>
+                  <p
+                    className={`font-chakra font-bold text-[18px] leading-[15px] ${
+                      blogArticleDetails.read > 0
+                        ? "text-[#A0A8AECC]"
+                        : "text-[#A0A8AE]"
+                    }`}>
+                    {t("blogArticle.iHaveRead")}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
 

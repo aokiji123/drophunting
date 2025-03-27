@@ -31,14 +31,17 @@ export function middleware(request: NextRequest) {
     "/store",
   ]);
 
+  const dynamicPublicRoutes = [/^\/blog\/[a-zA-Z0-9_-]+$/];
+
   const dynamicPrivateRoutes = [
-    /^\/blog\/[a-zA-Z0-9_-]+$/,
     /^\/guides\/[a-zA-Z0-9_-]+$/,
     /^\/favorites\/.+$/,
     /^\/store\/.+$/,
   ];
 
-  const isPublicRoute = publicRoutes.has(pathname);
+  const isPublicRoute =
+    publicRoutes.has(pathname) ||
+    dynamicPublicRoutes.some((pattern) => pattern.test(pathname));
 
   const isPrivateRoute =
     privateRoutes.has(pathname) ||
@@ -57,7 +60,6 @@ export function middleware(request: NextRequest) {
     }
 
     if (!isPublicRoute) {
-      console.log("Метка 1");
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
