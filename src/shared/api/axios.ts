@@ -72,7 +72,8 @@ axiosInstance.interceptors.response.use(
   (error) => {
     if (
       error.response?.status === 401 &&
-      !error.config?.url.includes("/login")
+      !error.config?.url.includes("/login") &&
+      !error.config?.url.includes("/google/callback")
     ) {
       console.log({ error });
       handleUnauthorized();
