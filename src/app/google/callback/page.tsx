@@ -43,9 +43,9 @@ export default function GoogleCallback() {
     }
   }, []);
 
-  if (bannedMessage === "loading" || !bannedMessage) return;
-
-  if (bannedMessage === "banned") {
+  if (bannedMessage === "loading" || !bannedMessage) {
+    return null;
+  } else {
     return (
       <div className="w-full h-full flex flex-col gap-4 items-center justify-center">
         <p className="text-[16px] text-red-600">{bannedMessage}</p>
