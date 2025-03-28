@@ -2,7 +2,7 @@ import { IoIosArrowBack, IoMdClose } from "react-icons/io";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import useStore from "@/shared/store";
-import { update2FA } from "@/shared/api/axios";
+import { update2FA, updateAxiosToken } from "@/shared/api/axios";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
@@ -70,6 +70,10 @@ export const AuthenticatorVerificationModal = ({
 
         confirm2FA(finishCode, token)
           .then(({ two_factor_token }) => {
+            if (token) {
+              console.log({ token });
+              updateAxiosToken(token);
+            }
             update2FA(two_factor_token);
 
             if (pathname === "/auth/login" || pathname === "/google/callback") {
