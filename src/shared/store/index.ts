@@ -2076,7 +2076,7 @@ const useStore = create<StoreState>()(
 
           return { token: accessToken };
         } catch {
-          throw new Error(userBannedMessage);
+          throw { errorMessage: userBannedMessage };
         }
       },
       login: async (data: LoginParams) => {
