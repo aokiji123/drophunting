@@ -86,7 +86,7 @@ export const AuthenticatorVerificationModal = ({
               if (document.activeElement instanceof HTMLElement) {
                 document.activeElement.blur();
               }
-              setErrorMessage(err.response.data);
+              setErrorMessage(err?.response?.data || t("common.tryAgain"));
             } else {
               setBadCode(true);
               setDisableCode(false);
