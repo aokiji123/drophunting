@@ -15,6 +15,7 @@ type DeleteAccountModalType = {
 export const AuthenticatorVerificationModal = ({
   onClose,
   onBack,
+  token,
 }: DeleteAccountModalType) => {
   const { t } = useTranslation();
   const pathname = usePathname();
@@ -67,7 +68,7 @@ export const AuthenticatorVerificationModal = ({
 
         setDisableCode(true);
 
-        confirm2FA(finishCode)
+        confirm2FA(finishCode, token)
           .then(({ two_factor_token }) => {
             update2FA(two_factor_token);
 

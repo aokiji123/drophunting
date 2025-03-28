@@ -617,7 +617,10 @@ type StoreState = {
   isLoadingNotifications: boolean;
   notificationsError: string | null;
   get2FA: () => Promise<{ secret: string; qr_code: string }>;
-  confirm2FA: (one_time_password: number) => Promise<{
+  confirm2FA: (
+    one_time_password: number,
+    token?: string,
+  ) => Promise<{
     type: string;
     status: string;
     two_factor_token: string;
@@ -797,15 +800,23 @@ const useStore = create<StoreState>()(
           throw error;
         }
       },
-      confirm2FA: async (one_time_password: number) => {
+      confirm2FA: async (one_time_password: number, token?: string) => {
         try {
           const response = await axiosInstance.post<{
             type: string;
             status: string;
             two_factor_token: string;
-          }>("/api/auth/two-factor/validate", {
-            one_time_password,
-          });
+          }>(
+            "/api/auth/two-factor/validate",
+            {
+              one_time_password,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            },
+          );
 
           return response.data;
         } catch (error) {
