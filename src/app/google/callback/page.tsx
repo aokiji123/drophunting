@@ -26,13 +26,15 @@ export default function GoogleCallback() {
           .then(() => {
             window.location.href = "/guides";
           })
-          .catch((err) =>
+          .catch((err) => {
+            console.log({ err, typeError: typeof err?.response?.data });
+
             setBannedMessage(
               typeof err?.response?.data === "string"
                 ? err.response.data
                 : "loading",
-            ),
-          )
+            );
+          })
           .finally(() => {
             setIsLoading(false);
           });
