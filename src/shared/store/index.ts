@@ -2045,6 +2045,8 @@ const useStore = create<StoreState>()(
         set({ authStatus: status });
       },
       googleLogin: async (accessToken: string) => {
+        let userBannedMessage = "";
+
         try {
           const token = accessToken;
 
@@ -2067,12 +2069,13 @@ const useStore = create<StoreState>()(
             console.log({ userError });
             updateAxiosToken(null);
             Cookies.remove("auth-token");
-            throw userError;
+            // @ts-expect-error: ""
+            userBannedMessage = userError?.response?.data || "YOUR BANNER";
           }
 
           return { token: accessToken };
         } catch {
-          throw new Error("Error logging in with Google");
+          throw new Error(userBannedMessage);
         }
       },
       login: async (data: LoginParams) => {
