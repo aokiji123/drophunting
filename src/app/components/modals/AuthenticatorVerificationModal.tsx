@@ -100,8 +100,9 @@ export const AuthenticatorVerificationModal = ({
               console.log("456456456");
 
               setBadCode(true);
-              setDisableCode(false);
             }
+
+            setDisableCode(false);
           });
       }, 500);
     }
