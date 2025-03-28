@@ -71,12 +71,14 @@ export const AuthenticatorVerificationModal = ({
           .then(({ two_factor_token }) => {
             update2FA(two_factor_token);
 
-            if (pathname === "/auth/login") {
+            if (pathname === "/auth/login" || pathname === "/google/callback") {
               window.location.href = "/guides";
             }
 
             refreshUser().then(() => {
-              onClose();
+              if (pathname !== "/google/callback") {
+                onClose();
+              }
             });
           })
           .catch((err) => {
