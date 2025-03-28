@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthenticatorVerificationModal } from "@/app/components/modals/AuthenticatorVerificationModal";
+import { updateAxiosToken } from "@/shared/api/axios";
 import useStore from "@/shared/store";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,6 +26,8 @@ export default function GoogleCallback() {
       );
 
       if (accessToken) {
+        updateAxiosToken(accessToken);
+
         googleLogin(accessToken)
           .then(() => {
             window.location.href = "/guides";
