@@ -56,11 +56,6 @@ const Favorites = () => {
 
   const SORTING_OPTIONS = [
     {
-      key: "default",
-      name: t("guides.sortByDefault"),
-      icon: <IoFilterOutline size={16} />,
-    },
-    {
       key: "date",
       name: t("guides.sortByNewest"),
       icon: <GoArrowDown size={16} />,
@@ -68,11 +63,6 @@ const Favorites = () => {
     {
       key: "invest",
       name: t("guides.sortByInvest"),
-      icon: <GoArrowDown size={16} />,
-    },
-    {
-      key: "priority",
-      name: t("guides.sortByPriority"),
       icon: <GoArrowDown size={16} />,
     },
     {
@@ -122,9 +112,12 @@ const Favorites = () => {
   useEffect(() => {
     setActualSorting((prev) => ({
       ...prev,
-      name: t(
-        `guides.sortBy${prev.key.charAt(0).toUpperCase() + prev.key.slice(1)}`,
-      ),
+      name:
+        prev.key === "date"
+          ? t("guides.sortByNewest")
+          : t(
+              `guides.sortBy${prev.key.charAt(0).toUpperCase() + prev.key.slice(1)}`,
+            ),
     }));
 
     const params: GuidesParams = {

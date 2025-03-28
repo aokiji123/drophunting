@@ -126,7 +126,7 @@ export const AuthenticatorVerificationModal = ({
         )}
 
         <div className="flex flex-col gap-[15px]">
-          <p className="text-[22px] font-bold leading-[20px]">
+          <p className="text-[22px] font-bold leading-[20px] text-white">
             {t("authenticatorVerificationModal.title")}
           </p>
 

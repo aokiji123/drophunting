@@ -33,8 +33,8 @@ import { Delete2FAModal } from "../components/modals/Delete2FAModal";
 import { update2FA } from "@/shared/api/axios";
 
 const languages = [
-  { code: "ru", name: "Russian", flag: ru },
-  { code: "en", name: "English", flag: en },
+  { code: "ru", name: { en: "Russian", ru: "Русский" }, flag: ru },
+  { code: "en", name: { en: "English", ru: "Английский" }, flag: en },
 ];
 
 const toBool = (value: boolean | undefined): boolean => {
@@ -216,11 +216,8 @@ const Profile = () => {
 
   const handleLanguageChange = (code: string) => {
     languageManuallyChanged.current = true;
-
     setEditedLanguage(code);
-
     i18n.changeLanguage(code);
-
     setIsLanguageDropdownOpen(false);
   };
 
@@ -501,7 +498,9 @@ const Profile = () => {
                       <p className="text-[15px] leading-[24px] font-normal">
                         {
                           languages.find((lang) => lang.code === editedLanguage)
-                            ?.name
+                            ?.name[
+                            i18n.language as keyof (typeof languages)[0]["name"]
+                          ]
                         }
                       </p>
                     </div>
@@ -523,11 +522,19 @@ const Profile = () => {
                           <div className="flex items-center gap-[12px]">
                             <Image
                               src={lang.flag}
-                              alt={lang.name}
+                              alt={
+                                lang.name[
+                                  i18n.language as keyof (typeof lang)["name"]
+                                ]
+                              }
                               className="h-[20px] w-[20px] object-cover rounded-full"
                             />
                             <p className="text-[15px] leading-[24px] font-normal">
-                              {lang.name}
+                              {
+                                lang.name[
+                                  i18n.language as keyof (typeof lang)["name"]
+                                ]
+                              }
                             </p>
                           </div>
                           {editedLanguage === lang.code && (
@@ -705,7 +712,7 @@ const Profile = () => {
                           </p>
                         </div>
                         <button
-                          className="hover:opacity-80 transition-opacity bg-[#2C2D31] h-[44px] py-[8px] pl-[12px] pr-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center gap-3 font-chakra font-semibold"
+                          className="hover:opacity-80 transition-opacity bg-[#2C2D31] min-w-[125px] h-[44px] py-[8px] px-[16px] text-[14px] leading-[20px] rounded-[10px] flex items-center justify-center gap-3 font-chakra font-semibold whitespace-nowrap"
                           onClick={handleDelete2FA}
                           disabled={isSaving}>
                           <div className="flex-shrink-0">
@@ -715,7 +722,9 @@ const Profile = () => {
                               className="w-[16px] h-[16px]"
                             />
                           </div>
-                          <div>{t("profile.twoFactorAuthDelete")}</div>
+                          <div className="truncate">
+                            {t("profile.twoFactorAuthDelete")}
+                          </div>
                         </button>
                       </>
                     ) : (
