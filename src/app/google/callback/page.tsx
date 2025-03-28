@@ -38,6 +38,7 @@ export default function GoogleCallback() {
 
             if (err.errorMessage === "2-factor authentication failed.") {
               setNeeds2FA(true);
+              updateAxiosToken(accessToken);
             } else {
               setBannedMessage(err.errorMessage);
             }
