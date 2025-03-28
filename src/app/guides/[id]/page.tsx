@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import {
@@ -72,7 +72,7 @@ const Guide = () => {
   const [activeModal, setActiveModal] = useState<number | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const params = useParams();
   const id = params.id as string;
@@ -92,6 +92,10 @@ const Guide = () => {
     toggleFavorite,
   } = useStore();
 
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
+
   useEffect(() => {
     if (sessionVerified && !user) {
       router.push("/auth/login");
@@ -102,7 +106,7 @@ const Guide = () => {
     if (id) {
       fetchGuideDetails(id);
     }
-  }, [fetchGuideDetails, id, user?.lang]);
+  }, [fetchGuideDetails, id, effectiveLanguage]);
 
   useEffect(() => {
     fetchSubscriptions();
@@ -118,7 +122,7 @@ const Guide = () => {
     if (activeTask !== null) {
       fetchTaskDetails(activeTask);
     }
-  }, [activeTask, fetchTaskDetails, user?.lang]);
+  }, [activeTask, fetchTaskDetails, effectiveLanguage]);
 
   useEffect(() => {
     if (window.location.hash && (guideDetails?.tasks || []).length > 0) {

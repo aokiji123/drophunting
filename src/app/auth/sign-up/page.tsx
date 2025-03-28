@@ -108,8 +108,8 @@ const SignUp = () => {
       await registerUser(signUpData);
 
       window.location.href = "/guides";
-    } catch (e) {
-      setServerError(t("signUp.emailExists") + " " + e);
+    } catch {
+      setServerError(t("signUp.emailExists"));
     } finally {
       setLoading(false);
     }

@@ -116,9 +116,9 @@ const Guides = () => {
     user,
   } = useStore();
 
-  useEffect(() => {
-    fetchTags();
-  }, [fetchTags]);
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
 
   useEffect(() => {
     if (tags.length > 0 && activeFilter === null) {
@@ -134,9 +134,7 @@ const Guides = () => {
         `guides.sortBy${prev.key.charAt(0).toUpperCase() + prev.key.slice(1)}`,
       ),
     }));
-  }, [i18n.language, t]);
 
-  useEffect(() => {
     const params: GuidesParams = {
       page: currentPage,
     };
@@ -154,10 +152,17 @@ const Guides = () => {
       params.search = searchQuery;
     }
 
-    console.log({ params });
-
     fetchGuides(params);
-  }, [fetchGuides, currentPage, activeTagId, searchQuery, actualSorting]);
+    fetchTags();
+  }, [
+    fetchGuides,
+    currentPage,
+    activeTagId,
+    searchQuery,
+    actualSorting.key,
+    actualSorting.orderBy,
+    effectiveLanguage,
+  ]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

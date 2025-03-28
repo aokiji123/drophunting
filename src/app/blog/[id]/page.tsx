@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoIosArrowBack, IoMdTime } from "react-icons/io";
@@ -25,11 +25,15 @@ const BlogArticle = () => {
     user,
   } = useStore();
 
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
+
   useEffect(() => {
     if (id) {
       fetchBlogArticleDetails(id);
     }
-  }, [fetchBlogArticleDetails, id, i18n.language]);
+  }, [fetchBlogArticleDetails, id, effectiveLanguage]);
 
   const handleToggleRead = async () => {
     if (blogArticleDetails) {

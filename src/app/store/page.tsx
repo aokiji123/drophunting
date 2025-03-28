@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
 import { MdOutlineArrowDropDown } from "react-icons/md";
@@ -27,11 +27,16 @@ const Store = () => {
     fetchProductCategories,
     fetchProducts,
     productCategoriesError,
+    user,
   } = useStore();
+
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
 
   useEffect(() => {
     fetchProductCategories();
-  }, [fetchProductCategories, i18n.language]);
+  }, [fetchProductCategories, effectiveLanguage]);
 
   useEffect(() => {
     fetchProducts({
@@ -46,7 +51,7 @@ const Store = () => {
     activeFilter,
     searchQuery,
     sorting,
-    i18n.language,
+    effectiveLanguage,
   ]);
 
   useEffect(() => {

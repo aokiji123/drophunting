@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Image from "next/image";
 import { IoIosArrowBack, IoMdClose } from "react-icons/io";
@@ -32,7 +32,12 @@ const ProductDetail = () => {
     orderCreateSuccess,
     orderCreateError,
     resetOrderState,
+    user,
   } = useStore();
+
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
 
   useEffect(() => {
     if (productId) {
@@ -40,7 +45,7 @@ const ProductDetail = () => {
     }
 
     resetOrderState();
-  }, [productId, fetchProductDetails, resetOrderState, i18n.language]);
+  }, [productId, fetchProductDetails, resetOrderState, effectiveLanguage]);
 
   const toggleModal = () => {
     if (isModalOpen) {

@@ -34,9 +34,13 @@ const Blog = () => {
     user,
   } = useStore();
 
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
+
   useEffect(() => {
     fetchBlogCategories();
-  }, [fetchBlogCategories, i18n.language]);
+  }, [fetchBlogCategories, effectiveLanguage]);
 
   useEffect(() => {
     if (blogCategories.length > 0 && activeFilter === null) {
@@ -64,7 +68,7 @@ const Blog = () => {
     activeCategoryId,
     searchQuery,
     sorting,
-    i18n.language,
+    effectiveLanguage,
   ]);
 
   const handleCategoryClick = (

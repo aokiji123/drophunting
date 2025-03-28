@@ -53,7 +53,7 @@ const Favorites = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [sorting, setSorting] = useState<1 | 2>(2);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const router = useRouter();
   const {
@@ -65,6 +65,10 @@ const Favorites = () => {
     fetchGuides,
     toggleFavorite,
   } = useStore();
+
+  const effectiveLanguage = useMemo(() => {
+    return user?.lang || i18n.language;
+  }, [user?.lang, i18n.language]);
 
   useEffect(() => {
     if (sessionVerified && !user) {
@@ -84,7 +88,7 @@ const Favorites = () => {
     }
 
     fetchGuides(params);
-  }, [fetchGuides, currentPage, searchQuery, sorting]);
+  }, [fetchGuides, currentPage, searchQuery, sorting, effectiveLanguage]);
 
   const handleToggleFavorite = async (e: React.MouseEvent, guideId: number) => {
     e.stopPropagation();
