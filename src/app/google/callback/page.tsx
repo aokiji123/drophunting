@@ -27,8 +27,8 @@ export default function GoogleCallback() {
             window.location.href = "/guides";
           })
           .catch((err) => {
-            console.log(err);
-            setBannedMessage(err);
+            console.log(err.errorMessage);
+            setBannedMessage(err.errorMessage);
           })
           .finally(() => {
             setIsLoading(false);
