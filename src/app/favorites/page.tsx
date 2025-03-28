@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
-import { IoMdTime } from "react-icons/io";
+import { IoMdClose, IoMdTime } from "react-icons/io";
 import {
   IoCalendarClear,
   IoFilterOutline,
@@ -10,17 +10,19 @@ import {
 import {
   MdFavorite,
   MdFavoriteBorder,
-  MdOutlineArrowDropDown,
   MdOutlineKeyboardArrowRight,
 } from "react-icons/md";
 import Image from "next/image";
 import { Slider, sliderClasses, styled } from "@mui/material";
-import { GoDotFill } from "react-icons/go";
+import { GoArrowDown, GoDotFill } from "react-icons/go";
 import HalfChartPie from "@/shared/components/HalfChartPie";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import useStore, { GuidesParams } from "@/shared/store";
 import { debounce } from "lodash";
+import { FaAngleDown, FaAngleUp, FaCheck } from "react-icons/fa6";
+import CalendarModal from "@/shared/components/CalendarModal";
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 
 const CustomSlider = styled(Slider)({
@@ -50,10 +52,51 @@ const CustomSlider = styled(Slider)({
 });
 
 const Favorites = () => {
+  const { t, i18n } = useTranslation();
+
+  const SORTING_OPTIONS = [
+    {
+      key: "default",
+      name: t("guides.sortByDefault"),
+      icon: <IoFilterOutline size={16} />,
+    },
+    {
+      key: "date",
+      name: t("guides.sortByNewest"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "invest",
+      name: t("guides.sortByInvest"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "priority",
+      name: t("guides.sortByPriority"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "score",
+      name: t("guides.sortByScore"),
+      icon: <GoArrowDown size={16} />,
+    },
+    {
+      key: "network",
+      name: t("guides.sortByNetwork"),
+      icon: <GoArrowDown size={16} />,
+    },
+  ];
+
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [sorting, setSorting] = useState<1 | 2>(2);
-  const { t, i18n } = useTranslation();
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [actualSorting, setActualSorting] = useState<
+    (typeof SORTING_OPTIONS)[number] & {
+      orderBy: "asc" | "desc";
+    }
+  >({ ...SORTING_OPTIONS[0], orderBy: "desc" });
+
+  const sortDropdownRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
   const {
@@ -77,26 +120,72 @@ const Favorites = () => {
   }, [sessionVerified, user, router]);
 
   useEffect(() => {
+    setActualSorting((prev) => ({
+      ...prev,
+      name: t(
+        `guides.sortBy${prev.key.charAt(0).toUpperCase() + prev.key.slice(1)}`,
+      ),
+    }));
+
     const params: GuidesParams = {
       page: currentPage,
-      sorting: sorting,
       favorites: 1,
     };
+
+    if (actualSorting.key !== "default") {
+      params.sorting = actualSorting.orderBy === "asc" ? 1 : 2;
+      params.type_sorting = actualSorting.key as GuidesParams["type_sorting"];
+    }
 
     if (searchQuery) {
       params.search = searchQuery;
     }
 
     fetchGuides(params);
-  }, [fetchGuides, currentPage, searchQuery, sorting, effectiveLanguage]);
+  }, [
+    fetchGuides,
+    currentPage,
+    searchQuery,
+    actualSorting.key,
+    actualSorting.orderBy,
+    effectiveLanguage,
+  ]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        sortDropdownRef.current &&
+        !sortDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsSortDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleToggleFavorite = async (e: React.MouseEvent, guideId: number) => {
     e.stopPropagation();
     await toggleFavorite(guideId);
   };
 
-  const handleSortingChange = () => {
-    setSorting(sorting === 1 ? 2 : 1);
+  const handleSortingChange = (option: (typeof SORTING_OPTIONS)[number]) => {
+    setActualSorting((prev) => {
+      if (prev.key === option.key) {
+        return {
+          ...prev,
+          orderBy: prev.orderBy === "desc" ? "asc" : "desc",
+        };
+      }
+      return {
+        ...option,
+        orderBy: "desc",
+      };
+    });
+    setIsSortDropdownOpen(false);
     setCurrentPage(1);
   };
 
@@ -119,6 +208,9 @@ const Favorites = () => {
   };
 
   const favoriteGuides = guides?.data.filter((guide) => guide.favorite > 0);
+
+  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+  const [guideCalendarId, setGuideCalendarId] = useState<number>(0);
 
   return (
     <div className="bg-[#101114] text-white">
@@ -151,17 +243,89 @@ const Favorites = () => {
             <p className="text-[14px] leading-[16px] text-[#57585E] mt-[40px] mb-[32px]">
               {favoriteGuides?.length || 0} {t("favorites.favorites")}
             </p>
-            <div className="flex items-center gap-[5px] text-[#676A70]">
-              <IoFilterOutline size={20} />
-              <p>
-                {t("favorites.sortBy")}{" "}
-                <span
-                  className="text-white cursor-pointer"
-                  onClick={handleSortingChange}>
-                  {sorting === 1 ? t("favorites.old") : t("favorites.new")}
-                </span>
-              </p>
-              <MdOutlineArrowDropDown className="text-white" size={20} />
+            <div
+              className="flex items-center gap-[10px] text-[#676A70] relative"
+              ref={sortDropdownRef}>
+              <IoFilterOutline
+                size={20}
+                className={`${actualSorting.orderBy === "asc" && "rotate-180"}`}
+              />
+              <div
+                className="flex items-center cursor-pointer"
+                onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}>
+                <p className="mr-[5px] ">
+                  {t("guides.sort")}{" "}
+                  <span className="text-white">{actualSorting.name}</span>
+                </p>
+                {isSortDropdownOpen ? (
+                  <FaAngleUp size={16} className="text-[#8E8E8E] ml-1" />
+                ) : (
+                  <FaAngleDown size={16} className="text-[#8E8E8E] ml-1" />
+                )}
+              </div>
+
+              {isSortDropdownOpen && (
+                <>
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40 xs:hidden"
+                    onClick={() => setIsSortDropdownOpen(false)}
+                  />
+
+                  <div className="fixed xs:absolute inset-x-0 xs:inset-auto bottom-0 xs:bottom-auto xs:right-0 xs:top-[30px] mt-0 xs:mt-[2px] w-screen xs:w-[340px] text-white bg-[#141518] p-[16px] sm:p-[4px] rounded-t-[16px] xs:rounded-[12px] shadow-lg z-50 flex flex-col h-auto xs:h-auto">
+                    <div className="flex xs:hidden justify-between mb-[24px]">
+                      <button
+                        onClick={() => {
+                          setActualSorting({
+                            ...SORTING_OPTIONS[0],
+                            orderBy: "desc",
+                          });
+                        }}
+                        className="text-[14px] leading-[24px] font-semibold font-sans">
+                        {t("guides.clear")}
+                      </button>
+                      <p className="text-[20px] leading-[13px] font-bold font-sans">
+                        {t("guides.sortBy")}
+                      </p>
+                      <button
+                        className="flex items-center justify-center"
+                        onClick={() => setIsSortDropdownOpen(false)}>
+                        <IoMdClose size={24} />
+                      </button>
+                    </div>
+
+                    <div className="mb-[2px] flex-grow">
+                      {SORTING_OPTIONS.map((option) => (
+                        <div
+                          key={option.key}
+                          className={clsx(
+                            "flex items-center justify-between p-[12px] border-b-[1px] border-[#212327] last:border-b-0 font-sans",
+                            option.key === "default" &&
+                              option.key === actualSorting.key
+                              ? "cursor-default"
+                              : "cursor-pointer hover:bg-[#181C20] ",
+                          )}
+                          onClick={() => handleSortingChange(option)}>
+                          <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px] font-sans">
+                            <span
+                              className={clsx(
+                                "transition-transform",
+                                actualSorting.key === option.key &&
+                                  actualSorting.orderBy === "asc" &&
+                                  "rotate-180",
+                              )}>
+                              {option.icon}
+                            </span>
+                            {option.name}
+                          </p>
+                          {actualSorting.key === option.key && (
+                            <FaCheck size={16} className="text-[#CBFF51]" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -212,7 +376,13 @@ const Favorites = () => {
                         ))}
                       </div>
                       <div className="flex items-center gap-[3px]">
-                        <div className="w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
+                        <div
+                          onClick={(e) => {
+                            setGuideCalendarId(guide.id);
+                            setIsCalendarModalOpen(true);
+                            e.stopPropagation();
+                          }}
+                          className="relative z-[3] w-[36px] h-[36px] bg-[#181A1D] rounded-full flex items-center justify-center">
                           <IoCalendarClear
                             className="text-[#515459]"
                             size={20}
@@ -246,6 +416,16 @@ const Favorites = () => {
                           <p className="text-[18px] font-bold leading-[22px] max-w-[200px] truncate">
                             {guide.title}
                           </p>
+                          {guide.network?.icon && (
+                            <div className="w-[20px] h-[20px] rounded-[10px] relative overflow-hidden">
+                              <Image
+                                src={getImageUrl(guide.network.icon)}
+                                alt={`${guide.title} network`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          )}
                         </div>
                         <p className="text-[13px] text-[#8E8E8E] max-w-[200px] truncate">
                           {guide.description}
@@ -325,6 +505,14 @@ const Favorites = () => {
           )}
         </div>
       </main>
+
+      <CalendarModal
+        metadata={{
+          project_id: guideCalendarId,
+        }}
+        open={isCalendarModalOpen}
+        onClose={() => setIsCalendarModalOpen(false)}
+      />
 
       <Footer />
     </div>

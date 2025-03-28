@@ -68,10 +68,9 @@ const Guides = () => {
     },
     {
       key: "invest",
-      name: t("guides.sortByInvestment"),
+      name: t("guides.sortByInvest"),
       icon: <GoArrowDown size={16} />,
     },
-    // { key: "bs", name: "By BS", icon: <GoArrowDown size={16} /> },
     {
       key: "priority",
       name: t("guides.sortByPriority"),
@@ -98,7 +97,7 @@ const Guides = () => {
     (typeof SORTING_OPTIONS)[number] & {
       orderBy: "asc" | "desc";
     }
-  >({ ...SORTING_OPTIONS[0], orderBy: "asc" });
+  >({ ...SORTING_OPTIONS[0], orderBy: "desc" });
 
   const sortDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -192,10 +191,18 @@ const Guides = () => {
   };
 
   const handleSortingChange = (option: (typeof SORTING_OPTIONS)[number]) => {
-    setActualSorting((prev) => ({
-      ...option,
-      orderBy: prev.orderBy === "asc" ? "desc" : "asc",
-    }));
+    setActualSorting((prev) => {
+      if (prev.key === option.key) {
+        return {
+          ...prev,
+          orderBy: prev.orderBy === "desc" ? "asc" : "desc",
+        };
+      }
+      return {
+        ...option,
+        orderBy: "desc",
+      };
+    });
     setIsSortDropdownOpen(false);
     setCurrentPage(1);
   };
@@ -294,9 +301,7 @@ const Guides = () => {
               ref={sortDropdownRef}>
               <IoFilterOutline
                 size={20}
-                className={clsx(
-                  actualSorting.orderBy === "desc" && "-rotate-180",
-                )}
+                className={`${actualSorting.orderBy === "asc" && "rotate-180"}`}
               />
               <div
                 className="flex items-center cursor-pointer"
@@ -356,9 +361,10 @@ const Guides = () => {
                           <p className="text-[15px] leading-[24px] font-normal flex items-center gap-[16px] font-sans">
                             <span
                               className={clsx(
+                                "transition-transform",
                                 actualSorting.key === option.key &&
-                                  actualSorting.orderBy === "desc" &&
-                                  "-rotate-180",
+                                  actualSorting.orderBy === "asc" &&
+                                  "rotate-180",
                               )}>
                               {option.icon}
                             </span>

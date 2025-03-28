@@ -3,7 +3,7 @@ import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoMdTime } from "react-icons/io";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
-import { MdOutlineArrowDropDown, MdOutlineDone } from "react-icons/md";
+import { MdOutlineDone } from "react-icons/md";
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -175,7 +175,10 @@ const Blog = () => {
               {blogArticles?.total} {t("blog.articles")}
             </p>
             <div className="flex items-center gap-[5px] text-[#676A70]">
-              <IoFilterOutline size={20} />
+              <IoFilterOutline
+                size={20}
+                className={`${sorting === 1 ? "rotate-180" : ""}`}
+              />
               <p>
                 {t("blog.sortBy")}{" "}
                 <span
@@ -184,7 +187,6 @@ const Blog = () => {
                   {sorting === 1 ? t("blog.old") : t("blog.new")}
                 </span>
               </p>
-              <MdOutlineArrowDropDown className="text-white" size={20} />
             </div>
           </div>
 

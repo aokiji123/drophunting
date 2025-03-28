@@ -3,7 +3,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { IoFilterOutline, IoSearchOutline } from "react-icons/io5";
-import { MdOutlineArrowDropDown } from "react-icons/md";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import useStore from "@/shared/store";
@@ -163,14 +162,16 @@ const Store = () => {
             <div
               className="flex items-center gap-[5px] text-[#676A70] cursor-pointer"
               onClick={handleSortingChange}>
-              <IoFilterOutline size={20} />
+              <IoFilterOutline
+                size={20}
+                className={`${sorting === 1 ? "rotate-180" : ""}`}
+              />
               <p>
                 {t("store.sortBy")}{" "}
                 <span className="text-white">
                   {sorting === 1 ? t("store.oldest") : t("store.newest")}
                 </span>
               </p>
-              <MdOutlineArrowDropDown className="text-white" size={20} />
             </div>
           </div>
 
