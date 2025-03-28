@@ -26,7 +26,7 @@ export const AuthenticatorVerificationModal = ({
 
   const { confirm2FA, refreshUser } = useStore();
 
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage] = useState(null);
 
   const handleChange = (index: number, value: string) => {
     setBadCode(false);
