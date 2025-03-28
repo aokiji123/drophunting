@@ -16,7 +16,7 @@ export default function GoogleCallback() {
 
       if (accessToken) {
         googleLogin(accessToken).finally(() => {
-          window.location.href = "/guides";
+          // window.location.href = "/guides";
         });
       } else {
         console.error("Access token not found in the URL");
