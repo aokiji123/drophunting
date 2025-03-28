@@ -96,11 +96,8 @@ export const AuthenticatorVerificationModal = ({
                   ? err?.response?.data
                   : t("common.tryAgain"),
               );
-            } else {
-              console.log("456456456");
-
-              setBadCode(true);
             }
+            setBadCode(true);
 
             setDisableCode(false);
           });
