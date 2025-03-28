@@ -81,6 +81,7 @@ export const AuthenticatorVerificationModal = ({
             });
           })
           .catch((err) => {
+            console.log("тут ошибка");
             if (err.status === 403) {
               if (document.activeElement instanceof HTMLElement) {
                 document.activeElement.blur();
