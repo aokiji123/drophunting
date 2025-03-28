@@ -91,7 +91,11 @@ export const AuthenticatorVerificationModal = ({
               }
 
               console.log(err);
-              setErrorMessage(err?.response?.data || t("common.tryAgain"));
+              setErrorMessage(
+                typeof err?.response?.data === "string"
+                  ? err?.response?.data
+                  : t("common.tryAgain"),
+              );
             } else {
               console.log("456456456");
 
