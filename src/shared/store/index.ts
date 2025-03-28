@@ -2071,6 +2071,7 @@ const useStore = create<StoreState>()(
             Cookies.remove("auth-token");
             // @ts-expect-error: ""
             userBannedMessage = userError?.response?.data || "YOUR BANNER";
+            throw userError;
           }
 
           return { token: accessToken };
