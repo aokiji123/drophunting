@@ -14,6 +14,7 @@ i18n.use(initReactI18next).init({
           close: "Close",
           back: "Back",
           good: "Good",
+          tryAgain: "Try again",
         },
         authHeader: {
           back: "Back to site",
@@ -618,6 +619,7 @@ i18n.use(initReactI18next).init({
           close: "Закрыть",
           back: "Назад",
           good: "Хорошо",
+          tryAgain: "Попробуйте ещё раз",
         },
         authHeader: {
           back: "Назад на сайт",
