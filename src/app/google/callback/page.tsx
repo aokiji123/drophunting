@@ -16,6 +16,8 @@ export default function GoogleCallback() {
   const [bannedMessage, setBannedMessage] = useState<string | false>(false);
   const [needs2FA, setNeeds2FA] = useState(false);
 
+  const [token, setToken] = useState<string | null>(null);
+
   useEffect(() => {
     setIsLoading(true);
     setLoadingData(true);
@@ -27,7 +29,7 @@ export default function GoogleCallback() {
 
       if (accessToken) {
         updateAxiosToken(accessToken);
-
+        setToken(accessToken);
         googleLogin(accessToken)
           .then(() => {
             window.location.href = "/guides";
@@ -70,6 +72,7 @@ export default function GoogleCallback() {
   if (needs2FA) {
     return (
       <AuthenticatorVerificationModal
+        token={token || undefined}
         onClose={() => {
           window.location.href = "/auth/login";
         }}
