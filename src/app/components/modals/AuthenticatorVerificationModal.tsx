@@ -26,7 +26,7 @@ export const AuthenticatorVerificationModal = ({
 
   const { confirm2FA, refreshUser } = useStore();
 
-  const [errorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleChange = (index: number, value: string) => {
     setBadCode(false);
@@ -85,10 +85,13 @@ export const AuthenticatorVerificationModal = ({
             if (err.status === 403) {
               console.log("123123123");
 
-              // if (document.activeElement instanceof HTMLElement) {
-              //   document.activeElement.blur();
-              // }
-              // setErrorMessage(err?.response?.data || t("common.tryAgain"));
+              if (document.activeElement instanceof HTMLElement) {
+                console.log("dfdfd");
+                document.activeElement.blur();
+              }
+
+              console.log(err);
+              setErrorMessage(err?.response?.data || t("common.tryAgain"));
             } else {
               console.log("456456456");
 
