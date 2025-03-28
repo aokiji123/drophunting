@@ -2067,6 +2067,7 @@ const useStore = create<StoreState>()(
             console.log({ userError });
             updateAxiosToken(null);
             Cookies.remove("auth-token");
+            throw userError;
           }
 
           return { token: accessToken };
