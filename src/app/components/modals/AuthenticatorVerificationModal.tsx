@@ -83,11 +83,15 @@ export const AuthenticatorVerificationModal = ({
           .catch((err) => {
             console.log("тут ошибка");
             if (err.status === 403) {
-              if (document.activeElement instanceof HTMLElement) {
-                document.activeElement.blur();
-              }
-              setErrorMessage(err?.response?.data || t("common.tryAgain"));
+              console.log("123123123");
+
+              // if (document.activeElement instanceof HTMLElement) {
+              //   document.activeElement.blur();
+              // }
+              // setErrorMessage(err?.response?.data || t("common.tryAgain"));
             } else {
+              console.log("456456456");
+
               setBadCode(true);
               setDisableCode(false);
             }
