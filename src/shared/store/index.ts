@@ -2062,15 +2062,20 @@ const useStore = create<StoreState>()(
               },
             );
             set({ user: userData, sessionVerified: true });
-            console.log({ userData });
           } catch (userError) {
             console.warn("Error fetching user after login:", userError);
             set({ sessionVerified: false, user: null });
             console.log({ userError });
             updateAxiosToken(null);
             Cookies.remove("auth-token");
-            // @ts-expect-error: ""
-            userBannedMessage = userError?.response?.data || "YOUR BANNER";
+
+            userBannedMessage =
+              // @ts-expect-error: ""
+              typeof userError?.response?.data === "string"
+                ? // @ts-expect-error: ""
+                  userError?.response?.data
+                : // @ts-expect-error: ""
+                  userError?.response?.data?.message || "Unknown error";
             throw userError;
           }
 
