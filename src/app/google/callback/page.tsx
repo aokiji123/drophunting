@@ -16,8 +16,6 @@ export default function GoogleCallback() {
   const [bannedMessage, setBannedMessage] = useState<string | false>(false);
   const [needs2FA, setNeeds2FA] = useState(false);
 
-  const [token, setToken] = useState<string | null>(null);
-
   useEffect(() => {
     setIsLoading(true);
     setLoadingData(true);
@@ -29,7 +27,8 @@ export default function GoogleCallback() {
 
       if (accessToken) {
         updateAxiosToken(accessToken);
-        setToken(accessToken);
+        console.log({ accessToken });
+
         googleLogin(accessToken)
           .then(() => {
             window.location.href = "/guides";
@@ -54,29 +53,25 @@ export default function GoogleCallback() {
     }
   }, []);
 
-  if (loadingData) return;
-
-  if (bannedMessage) {
-    return (
-      <div className="w-full h-full flex flex-col gap-4 items-center justify-center">
-        <p className="text-[16px] text-red-600">{bannedMessage}</p>
-        <button
-          onClick={() => (window.location.href = "/auth/login")}
-          className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
-          {t("header.login")}
-        </button>
-      </div>
-    );
-  }
-
-  if (needs2FA) {
-    return (
-      <AuthenticatorVerificationModal
-        token={token || undefined}
-        onClose={() => {
-          window.location.href = "/auth/login";
-        }}
-      />
-    );
-  }
+  return (
+    <>
+      {!loadingData && bannedMessage && (
+        <div className="w-full h-full flex flex-col gap-4 items-center justify-center">
+          <p className="text-[16px] text-red-600">{bannedMessage}</p>
+          <button
+            onClick={() => (window.location.href = "/auth/login")}
+            className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
+            {t("header.login")}
+          </button>
+        </div>
+      )}
+      {!loadingData && needs2FA && (
+        <AuthenticatorVerificationModal
+          onClose={() => {
+            window.location.href = "/auth/login";
+          }}
+        />
+      )}
+    </>
+  );
 }

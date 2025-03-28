@@ -2,20 +2,18 @@ import { IoIosArrowBack, IoMdClose } from "react-icons/io";
 import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import useStore from "@/shared/store";
-import { update2FA, updateAxiosToken } from "@/shared/api/axios";
+import { update2FA } from "@/shared/api/axios";
 import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 type DeleteAccountModalType = {
   onClose: () => void;
   onBack?: () => void;
-  token?: string;
 };
 
 export const AuthenticatorVerificationModal = ({
   onClose,
   onBack,
-  token,
 }: DeleteAccountModalType) => {
   const { t } = useTranslation();
   const pathname = usePathname();
@@ -68,12 +66,8 @@ export const AuthenticatorVerificationModal = ({
 
         setDisableCode(true);
 
-        confirm2FA(finishCode, token)
+        confirm2FA(finishCode)
           .then(({ two_factor_token }) => {
-            if (token) {
-              console.log({ token });
-              updateAxiosToken(token);
-            }
             update2FA(two_factor_token);
 
             if (pathname === "/auth/login" || pathname === "/google/callback") {
