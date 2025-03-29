@@ -105,17 +105,24 @@ const Guides = () => {
     user,
   } = useStore();
 
+  // Track initial auth state to determine which language source to watch
+  const [initiallyAuthorized] = useState(!!user);
+
+  // Choose language source based on initial auth state
+  const languageToWatch = useMemo(() => {
+    if (initiallyAuthorized) {
+      return user?.lang;
+    } else {
+      return i18n.language;
+    }
+  }, [initiallyAuthorized, user?.lang, i18n.language]);
+
+  // For display purposes, always use the effective language (current state)
   const effectiveLanguage = useMemo(() => {
     return user?.lang || i18n.language;
   }, [user?.lang, i18n.language]);
 
-  useEffect(() => {
-    if (tags.length > 0 && activeFilter === null) {
-      setActiveFilter("All");
-      setActiveTagId(null);
-    }
-  }, [tags, activeFilter]);
-
+  // Update sorting option names when language changes
   useEffect(() => {
     setActualSorting((prev) => ({
       ...prev,
@@ -126,6 +133,15 @@ const Guides = () => {
               `guides.sortBy${prev.key.charAt(0).toUpperCase() + prev.key.slice(1)}`,
             ),
     }));
+  }, [t]);
+
+  // This is the single effect responsible for fetching data
+  useEffect(() => {
+    // Reset page to 1 when anything but page number changes
+    if (languageToWatch !== undefined && currentPage !== 1) {
+      setCurrentPage(1);
+      return; // Don't fetch here, let the effect run again with page=1
+    }
 
     const params: GuidesParams = {
       page: currentPage,
@@ -144,17 +160,26 @@ const Guides = () => {
       params.search = searchQuery;
     }
 
+    // Single point for fetching data
     fetchGuides(params);
     fetchTags();
   }, [
+    languageToWatch,
     fetchGuides,
+    fetchTags,
     currentPage,
     activeTagId,
     searchQuery,
     actualSorting.key,
     actualSorting.orderBy,
-    effectiveLanguage,
   ]);
+
+  useEffect(() => {
+    if (tags.length > 0 && activeFilter === null) {
+      setActiveFilter("All");
+      setActiveTagId(null);
+    }
+  }, [tags, activeFilter]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -409,7 +434,7 @@ const Guides = () => {
                             {marker.icon && (
                               <Image
                                 src={getImageUrl(marker.icon.path)}
-                                alt={marker.title}
+                                alt={marker.title ?? ""}
                                 width={12}
                                 height={12}
                                 className="w-[12px] h-[12px]"
@@ -458,7 +483,7 @@ const Guides = () => {
                       <div className="w-[48px] h-[48px] rounded-[10px] relative overflow-hidden">
                         <Image
                           src={getImageUrl(guide.logo)}
-                          alt={`${guide.title} logo`}
+                          alt={`${guide.name} logo`}
                           fill
                           className="object-cover"
                         />
@@ -467,13 +492,15 @@ const Guides = () => {
                       <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-3">
                           <p className="text-[18px] font-bold leading-[22px] truncate max-w-[240px]">
-                            {guide.title}
+                            {effectiveLanguage === "ru"
+                              ? guide.name.ru
+                              : guide.name.en}
                           </p>
                           {guide.network?.icon && (
                             <div className="w-[20px] h-[20px] rounded-[10px] relative overflow-hidden">
                               <Image
                                 src={getImageUrl(guide.network.icon)}
-                                alt={`${guide.title} network`}
+                                alt={`${effectiveLanguage === "ru" ? guide.name.ru : guide.name.en} network`}
                                 fill
                                 className="object-cover"
                               />
@@ -481,7 +508,9 @@ const Guides = () => {
                           )}
                         </div>
                         <p className="text-[13px] text-[#8E8E8E] overflow-hidden truncate max-w-[240px]">
-                          {guide.description}
+                          {effectiveLanguage === "ru"
+                            ? guide.excerpt.ru
+                            : guide.excerpt.en}
                         </p>
                       </div>
                     </div>

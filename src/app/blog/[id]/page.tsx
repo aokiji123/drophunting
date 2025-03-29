@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { IoIosArrowBack, IoMdTime } from "react-icons/io";
@@ -25,6 +25,19 @@ const BlogArticle = () => {
     user,
   } = useStore();
 
+  // Track initial auth state to determine which language source to watch
+  const [initiallyAuthorized] = useState(!!user);
+
+  // Choose language source based on initial auth state
+  const languageToWatch = useMemo(() => {
+    if (initiallyAuthorized) {
+      return user?.lang;
+    } else {
+      return i18n.language;
+    }
+  }, [initiallyAuthorized, user?.lang, i18n.language]);
+
+  // For display purposes, always use the effective language (current state)
   const effectiveLanguage = useMemo(() => {
     return user?.lang || i18n.language;
   }, [user?.lang, i18n.language]);
@@ -33,7 +46,7 @@ const BlogArticle = () => {
     if (id) {
       fetchBlogArticleDetails(id);
     }
-  }, [fetchBlogArticleDetails, id, effectiveLanguage]);
+  }, [fetchBlogArticleDetails, id, languageToWatch]);
 
   const handleToggleRead = async () => {
     if (blogArticleDetails) {
@@ -95,7 +108,11 @@ const BlogArticle = () => {
           <div className="w-full h-[300px] relative">
             <Image
               src={getImageUrl(blogArticleDetails.img)}
-              alt={blogArticleDetails.title}
+              alt={
+                effectiveLanguage === "ru"
+                  ? blogArticleDetails.name.ru
+                  : blogArticleDetails.name.en
+              }
               fill
               className="object-cover rounded-lg"
             />
@@ -112,12 +129,16 @@ const BlogArticle = () => {
                 {blogArticleDetails.updated}
               </p>
               <p className="rounded-[6px] px-[8px] py-[6px] bg-[#211E12] text-[13px] leading-[16px] font-semibold text-[#C6A975]">
-                {blogArticleDetails.category.title}
+                {effectiveLanguage === "ru"
+                  ? blogArticleDetails.category.name.ru
+                  : blogArticleDetails.category.name.en}
               </p>
             </div>
           </div>
           <p className="font-bold text-[32px] lg:text-[35px] xl:text-[42px] leading-[38px] lg:leading-[50px]">
-            {blogArticleDetails.title}
+            {effectiveLanguage === "ru"
+              ? blogArticleDetails.name.ru
+              : blogArticleDetails.name.en}
           </p>
           {user && (
             <div
@@ -154,7 +175,12 @@ const BlogArticle = () => {
 
           <div
             className="article-content mt-[32px] text-[#CACBCE]"
-            dangerouslySetInnerHTML={{ __html: blogArticleDetails.description }}
+            dangerouslySetInnerHTML={{
+              __html:
+                effectiveLanguage === "ru"
+                  ? blogArticleDetails.content.ru
+                  : blogArticleDetails.content.en,
+            }}
           />
 
           {user && (

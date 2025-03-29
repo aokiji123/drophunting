@@ -399,7 +399,7 @@ const Favorites = () => {
                       <div className="w-[48px] h-[48px] rounded-[10px] relative overflow-hidden">
                         <Image
                           src={getImageUrl(guide.logo)}
-                          alt={`${guide.title} logo`}
+                          alt={`${effectiveLanguage === "ru" ? guide.name.ru : guide.name.en} logo`}
                           fill
                           className="object-cover"
                         />
@@ -407,13 +407,15 @@ const Favorites = () => {
                       <div className="flex flex-col gap-[8px]">
                         <div className="flex items-center gap-3">
                           <p className="text-[18px] font-bold leading-[22px] max-w-[200px] truncate">
-                            {guide.title}
+                            {effectiveLanguage === "ru"
+                              ? guide.name.ru
+                              : guide.name.en}
                           </p>
                           {guide.network?.icon && (
                             <div className="w-[20px] h-[20px] rounded-[10px] relative overflow-hidden">
                               <Image
                                 src={getImageUrl(guide.network.icon)}
-                                alt={`${guide.title} network`}
+                                alt={`${effectiveLanguage === "ru" ? guide.name.ru : guide.name.en} network`}
                                 fill
                                 className="object-cover"
                               />
@@ -421,7 +423,9 @@ const Favorites = () => {
                           )}
                         </div>
                         <p className="text-[13px] text-[#8E8E8E] max-w-[200px] truncate">
-                          {guide.description}
+                          {effectiveLanguage === "ru"
+                            ? guide.excerpt.ru
+                            : guide.excerpt.en}
                         </p>
                       </div>
                     </div>

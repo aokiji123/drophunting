@@ -196,10 +196,16 @@ type TaskDetails = {
 type Guide = {
   id: number;
   tag_id: number | null;
-  title: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   slug: string;
   time: number;
-  description: string;
+  excerpt: {
+    en: string;
+    ru: string;
+  };
   evaluation: number;
   tvl: string;
   investments: string;
@@ -212,7 +218,7 @@ type Guide = {
   network: {
     id: number;
     icon: string;
-  };
+  } | null;
 };
 
 type GuidesResponse = {
@@ -282,16 +288,26 @@ type BlogCategory = {
 type BlogArticleCategory = {
   id: number;
   title: string;
+  name: {
+    en: string;
+    ru: string;
+  };
 };
 
 type BlogArticle = {
   id: number;
   category_id: number;
-  title: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   slug: string;
   img: string;
   reading_time: number;
-  description: string;
+  excerpt: {
+    en: string;
+    ru: string;
+  };
   read: number;
   updated: string;
   category: BlogArticleCategory;
@@ -327,9 +343,15 @@ type BlogArticlesParams = {
 type BlogArticleDetails = {
   id: number;
   category_id: number;
-  title: string;
+  name: {
+    en: string;
+    ru: string;
+  };
   slug: string;
-  description: string;
+  content: {
+    en: string;
+    ru: string;
+  };
   img: string;
   reading_time: number;
   updated_at: string;

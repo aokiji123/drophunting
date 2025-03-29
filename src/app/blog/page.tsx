@@ -34,13 +34,27 @@ const Blog = () => {
     user,
   } = useStore();
 
+  // Track initial auth state to determine which language source to watch
+  const [initiallyAuthorized] = useState(!!user);
+
+  // Choose language source based on initial auth state
+  const languageToWatch = useMemo(() => {
+    if (initiallyAuthorized) {
+      return user?.lang;
+    } else {
+      return i18n.language;
+    }
+  }, [initiallyAuthorized, user?.lang, i18n.language]);
+
+  // For display purposes, always use the effective language (current state)
   const effectiveLanguage = useMemo(() => {
     return user?.lang || i18n.language;
   }, [user?.lang, i18n.language]);
 
+  // Load categories on mount and language change
   useEffect(() => {
     fetchBlogCategories();
-  }, [fetchBlogCategories, effectiveLanguage]);
+  }, [fetchBlogCategories]);
 
   useEffect(() => {
     if (blogCategories.length > 0 && activeFilter === null) {
@@ -49,7 +63,14 @@ const Blog = () => {
     }
   }, [blogCategories, activeFilter]);
 
+  // This is the single effect responsible for fetching data
   useEffect(() => {
+    // Reset page to 1 when anything but page number changes
+    if (languageToWatch !== undefined && currentPage !== 1) {
+      setCurrentPage(1);
+      return; // Don't fetch here, let the effect run again with page=1
+    }
+
     const params = {
       page: currentPage,
       search: searchQuery || undefined,
@@ -63,12 +84,12 @@ const Blog = () => {
 
     fetchBlogArticles(params);
   }, [
+    languageToWatch,
     fetchBlogArticles,
     currentPage,
     activeCategoryId,
     searchQuery,
     sorting,
-    effectiveLanguage,
   ]);
 
   const handleCategoryClick = (
@@ -216,14 +237,20 @@ const Blog = () => {
                     <div className="h-[200px] relative">
                       <Image
                         src={getImageUrl(article.img)}
-                        alt={article.title}
+                        alt={
+                          effectiveLanguage === "ru"
+                            ? article.name.ru
+                            : article.name.en
+                        }
                         fill
                         className="object-cover"
                       />
                     </div>
                     <div className="h-[260px] p-[20px] pb-[16px] bg-[#1A1B1F] flex flex-col gap-[12px] lg:gap-[20px]">
                       <p className="text-[18px] leading-[22px] font-bold">
-                        {article.title}
+                        {effectiveLanguage === "ru"
+                          ? article.name.ru
+                          : article.name.en}
                       </p>
                       <div className="flex items-center gap-[8px]">
                         <p className="rounded-[6px] px-[8px] py-[6px] bg-[#212125] text-[13px] leading-[16px] font-semibold text-[#A0A8AE]">
@@ -234,7 +261,9 @@ const Blog = () => {
                         </p>
                       </div>
                       <p className="text-[14px] leading-[20px] text-[#B0B0B0] line-clamp-2">
-                        {article.description}
+                        {effectiveLanguage === "ru"
+                          ? article.excerpt.ru
+                          : article.excerpt.en}
                       </p>
                       <div className="flex items-center justify-between lg:mt-[15px] relative">
                         <div className="text-[#A0A8AE] flex items-center bg-[#0D0E0F] px-[8px] py-[6px] rounded-[6px] gap-1">
