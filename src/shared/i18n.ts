@@ -1224,7 +1224,7 @@ i18n.use(initReactI18next).init({
       },
     },
   },
-  lng: savedLanguage || "en",
+  lng: savedLanguage || "ru",
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,

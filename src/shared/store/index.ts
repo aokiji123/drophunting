@@ -932,7 +932,6 @@ const useStore = create<StoreState>()(
             } catch (e) {
               console.warn("Error fetching user:", e);
               set({ sessionVerified: false, user: null });
-              console.log("Метка 5");
               updateAxiosToken(null);
               Cookies.remove("auth-token");
             }
@@ -2205,7 +2204,6 @@ const useStore = create<StoreState>()(
 
         try {
           await axiosInstance.post("/api/logout");
-          console.log("Метка 9");
           updateAxiosToken(null);
           update2FA(null);
           Cookies.remove("auth-token");

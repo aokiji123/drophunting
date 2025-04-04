@@ -150,7 +150,7 @@ export const AuthenticatorVerificationModal = ({
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               className={clsx(
-                "w-[48px] h-[64px] bg-[#292C33] rounded-[8px] text-center text-[24px] focus:outline-none focus:border-2 focus:border-[#CBFF51]",
+                "w-[48px] h-[64px] text-white bg-[#292C33] rounded-[8px] text-center text-[24px] focus:outline-none focus:border-2 focus:border-[#CBFF51]",
                 badCode && "border-2 !border-[#FF0000]/65",
                 disableCode && "pointer-events-none !opacity-65",
               )}
