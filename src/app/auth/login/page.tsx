@@ -56,7 +56,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = "https://app.esdev.tech/api/google/redirect";
+    window.location.href = "https://app.drophunting.io/api/google/redirect";
   };
 
   const validateForm = (data: LoginFormData): boolean => {

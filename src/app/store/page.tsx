@@ -86,7 +86,7 @@ const Store = () => {
   };
 
   const getImageUrl = (path: string) => {
-    const backendUrl = "https://app.esdev.tech";
+    const backendUrl = "https://app.drophunting.io";
     return path.startsWith("http") ? path : `${backendUrl}${path}`;
   };
 
