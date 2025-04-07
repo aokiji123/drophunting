@@ -31,7 +31,7 @@ export default function GoogleCallback() {
 
         googleLogin(accessToken)
           .then(() => {
-            window.location.href = "/guides";
+            window.location.href = "https://app.drophunting.io/guides";
           })
           .catch((err) => {
             console.log(err.errorMessage);
@@ -49,7 +49,7 @@ export default function GoogleCallback() {
           });
       } else {
         console.error("Access token not found in the URL");
-        window.location.href = "/auth/login";
+        window.location.href = "https://app.drophunting.io/auth/login";
       }
     }
   }, []);
@@ -60,7 +60,9 @@ export default function GoogleCallback() {
         <div className="w-full h-full flex flex-col gap-4 items-center justify-center">
           <p className="text-[16px] text-red-600">{bannedMessage}</p>
           <button
-            onClick={() => (window.location.href = "/auth/login")}
+            onClick={() =>
+              (window.location.href = "https://app.drophunting.io/auth/login")
+            }
             className="bg-[#11CA00] hover:bg-[#0CAE00] transition-colors font-medium text-[14px] px-4 py-2.5 rounded-lg">
             {t("header.login")}
           </button>
@@ -69,7 +71,7 @@ export default function GoogleCallback() {
       {!loadingData && needs2FA && (
         <AuthenticatorVerificationModal
           onClose={() => {
-            window.location.href = "/auth/login";
+            window.location.href = "https://app.drophunting.io/auth/login";
           }}
         />
       )}

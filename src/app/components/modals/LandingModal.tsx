@@ -77,7 +77,7 @@ const LandingModal = ({
           <div className="flex flex-col gap-[12px] mt-[24px]">
             <div className="flex flex-col gap-[12px]">
               <Link
-                href="https://app.drophunting.io"
+                href="https://app.drophunting.io/guides"
                 className="hover:bg-[#0D9E00] transition-colors w-full bg-[#11CA00] py-[18px] rounded-[8px] text-[14px] leading-[16px] flex items-center justify-center">
                 {t("landingModal.goToAggregator")}
               </Link>

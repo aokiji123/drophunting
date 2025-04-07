@@ -66,7 +66,7 @@ const BalanceModal = ({ toggleBalanceModal }: BalanceModalType) => {
     }
 
     if (needUrl) {
-      window.location.href = needUrl;
+      window.open(needUrl, "_blank");
     }
 
     setPaymentLoading(false);
