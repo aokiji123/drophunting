@@ -31,7 +31,10 @@ export function middleware(request: NextRequest) {
     "/store",
   ]);
 
-  const dynamicPublicRoutes = [/^\/blog\/[a-zA-Z0-9_-]+$/];
+  const dynamicPublicRoutes = [
+    /^\/blog\/[a-zA-Z0-9_-]+$/,
+    /^\/password-reset\/[a-zA-Z0-9]+(\?.*)?$/,
+  ];
 
   const dynamicPrivateRoutes = [
     /^\/guides\/[a-zA-Z0-9_-]+$/,
