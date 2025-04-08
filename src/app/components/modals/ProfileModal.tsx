@@ -136,7 +136,7 @@ const ProfileModal = ({
               typeof user?.avatar === "string"
                 ? user.avatar.startsWith("https")
                   ? user.avatar
-                  : `https://app.esdev.tech${user.avatar}`
+                  : `https://app.drophunting.io${user.avatar}`
                 : avatar
             }
             width={40}

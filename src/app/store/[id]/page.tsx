@@ -81,7 +81,7 @@ const ProductDetail = () => {
 
   const getImageUrl = (path: string) => {
     if (!path) return "";
-    const backendUrl = "https://app.esdev.tech";
+    const backendUrl = "https://app.drophunting.io";
     return path.startsWith("http") ? path : `${backendUrl}${path}`;
   };
 

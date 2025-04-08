@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 const axiosInstance = axios.create({
-  baseURL: "https://app.esdev.tech",
+  baseURL: "https://app.drophunting.io",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
